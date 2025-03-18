@@ -1,0 +1,36 @@
+<header class="border-b border-gray-800 shadow-md bg-gray-900 text-white relative">
+    <nav class="flex justify-between items-center w-4/5 mx-auto py-3">
+
+        <a href="" class="flex flex-col items-center ">
+            <img src="../assets/logo.png" alt="Logo" class="w-16">
+            <span class="font-bold">TonyCinema</span>
+        </a>
+
+        <div class="hidden md:flex space-x-20 text-gray-300">
+            <a href="#" class="hover:text-red-500">Home</a>
+            <a href="#" class="hover:text-red-500">Show Time</a>
+            <a href="#" class="hover:text-red-500">Promotion</a>
+            <a href="#" class="hover:text-red-500">Ticket Price</a>
+        </div>
+
+        <div class="flex space-x-8" *ngIf="!isLoggedIn">
+            <button class="border border-white text-white px-10 py-2 rounded-full hover:bg-white hover:text-black">Sign up</button>
+            <button (click)="signin()" class="bg-red-500 px-10 py-2 rounded-full hover:bg-red-600">Sign in</button>
+        </div>
+
+        <div class="relative flex items-center space-x-4 cursor-pointer" (click)="toggleDropdown()" *ngIf="isLoggedIn">
+            <img src="../assets/profile-user.png" alt="User" class="w-10 h-10 rounded-full">
+            <span class="text-white">{{ userName }}</span>
+            <img src="../assets/down-chevron.png" alt="" class="w-10 h-10 rounded-full">
+            
+            <!-- Dropdown menu -->
+            <div class="absolute top-full right-0 mt-2 w-48 bg-black text-white shadow-lg rounded-md"
+                    *ngIf="isDropdownOpen">
+                <a href="#" class="block px-4 p-3 hover:text-red-500">Profile</a>
+                <a href="#" class="block px-4 p-3 hover:text-red-500" (click)="logout()">Logout</a>
+            </div>
+        </div>
+        
+    </nav>
+</header>
+
