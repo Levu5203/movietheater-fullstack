@@ -4,18 +4,21 @@
 
 ### Add a migration
 ```bash
-dotnet ef migrations add AddUserRoleModel --project MovieTheater.API --startup-project MovieTheater.API --context MovieTheaterDbContext --output-dir Migrations
+dotnet ef migrations add EditUserModel --project MovieTheater.Data --startup-project MovieTheater.API --context MovieTheaterDbContext --output-dir Migrations
 dotnet ef migrations add [MigrationName] --project MovieTheater.Data --startup-project MovieTheater.API --context StorageDbContext --output-dir Migrations/Storage
 ```
 
 ### Update the database
 ```bash
-dotnet ef database update --project MovieTheater.API --startup-project MovieTheater.API --context MovieTheaterDbContext
+dotnet ef database update --project MovieTheater.Data --startup-project MovieTheater.API --context MovieTheaterDbContext
 dotnet ef database update --project MovieTheater.Data --startup-project MovieTheater.API --context StorageDbContext
 ```
 
 ### Roll Back a migration
-dotnet ef database update AddAllModelsAndConfigRelationship --project MovieTheater.API --startup-project MovieTheater.API --context MovieTheaterDbContext
+```bash
+dotnet ef database update InitialCommonAndSecuritySchemaAndConfig --project MovieTheater.Data --startup-project MovieTheater.API --context MovieTheaterDbContext
+```
+
 ### Drop the database
 ```bash
 dotnet ef database drop --project MovieTheater.API --startup-project MovieTheater.API --context MovieTheaterDbContext
@@ -41,7 +44,7 @@ Update-Database -Project MovieTheater.Data -StartupProject MovieTheater.API -Con
 
 ### Roll back a migration
 ```bash
-Update-Database [MigrationName] -Project MovieTheater.Data -StartupProject MovieTheater.API -Context MovieTheaterDbContext
+dotnet ef database update [MigrationName] --project QuizApp.Data --startup-project QuizApp.WebAPI --context QuizAppDbContext
 ```
 
 ### Remove a migration

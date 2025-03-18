@@ -13,6 +13,7 @@ dotnet add MovieTheater.Data package Microsoft.EntityFrameworkCore
 dotnet add MovieTheater.Data package Microsoft.EntityFrameworkCore.SqlServer
 dotnet add MovieTheater.Data package Microsoft.AspNetCore.Identity.EntityFrameworkCore
 dotnet add MovieTheater.Data package Microsoft.AspNetCore.Identity
+dotnet add MovieTheater.Data package Microsoft.EntityFrameworkCore.Design
 
 # Add package for MovieTheater.API
 dotnet add MovieTheater.API package Microsoft.EntityFrameworkCore
