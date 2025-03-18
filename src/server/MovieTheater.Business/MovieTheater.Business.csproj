@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MovieTheater.Data\MovieTheater.Data.csproj" />
+    <ProjectReference Include="..\MovieTheater.Models\MovieTheater.Models.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -13,13 +13,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieTheater.Business", "Mo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieTheater.Core", "MovieTheater.Core\MovieTheater.Core.csproj", "{DFCF91A3-1A82-4989-A573-4B59D3B805F1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Appendix", "Appendix", "{ADEC5AA1-6DDE-8C5C-433C-6412976FCAC4}"
+	ProjectSection(SolutionItems) = preProject
+		MigrationCommand.md = MigrationCommand.md
+		PackageCommand.md = PackageCommand.md
+		RunCommand.md = RunCommand.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{238B16AE-B7FD-439F-8237-11683C006F92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -42,5 +46,8 @@ Global
 		{DFCF91A3-1A82-4989-A573-4B59D3B805F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFCF91A3-1A82-4989-A573-4B59D3B805F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFCF91A3-1A82-4989-A573-4B59D3B805F1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
