@@ -1,0 +1,74 @@
+<aside class="h-[calc(100vh-10px)] flex flex-col bg-gray-900 *:text-gray-300 border-slate-300 m-1 rounded-xl shadow-xl shadow-black">
+    <div [ngClass]="isShowSidebar ? 'block': 'hidden'" class="pt-4 pb-6">
+      <a href="" class="flex flex-col items-center ">
+        <img src="../assets/logo.png" alt="Logo" class="w-16">
+        <span class="font-bold">TonyCinema</span>
+      </a>
+    </div>
+  
+    <div [ngClass]="isShowSidebar ? '': 'flex flex-col bg-gray-900 rounded-t-xl'" class="menu-items flex-grow">
+        <a href="" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">
+          <fa-icon [icon]="faDashboard" class="text-xl"></fa-icon>
+          <span [ngClass]="isShowSidebar ? 'block': 'hidden'">Dashboard</span>
+        </a>
+  
+        <div>
+          <button (click)="isUserDropdownOpen = !isUserDropdownOpen" 
+            class="flex items-center justify-between p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">
+            <div class="flex items-center space-x-2">
+              <fa-icon [icon]="faUser" class="text-xl"></fa-icon>
+              <span [ngClass]="isShowSidebar ? 'block': 'hidden'">User Management</span>
+              <fa-icon [ngClass]="isShowSidebar ? 'block': 'hidden'" [icon]="faCaretDown" class=""></fa-icon>
+            </div>
+          </button>
+          <div [ngClass]="isShowSidebar ? 'block': 'hidden'" *ngIf="isUserDropdownOpen" class="pl-8 space-y-2">
+            <a href="" class="block p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">Customer List</a>
+            <a href="" class="block p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">Employee List</a>
+          </div>
+        </div>
+  
+        <div>
+          <button (click)="isTicketDropdownOpen = !isTicketDropdownOpen" 
+            class="flex items-center justify-between p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">
+            <div class="flex items-center space-x-2">
+              <fa-icon [icon]="faTicketSimple" class="text-xl"></fa-icon>
+              <span [ngClass]="isShowSidebar ? 'block': 'hidden'">Ticket Management</span>
+              <fa-icon [ngClass]="isShowSidebar ? 'block': 'hidden'" [icon]="faCaretDown" class=""></fa-icon>
+            </div>
+          </button>
+          <div [ngClass]="isShowSidebar ? 'block': 'hidden'" *ngIf="isTicketDropdownOpen" class="pl-8 space-y-2">
+            <a href="" class="block p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">Ticket List</a>
+            <a href="" class="block p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">Ticket Selling</a>
+          </div>
+        </div>
+  
+        <a href="" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">
+          <fa-icon [icon]="faFilm" class="text-xl"></fa-icon>
+          <span [ngClass]="isShowSidebar ? 'block': 'hidden'">Movie Management</span>
+        </a>
+  
+        <a href="" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">
+            <fa-icon [icon]="faDoorOpen" class="text-xl"></fa-icon>
+            <span [ngClass]="isShowSidebar ? 'block': 'hidden'">Room Management</span>
+        </a>
+  
+        <a href="" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">
+          <fa-icon [icon]="faPercent" class="text-xl"></fa-icon>
+          <span [ngClass]="isShowSidebar ? 'block': 'hidden'">Promotion</span>
+        </a>
+  
+        <a href="" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">
+          <fa-icon [icon]="faGear" class="text-xl"></fa-icon>
+          <span [ngClass]="isShowSidebar ? 'block': 'hidden'">Setting</span>
+        </a>
+    </div>
+  
+    <div class="menu-bottom flex  items-center *:cursor-pointer"
+        [ngClass]="isShowSidebar ? '': 'flex-row justify-center bg-gray-900 rounded-b-xl'">
+        <button type="button" title="Collapse" (click)="isShowSidebar = !isShowSidebar"
+            class="flex flex-row justify-between items-center p-2 bg-white text-black rounded-xl w-full m-2">
+            <a class="left-0" [ngClass]="isShowSidebar ? 'block': 'hidden'" href="">Log out</a>
+            <fa-icon [icon]="isShowSidebar ? faAngleDoubleLeft: faAngleDoubleRight" class="text-xl"></fa-icon>
+        </button>
+    </div>
+  </aside>
