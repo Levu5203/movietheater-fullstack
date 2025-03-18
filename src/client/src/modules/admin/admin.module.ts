@@ -5,7 +5,7 @@ import { CustomermanagementComponent } from './customermanagement/customermanage
 import { EmployeemanagementComponent } from './employeemanagement/employeemanagement.component';
 import { MoviemanagementComponent } from './moviemanagement/moviemanagement.component';
 import { PromotionmanagementComponent } from './promotionmanagement/promotionmanagement.component';
-import { RoommanagementComponent } from './roommanagement/roommanagement.component';
+import { RoommanagementComponent } from './roommanagement/room-list/room-list.component';
 import { SettingComponent } from './setting/setting.component';
 import { RouterModule, Routes } from '@angular/router';
 import { TicketsellingComponent } from './ticketselling/ticketselling.component';
