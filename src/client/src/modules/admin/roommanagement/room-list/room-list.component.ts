@@ -21,4 +21,5 @@ export class RoommanagementComponent {
   public faInfoCircle: IconDefinition = faInfoCircle;
   public faAngleRight: IconDefinition = faAngleRight;
   public faAngleLeft: IconDefinition = faAngleLeft;
+  //#endregion
 }

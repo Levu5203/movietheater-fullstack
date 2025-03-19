@@ -1,5 +1,5 @@
 <section class="">
-    <div class="bg-white rounded-lg shadow">
+    <div class="bg-white rounded-lg shadow min-w-[600px]">
         <h2 class="text-xl font-bold p-6">Room Management</h2>
         <div class="flex justify-between items-center px-6">
             <div class="flex items-center mb-4">
@@ -21,7 +21,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Repeat this block for each row -->
                 <tr class="border-t border-gray-300">
                     <td class="py-2 px-4">1</td>
                     <td class="py-2 px-4">001</td>
@@ -132,11 +131,10 @@
                         </button>
                     </td>
                 </tr>
-                <!-- Add more rows as needed -->
             </tbody>
         </table>
         <div class="flex justify-between items-center py-4 px-10 text-sm">
-            <button class="text-gray-500 border border-gray-300 rounded-xl px-4 py-1">
+            <button class="w-30 text-gray-500 border border-gray-300 rounded-xl px-4 py-1">
                 <fa-icon [icon]="faAngleLeft"></fa-icon>
                 Previous
             </button>
@@ -144,9 +142,8 @@
                 <button class="w-8 h-8 bg-gray-200 text-blue-500 rounded">1</button>
                 <button class="w-8 h-8 rounded">2</button>
                 <button class="w-8 h-8 rounded">3</button>
-                <!-- Add more page numbers as needed -->
             </div>
-            <button class="text-gray-500 border border-gray-300 rounded-xl px-4 py-1">
+            <button class="w-30 text-gray-500 border border-gray-300 rounded-xl px-4 py-1">
                 Next
                 <fa-icon [icon]="faAngleRight"></fa-icon>
             </button>
