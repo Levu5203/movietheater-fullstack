@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <div class="flex flex-col h-screen">
+    <header
+      class="border-b border-gray-800 shadow-md bg-gray-900 text-white relative"
+    >
+      <nav class="flex justify-between items-center w-4/5 mx-auto py-3">
+        <a href="" class="flex flex-col items-center">
+          <img src="./assets/logo.png" alt="Logo" class="w-16" />
+          <span class="font-bold">TonyCinema</span>
+        </a>
+
+        <div class="hidden md:flex space-x-20 text-gray-300">
+          <a href="#" class="hover:text-red-500">Home</a>
+          <a href="#" class="hover:text-red-500">Show Time</a>
+          <a href="#" class="hover:text-red-500">Promotion</a>
+          <a href="#" class="hover:text-red-500">Ticket Price</a>
+        </div>
+
+        <div class="relative flex items-center space-x-4 cursor-pointer">
+          <img
+            src="./assets/profile-user.png"
+            alt="User"
+            class="w-10 h-10 rounded-full"
+          />
+          <span class="text-white">PHAM VAN DU</span>
+          <img
+            src="./assets/down-chevron.png"
+            alt=""
+            class="w-10 h-10 rounded-full"
+          />
+        </div>
+      </nav>
+    </header>
+    <main class="flex-grow bg-gray-900 *:text-white">
+      <div class="flex justify-center space-x-4 mt-6">
+        <button
+          type="button"
+          class="bg-[#EF4444] px-4 py-2 rounded-full text-sm"
+        >
+          My Account
+        </button>
+        <button
+          type="button"
+          class="border border-white px-4 py-2 rounded-full text-sm"
+        >
+          Booked Tickets
+        </button>
+        <button
+          type="button"
+          class="border border-white px-4 py-2 rounded-full text-sm"
+        >
+          History of Score
+        </button>
+      </div>
+
+      <section
+        class="flex flex-col md:flex-row max-w-5xl mx-auto mt-10 p-4 space-y-6 md:space-y-0 md:space-x-10"
+      >
+        <!-- Left Avatar -->
+        <div class="flex flex-col items-center space-y-4 mt-6">
+          <img
+            src="./assets/profile-user.png"
+            alt="Avatar"
+            class="w-32 h-32 rounded-full"
+          />
+          <button type="button" class="bg-[#EF4444] px-4 py-2 rounded text-sm">
+            Change avatar
+          </button>
+        </div>
+
+        <!-- Right Details -->
+        <div class="flex-1 md:border-l border-gray-700 pl-6">
+          <h2 class="text-2xl font-bold mb-6 text-center">
+            DETAIL INFORMATION
+          </h2>
+          <form class="space-y-4">
+            <div>
+              <label class="text-sm" for="username">Username</label>
+              <input
+                type="text"
+                name="username"
+                title="username"
+                value="superadmin@123"
+                class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm"
+              />
+            </div>
+            <div>
+              <label class="text-sm" for="fullName">Full Name</label>
+              <input
+                type="text"
+                name="fullName"
+                title="fullName"
+                value="Dinh Xuan Cong"
+                class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm"
+              />
+            </div>
+            <div class="flex space-x-4">
+              <div class="flex-1">
+                <label class="text-sm" for="dateOfBirth">Date of Birth</label>
+                <input
+                  name="dateOfBirth"
+                  title="dateOfBirth"
+                  type="text"
+                  value="01/01/2003"
+                  class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm"
+                />
+              </div>
+              <div class="flex-1">
+                <label class="text-sm">Gender</label>
+                <div class="flex items-center space-x-4 mt-2">
+                  <label class="flex items-center space-x-1">
+                    <input
+                      type="radio"
+                      name="gender"
+                      checked
+                      class="text-blue-600"
+                    />
+                    <span>Male</span>
+                  </label>
+                  <label class="flex items-center space-x-1">
+                    <input type="radio" name="gender" class="text-blue-600" />
+                    <span>Female</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="flex space-x-4">
+              <div class="flex-1">
+                <label class="text-sm" for="identityCard">Identity Card</label>
+                <input
+                  name="identityCard"
+                  title="identityCard"
+                  type="text"
+                  value="0123456789"
+                  class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm"
+                />
+              </div>
+              <div class="flex-1">
+                <label class="text-sm" for="email">Email</label>
+                <input
+                  name="email"
+                  title="email"
+                  type="email"
+                  value="superadmin@gmail.com"
+                  class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm"
+                />
+              </div>
+            </div>
+            <div class="flex space-x-4">
+              <div class="flex-1">
+                <label class="text-sm" for="phoneNumber">Phone Number</label>
+                <input
+                  name="phoneNumber"
+                  title="phoneNumber"
+                  type="text"
+                  value="0123456789"
+                  class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm"
+                />
+              </div>
+              <div class="flex-1">
+                <label class="text-sm" for="address">Address</label>
+                <input
+                  name="address"
+                  title="address"
+                  type="text"
+                  value="Duy Tan, Cau Giay, Ha Noi"
+                  class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm"
+                />
+              </div>
+            </div>
+            <div class="flex justify-end space-x-4 pt-4">
+              <button
+                type="button"
+                class="border border-white px-4 py-2 rounded text-sm"
+              >
+                Change password
+              </button>
+              <button
+                type="submit"
+                class="bg-[#EF4444] px-4 py-2 rounded text-sm"
+              >
+                Save Information
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+    <footer class="bg-gray-900 text-gray-300 text-center py-4">
+      <p class="text-sm">
+        Address: 17 Duy Tan, Cau Giay District, Hanoi - Tel: 091.1234567
+      </p>
+      <p class="text-sm mt-2">Copyright 2025. Group4 Fsoft Internship</p>
+    </footer>
+  </div>
+</html>
