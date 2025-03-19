@@ -7,7 +7,7 @@ import { TicketpriceComponent } from './ticketprice/ticketprice.component';
 import { PromotionComponent } from './promotion/promotion.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'promotion', component: PromotionComponent },
   { path: 'showtime', component: ShowtimeComponent },
   { path: 'ticketprice', component: TicketpriceComponent },

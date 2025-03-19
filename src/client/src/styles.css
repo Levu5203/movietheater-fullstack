@@ -1,2 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+@import "@fontsource/montserrat";
+body {
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+}
+
+.focus-visible\:ring-ring:focus-visible {
+    --tw-ring-color: hsl(var(hsl(217.2 32.6% 17.5%)));
+}
+.ring-offset-background {
+    --tw-ring-offset-color: hsl(var(hsl(222.2 84% 4.9%)));
+}
+.bg-danger {
+    background-image: linear-gradient(210deg, #fe6969, #e30713);
+}
+.text-destructive-foreground {
+    color: hsl(var(hsl(210 40% 98%)));
+}
+.border-input {
+    border-color: hsl(var(hsl(217.2 32.6% 17.5%)));
+}
+.hover\:bg-accent:hover {
+    background-color: hsl(var(hsl(217.2 32.6% 17.5%)));
+}
+.hover\:text-accent-foreground:hover {
+    color: hsl(var(hsl(210 40% 98%)));
+}
