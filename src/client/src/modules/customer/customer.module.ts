@@ -7,6 +7,7 @@ import { TicketpriceComponent } from './ticketprice/ticketprice.component';
 import { PromotionComponent } from './promotion/promotion.component';
 import { SeatshowtimeComponent } from './seatshowtime/seatshowtime.component';
 import { BookingComponent } from './booking/booking.component';
+import { MoviedetailComponent } from './moviedetail/moviedetail.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'ticketprice', component: TicketpriceComponent },
   {path: 'seatshowtime', component: SeatshowtimeComponent},
   {path: 'booking', component: BookingComponent},
+  {path: 'moviedetail', component: MoviedetailComponent},
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
