@@ -6,10 +6,12 @@
                 <button class="mr-2 p-2 rounded-xl shadow-md hover:bg-gray-100 cursor-pointer">
                     <fa-icon [icon]="faArrowLeft" class=" w-6 h-6"></fa-icon>
                 </button>
-                <input type="text" placeholder="Search" class="flex-1 px-4 py-2 rounded-3xl bg-gray-200 hover:bg-gray-300 cursor-pointer">
+                <input type="text" placeholder="Search"
+                    class="flex-1 px-4 py-2 rounded-3xl bg-gray-200 hover:bg-gray-300 cursor-pointer">
                 <button id="filterButton"
                     class="ml-2 p-2 w-10 h-10 text-gray-700 rounded-xl hover:bg-gray-100 cursor-pointer"
-                    [ngClass]="isDropdownOpen ? 'bg-gray-100 shadow-inner shadow-gray-300' : ''" (click)="toggleDropdown()">
+                    [ngClass]="isDropdownOpen ? 'bg-gray-100 shadow-inner shadow-gray-300' : ''"
+                    (click)="toggleDropdown()">
                     <fa-icon [icon]="faFilter" class="fas fa-filter w-6 h-6"></fa-icon>
                 </button>
             </div>
@@ -18,7 +20,7 @@
         </div>
         <!-- Filter Dropdown -->
         <div id="filterDropdown" *ngIf="isDropdownOpen"
-            class="bg-gray-100 mx-4 px-8 py-4 border border-gray-300 rounded-lg shadow-md">
+            class="bg-gray-100 mx-4 px-8 py-4 border border-gray-300 rounded-lg shadow-md w-full">
             <div class="flex justify-between items-center border-b border-gray-300 mb-4">
                 <h3 class="text-lg font-bold mb-4">Filter Options</h3>
                 <button type="button" class="hover:underline cursor-pointer" id="resetFilter">
@@ -27,7 +29,7 @@
                 </button>
             </div>
             <form>
-                <div class="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-4">
+                <div class="grid grid-cols-3 gap-4">
                     <div class="mb-4">
                         <label class="text-gray-500 block">Gender</label>
                         <div class="flex items-center">
@@ -45,17 +47,17 @@
                             </label>
                         </div>
                     </div>
-
                     <div class="mb-4">
                         <label class="text-gray-500 block">Date of Birth</label>
                         <div class="flex items-center space-x-2">
-                            <input type="date" class="border rounded px-2 py-1 hover:bg-gray-100 cursor-pointer"
+                            <input type="date" class="border rounded px-2 py-1 hover:bg-gray-100 cursor-pointer w-1/2"
                                 placeholder="From">
-                            <input type="date" class="border rounded px-2 py-1 hover:bg-gray-100 cursor-pointer"
+                            <input type="date" class="border rounded px-2 py-1 hover:bg-gray-100 cursor-pointer w-1/2"
                                 placeholder="To">
                         </div>
                     </div>
                 </div>
+
 
                 <div class="flex justify-end">
                     <button type="button"
@@ -315,7 +317,8 @@
             </button>
             <div class="flex items-center mx-4">
                 <span>Page</span>
-                <input type="number" [(ngModel)]="currentPage" class="w-12 mx-2 text-center border rounded" min="1" [max]="totalPages">
+                <input type="number" [(ngModel)]="currentPage" class="w-12 mx-2 text-center border rounded" min="1"
+                    [max]="totalPages">
                 <span>/ {{totalPages}}</span>
             </div>
             <button
