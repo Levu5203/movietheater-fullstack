@@ -6,119 +6,13 @@
                 <div class="container w-fit min-w-[600px] scale-90 text-center py-8 bg-gray-300 rounded-lg m-5">
                     <div class="inline-block pb-5 text-white">
                         <div class="border-b-2 border-black text-black scale-110 py-2 mb-[50px]">Screen</div>
-                        <!-- Row A -->
-                        <div class="grid grid-cols-8 gap-4 mb-2">
+                        <div class="grid grid-cols-8 gap-4 mb-2" *ngFor="let row of [0, 1, 2, 3, 4, 5]">
                             <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-gray-500 rounded shadow-md shadow-gray-500">A1</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-gray-500 rounded shadow-md shadow-gray-500">A2</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-gray-500 rounded shadow-md shadow-gray-500">A3</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-gray-500 rounded shadow-md shadow-gray-500">A4</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-gray-500 rounded shadow-md shadow-gray-500">A5</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-gray-500 rounded shadow-md shadow-gray-500">A6</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-gray-500 rounded shadow-md shadow-gray-500">A7</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-gray-500 rounded shadow-md shadow-gray-500">A8</button>
-                        </div>
-                        <!-- Row B -->
-                        <div class="grid grid-cols-8 gap-4 mb-2">
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-gray-500 rounded shadow-md shadow-gray-500">B1</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-gray-500 rounded shadow-md shadow-gray-500">B2</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-gray-500 rounded shadow-md shadow-gray-500">B3</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-gray-500 rounded shadow-md shadow-gray-500">B4</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-gray-500 rounded shadow-md shadow-gray-500">B5</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-gray-500 rounded shadow-md shadow-gray-500">B6</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-gray-500 rounded shadow-md shadow-gray-500">B7</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-gray-500 rounded shadow-md shadow-gray-500">B8</button>
-                        </div>
-                        <!-- Row C -->
-                        <div class="grid grid-cols-8 gap-4 mb-2">
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-gray-500 rounded shadow-md shadow-gray-500">C1</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-gray-500 rounded shadow-md shadow-gray-500">C2</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-gray-500 rounded shadow-md shadow-gray-500">C3</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-gray-500 rounded shadow-md shadow-gray-500">C4</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-gray-500 rounded shadow-md shadow-gray-500">C5</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-gray-500 rounded shadow-md shadow-gray-500">C6</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-gray-500 rounded shadow-md shadow-gray-500">C7</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-gray-500 rounded shadow-md shadow-gray-500">C8</button>
-                        </div>
-                        <!-- Row D -->
-                        <div class="grid grid-cols-8 gap-4 mb-2">
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-blue-500 rounded shadow-md shadow-gray-500">D1</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-blue-500 rounded shadow-md shadow-gray-500">D2</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-blue-500 rounded shadow-md shadow-gray-500">D3</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-blue-500 rounded shadow-md shadow-gray-500">D4</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-blue-500 rounded shadow-md shadow-gray-500">D5</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-blue-500 rounded shadow-md shadow-gray-500">D6</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-blue-500 rounded shadow-md shadow-gray-500">D7</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-blue-500 rounded shadow-md shadow-gray-500">D8</button>
-                        </div>
-                        <!-- Row E -->
-                        <div class="grid grid-cols-8 gap-4 mb-2">
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-blue-500 rounded shadow-md shadow-gray-500">E1</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-blue-500 rounded shadow-md shadow-gray-500">E2</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-blue-500 rounded shadow-md shadow-gray-500">E3</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-blue-500 rounded shadow-md shadow-gray-500">E4</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-blue-500 rounded shadow-md shadow-gray-500">E5</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-blue-500 rounded shadow-md shadow-gray-500">E6</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-blue-500 rounded shadow-md shadow-gray-500">E7</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-blue-500 rounded shadow-md shadow-gray-500">E8</button>
-                        </div>
-                        <!-- Row F -->
-                        <div class="grid grid-cols-8 gap-4 mb-2">
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-blue-500 rounded shadow-md shadow-gray-500">F1</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-blue-500 rounded shadow-md shadow-gray-500">F2</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-blue-500 rounded shadow-md shadow-gray-500">F3</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-blue-500 rounded shadow-md shadow-gray-500">F4</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-blue-500 rounded shadow-md shadow-gray-500">F5</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-blue-500 rounded shadow-md shadow-gray-500">F6</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-blue-500 rounded shadow-md shadow-gray-500">F7</button>
-                            <button
-                                class="w-[100%] h-auto aspect-square m-1 bg-blue-500 rounded shadow-md shadow-gray-500">F8</button>
+                                class="w-[100%] h-auto aspect-square m-1 rounded shadow-md shadow-gray-500 hover:shadow-lg hover:shadow-gray-700"
+                                [ngClass]="seats[row * 8 + col].isVip ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-500 hover:bg-gray-600'"
+                                (click)="toggleSeat(seats[row * 8 + col])" *ngFor="let col of [0, 1, 2, 3, 4, 5, 6, 7]">
+                                {{ seats[row * 8 + col].label }}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -136,8 +30,8 @@
 
         </div>
         <div class="mt-6 flex justify-end">
-            <button type="button" class="bg-gray-300 text-black px-4 py-2 rounded mr-2">Cancel</button>
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
+            <button type="button" class="text-black px-4 py-2 rounded mr-2 hover:underline cursor-pointer">Cancel</button>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">Save</button>
         </div>
     </div>
 </section>
