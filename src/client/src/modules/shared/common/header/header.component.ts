@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import {
   FontAwesomeModule,
 } from '@fortawesome/angular-fontawesome';
@@ -12,6 +12,11 @@ import {
 })
 
 export class HeaderComponent {
+  // Mặc định bgheader không mờ
+  bgHeaderOpacity: number = 1;
+
+
+
   isLoggedIn = false;  // Trạng thái đăng nhập
   userName = '';       // Lưu tên user sau khi đăng nhập
   isDropdownOpen = false;
@@ -34,5 +39,13 @@ export class HeaderComponent {
     this.isLoggedIn = false;
     this.userName = '';
     this.isDropdownOpen = false;
+  }
+
+  // Header sẽ mờ dần khi cuộn xuống, không nhỏ hơn 0.7
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    this.bgHeaderOpacity = Math.max(1 - scrollTop / 500, 0.7);
+    // Chỉ làm mờ nền xuống tối thiểu 0.7, không ảnh hưởng nội dung
   }
 }
