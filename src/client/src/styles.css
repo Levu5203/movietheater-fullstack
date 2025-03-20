@@ -21,9 +21,20 @@ body {
 .border-input {
     border-color: hsl(var(hsl(217.2 32.6% 17.5%)));
 }
-.hover\:bg-accent:hover {
-    background-color: hsl(var(hsl(217.2 32.6% 17.5%)));
+
+.bg-accent{
+    background-color: hsl(var(217.2 32.6% 17.5%));
 }
-.hover\:text-accent-foreground:hover {
+.text-accent-foreground{
     color: hsl(var(hsl(210 40% 98%)));
+}
+
+.wrapper:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    content: "";
+    background: linear-gradient(0deg, #10141b, rgba(16, 20, 27, 0));
 }
