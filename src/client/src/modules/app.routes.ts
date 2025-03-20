@@ -10,7 +10,7 @@ export const routes: Routes = [
           import('./admin/admin.module').then((m) => m.AdminModule),
       },
     {
-        path: '',
+        path: 'home',
         component: CustomerLayoutComponent,
         loadChildren: () =>
           import('./customer/customer.module').then((m) => m.CustomerModule),
