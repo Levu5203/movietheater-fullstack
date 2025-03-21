@@ -160,7 +160,11 @@
     </form>
     <p class="text-center mt-4 border-t pt-4 border-gray-300">
       Already have an account?
-      <a routerLink="#" class="text-[#EF4444] hover:underline">Login now!</a>
+      <a
+        (click)="openModal()"
+        class="text-[#EF4444] hover:underline cursor-pointer"
+        >Login now!</a
+      >
     </p>
   </div>
 </div>

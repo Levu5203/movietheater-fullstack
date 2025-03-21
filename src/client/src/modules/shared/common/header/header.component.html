@@ -19,12 +19,13 @@
 
     <div class="flex space-x-8" *ngIf="!isLoggedIn">
       <button
+        (click)="openRegister()"
         class="border border-white text-white px-10 py-2 rounded-full hover:bg-white hover:text-black"
       >
         Sign up
       </button>
       <button
-        (click)="signin()"
+        (click)="openLogin()"
         class="bg-red-500 px-10 py-2 rounded-full hover:bg-red-600"
       >
         Sign in

@@ -48,7 +48,11 @@
 
     <p class="text-center mt-4 border-t pt-4 border-gray-300">
       Don't have an account yet?
-      <a routerLink="#" class="text-[#EF4444] hover:underline">Register Now!</a>
+      <a
+        (click)="openModal()"
+        class="text-[#EF4444] hover:underline cursor-pointer"
+        >Register Now!</a
+      >
     </p>
   </div>
 </div>

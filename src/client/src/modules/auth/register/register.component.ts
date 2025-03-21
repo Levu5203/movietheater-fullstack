@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ModalService } from '../../../services/modal.service';
 
 @Component({
   selector: 'app-register',
@@ -16,6 +17,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   styleUrl: './register.component.css',
 })
 export class RegisterComponent implements OnInit {
+  constructor(private modalService: ModalService) {}
+  openModal() {
+    this.modalService.open('login');
+  }
+
   public form!: FormGroup;
 
   ngOnInit(): void {

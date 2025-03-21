@@ -1,13 +1,25 @@
 <section class="h-full relative flex">
-  <div class="absolute inset-0 bg-black"> <!--opacity-80 -->
-    <div class="flex flex-col h-full">
-      <app-header></app-header>
-      <main class="flex-grow">
-        <router-outlet />
-      </main>
-      <app-footer></app-footer>
-    </div>
+  <!-- Backdrop -->
+  <ng-container *ngIf="modalService.modal$ | async as modal">
+    <div
+      class="fixed inset-0 bg-black opacity-50 z-40"
+      (click)="modalService.close()"
+    ></div>
+
+    <!-- Modals -->
+    <app-login *ngIf="modal === 'login'"></app-login>
+    <app-register *ngIf="modal === 'register'"></app-register>
+    <app-change-password
+      *ngIf="modal === 'changePassword'"
+    ></app-change-password>
+  </ng-container>
+
+  <!-- Content -->
+  <div class="flex flex-col h-full w-full relative z-10">
+    <app-header></app-header>
+    <main class="flex-grow">
+      <router-outlet />
+    </main>
+    <app-footer></app-footer>
   </div>
-  <!-- <app-login></app-login> -->
-  <!-- <app-register></app-register> -->
 </section>

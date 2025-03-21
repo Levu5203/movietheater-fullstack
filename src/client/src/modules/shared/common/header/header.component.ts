@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ModalService } from '../../../../services/modal.service';
 
 @Component({
   selector: 'app-header',
@@ -10,6 +11,17 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {
+  constructor(private modalService: ModalService) {}
+
+  // Show form login
+  openLogin() {
+    this.modalService.open('login');
+  }
+
+  // Show form register
+  openRegister() {
+    this.modalService.open('register');
+  }
   // Mặc định bgheader không mờ
   bgHeaderOpacity: number = 1;
 
