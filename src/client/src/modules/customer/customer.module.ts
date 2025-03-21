@@ -8,7 +8,7 @@ import { PromotionComponent } from './promotion/promotion.component';
 import { SeatshowtimeComponent } from './seatshowtime/seatshowtime.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
   { path: 'promotion', component: PromotionComponent },
   { path: 'showtime', component: ShowtimeComponent },
   { path: 'ticketprice', component: TicketpriceComponent },
