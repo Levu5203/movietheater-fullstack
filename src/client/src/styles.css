@@ -5,7 +5,6 @@ body {
     font-family: 'Montserrat', sans-serif;
     font-style: normal;
 }
-
 .focus-visible\:ring-ring:focus-visible {
     --tw-ring-color: hsl(var(hsl(217.2 32.6% 17.5%)));
 }
@@ -23,12 +22,14 @@ body {
 }
 
 .bg-accent{
-    background-color: hsl(var(217.2 32.6% 17.5%));
+    background-color: hsl(var(hsl(217.2 32.6% 17.5%)));
 }
 .text-accent-foreground{
     color: hsl(var(hsl(210 40% 98%)));
 }
-
+.bg-admin{
+    background-color: #F5F4F9;
+}
 .wrapper:after {
     position: absolute;
     top: 0;

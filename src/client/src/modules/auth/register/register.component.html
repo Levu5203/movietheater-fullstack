@@ -1,0 +1,166 @@
+<div class="fixed w-full h-full flex items-center justify-center z-50">
+  <!-- Login Box -->
+  <div
+    class="bg-[#0B0D13] px-6 py-4 *:text-white shadow-lg rounded-lg w-full sm:max-w-lg md:max-w-2xl"
+  >
+    <h2 class="text-2xl font-semibold text-center mb-4">REGISTER</h2>
+
+    <form [formGroup]="form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block mb-2">Full Name</label>
+        <input
+          type="text"
+          class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400"
+          placeholder="Enter full name"
+          required
+        />
+        <span
+          *ngIf="form.get('fullName')?.invalid && form.get('fullName')?.touched"
+          class="text-red-500 text-sm"
+        >
+          Full name is required
+        </span>
+      </div>
+
+      <div class="form-group mb-2">
+        <label class="block mb-2">Username</label>
+        <input
+          type="text"
+          class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400"
+          placeholder="Enter username"
+          required
+        />
+        <span
+          *ngIf="form.get('username')?.invalid && form.get('username')?.touched"
+          class="text-red-500 text-sm"
+        >
+          Username is required
+        </span>
+      </div>
+
+      <div>
+        <label class="block mb-2">Password</label>
+        <input
+          type="password"
+          class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400"
+          placeholder="Enter password"
+          required
+        />
+        <span
+          *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
+          class="text-red-500 text-sm"
+        >
+          Password is required
+        </span>
+      </div>
+
+      <div>
+        <label class="block mb-2">Confirm Password</label>
+        <input
+          type="password"
+          class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400"
+          placeholder="Confirm password"
+          required
+        />
+        <span
+          *ngIf="
+            form.get('confirmPassword')?.invalid &&
+            form.get('confirmPassword')?.touched
+          "
+          class="text-red-500 text-sm"
+        >
+          Confirm password is required
+        </span>
+      </div>
+
+      <div>
+        <label class="block mb-2">Date of Birth</label>
+        <input
+          title="Date of Birth"
+          type="date"
+          class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400"
+        />
+      </div>
+
+      <div>
+        <label class="block mb-2">Gender</label>
+        <div class="flex gap-4 py-2">
+          <label class="flex items-center">
+            <input type="radio" name="gender" value="Male" class="mr-2" />
+            Male
+          </label>
+          <label class="flex items-center">
+            <input type="radio" name="gender" value="Female" class="mr-2" />
+            Female
+          </label>
+        </div>
+      </div>
+
+      <div>
+        <label class="block mb-2">Identity Card</label>
+        <input
+          type="text"
+          class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400"
+          placeholder="Enter identity card number"
+          required
+        />
+        <span
+          *ngIf="
+            form.get('identityCard')?.invalid &&
+            form.get('identityCard')?.touched
+          "
+          class="text-red-500 text-sm"
+        >
+          Identity card is required
+        </span>
+      </div>
+
+      <div>
+        <label class="block mb-2">Email</label>
+        <input
+          type="email"
+          class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400"
+          placeholder="Enter email"
+          required
+        />
+        <span
+          *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
+          class="text-red-500 text-sm"
+        >
+          Email is required
+        </span>
+      </div>
+
+      <div>
+        <label class="block mb-2">Phone Number</label>
+        <input
+          type="tel"
+          class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400"
+          placeholder="Enter phone number"
+        />
+      </div>
+
+      <div>
+        <label class="block mb-2">Address</label>
+        <input
+          type="text"
+          class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400"
+          placeholder="Enter address"
+        />
+      </div>
+
+      <div class="md:col-span-2">
+        <button
+          type="submit"
+          class="w-full bg-[#EF4444] text-white py-2 rounded-md mt-4 hover:bg-[#E30713] transition"
+        >
+          Register
+        </button>
+      </div>
+    </form>
+    <p class="text-center mt-4 border-t pt-4 border-gray-300">
+      Already have an account?
+      <a routerLink="#" class="text-[#EF4444] hover:underline">Login now!</a>
+    </p>
+  </div>
+</div>
