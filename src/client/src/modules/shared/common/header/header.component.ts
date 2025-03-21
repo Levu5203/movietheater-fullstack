@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
-import {
-  FontAwesomeModule,
-} from '@fortawesome/angular-fontawesome';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-header',
@@ -10,15 +8,12 @@ import {
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
-
 export class HeaderComponent {
   // Mặc định bgheader không mờ
   bgHeaderOpacity: number = 1;
 
-
-
-  isLoggedIn = false;  // Trạng thái đăng nhập
-  userName = '';       // Lưu tên user sau khi đăng nhập
+  isLoggedIn = false; // Trạng thái đăng nhập
+  userName = ''; // Lưu tên user sau khi đăng nhập
   isDropdownOpen = false;
 
   // Giả lập đăng nhập
