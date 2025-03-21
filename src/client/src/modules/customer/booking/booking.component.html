@@ -1,0 +1,84 @@
+<main class="h-full bg-gray-900">
+    <div class="pt-24 pb-10 md:pb-20 px-4 xl:px-0 text-white bg-gray-900">
+        <div class="mx-auto max-w-7xl">
+            <div class="flex flex-wrap xl:flex-nowrap gap-5">
+                <div class="w-full xl:w-2/3">
+                    <div class="p-4 md:p-6 space-y-6 bg-[#1A1D23] rounded-2xl text-sm md:text-base">
+                        <h4 class="font-bold">Movie information</h4>
+                        <div><p>Movie</p><p class="font-semibold">ANH KHONG DAU-T13</p></div>
+                        <div class="flex items-center gap-10">
+                            <div class="w-1/2">
+                                <p>Show Date</p>
+                                <div class="flex items-center space-x-2">
+                                    <span class="font-bold text-orange-500">23:30</span>
+                                    <span>-</span>
+                                    <span class="font-semibold"> 20/03/2025</span>
+                                </div>
+                            </div>
+                            <div>
+                                <p>Seat</p>
+                                <p class="font-semibold">J11</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-10">
+                            <div class="w-1/2">
+                                <p>Type</p>
+                                <p class="font-semibold">2D</p>
+                            </div>
+                            <div>
+                                <p>Room</p>
+                                <p class="font-semibold">2</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 md:p-6 space-y-6 bg-[#1A1D23] mt-5 rounded-2xl text-sm md:text-base">
+                        <h4 class="font-bold">Payment information</h4>
+                        <div><div class="mt-4 ring-1 ring-gray-700 sm:mx-0 rounded-xl">
+                            <table class="min-w-full divide-y divide-gray-600">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-6">Category</th>
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Quantity</th>
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="relative py-4 pl-4 pr-3 text-sm sm:pl-6">
+                                            <div class="font-medium text-white">Seat (J11)</div>
+                                        </td>
+                                        <td class="px-3 py-3.5 text-sm">1</td>
+                                        <td class="px-3 py-3.5 text-sm">70.000đ</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="w-full xl:w-1/3 flex-1 text-sm md:text-base">
+                    <div class="bg-[#1A1D23] h-full rounded-2xl p-4 md:p-6 space-y-5">
+                        <h4 class="font-bold">Order information</h4>
+                        <div>
+                            <div class="flex items-center justify-between"><p>Payment</p><p class="font-bold">70.000đ</p></div>
+                            <div class="flex items-center justify-between"><p>Fee</p><p class="font-bold">0đ</p></div>
+                            <div class="flex items-center justify-between"><p>Total</p><p class="font-bold">70.000đ</p></div>
+                        </div>
+                        <div class="space-y-3">
+                            <button class="inline-flex items-center justify-center rounded-full text-sm font-medium transition-colors 
+                                            focus-visible:outline-none focus-visible:ring-2
+                                            bg-danger hover:bg-blue-500 h-10 px-8 py-2 w-full hover:cursor-pointer">
+                                Payment
+                            </button>
+                            <button [routerLink]="['/seatshowtime']" class="inline-flex items-center justify-center rounded-full text-sm font-medium transition-colors 
+                                            focus-visible:outline-none focus-visible:ring-2 hover:bg-gray-500 h-10 px-8 py-2 w-full hover:cursor-pointer">
+                                Back
+                            </button>
+                            <div class="text-sm text-center mx-auto mt-4 text-orange-500"><b>Lưu ý:</b> Không mua vé cho trẻ em dưới 13 tuổi đối với các suất chiếu phim kết thúc sau 22h00 và không mua vé cho trẻ em dưới 16 tuổi đối với các suất chiếu phim kết thúc sau 23h00.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
