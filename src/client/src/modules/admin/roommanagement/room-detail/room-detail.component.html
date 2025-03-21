@@ -1,0 +1,37 @@
+<section class="">
+    <div class="flex-1 bg-white rounded-lg shadow p-6 w-full min-w-[600px]">
+        <h2 class="text-2xl font-bold p-6">Seat Detail: Cinema Room 01</h2>
+        <div class="flex-1 text-center">
+            <div class="flex justify-center">
+                <div class="container w-fit min-w-[600px] scale-90 text-center py-8 bg-gray-300 rounded-lg m-5">
+                    <div class="inline-block pb-5 text-white">
+                        <div class="border-b-2 border-black text-black scale-110 py-2 mb-[50px]">Screen</div>
+                        <div class="grid grid-cols-8 gap-4 mb-2" *ngFor="let row of [0, 1, 2, 3, 4, 5]">
+                            <button
+                                class="w-[100%] h-auto aspect-square m-1 rounded shadow-md shadow-gray-500 hover:shadow-lg hover:shadow-gray-700"
+                                [ngClass]="seats[row * 8 + col].isVip ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-500 hover:bg-gray-600'"
+                                (click)="toggleSeat(seats[row * 8 + col])" *ngFor="let col of [0, 1, 2, 3, 4, 5, 6, 7]">
+                                {{ seats[row * 8 + col].label }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex space-x-10 justify-start px-8 mx-5">
+                <div class="flex items-center space-x-2">
+                    <div class="h-5 w-5 bg-gray-500 rounded"></div>
+                    <span>Normal Seat</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <div class="h-5 w-5 bg-blue-500 rounded"></div>
+                    <span>VIP Seat</span>
+                </div>
+            </div>
+
+        </div>
+        <div class="mt-6 flex justify-end">
+            <button type="button" class="text-black px-4 py-2 rounded mr-2 hover:underline cursor-pointer">Cancel</button>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">Save</button>
+        </div>
+    </div>
+</section>
