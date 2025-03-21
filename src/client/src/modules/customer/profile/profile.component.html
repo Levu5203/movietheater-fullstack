@@ -1,0 +1,50 @@
+<section class="flex-grow min-h-screen pt-12 bg-gray-900 *:text-white">
+  <div class="flex justify-center space-x-4 pt-14 *:text-sm">
+    <button
+      type="button"
+      (click)="changeTab('myProfile')"
+      class="px-4 py-2 rounded-full hover:cursor-pointer"
+      [ngClass]="
+        activeTab === 'myProfile'
+          ? 'bg-[#EF4444] hover:bg-[#E30713]'
+          : 'border border-white hover:bg-gray-500'
+      "
+    >
+      My Account
+    </button>
+    <button
+      type="button"
+      (click)="changeTab('bookedTickets')"
+      class="px-4 py-2 rounded-full hover:cursor-pointer"
+      [ngClass]="
+        activeTab === 'bookedTickets'
+          ? 'bg-[#EF4444] hover:bg-[#E30713]'
+          : 'border border-white hover:bg-gray-500'
+      "
+    >
+      Booked Tickets
+    </button>
+    <button
+      type="button"
+      (click)="changeTab('scoreHistory')"
+      class="px-4 py-2 rounded-full hover:cursor-pointer"
+      [ngClass]="
+        activeTab === 'scoreHistory'
+          ? 'bg-[#EF4444] hover:bg-[#E30713]'
+          : 'border border-white hover:bg-gray-500'
+      "
+    >
+      History of Score
+    </button>
+  </div>
+  <!-- My Profile -->
+  <app-edit-profile *ngIf="activeTab === 'myProfile'"></app-edit-profile>
+
+  <!-- Booked Tickets -->
+  <app-booked-tickets
+    *ngIf="activeTab === 'bookedTickets'"
+  ></app-booked-tickets>
+
+  <!-- Score History -->
+  <app-score-history *ngIf="activeTab === 'scoreHistory'"></app-score-history>
+</section>

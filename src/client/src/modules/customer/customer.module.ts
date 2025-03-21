@@ -8,22 +8,22 @@ import { PromotionComponent } from './promotion/promotion.component';
 import { SeatshowtimeComponent } from './seatshowtime/seatshowtime.component';
 import { BookingComponent } from './booking/booking.component';
 import { MoviedetailComponent } from './moviedetail/moviedetail.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'promotion', component: PromotionComponent },
   { path: 'showtime', component: ShowtimeComponent },
   { path: 'ticketprice', component: TicketpriceComponent },
-  {path: 'seatshowtime', component: SeatshowtimeComponent},
-  {path: 'booking', component: BookingComponent},
-  {path: 'moviedetail', component: MoviedetailComponent},
+  { path: 'seatshowtime', component: SeatshowtimeComponent },
+  { path: 'booking', component: BookingComponent },
+  { path: 'moviedetail', component: MoviedetailComponent },
+  { path: 'profile', component: ProfileComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule, RouterModule.forChild(routes)
-  ]
+  imports: [CommonModule, RouterModule.forChild(routes)],
 })
-export class CustomerModule { }
+export class CustomerModule {}

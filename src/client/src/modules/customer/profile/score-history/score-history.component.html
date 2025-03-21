@@ -1,0 +1,99 @@
+<section class="max-w-6xl mx-2 md:mx-auto py-6 text-white">
+  <div class="flex flex-row gap-4 pb-4">
+    <!-- From Date -->
+    <div class="flex flex-col">
+      <label for="fromDate" class="mb-1 text-sm text-white">From</label>
+      <input
+        type="date"
+        id="fromDate"
+        class="px-3 py-2 rounded-md bg-white text-black focus:outline-none focus:ring-2 focus:ring-red-500"
+      />
+    </div>
+
+    <!-- To Date -->
+    <div class="flex flex-col">
+      <label for="toDate" class="mb-1 text-sm text-white">To</label>
+      <input
+        type="date"
+        id="toDate"
+        class="px-3 py-2 rounded-md bg-white text-black focus:outline-none focus:ring-2 focus:ring-red-500"
+      />
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="overflow-x-auto">
+    <table class="min-w-[600px] w-full text-sm *:text-center py-4">
+      <thead>
+        <tr
+          class="bg-[#6A1B1B] text-white *:text-center border-b border-slate-400 *:p-4"
+        >
+          <th>No</th>
+          <th>TRANSACTION NAME</th>
+          <th>TRANSACTION DATE</th>
+          <th>TOTAL SCORE</th>
+          <th>STATUS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="bg-gray-800 border-b border-slate-400 *:py-4">
+          <td>1</td>
+          <td>DOCTOR STRANGE: Phù thủy tối thượng</td>
+          <td>19/03/2025 09:15</td>
+          <td>40</td>
+          <td>ADDED</td>
+        </tr>
+        <tr class="bg-[#6A1B1B] border-b border-slate-400 *:py-4">
+          <td>2</td>
+          <td>CAPTAIN AMERICA: Thế giới mới</td>
+          <td>15/03/2025 16:20</td>
+          <td>135</td>
+          <td>USED</td>
+        </tr>
+        <tr class="bg-gray-800 border-b border-slate-400 *:py-4">
+          <td>3</td>
+          <td>Nụ hôn bạc tỷ</td>
+          <td>18/03/2025 10:23</td>
+          <td>80</td>
+          <td>ADDED</td>
+        </tr>
+        <tr class="bg-[#6A1B1B] border-b border-slate-400 *:py-4">
+          <td>4</td>
+          <td>Nhà gia tiên</td>
+          <td>19/03/2025 08:52</td>
+          <td>150</td>
+          <td>USED</td>
+        </tr>
+        <tr class="bg-gray-800 border-b border-slate-400 *:py-4">
+          <td>5</td>
+          <td>PADDINGTON: Gấu thủ chu du</td>
+          <td>19/03/2025 20:15</td>
+          <td>35</td>
+          <td>ADDED</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="flex justify-end mt-6 space-x-2 *:cursor-pointer">
+    <button
+      type="button"
+      class="w-8 h-8 rounded bg-[#EF4444] hover:bg-[#E30713] text-white"
+    >
+      1
+    </button>
+    <button
+      type="button"
+      class="w-8 h-8 rounded border border-gray-500 hover:bg-gray-500"
+    >
+      2
+    </button>
+    <button
+      type="button"
+      class="w-8 h-8 rounded border border-gray-500 hover:bg-gray-500"
+    >
+      3
+    </button>
+  </div>
+</section>
