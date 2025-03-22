@@ -7,7 +7,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {
+  FontAwesomeModule,
+  IconDefinition,
+} from '@fortawesome/angular-fontawesome';
+import { ModalService } from '../../../services/modal.service';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-register',
@@ -16,6 +21,16 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   styleUrl: './register.component.css',
 })
 export class RegisterComponent implements OnInit {
+  public faTimes: IconDefinition = faTimes;
+  constructor(private modalService: ModalService) {}
+  openModal() {
+    this.modalService.open('login');
+  }
+
+  closeModal() {
+    this.modalService.close();
+  }
+
   public form!: FormGroup;
 
   ngOnInit(): void {
@@ -24,15 +39,14 @@ export class RegisterComponent implements OnInit {
 
   public createForm() {
     this.form = new FormGroup({
-      fullName: new FormControl('', [
+      firstName: new FormControl('', [
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(255),
       ]),
-      email: new FormControl('', [
+      lastName: new FormControl('', [
         Validators.required,
-        Validators.email,
-        Validators.minLength(5),
+        Validators.minLength(1),
         Validators.maxLength(255),
       ]),
       dateOfBirth: new FormControl(new Date()),

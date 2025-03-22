@@ -1,0 +1,91 @@
+<section class="max-w-6xl mx-2 md:mx-auto py-12 text-white">
+  <!-- Search Bar -->
+  <div class="flex justify-end mb-4">
+    <div class="relative">
+      <input
+        type="text"
+        placeholder="Search booked ticket"
+        class="pl-4 pr-10 py-2 rounded-full bg-white text-black text-sm focus:outline-none w-64"
+      />
+      <span
+        class="absolute right-3 top-1/2 transform -translate-y-1/2 text-black"
+      >
+        <fa-icon [icon]="faSearch" class="text-l"></fa-icon>
+      </span>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="overflow-x-auto">
+    <table class="min-w-[600px] w-full text-sm *:text-center">
+      <thead>
+        <tr class="bg-[#6A1B1B] text-white border-b border-slate-400 *:p-4">
+          <th>No</th>
+          <th>MOVIE NAME</th>
+          <th>BOOKING DATE</th>
+          <th>TOTAL AMOUNT</th>
+          <th>STATUS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="bg-gray-800 border-b border-slate-400 *:py-4">
+          <td>1</td>
+          <td>CAPTAIN AMERICA: Thế giới mới</td>
+          <td>15/03/2025 16:20</td>
+          <td>135.000 VND</td>
+          <td>SUCCESS</td>
+        </tr>
+        <tr class="bg-[#6A1B1B] border-b border-slate-400 *:py-4">
+          <td>2</td>
+          <td>DOCTOR STRANGE: Phù thủy tối thượng</td>
+          <td>19/03/2025 09:15</td>
+          <td>40.000 VND</td>
+          <td>WAITING FOR TICKET</td>
+        </tr>
+        <tr class="bg-gray-800 border-b border-slate-400 *:py-4">
+          <td>3</td>
+          <td>Nhà gia tiên</td>
+          <td>19/03/2025 08:52</td>
+          <td>150.000 VND</td>
+          <td>SUCCESS</td>
+        </tr>
+        <tr class="bg-[#6A1B1B] border-b border-slate-400 *:py-4">
+          <td>4</td>
+          <td>Nụ hôn bạc tỷ</td>
+          <td>18/03/2025 10:23</td>
+          <td>80.000 VND</td>
+          <td>WAITING FOR TICKET</td>
+        </tr>
+        <tr class="bg-gray-800 border-b border-slate-400 *:py-4">
+          <td>5</td>
+          <td>PADDINGTON: Gấu thủ chu du</td>
+          <td>19/03/2025 20:15</td>
+          <td>35.000 VND</td>
+          <td>WAITING FOR TICKET</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="flex justify-end mt-6 space-x-2 *:cursor-pointer">
+    <button
+      type="button"
+      class="w-8 h-8 rounded bg-[#EF4444] hover:bg-[#E30713] text-white"
+    >
+      1
+    </button>
+    <button
+      type="button"
+      class="w-8 h-8 rounded border border-gray-500 hover:bg-gray-500"
+    >
+      2
+    </button>
+    <button
+      type="button"
+      class="w-8 h-8 rounded border border-gray-500 hover:bg-gray-500"
+    >
+      3
+    </button>
+  </div>
+</section>

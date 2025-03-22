@@ -23,8 +23,8 @@ dotnet add MovieTheater.API package Microsoft.AspNetCore.Identity.EntityFramewor
 dotnet add MovieTheater.API package Microsoft.AspNetCore.Authentication.JwtBearer
 dotnet add MovieTheater.API package Microsoft.AspNetCore.Identity.UI
 dotnet add MovieTheater.API package Microsoft.AspNetCore.API.NewtonsoftJson
-dotnet add MovieTheater.API package Microsoft.AspNetCore.API.Versioning
-dotnet add MovieTheater.API package Microsoft.AspNetCore.API.Versioning.ApiExplorer
+dotnet add MovieTheater.API package Microsoft.AspNetCore.Mvc.Versioning
+dotnet add MovieTheater.API package Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer
 dotnet add MovieTheater.API package Swashbuckle.AspNetCore
 dotnet add MovieTheater.API package Swashbuckle.AspNetCore.Swagger
 dotnet add MovieTheater.API package Swashbuckle.AspNetCore.SwaggerGen

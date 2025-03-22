@@ -10,21 +10,22 @@
       <span class="font-bold">TonyCinema</span>
     </a>
 
-        <div class="hidden md:flex space-x-20 text-white">
-            <a href="./home" class="hover:text-red-500">Home</a>
-            <a href="./showtime" class="hover:text-red-500">Show Time</a>
-            <a href="./promotion" class="hover:text-red-500">Promotion</a>
-            <a href="./ticketprice" class="hover:text-red-500">Ticket Price</a>
-        </div>
+    <div class="hidden md:flex space-x-20 text-white">
+      <a href="./home" class="hover:text-red-500">Home</a>
+      <a href="./showtime" class="hover:text-red-500">Show Time</a>
+      <a href="./promotion" class="hover:text-red-500">Promotion</a>
+      <a href="./ticketprice" class="hover:text-red-500">Ticket Price</a>
+    </div>
 
     <div class="flex space-x-8" *ngIf="!isLoggedIn">
       <button
+        (click)="openRegister()"
         class="border border-white text-white px-10 py-2 rounded-full hover:bg-white hover:text-black"
       >
         Sign up
       </button>
       <button
-        (click)="signin()"
+        (click)="openLogin()"
         class="bg-red-500 px-10 py-2 rounded-full hover:bg-red-600"
       >
         Sign in
@@ -53,7 +54,9 @@
         class="absolute top-full right-0 mt-2 w-48 bg-black text-white shadow-lg rounded-md"
         *ngIf="isDropdownOpen"
       >
-        <a href="#" class="block px-4 p-3 hover:text-red-500">Profile</a>
+        <a routerLink="/profile" class="block px-4 p-3 hover:text-red-500"
+          >Profile</a
+        >
         <a href="#" class="block px-4 p-3 hover:text-red-500" (click)="logout()"
           >Logout</a
         >
