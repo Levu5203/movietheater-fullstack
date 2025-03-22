@@ -5,7 +5,7 @@
       <input type="text" placeholder="Search"
         class="border border-gray-300 rounded-md px-3 py-2 w-64 focus:ring-2 focus:ring-blue-500">
       <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-        Add new movie
+        <a href="./admin/addmovie">Add new movie</a>
       </button>
     </div>
   
@@ -23,7 +23,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let movie of movies" class="hover:bg-gray-50 border-b border-[#E8F1FD]">
+            <tr *ngFor="let movie of paginatedMovies" class="hover:bg-gray-50 border-b border-[#E8F1FD]">
               <td class="px-4 py-2">{{ movie.id }}</td>
               <td class="px-4 py-2">{{ movie.name }}</td>
               <td class="px-4 py-2">{{ movie.releaseDate }}</td>
@@ -40,19 +40,28 @@
         </table>
       </div>
       
+      <div class="flex justify-between items-center mt-4">
+        <button (click)="goToPage(currentPage - 1)" 
+          [disabled]="currentPage === 1"
+          class="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-400 disabled:opacity-50">
+          Previous
+        </button>
       
+        <div class="space-x-2">
+          <button *ngFor="let page of [].constructor(totalPages); let i = index"
+            (click)="goToPage(i + 1)"
+            [ngClass]="{'bg-blue-500 text-white': currentPage === i + 1, 'bg-gray-300 hover:bg-gray-400': currentPage !== i + 1}"
+            class="px-3 py-2 rounded-md">
+            {{ i + 1 }}
+          </button>
+        </div>
       
-      
-      
-  
-    <div class="flex justify-between items-center mt-4">
-      <button class="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-400">Previous</button>
-      <div class="space-x-2">
-        <button class="px-3 py-2 rounded-md bg-blue-500 text-white">1</button>
-        <button class="px-3 py-2 rounded-md bg-gray-300 hover:bg-gray-400">2</button>
-        <button class="px-3 py-2 rounded-md bg-gray-300 hover:bg-gray-400">3</button>
+        <button (click)="goToPage(currentPage + 1)" 
+          [disabled]="currentPage === totalPages"
+          class="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-400 disabled:opacity-50">
+          Next
+        </button>
       </div>
-      <button class="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-400">Next</button>
-    </div>
+      
   </div>
   

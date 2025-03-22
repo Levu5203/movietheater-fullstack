@@ -1,4 +1,4 @@
-<aside class="h-[calc(100vh-10px)] flex flex-col bg-gray-900 *:text-gray-300 border-slate-300 m-1 rounded-xl shadow-xl shadow-black">
+<aside class="h-[calc(100vh-10px)] flex flex-col bg-gray-900 *:text-gray-300 m-1 rounded-xl shadow-xl shadow-black">
     <div [ngClass]="isShowSidebar ? 'block': 'hidden'" class="pt-4 pb-6">
       <a href="" class="flex flex-col items-center ">
         <img src="../assets/logo.png" alt="Logo" class="w-16">
@@ -12,7 +12,7 @@
           <span [ngClass]="isShowSidebar ? 'block': 'hidden'">Dashboard</span>
         </a>
   
-        <div>
+        <div class="">
           <button (click)="isUserDropdownOpen = !isUserDropdownOpen" 
             class="flex items-center justify-between p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">
             <div class="flex items-center space-x-2">
@@ -27,7 +27,7 @@
           </div>
         </div>
   
-        <div>
+        <div class="whitespace-nowrap">
           <button (click)="isTicketDropdownOpen = !isTicketDropdownOpen" 
             class="flex items-center justify-between p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">
             <div class="flex items-center space-x-2">
