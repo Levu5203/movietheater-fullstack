@@ -12,7 +12,7 @@ import {
   IconDefinition,
 } from '@fortawesome/angular-fontawesome';
 import { ModalService } from '../../../services/modal.service';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faCalendar, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-register',
@@ -22,6 +22,10 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 })
 export class RegisterComponent implements OnInit {
   public faTimes: IconDefinition = faTimes;
+
+  public faCalendar: IconDefinition = faCalendar;
+
+
   constructor(private modalService: ModalService) {}
   openModal() {
     this.modalService.open('login');
