@@ -13,10 +13,11 @@ import {
   faArrowLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { TiketsellingSelectseatComponent } from "./tiketselling-selectseat/tiketselling-selectseat.component";
+import { TicketsellingPaymentComponent } from "./ticketselling-payment/ticketselling-payment.component";
 
 @Component({
   selector: 'app-ticketselling',
-  imports: [FontAwesomeModule, CommonModule, FormsModule, TiketsellingSelectseatComponent],
+  imports: [FontAwesomeModule, CommonModule, FormsModule, TiketsellingSelectseatComponent, TicketsellingPaymentComponent],
   templateUrl: './ticketselling.component.html',
   styleUrl: './ticketselling.component.css',
 })
