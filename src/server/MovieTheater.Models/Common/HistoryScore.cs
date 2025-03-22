@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace MovieTheater.Models.Common;
 
 [Table("HistoryScores", Schema = "Common")]
-public class HistoryScore
+public class HistoryScore : BaseEntity
 {   
     [Required(ErrorMessage = "HistoryScoreId is required")]
     public required Guid HistoryScoreId { get; set; }
