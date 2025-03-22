@@ -3,6 +3,7 @@ import { Component, HostListener } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ModalService } from '../../../../services/modal.service';
+import { faSortDesc, faUser, faUserCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-header',
@@ -12,6 +13,10 @@ import { ModalService } from '../../../../services/modal.service';
 })
 export class HeaderComponent {
   constructor(private modalService: ModalService) {}
+
+  public faUser:  IconDefinition = faUserCircle;
+
+  public faDropDown:  IconDefinition = faSortDesc ;
 
   // Show form login
   openLogin() {
@@ -25,7 +30,7 @@ export class HeaderComponent {
   // Mặc định bgheader không mờ
   bgHeaderOpacity: number = 1;
 
-  isLoggedIn = false; // Trạng thái đăng nhập
+  isLoggedIn = true; // Trạng thái đăng nhập
   userName = ''; // Lưu tên user sau khi đăng nhập
   isDropdownOpen = false;
 
