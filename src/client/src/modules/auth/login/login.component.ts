@@ -7,7 +7,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {
+  FontAwesomeModule,
+  IconDefinition,
+} from '@fortawesome/angular-fontawesome';
+import { ModalService } from '../../../services/modal.service';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +21,16 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   styleUrl: './login.component.css',
 })
 export class LoginComponent implements OnInit {
+  public faTimes: IconDefinition = faTimes;
+  constructor(private modalService: ModalService) {}
+  openModal() {
+    this.modalService.open('register');
+  }
+
+  closeModal() {
+    this.modalService.close();
+  }
+
   public form!: FormGroup;
 
   ngOnInit(): void {
@@ -24,7 +39,7 @@ export class LoginComponent implements OnInit {
 
   public createForm() {
     this.form = new FormGroup({
-      username: new FormControl('', [
+      email: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(255),
