@@ -10,7 +10,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 })
 export class TicketsellingPaymentComponent {
   public isShowMemberInfo: boolean = false;
-  showMemberInfo() {
+  checkMember() {
     this.isShowMemberInfo = true;
   }
 }

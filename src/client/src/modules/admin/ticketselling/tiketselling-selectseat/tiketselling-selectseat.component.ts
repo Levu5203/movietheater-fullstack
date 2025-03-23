@@ -88,4 +88,10 @@ export class TiketsellingSelectseatComponent {
       this.selectedSeats = this.selectedSeats.filter((s) => s !== seat);
     }
   }
+
+  get totalPrice(): number {
+    return this.selectedSeats.reduce((total, seat) => {
+      return total + (seat.isVip ? 120000 : 90000);
+    }, 0);
+  }
 }

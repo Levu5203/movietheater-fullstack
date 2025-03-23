@@ -1,6 +1,6 @@
-<section class="flex-1 bg-white rounded-lg shadow p-6 w-full min-w-[600px]">
+<section class="flex-1 bg-white rounded-lg shadow p-6 w-full">
     <h2 class="text-2xl font-bold mb-4">Selling Ticket</h2>
-    <div class="flex items-center mb-4 relative">
+    <div class="lg:flex items-center mb-4 lg:relative">
         <div class="flex items-center mb-4">
             <button class="mr-2 p-2 w-10 h-10 rounded-xl shadow-md hover:bg-gray-100 cursor-pointer">
                 <fa-icon [icon]="faArrowLeft" class="w-6 h-6"></fa-icon>
@@ -8,7 +8,7 @@
             <input type="text" placeholder="Search"
                 class="flex-1 px-4 py-2 rounded-3xl bg-gray-200 hover:bg-gray-300 cursor-pointer">
         </div>
-        <div class="flex flex-col items-center mb-4 absolute left-1/2 transform -translate-x-1/2">
+        <div class="flex flex-col items-center mb-4 lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">
             <span class="text-red-500 font-bold mb-2">● Now showing</span>
             <div class="flex">
                 <button
@@ -36,12 +36,12 @@
     <div class="seat-container flex-1 text-center">
         <h2 class="text-2xl font-bold mt-4">Room 14</h2>
         <div class="flex justify-center">
-            <div class="container w-fit min-w-[600px] scale-90 text-center py-4 bg-gray-300 rounded-lg">
-                <div class="inline-block pb-5 text-white">
+            <div class="container w-fit scale-75 lg:scale-90 text-center py-4 px-15 bg-gray-300 rounded-lg">
+                <div class="pb-5 text-white">
                     <div class="border-b-2 border-black text-black scale-110 py-2 mb-[50px]">Screen</div>
-                    <div class="grid grid-cols-8 gap-4 mb-2" *ngFor="let row of [0, 1, 2, 3, 4, 5]">
+                    <div class="grid grid-cols-8 gap-2 lg:gap-4 mb-2" *ngFor="let row of [0, 1, 2, 3, 4, 5]">
                         <button
-                            class="w-[100%] h-auto aspect-square m-1 rounded shadow-md shadow-gray-500 hover:shadow-lg hover:shadow-gray-700"
+                            class="w-[100%] h-auto aspect-square m-0.75 lg:m-1.25 rounded shadow-md shadow-gray-500 hover:shadow-lg hover:shadow-gray-700"
                             [ngClass]="!seats[row * 8 + col].isAvailable ? 'bg-black pointer-events-none' : (seats[row * 8 + col].isSelected ? 'bg-blue-500 hover:bg-blue-600' : (seats[row * 8 + col].isVip ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-gray-500 hover:bg-gray-600'))"
                             [disabled]="!seats[row * 8 + col].isAvailable" (click)="toggleSeat(seats[row * 8 + col])"
                             *ngFor="let col of [0, 1, 2, 3, 4, 5, 6, 7]">
@@ -53,29 +53,35 @@
         </div>
         <div class="flex space-x-10 justify-start px-8 mx-5">
             <div class="flex items-center space-x-2">
-                <div class="h-5 w-5 bg-gray-500 rounded"></div>
+                <div class="w-5 h-auto aspect-square bg-gray-500 rounded"></div>
                 <span>Unavailable Seat</span>
             </div>
             <div class="flex items-center space-x-2">
-                <div class="h-5 w-5 bg-blue-500 rounded"></div>
+                <div class="w-5 h-auto aspect-square bg-blue-500 rounded"></div>
                 <span>Selected Seat</span>
             </div>
             <div class="flex items-center space-x-2">
-                <div class="h-5 w-5 bg-gray-500 rounded"></div>
+                <div class="w-5 h-auto aspect-square bg-gray-500 rounded"></div>
                 <span>Normal Seat</span>
             </div>
             <div class="flex items-center space-x-2">
-                <div class="h-5 w-5 bg-yellow-500 rounded"></div>
+                <div class="w-5 h-auto aspect-square bg-yellow-500 rounded"></div>
                 <span>VIP Seat</span>
             </div>
         </div>
         <div class="flex justify-between items-center">
-            <div class="">
-                <span>Selected Seat:</span>
-                <ng-container class="grid grid-cols-8 gap-4 mb-2" *ngFor="let seat of selectedSeats">
-                    <span class="w-[100%] h-auto aspect-square m-1 p-1 rounded text-white"
-                        [ngClass]="seat.isVip ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-gray-500 hover:bg-gray-600'">{{seat.label}}</span>
-                </ng-container>
+            <div class="flex flex-col justify-start">
+                <div class="">
+                    <span>Selected Seat:</span>
+                    <ng-container class="grid grid-cols-8 gap-1 lg:gap-4 mb-2" *ngFor="let seat of selectedSeats">
+                        <span class="h-auto aspect-square m-0.5 lg:m-1 p-1 rounded text-white text-sm lg:text-base"
+                            [ngClass]="seat.isVip ? 'bg-yellow-500' : 'bg-gray-500'">{{seat.label}}</span>
+                    </ng-container>
+                </div>
+                <div class="mt-2">
+                    <span>Total Price: </span>
+                    <span>{{totalPrice}}đ</span>
+                </div>
             </div>
             <div class="mt-6 flex justify-end">
                 <button type="button"

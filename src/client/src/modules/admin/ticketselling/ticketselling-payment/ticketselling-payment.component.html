@@ -1,7 +1,7 @@
 <section class="">
-    <div class="bg-white rounded-lg shadow p-6 w-full min-w-[600px]">
+    <div class="bg-white rounded-lg shadow p-6 w-full">
         <h2 class="text-xl font-bold mb-4">Ticket Information</h2>
-        <div class="grid grid-cols-2 gap-2">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
             <div>
                 <label class="text-gray-500">Movie</label>
                 <p class="font-semibold">Anh Không Đau-T18</p>
@@ -26,20 +26,20 @@
                 <label class="text-gray-500">Room</label>
                 <p class="font-semibold">14</p>
             </div>
-            <div class="col-span-2">
+            <div class="col-span-1 md:col-span-2">
                 <label class="text-gray-500">Total</label>
                 <p class="font-semibold">190.000đ</p>
             </div>
         </div>
         <div class="mt-6 flex justify-start px-2 py-2 border rounded bg-gray-200 hover:bg-gray-300 w-fit">
             <input type="text" placeholder="Phone Number"
-                class="focus:outline-none focus:border-transparent cursor-pointer">
+                class="focus:outline-none focus:border-transparent cursor-pointer mr-2">
             <button type="submit"
-                class="bg-blue-500 text-white text-sm px-4 py-1 rounded hover:bg-blue-600 cursor-pointer" (click)="showMemberInfo()">Check</button>
+                class="bg-blue-500 text-white text-sm px-4 py-1 rounded hover:bg-blue-600 cursor-pointer" (click)="checkMember()">Check</button>
         </div>
         <div class="mt-4" [ngClass]="{hidden: !isShowMemberInfo}">
             <h2 class="font-bold mb-4">Member Information</h2>
-            <div class="grid grid-cols-2 gap-2">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                 <div>
                     <label class="text-gray-500">Name</label>
                     <p class="font-semibold">Le Quoc Vu</p>
