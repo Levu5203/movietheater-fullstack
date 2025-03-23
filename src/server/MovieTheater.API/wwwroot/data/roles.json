@@ -19,10 +19,10 @@
     },
     {
       "Id": "3FD6E141-04BC-458D-8C15-98B51F3FE82A",
-      "Description": "User",
+      "Description": "Customer",
       "IsDeleted": false,
-      "Name": "User",
-      "NormalizedName": "USER",
+      "Name": "Customer",
+      "NormalizedName": "CUSTOMER",
       "ConcurrencyStamp": "75b81fab-dbcb-429d-a2a8-b70dd661c4eb",
       "IsActive": true
     }
