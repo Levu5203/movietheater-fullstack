@@ -11,6 +11,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { TicketsellingComponent } from './ticketselling/ticketselling.component';
 import { TicketlistComponent } from './ticketlist/ticketlist.component';
 import { TicketconfirmComponent } from './ticketconfirm/ticketconfirm.component';
+import { AddmovieComponent } from './addmovie/addmovie.component';
+import { AddpromotionComponent } from './addpromotion/addpromotion.component';
+import { UpdatemovieComponent } from './updatemovie/updatemovie.component';
+import { UpdatepromotionComponent } from './updatepromotion/updatepromotion.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -23,6 +27,10 @@ const routes: Routes = [
   { path: 'ticketlist', component: TicketlistComponent },
   { path: 'setting', component: SettingComponent },
   { path: 'ticketconfirm', component: TicketconfirmComponent },
+  { path: 'addmovie', component: AddmovieComponent },
+  { path: 'addpromotion', component: AddpromotionComponent },
+  { path: 'updatemovie', component: UpdatemovieComponent },
+  { path: 'updatepromotion', component: UpdatepromotionComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 

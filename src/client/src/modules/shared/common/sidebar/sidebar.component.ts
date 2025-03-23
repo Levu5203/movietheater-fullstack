@@ -26,7 +26,8 @@ export class SidebarComponent {
 
 
   //#endregion
-  public isShowSidebar: boolean = false;
+  public isShowSidebar: boolean = true;
   public isUserDropdownOpen: boolean = false;
   public isTicketDropdownOpen: boolean = false;
+  
 }

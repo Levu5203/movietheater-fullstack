@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MovieTheater.Core.Constants;
+using MovieTheater.Models;
 using MovieTheater.Models.Common;
 using MovieTheater.Models.Security;
 
@@ -40,7 +41,7 @@ public class MovieTheaterDbContext(DbContextOptions<MovieTheaterDbContext> optio
             .WithMany() // 1 user has many invoices
             .HasForeignKey(i => i.UserId) // Foreign key
             .OnDelete(DeleteBehavior.NoAction); // No action when delete
-        
+
         // Relationship between Invoice&SHistoryScore
         builder.Entity<HistoryScore>()
             .HasOne(h => h.Invoice) // 1 history score belongs to 1 invoice
@@ -61,21 +62,21 @@ public class MovieTheaterDbContext(DbContextOptions<MovieTheaterDbContext> optio
             .WithMany(s => s.Invoices) // 1 show time has many invoices
             .HasForeignKey(i => i.ShowTimeId) // Foreign key
             .OnDelete(DeleteBehavior.NoAction); // No action when delete
-        
+
         // Relationship between Ticket&Seat
         builder.Entity<Ticket>()
             .HasOne(t => t.Seat) // 1 ticket belongs to 1 seat
             .WithMany(s => s.Tickets) // 1 seat has many tickets
             .HasForeignKey(t => t.SeatId) // Foreign key
             .OnDelete(DeleteBehavior.NoAction); // No action when delete
-        
+
         // Relationship between Ticket&Promotion
         builder.Entity<Ticket>()
             .HasOne(t => t.Promotion) // 1 ticket belongs to 1 promotion
             .WithMany(p => p.Tickets) // 1 promotion has many tickets
             .HasForeignKey(t => t.PromotionId) // Foreign key
             .OnDelete(DeleteBehavior.NoAction); // No action when delete
-        
+
         // Relationship between Seat&CinemaRoom
         builder.Entity<Seat>()
             .HasOne(s => s.CinemaRoom) // 1 seat belongs to 1 cinema room
@@ -103,25 +104,25 @@ public class MovieTheaterDbContext(DbContextOptions<MovieTheaterDbContext> optio
             .WithMany(st => st.ShowTimes) // 1 show time slot has many show times
             .HasForeignKey(s => s.ShowTimeSlotId) // Foreign key
             .OnDelete(DeleteBehavior.NoAction); // No action when delete
-        
+
         // Set up Movie&MovieGenre composite key
         builder.Entity<MovieGenre>()
             .HasKey(mg => new { mg.MovieId, mg.GenreId }); // Composite key
-        
+
         // relationship between Movie&MovieGenre
         builder.Entity<MovieGenre>()
             .HasOne(mg => mg.Movie) // 1 movie genre belongs to 1 movie
             .WithMany(m => m.MovieGenres) // 1 movie has many movie genres
             .HasForeignKey(mg => mg.MovieId) // Foreign key
             .OnDelete(DeleteBehavior.NoAction); // No action when delete
-        
+
         // Relationship between Genre&MovieGenre
         builder.Entity<MovieGenre>()
             .HasOne(mg => mg.Genre) // 1 movie genre belongs to 1 genre
             .WithMany(g => g.MovieGenres) // 1 genre has many movie genres
             .HasForeignKey(mg => mg.GenreId) // Foreign key
             .OnDelete(DeleteBehavior.NoAction); // No action when delete
-        
+
         // Global query filter for soft delete
         builder.Entity<User>().HasQueryFilter(x => !x.IsDeleted);
         builder.Entity<Role>().HasQueryFilter(x => !x.IsDeleted);
@@ -132,5 +133,35 @@ public class MovieTheaterDbContext(DbContextOptions<MovieTheaterDbContext> optio
         builder.Entity<Movie>().HasQueryFilter(x => !x.IsDeleted);
         builder.Entity<Promotion>().HasQueryFilter(x => !x.IsDeleted);
         builder.Entity<Seat>().HasQueryFilter(x => !x.IsDeleted);
+    }
+
+    public override int SaveChanges()
+    {
+        BeforeSaveChange();
+        return base.SaveChanges();
+    }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        BeforeSaveChange();
+        return base.SaveChangesAsync(cancellationToken);
+    }
+
+    private void BeforeSaveChange()
+    {
+        var entities = this.ChangeTracker.Entries<IBaseEntity>();
+
+        foreach (var item in entities)
+        {
+            switch (item.State)
+            {
+                case EntityState.Added:
+                    item.Entity.CreatedAt = DateTime.Now;
+                    break;
+                case EntityState.Modified:
+                    item.Entity.UpdatedAt = DateTime.Now;
+                    break;
+            }
+        }
     }
 }

@@ -191,4 +191,28 @@ export class PromotionmanagementComponent {
     }
   ]
   
+  currentPage: number = 1;
+  itemsPerPage: number = 7;
+  paginatedPromotions: any[] = [];
+
+  constructor() {
+    this.updatePagination();
+  }
+
+  updatePagination() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedPromotions = this.promotions.slice(startIndex, endIndex);
+  }
+
+  goToPage(page: number) {
+    if (page > 0 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updatePagination();
+    }
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.promotions.length / this.itemsPerPage);
+  }
 }

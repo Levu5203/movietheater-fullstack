@@ -87,12 +87,18 @@
 
       <div>
         <label class="block mb-2">Date of Birth</label>
-        <input
-          title="Date of Birth"
-          type="date"
-          class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400"
-        />
+        <div class="relative">
+          <input
+            title="Date of Birth"
+            type="date"
+            class="w-full bg-[#0B0D13] text-white px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400 appearance-none"
+          />
+          <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-white pointer-events-none">
+            <fa-icon [icon]="faCalendar"></fa-icon>
+          </span>
+        </div>
       </div>
+      
 
       <div>
         <label class="block mb-2">Gender</label>
