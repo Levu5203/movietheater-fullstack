@@ -24,6 +24,8 @@ public class MovieTheaterDbContext(DbContextOptions<MovieTheaterDbContext> optio
     public DbSet<TicketShowtimeMovie> TicketShowtimeMovies { get; set; }
     public DbSet<MovieGenre> MovieGenres { get; set; }
 
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -34,6 +36,13 @@ public class MovieTheaterDbContext(DbContextOptions<MovieTheaterDbContext> optio
         builder.Entity<IdentityUserLogin<Guid>>().ToTable("UserLogins", CoreConstants.Schemas.Security);
         builder.Entity<IdentityRoleClaim<Guid>>().ToTable("RoleClaims", CoreConstants.Schemas.Security);
         builder.Entity<IdentityUserToken<Guid>>().ToTable("UserTokens", CoreConstants.Schemas.Security);
+
+        // Configure RefreshToken relationship
+        builder.Entity<RefreshToken>()
+            .HasOne(r => r.User)
+            .WithMany()
+            .HasForeignKey(r => r.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         // Relationship between User&Invoice
         builder.Entity<Invoice>()

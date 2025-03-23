@@ -1,7 +1,12 @@
 using System.Reflection;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MovieTheater.Business.Handlers.Auth;
+using MovieTheater.Business.Services;
 using MovieTheater.Data;
 using MovieTheater.Data.DataSeeding;
 using MovieTheater.Data.Repositories;
@@ -78,6 +83,9 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 // Register IUserIdentity to get current user
 builder.Services.AddScoped<IUserIdentity, UserIdentity>();
 
+// Register Token Service
+builder.Services.AddScoped<ITokenService, TokenService>();
+
 // Register controllers
 builder.Services.AddControllers();
 
@@ -89,9 +97,32 @@ builder.Services.AddVersionedApiExplorer(options =>
     options.SubstituteApiVersionInUrl = true;
 });
 
+// Register JWT with Bearer token
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.SaveToken = true;
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["JWT:Issuer"],
+        ValidAudience = builder.Configuration["JWT:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+            builder.Configuration["JWT:Secret"] ?? throw new InvalidOperationException("JWT:Secret is not configured.")))
+    };
+});
+
 // Register MediatR
-// builder.Services.AddMediatR(cfg =>
-//     cfg.RegisterServicesFromAssembly(typeof().Assembly));
+builder.Services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssembly(typeof(LoginRequestCommand).Assembly));
 
 // Add AutoMapper
 // builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);

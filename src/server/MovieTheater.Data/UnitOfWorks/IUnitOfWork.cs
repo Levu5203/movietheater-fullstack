@@ -37,7 +37,7 @@ public interface IUnitOfWork : IDisposable
 
     IRepository<TicketShowtimeMovie> TicketShowtimeMovieRepository { get; }
 
-    // IRepository<RefreshToken> RefreshTokenRepository { get; }
+    IRepository<RefreshToken> RefreshTokenRepository { get; }
 
     #endregion
 
