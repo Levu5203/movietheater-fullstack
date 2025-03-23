@@ -127,6 +127,8 @@ builder.Services.AddMediatR(cfg =>
 // Add AutoMapper
 // builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
