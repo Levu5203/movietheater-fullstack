@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using MovieTheater.Data;
 using MovieTheater.Data.DataSeeding;
+using MovieTheater.Data.Repositories;
 using MovieTheater.Data.UnitOfWorks;
 using MovieTheater.Models.Security;
 
@@ -54,8 +55,28 @@ builder.Services.AddDbContext<MovieTheaterDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MovieTheaterDbConnection"));
 });
 
+// Register Identity: UserManager, RoleManager, SignInManager
+builder.Services.AddIdentity<User, Role>(options =>
+{
+    options.SignIn.RequireConfirmedEmail = false;
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 8;
+    options.User.RequireUniqueEmail = true;
+})
+    .AddEntityFrameworkStores<MovieTheaterDbContext>()
+    .AddDefaultTokenProviders();
+
+// Register IHttpContextAccessor
+builder.Services.AddHttpContextAccessor();
+
 // Register UnitOfWork
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+// Register IUserIdentity to get current user
+builder.Services.AddScoped<IUserIdentity, UserIdentity>();
 
 // Register controllers
 builder.Services.AddControllers();
