@@ -1,0 +1,52 @@
+[
+  {
+    "Id": "b6a77a0f-86f4-4c55-a3e2-19c8b9a1e7d6",
+    "Name": "Inception",
+    "Origin": "USA",
+    "Description": "A thief who enters the dreams of others to steal secrets is given a chance at redemption.",
+    "Version": 1,
+    "PosterUrl": "https://example.com/inception.jpg",
+    "Status": 2,
+    "ReleasedDate": "2010-07-16"
+  },
+  {
+    "Id": "ecfc6a15-5b3e-4238-93c2-8712d7e4d7bc",
+    "Name": "Parasite",
+    "Origin": "South Korea",
+    "Description": "A poor family schemes to become employed by a wealthy family by infiltrating their household.",
+    "Version": 1,
+    "PosterUrl": "https://example.com/parasite.jpg",
+    "Status": 3,
+    "ReleasedDate": "2019-05-30"
+  },
+  {
+    "Id": "3d8c9c98-9f77-4fd5-95f3-8ff3e1c8396d",
+    "Name": "Interstellar",
+    "Origin": "USA",
+    "Description": "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
+    "Version": 2,
+    "PosterUrl": "https://example.com/interstellar.jpg",
+    "Status": 1,
+    "ReleasedDate": "2014-11-07"
+  },
+  {
+    "Id": "9f05a4a3-82b6-4e59-baa1-0671f649f640",
+    "Name": "Spirited Away",
+    "Origin": "Japan",
+    "Description": "A young girl enters a mysterious world of spirits and must find a way to free her parents.",
+    "Version": 1,
+    "PosterUrl": "https://example.com/spiritedaway.jpg",
+    "Status": 2,
+    "ReleasedDate": "2001-07-20"
+  },
+  {
+    "Id": "572f2aef-6df8-4c71-b1a2-d3c4b078c7b5",
+    "Name": "The Dark Knight",
+    "Origin": "USA",
+    "Description": "Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham City.",
+    "Version": 2,
+    "PosterUrl": "https://example.com/darkknight.jpg",
+    "Status": 3,
+    "ReleasedDate": "2008-07-18"
+  }
+]

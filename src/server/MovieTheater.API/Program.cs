@@ -121,22 +121,28 @@ if (app.Environment.IsDevelopment())
     var rolesJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "roles.json");
     var usersJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "users.json");
     var roomsJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "cinemaRooms.json");
+    var genresJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "genres.json");
+    var moviesJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "movies.json");
+
 
     Console.WriteLine($"WebRootPath: {app.Environment.WebRootPath}");
     Console.WriteLine($"Roles JSON path: {rolesJsonPath}");
     Console.WriteLine($"Users JSON path: {usersJsonPath}");
     Console.WriteLine($"Rooms JSON path: {roomsJsonPath}");
+    Console.WriteLine($"Genres JSON path: {genresJsonPath}");
+    Console.WriteLine($"Movies JSON path: {moviesJsonPath}");
     Console.WriteLine($"Roles file exists: {File.Exists(rolesJsonPath)}");
     Console.WriteLine($"Users file exists: {File.Exists(usersJsonPath)}");
     Console.WriteLine($"Rooms file exists: {File.Exists(roomsJsonPath)}");
-
+    Console.WriteLine($"Genres file exists: {File.Exists(genresJsonPath)}");
+    Console.WriteLine($"Movies file exists: {File.Exists(moviesJsonPath)}");
     // Ensure the directory exists
     Directory.CreateDirectory(Path.Combine(app.Environment.WebRootPath, "data"));
 
     // Attempt to seed the database
     try
     {
-        DbInitializer.Seed(context, userManager, roleManager, rolesJsonPath, usersJsonPath, roomsJsonPath);
+        DbInitializer.Seed(context, userManager, roleManager, rolesJsonPath, usersJsonPath, roomsJsonPath, genresJsonPath, moviesJsonPath);
         Console.WriteLine("Database seeded successfully.");
     }
     catch (Exception ex)

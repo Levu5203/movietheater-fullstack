@@ -9,7 +9,7 @@ namespace MovieTheater.Data.DataSeeding;
 public static class DbInitializer
 {
     public static void Seed(MovieTheaterDbContext context, UserManager<User> userManager, RoleManager<Role> roleManager,
-        string rolesJsonPath, string usersJsonPath, string roomsJsonPath)
+        string rolesJsonPath, string usersJsonPath, string roomsJsonPath, string genreJsonPath, string moviesJsonPath)
     {
         context.Database.EnsureCreated();
 
@@ -22,22 +22,21 @@ public static class DbInitializer
         string jsonRooms = File.ReadAllText(roomsJsonPath);
         var rooms = JsonConvert.DeserializeObject<List<CinemaRoom>>(jsonRooms);
 
-        Console.WriteLine($"Seeding CinemaRooms: {rooms.Count}");
-        foreach (var room in rooms)
-        {
-            Console.WriteLine($"Seeding CinemaRoom: {room.Id}");
-            Console.WriteLine($"Seeding CinemaRoom: {room.Name}");
-            Console.WriteLine($"Seeding CinemaRoom: {room.SeatRows}");
-            Console.WriteLine($"Seeding CinemaRoom: {room.SeatColumns}");
-        }
+        string jsonGenre = File.ReadAllText(genreJsonPath);
+        var genres = JsonConvert.DeserializeObject<List<Genre>>(jsonGenre);
 
-        if (roles == null || users == null)
+        string jsonMovies = File.ReadAllText(moviesJsonPath);
+        var movies = JsonConvert.DeserializeObject<List<Movie>>(jsonMovies);
+
+        if (roles == null || users == null || rooms == null || genres == null || movies == null)
         {
             return;
         }
 
         SeedUserAndRoles(userManager, roleManager, users, roles);
         SeedCinemaRooms(context, rooms);
+        SeedGenres(context, genres);
+        SeedMovies(context, movies);
 
         context.SaveChanges();
     }
@@ -134,25 +133,21 @@ public static class DbInitializer
         {
             foreach (var room in cinemaRooms)
             {
-                // Add the CinemaRoom to the database
-                Console.WriteLine($"Seeding CinemaRoom: {room.Id}");
-                Console.WriteLine($"Seeding CinemaRoom: {room.Name}");
-                Console.WriteLine($"Seeding CinemaRoom: {room.SeatRows}");
-                Console.WriteLine($"Seeding CinemaRoom: {room.SeatColumns}");
-                var newRoom = new CinemaRoom
+                if (!ExistsInDb<CinemaRoom>(context, r => r.Id == room.Id))
                 {
-                    Id = room.Id,
-                    Name = room.Name,
-                    SeatRows = room.SeatRows,
-                    SeatColumns = room.SeatColumns,
-                    CreatedAt = DateTime.Now,
-                    IsActive = true,
-                    IsDeleted = false,
-                };
-                context.CinemaRooms.Add(newRoom);
+                    context.CinemaRooms.Add(new CinemaRoom
+                    {
+                        Id = room.Id,
+                        Name = room.Name,
+                        SeatRows = room.SeatRows,
+                        SeatColumns = room.SeatColumns,
+                        CreatedAt = DateTime.Now,
+                        IsActive = true,
+                        IsDeleted = false,
+                    });
+                }
                 context.SaveChanges();
 
-                // Generate seats for the room
                 GenerateSeatsForRoom(context, room);
             }
         }
@@ -164,7 +159,7 @@ public static class DbInitializer
 
         for (int row = 1; row <= room.SeatRows; row++)
         {
-            char rowChar = (char)('A' + row - 1); // Convert row number to letter (A, B, C, ...)
+            char rowChar = (char)('A' + row - 1);
 
             for (int column = 1; column <= room.SeatColumns; column++)
             {
@@ -172,7 +167,7 @@ public static class DbInitializer
                 {
                     Row = rowChar,
                     Column = column,
-                    SeatType = SeatType.STANDARD, // Default seat type
+                    SeatType = SeatType.STANDARD,
                     CinemaRoomId = room.Id,
                     CreatedAt = DateTime.Now,
                     IsActive = true,
@@ -183,9 +178,55 @@ public static class DbInitializer
             }
         }
 
-        // Add the seats to the database
         context.Seats.AddRange(seats);
         context.SaveChanges();
+    }
+    public static void SeedGenres(MovieTheaterDbContext context, List<Genre> genres)
+    {
+        foreach (var genre in genres)
+        {
+            if (!ExistsInDb<Genre>(context, g => g.Type == genre.Type))
+            {
+                context.Genres.Add(new Genre
+                {
+                    GenreId = genre.GenreId,
+                    Type = genre.Type
+                });
+            }
+        }
+
+        context.SaveChanges();
+    }
+
+    public static void SeedMovies(MovieTheaterDbContext context, List<Movie> movies)
+    {
+        foreach (var movie in movies)
+        {
+            if (!ExistsInDb<Movie>(context, m => m.Name == movie.Name && m.ReleasedDate == movie.ReleasedDate))
+            {
+                context.Movies.Add(new Movie
+                {
+                    Id = movie.Id,
+                    Name = movie.Name,
+                    Origin = movie.Origin,
+                    Description = movie.Description,
+                    Version = movie.Version,
+                    PosterUrl = movie.PosterUrl,
+                    Status = movie.Status,
+                    ReleasedDate = movie.ReleasedDate,
+                    CreatedAt = DateTime.Now,
+                    IsActive = true,
+                    IsDeleted = false
+                });
+            }
+        }
+        context.SaveChanges();
+    }
+
+
+    private static bool ExistsInDb<T>(MovieTheaterDbContext context, Func<T, bool> predicate) where T : class
+    {
+        return context.Set<T>().Any(predicate);
     }
 
 }

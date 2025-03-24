@@ -16,7 +16,7 @@ public class Movie : MasterDataBaseEntity, IMasterDataBaseEntity
 
     [Required(ErrorMessage = "Description is required")]
     [StringLength(255, ErrorMessage = "Description can't be longer than 255 characters")]
-    public required string Descriptipn { get; set; }
+    public required string Description { get; set; }
 
     [Required(ErrorMessage = "Version is required")]
     [EnumDataType(typeof(VersionType), ErrorMessage = "Invalid Version")]
