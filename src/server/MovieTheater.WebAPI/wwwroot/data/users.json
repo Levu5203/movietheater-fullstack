@@ -1,0 +1,63 @@
+[
+    {
+      "Id": "93f8139d-3195-4a4e-647b-08dd5c670130",
+      "FirstName": "System",
+      "LastName": "Admin",
+      "UserName": "systemadministrator",
+      "Email": "systemadmin@domain.com",
+      "Gender": "Male",
+      "Password": "Admin@1234",
+      "PhoneNumber": "0123456789",
+      "IdentityCard": "0123456789",
+      "TotalScore": 100000,
+      "DateOfBirth": "2000-01-01",
+      "Address": "Duy Tan, Cau Giay",
+      "Role": "Admin"
+  },
+  {
+      "Id": "56C86DC2-0C0D-4699-BC37-5953B0EFB356",
+      "FirstName": "Cong",
+      "LastName": "Dinh",
+      "UserName": "congdinh",
+      "Email": "congdinh@domain.com",
+      "Gender": "Male",
+      "Password": "Admin@1234",
+      "PhoneNumber": "0123456789",
+      "IdentityCard": "0123456789",
+      "TotalScore": 100000,
+      "DateOfBirth": "2003-01-01",
+      "Address": "Duy Tan, Cau Giay",
+      "Role": "Admin"
+  },
+  {
+      "Id": "136A79F3-F5D8-4709-85FA-89702B862358",
+      "FirstName": "Huy",
+      "LastName": "Ngo",
+      "UserName": "huyngo",
+      "Email": "huyngo@domain.com",
+      "Gender": "Male",
+      "Password": "Employee@1234",
+      "PhoneNumber": "0123456789",
+      "IdentityCard": "0123456789",
+      "TotalScore": 100000,
+      "DateOfBirth": "2003-11-21",
+      "Address": "Duy Tan, Cau Giay",
+      "Role": "Employee"
+  },
+  {
+      "Id": "81002E02-9E55-44AF-A1B3-6CC24AA12F1C",
+      "FirstName": "Thang",
+      "LastName": "Nguyen",
+      "UserName": "thangnguyen",
+      "Email": "thangnguyen@domain.com",
+      "Gender": "Male",
+      "Password": "Customer@1234",
+      "PhoneNumber": "0123456789",
+      "IdentityCard": "0123456789",
+      "TotalScore": 100000,
+      "DateOfBirth": "2001-08-04",
+      "Address": "Duy Tan, Cau Giay",
+      "Role": "Customer"
+    }
+  ]
+  
