@@ -120,12 +120,15 @@ if (app.Environment.IsDevelopment())
     // Debug information about seed file paths
     var rolesJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "roles.json");
     var usersJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "users.json");
+    var roomsJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "cinemaRooms.json");
 
     Console.WriteLine($"WebRootPath: {app.Environment.WebRootPath}");
     Console.WriteLine($"Roles JSON path: {rolesJsonPath}");
     Console.WriteLine($"Users JSON path: {usersJsonPath}");
+    Console.WriteLine($"Rooms JSON path: {roomsJsonPath}");
     Console.WriteLine($"Roles file exists: {File.Exists(rolesJsonPath)}");
     Console.WriteLine($"Users file exists: {File.Exists(usersJsonPath)}");
+    Console.WriteLine($"Rooms file exists: {File.Exists(roomsJsonPath)}");
 
     // Ensure the directory exists
     Directory.CreateDirectory(Path.Combine(app.Environment.WebRootPath, "data"));
@@ -133,7 +136,7 @@ if (app.Environment.IsDevelopment())
     // Attempt to seed the database
     try
     {
-        DbInitializer.Seed(context, userManager, roleManager, rolesJsonPath, usersJsonPath);
+        DbInitializer.Seed(context, userManager, roleManager, rolesJsonPath, usersJsonPath, roomsJsonPath);
         Console.WriteLine("Database seeded successfully.");
     }
     catch (Exception ex)

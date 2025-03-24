@@ -1,0 +1,32 @@
+[
+    {
+      "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "Name": "Room 1",
+      "SeatRows": 6,
+      "SeatColumns": 8
+    },
+    {
+      "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
+      "Name": "Room 2",
+      "SeatRows": 8,
+      "SeatColumns": 8
+    },
+    {
+      "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa8",
+      "Name": "Room 3",
+      "SeatRows": 6,
+      "SeatColumns": 6
+    },
+    {
+      "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa9",
+      "Name": "Room 4",
+      "SeatRows": 8,
+      "SeatColumns": 10
+    },
+    {
+      "Id": "3fa85f64-5717-4562-b3fc-2c963f66afb0",
+      "Name": "Room 5",
+      "SeatRows": 10,
+      "SeatColumns": 12
+    }
+  ]
