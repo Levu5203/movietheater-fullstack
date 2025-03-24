@@ -1,13 +1,25 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { faAngleLeft, faAngleRight, faAnglesLeft, faAnglesRight, faArrowLeft, faEdit, faFilter, faInfoCircle, faRotateLeft, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule, IconDefinition } from '@fortawesome/angular-fontawesome';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-promotionmanagement',
-  imports: [CommonModule],
+  imports: [CommonModule, FontAwesomeModule, FormsModule],
   templateUrl: './promotionmanagement.component.html',
   styleUrl: './promotionmanagement.component.css'
 })
 export class PromotionmanagementComponent {
+  public faArrowLeft: IconDefinition = faArrowLeft;
+  public faRotateLeft: IconDefinition = faRotateLeft;
+  public faFilter: IconDefinition = faFilter;
+  public faEdit: IconDefinition = faEdit;
+  public faTrash: IconDefinition = faTrash;
+  public faInfoCircle: IconDefinition = faInfoCircle;
+  public faAngleRight: IconDefinition = faAngleRight;
+  public faAngleLeft: IconDefinition = faAngleLeft;
+  public faAnglesLeft: IconDefinition = faAnglesLeft;
+  public faAnglesRight: IconDefinition = faAnglesRight;
   public promotions = [
     {
       "id": 1,

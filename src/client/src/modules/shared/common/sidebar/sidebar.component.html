@@ -65,10 +65,14 @@
   
     <div class="menu-bottom flex  items-center *:cursor-pointer"
         [ngClass]="isShowSidebar ? '': 'flex-row justify-center bg-gray-900 rounded-b-xl'">
-        <button type="button" title="Collapse" (click)="isShowSidebar = !isShowSidebar"
+        <div type="button" title="Collapse"
             class="flex flex-row justify-between items-center p-2 bg-white text-black rounded-xl w-full m-2">
-            <a class="left-0" [ngClass]="isShowSidebar ? 'block': 'hidden'" href="">Log out</a>
-            <fa-icon [icon]="isShowSidebar ? faAngleDoubleLeft: faAngleDoubleRight" class="text-xl"></fa-icon>
-        </button>
+            <button>
+              <a class="left-0" [ngClass]="isShowSidebar ? 'block': 'hidden'" href="/">Log out</a>
+            </button>
+            <button (click)="isShowSidebar = !isShowSidebar">
+              <fa-icon [icon]="isShowSidebar ? faAngleDoubleLeft: faAngleDoubleRight" class="text-xl"></fa-icon>
+            </button>
+        </div>
     </div>
   </aside>

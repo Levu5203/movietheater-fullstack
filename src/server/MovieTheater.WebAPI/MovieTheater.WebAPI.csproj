@@ -30,12 +30,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MovieTheater.Business\MovieTheater.Business.csproj" />
+    <ProjectReference Include="..\MovieTheater.Core\MovieTheater.Core.csproj" />
     <ProjectReference Include="..\MovieTheater.Data\MovieTheater.Data.csproj" />
     <ProjectReference Include="..\MovieTheater.Models\MovieTheater.Models.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>
