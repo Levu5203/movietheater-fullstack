@@ -35,7 +35,8 @@
             <input type="text" placeholder="Phone Number"
                 class="focus:outline-none focus:border-transparent cursor-pointer mr-2">
             <button type="submit"
-                class="bg-blue-500 text-white text-sm px-4 py-1 rounded hover:bg-blue-600 cursor-pointer" (click)="checkMember()">Check</button>
+                class="bg-blue-500 text-white text-sm px-4 py-1 rounded hover:bg-blue-600 cursor-pointer"
+                (click)="checkMember()">Check</button>
         </div>
         <div class="mt-4" [ngClass]="{hidden: !isShowMemberInfo}">
             <h2 class="font-bold mb-4">Member Information</h2>
@@ -59,8 +60,7 @@
             </div>
         </div>
         <div class="mt-6 flex justify-end">
-            <button type="button"
-                class="text-black px-4 py-2 rounded mr-2 hover:underline cursor-pointer">Back</button>
+            <button type="button" class="text-black px-4 py-2 rounded mr-2 hover:underline cursor-pointer">Back</button>
             <button type="submit"
                 class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">Confirm</button>
         </div>
