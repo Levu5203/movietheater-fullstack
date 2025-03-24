@@ -70,9 +70,9 @@ public class UnitOfWork : IUnitOfWork
 
     #region Implementation of Repositories
 
-    // private IRepository<RefreshToken>? _refreshTokenRepository;
+    private IRepository<RefreshToken>? _refreshTokenRepository;
 
-    // public IRepository<RefreshToken> RefreshTokenRepository => _refreshTokenRepository ??= new Repository<RefreshToken>(_context, _currentUser);
+    public IRepository<RefreshToken> RefreshTokenRepository => _refreshTokenRepository ??= new Repository<RefreshToken>(_context, _currentUser);
 
     public IRepository<T> Repository<T>() where T : BaseEntity, IBaseEntity
     {
