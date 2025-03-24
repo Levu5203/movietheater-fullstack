@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -13,6 +13,8 @@ import {
 } from '@fortawesome/angular-fontawesome';
 import { ModalService } from '../../../services/modal.service';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { AUTH_SERVICE } from '../../../constants/injection.constant';
+import { IAuthService } from '../../../services/auth/auth-service.interface';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +24,16 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 })
 export class LoginComponent implements OnInit {
   public faTimes: IconDefinition = faTimes;
-  constructor(private modalService: ModalService) {}
+  constructor(
+    private modalService: ModalService,
+    @Inject(AUTH_SERVICE) private authService: IAuthService
+  ) {
+    this.authService.isAuthenticated().subscribe((res) => {
+      if (res) {
+        this.closeModal();
+      }
+    });
+  }
   openModal() {
     this.modalService.open('register');
   }
@@ -42,13 +53,26 @@ export class LoginComponent implements OnInit {
       email: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(255),
+        Validators.maxLength(50),
+        Validators.email,
       ]),
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
         Validators.maxLength(20),
+        Validators.pattern(
+          '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$'
+        ),
       ]),
+    });
+  }
+
+  public onSubmit(): void {
+    this.authService.login(this.form.value).subscribe((response) => {
+      if (response) {
+        // Hide the modal
+        this.closeModal();
+      }
     });
   }
 }

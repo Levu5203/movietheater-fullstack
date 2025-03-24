@@ -1,9 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, Inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ModalService } from '../../../../services/modal.service';
-import { faSortDesc, faUser, faUserCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSortDesc,
+  faUser,
+  faUserCircle,
+  IconDefinition,
+} from '@fortawesome/free-solid-svg-icons';
+import { AUTH_SERVICE } from '../../../../constants/injection.constant';
+import { IAuthService } from '../../../../services/auth/auth-service.interface';
 
 @Component({
   selector: 'app-header',
@@ -12,12 +19,19 @@ import { faSortDesc, faUser, faUserCircle, IconDefinition } from '@fortawesome/f
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {
-  constructor(private modalService: ModalService) {}
+  constructor(
+    private modalService: ModalService,
+    @Inject(AUTH_SERVICE) private authService: IAuthService
+  ) {
+    this.authService.isAuthenticated().subscribe((res) => {
+      this.isAuthenticated = res;
+    });
+  }
 
-  public faUser:  IconDefinition = faUserCircle;
+  public faUser: IconDefinition = faUserCircle;
 
-  public faDropDown:  IconDefinition = faSortDesc ;
-
+  public faDropDown: IconDefinition = faSortDesc;
+  public isAuthenticated: boolean = false;
   // Show form login
   openLogin() {
     this.modalService.open('login');
@@ -29,29 +43,15 @@ export class HeaderComponent {
   }
   // Mặc định bgheader không mờ
   bgHeaderOpacity: number = 1;
-
-  isLoggedIn = true; // Trạng thái đăng nhập
-  userName = ''; // Lưu tên user sau khi đăng nhập
   isDropdownOpen = false;
-
-  // Giả lập đăng nhập
-  signin() {
-    this.isLoggedIn = true;
-    this.userName = 'John Doe'; // Thay thế bằng user động khi có backend
-
-    //signin logic
-  }
 
   // Đóng/mở dropdown menu
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
-  // Giả lập đăng xuất
-  logout() {
-    this.isLoggedIn = false;
-    this.userName = '';
-    this.isDropdownOpen = false;
+  public logout(): void {
+    this.authService.logout();
   }
 
   // Header sẽ mờ dần khi cuộn xuống, không nhỏ hơn 0.7

@@ -120,6 +120,20 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", opt => opt
+        .WithOrigins(builder.Configuration.GetSection("CORs:AllowedOrigins").Get<string[]>() ?? [])
+        .WithHeaders(builder.Configuration.GetSection("CORs:AllowedHeaders").Get<string[]>() ?? [])
+        .WithMethods(builder.Configuration.GetSection("CORs:AllowedMethods").Get<string[]>() ?? []));
+
+    options.AddPolicy("AllowAnyOrigin", opt => opt
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader());
+});
+
+
 // Register MediatR
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(LoginRequestCommand).Assembly));
@@ -174,6 +188,8 @@ if (app.Environment.IsDevelopment())
         Console.WriteLine($"Error seeding database: {ex.Message}");
     }
 }
+
+app.UseCors("AllowAnyOrigin");
 
 // Add authentication and authorization middleware
 app.UseAuthentication();
