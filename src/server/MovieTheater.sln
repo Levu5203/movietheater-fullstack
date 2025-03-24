@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Appendix", "Appendix", "{AD
 		RunCommand.md = RunCommand.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieTheater.WebAPI", "MovieTheater.WebAPI\MovieTheater.WebAPI.csproj", "{69999E7E-1CDC-4E7A-A729-DA89E3C2F0ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{DFCF91A3-1A82-4989-A573-4B59D3B805F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFCF91A3-1A82-4989-A573-4B59D3B805F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFCF91A3-1A82-4989-A573-4B59D3B805F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69999E7E-1CDC-4E7A-A729-DA89E3C2F0ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69999E7E-1CDC-4E7A-A729-DA89E3C2F0ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69999E7E-1CDC-4E7A-A729-DA89E3C2F0ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69999E7E-1CDC-4E7A-A729-DA89E3C2F0ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
