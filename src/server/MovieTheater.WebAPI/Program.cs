@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -97,6 +98,13 @@ builder.Services.AddVersionedApiExplorer(options =>
     options.SubstituteApiVersionInUrl = true;
 });
 
+builder.Services.AddApiVersioning(options =>
+{
+    options.ReportApiVersions = true;
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+});
+
 // Register JWT with Bearer token
 builder.Services.AddAuthentication(options =>
 {
@@ -123,9 +131,6 @@ builder.Services.AddAuthentication(options =>
 // Register MediatR
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(LoginRequestCommand).Assembly));
-
-// Add AutoMapper
-// builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -175,7 +180,6 @@ if (app.Environment.IsDevelopment())
         Console.WriteLine($"Error seeding database: {ex.Message}");
     }
 }
-
 // Add authentication and authorization middleware
 app.UseAuthentication();
 app.UseAuthorization();
@@ -185,4 +189,3 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 await app.RunAsync();
-
