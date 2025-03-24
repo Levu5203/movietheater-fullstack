@@ -1,1 +1,137 @@
-<p>addmovie works!</p>
+
+<body class="bg-gray-100 w-full">
+    <div class="mx-auto bg-white p-8 rounded-lg shadow-md">
+        <h2 class="text-2xl font-semibold mb-6">Add Movie</h2>
+        <form>
+            <div class="grid grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <label class="block">Movie Name
+                        <input type="text" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
+                    </label>
+                    <label class="block">Origin
+                        <input type="text" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
+                    </label>
+                    <label class="block">Description
+                        <input type="text" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
+                    </label>
+                    <label class="block">Version
+                        <input type="text" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
+                    </label>
+                    <label class="block">Status
+                        <input type="text" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
+                    </label>
+                    <label class="block">Release Date
+                        <input type="date" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
+                    </label>
+                    <label class="block">Director
+                        <input type="text" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
+                    </label>
+                    <label class="block">Actors
+                        <input type="text" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
+                    </label>
+                    <label class="block">Duration
+                        <input type="time" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
+                    </label>
+                </div>
+                <div>
+                    <label class="block mb-2">Type:</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2"> Action
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2"> Sci-Fi 
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2"> Horror
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2"> Comedy
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2"> War
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2"> Adventure
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2"> Romance
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2"> Chinese drama
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2"> Psychological
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2"> Romance
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2"> Musical
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2"> Animation
+                        </label>
+                    </div>
+                    <label class="block mt-4">Cinema Room:</label>
+                    <select class="w-full p-2 border hover:bg-gray-100 rounded">
+                        <option>Cinema Room 1</option>
+                        <option>Cinema Room 2</option>
+                        <option>Cinema Room 3</option>
+                    </select>
+                    <label class="block mt-4 mb-2">Schedule:</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <label class="flex items-center">
+                            <input type="radio" name="schedule" class="mr-2"> 8:00
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="schedule" class="mr-2"> 9:00
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="schedule" class="mr-2"> 10:00
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="schedule" class="mr-2"> 11:00
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="schedule" class="mr-2"> 12:00
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="schedule" class="mr-2"> 14:00
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="schedule" class="mr-2"> 16:00
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="schedule" class="mr-2"> 18:00
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="schedule" class="mr-2"> 19:00
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="schedule" class="mr-2"> 20:00
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="schedule" class="mr-2"> 22:00
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="schedule" class="mr-2"> 24:00
+                        </label>
+                    </div>
+                    <label class="block mt-4">Content:</label>
+                    <input type="text" class="w-full p-2 border hover:bg-gray-100 rounded" value="Content">
+                    <div class="flex items-center mb-6 mt-4">
+                        <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mr-4">
+                            <fa-icon [icon]="faCamera" class="text-gray-500 text-3xl"></fa-icon>
+                        </div>
+                        <button type="button" class="text-blue-500 hover:underline cursor-pointer mr-4">Choose image</button>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-end mt-6 space-x-4">
+                <button type="button" class="text-black px-4 py-2 rounded mr-2 hover:underline cursor-pointer">Cancel</button>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save</button>
+            </div>
+        </form>
+    </div>
+</body>

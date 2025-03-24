@@ -1,1 +1,37 @@
-<p>addpromotion works!</p>
+
+<body class="bg-gray-100 w-full">
+    <div class="mx-auto bg-white p-8 rounded-lg shadow-md">
+        <h2 class="text-2xl font-semibold mb-6">Add Promotion</h2>
+        <form>
+            <div class="grid grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <label class="block">Title
+                        <input type="text" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
+                    </label>
+                    <label class="block">Description
+                        <input type="text" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
+                    </label>
+                    <label class="block">Discount
+                        <input type="text" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
+                    </label>
+                    <label class="block">Start Time
+                        <input type="date" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
+                    </label>
+                    <label class="block">End Time
+                        <input type="date" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
+                    </label>
+                    <div class="flex items-center mb-6 mt-4">
+                        <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mr-4">
+                            <fa-icon [icon]="faCamera" class="text-gray-500 text-3xl"></fa-icon>
+                        </div>
+                        <button type="button" class="text-blue-500 hover:underline cursor-pointer mr-4">Choose image</button>
+                    </div>
+                </div>
+                </div>
+                <div class="flex justify-end mt-6 space-x-4">
+                    <button type="button" class="text-black px-4 py-2 rounded mr-2 hover:underline cursor-pointer">Cancel</button>
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save</button>
+                </div>
+        </form>
+    </div>
+</body>
