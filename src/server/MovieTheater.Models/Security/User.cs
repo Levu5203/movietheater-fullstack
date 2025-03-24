@@ -10,7 +10,7 @@ public class User : IdentityUser<Guid>, IMasterDataBaseEntity
     public required string LastName { get; set; }
 
     [NotMapped]
-    public string DisplayName => FirstName + " " + LastName;
+    public string DisplayName => $"{FirstName} {LastName}";
     public string? Address { get; set; }
     public DateTime DateOfBirth { get; set; }
     public required string Gender { get; set; }
