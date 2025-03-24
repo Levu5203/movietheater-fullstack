@@ -1,5 +1,6 @@
 using System.Globalization;
 using Microsoft.AspNetCore.Identity;
+using MovieTheater.Models.Common;
 using MovieTheater.Models.Security;
 using Newtonsoft.Json;
 
@@ -8,7 +9,7 @@ namespace MovieTheater.Data.DataSeeding;
 public static class DbInitializer
 {
     public static void Seed(MovieTheaterDbContext context, UserManager<User> userManager, RoleManager<Role> roleManager,
-        string rolesJsonPath, string usersJsonPath)
+        string rolesJsonPath, string usersJsonPath, string roomsJsonPath)
     {
         context.Database.EnsureCreated();
 
@@ -18,12 +19,25 @@ public static class DbInitializer
         string jsonUsers = File.ReadAllText(usersJsonPath);
         var users = JsonConvert.DeserializeObject<List<UserJsonViewModel>>(jsonUsers);
 
+        string jsonRooms = File.ReadAllText(roomsJsonPath);
+        var rooms = JsonConvert.DeserializeObject<List<CinemaRoom>>(jsonRooms);
+
+        Console.WriteLine($"Seeding CinemaRooms: {rooms.Count}");
+        foreach (var room in rooms)
+        {
+            Console.WriteLine($"Seeding CinemaRoom: {room.Id}");
+            Console.WriteLine($"Seeding CinemaRoom: {room.Name}");
+            Console.WriteLine($"Seeding CinemaRoom: {room.SeatRows}");
+            Console.WriteLine($"Seeding CinemaRoom: {room.SeatColumns}");
+        }
+
         if (roles == null || users == null)
         {
             return;
         }
 
         SeedUserAndRoles(userManager, roleManager, users, roles);
+        SeedCinemaRooms(context, rooms);
 
         context.SaveChanges();
     }
@@ -73,7 +87,7 @@ public static class DbInitializer
             PhoneNumber = user.PhoneNumber,
             DateOfBirth = DateTime.ParseExact(
                 user.DateOfBirth,
-                "yyyy-MM-dd", 
+                "yyyy-MM-dd",
                 CultureInfo.InvariantCulture
             ).ToLocalTime(),
             EmailConfirmed = true,
@@ -113,6 +127,67 @@ public static class DbInitializer
 
         roleManager.CreateAsync(newRole).Wait();
     }
+
+    private static void SeedCinemaRooms(MovieTheaterDbContext context, List<CinemaRoom> cinemaRooms)
+    {
+        if (cinemaRooms != null)
+        {
+            foreach (var room in cinemaRooms)
+            {
+                // Add the CinemaRoom to the database
+                Console.WriteLine($"Seeding CinemaRoom: {room.Id}");
+                Console.WriteLine($"Seeding CinemaRoom: {room.Name}");
+                Console.WriteLine($"Seeding CinemaRoom: {room.SeatRows}");
+                Console.WriteLine($"Seeding CinemaRoom: {room.SeatColumns}");
+                var newRoom = new CinemaRoom
+                {
+                    Id = room.Id,
+                    Name = room.Name,
+                    SeatRows = room.SeatRows,
+                    SeatColumns = room.SeatColumns,
+                    CreatedAt = DateTime.Now,
+                    IsActive = true,
+                    IsDeleted = false,
+                };
+                context.CinemaRooms.Add(newRoom);
+                context.SaveChanges();
+
+                // Generate seats for the room
+                GenerateSeatsForRoom(context, room);
+            }
+        }
+    }
+
+    private static void GenerateSeatsForRoom(MovieTheaterDbContext context, CinemaRoom room)
+    {
+        var seats = new List<Seat>();
+
+        for (int row = 1; row <= room.SeatRows; row++)
+        {
+            char rowChar = (char)('A' + row - 1); // Convert row number to letter (A, B, C, ...)
+
+            for (int column = 1; column <= room.SeatColumns; column++)
+            {
+                var seat = new Seat
+                {
+                    Row = rowChar,
+                    Column = column,
+                    SeatType = SeatType.STANDARD, // Default seat type
+                    CinemaRoomId = room.Id,
+                    CreatedAt = DateTime.Now,
+                    IsActive = true,
+                    IsDeleted = false,
+                };
+
+                seats.Add(seat);
+            }
+        }
+
+        // Add the seats to the database
+        context.Seats.AddRange(seats);
+        context.SaveChanges();
+    }
+
 }
 
 internal class UserJsonViewModel
