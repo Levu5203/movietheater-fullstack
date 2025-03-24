@@ -75,12 +75,19 @@ public class LoginRequestCommandHandler:
             expiryMinutes = 15;
         }
         
+        var userInformation = new UserInformation
+        {
+            Id = user.Id.ToString(),
+            Avatar = user.Avatar,
+            DisplayName = user.DisplayName,
+        };
         // Return response
         return new LoginResponse
         {
             AccessToken = accessToken,
             RefreshToken = refreshTokenEntity.Token,
-            ExpiresAt = DateTime.UtcNow.AddMinutes(expiryMinutes)
+            ExpiresAt = DateTime.UtcNow.AddMinutes(expiryMinutes),
+            User = userInformation
         };
     }
 }

@@ -64,7 +64,6 @@ public static class DbInitializer
             FirstName = user.FirstName,
             LastName = user.LastName,
             UserName = user.UserName,
-            Password = user.Password,
             Address = user.Address,
             Gender = user.Gender,
             IdentityCard = user.IdentityCard,

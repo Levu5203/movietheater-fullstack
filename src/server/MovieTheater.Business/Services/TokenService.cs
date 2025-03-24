@@ -31,7 +31,8 @@ private readonly IConfiguration _configuration;
         {
             new(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
             new(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
-            new("fullName", user.FirstName + " " + user.LastName + " "),
+            new(JwtRegisteredClaimNames.UniqueName, user.UserName ?? string.Empty),
+            new("fullName", user.DisplayName),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
