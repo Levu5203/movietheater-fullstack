@@ -7,10 +7,14 @@ namespace MovieTheater.Models.Common;
 public class Movie : MasterDataBaseEntity, IMasterDataBaseEntity
 {      
     [Required(ErrorMessage = "Name is required")]
-    [StringLength(50, ErrorMessage = "Name can't be longer than 50 characters")]
+    [StringLength(255, ErrorMessage = "Name can't be longer than 255 characters")]
     public required string Name { get; set; }
 
     [Required(ErrorMessage = "Duration is required")]
+    [Range(1, 600, ErrorMessage = "Duration must be between 1 and 600 minutes")]
+    public required int Duration { get; set; }
+
+    [Required(ErrorMessage = "Origin is required")]
     [StringLength(50, ErrorMessage = "Origin can't be longer than 50 characters")]
     public required string Origin { get; set; }
 

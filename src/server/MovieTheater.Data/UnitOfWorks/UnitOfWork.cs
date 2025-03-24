@@ -53,9 +53,6 @@ public class UnitOfWork : IUnitOfWork
 
     public IMasterDataRepository<Ticket> TicketRepository => _ticketRepository ??= new MasterDataRepository<Ticket>(_context, _currentUser);
 
-    private IRepository<ShowTimeSlot>? _showTimeSlotRepository;
-    public IRepository<ShowTimeSlot> ShowTimeSlotRepository => _showTimeSlotRepository ??= new Repository<ShowTimeSlot>(_context, _currentUser);
-
     private IRepository<SeatShowTime>? _seatShowTimeRepository;
     public IRepository<SeatShowTime> SeatShowTimeRepository => _seatShowTimeRepository ??= new Repository<SeatShowTime>(_context, _currentUser);
 

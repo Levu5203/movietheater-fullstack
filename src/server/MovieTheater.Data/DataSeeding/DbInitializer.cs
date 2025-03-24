@@ -9,7 +9,7 @@ namespace MovieTheater.Data.DataSeeding;
 public static class DbInitializer
 {
     public static void Seed(MovieTheaterDbContext context, UserManager<User> userManager, RoleManager<Role> roleManager,
-        string rolesJsonPath, string usersJsonPath, string roomsJsonPath, string genreJsonPath, string moviesJsonPath)
+        string rolesJsonPath, string usersJsonPath, string roomsJsonPath, string genreJsonPath, string moviesJsonPath, string showTimeSlotsJsonPath, string showTimeJsonPath)
     {
         context.Database.EnsureCreated();
 
@@ -28,7 +28,13 @@ public static class DbInitializer
         string jsonMovies = File.ReadAllText(moviesJsonPath);
         var movies = JsonConvert.DeserializeObject<List<Movie>>(jsonMovies);
 
-        if (roles == null || users == null || rooms == null || genres == null || movies == null)
+        string jsonShowTimeSlots = File.ReadAllText(showTimeSlotsJsonPath);
+        var showTimeSlots = JsonConvert.DeserializeObject<List<ShowTimeSlot>>(jsonShowTimeSlots);
+
+        string jsonShowTimes = File.ReadAllText(showTimeJsonPath);
+        var showTimes = JsonConvert.DeserializeObject<List<ShowTimeJsonViewModel>>(jsonShowTimes);
+
+        if (roles == null || users == null || rooms == null || genres == null || movies == null || showTimeSlots == null || showTimes == null)
         {
             return;
         }
@@ -37,6 +43,8 @@ public static class DbInitializer
         SeedCinemaRooms(context, rooms);
         SeedGenres(context, genres);
         SeedMovies(context, movies);
+        SeedShowTimeSlots(context, showTimeSlots);
+        SeedShowTimes(context, showTimes);
 
         context.SaveChanges();
     }
@@ -133,7 +141,7 @@ public static class DbInitializer
         {
             foreach (var room in cinemaRooms)
             {
-                if (!ExistsInDb<CinemaRoom>(context, r => r.Id == room.Id))
+                if (!ExistsInDb<CinemaRoom>(context, r => r.Name == room.Name))
                 {
                     context.CinemaRooms.Add(new CinemaRoom
                     {
@@ -202,12 +210,13 @@ public static class DbInitializer
     {
         foreach (var movie in movies)
         {
-            if (!ExistsInDb<Movie>(context, m => m.Name == movie.Name && m.ReleasedDate == movie.ReleasedDate))
+            if (!ExistsInDb<Movie>(context, m => m.Name == movie.Name && m.ReleasedDate == movie.ReleasedDate && m.Version == movie.Version))
             {
                 context.Movies.Add(new Movie
                 {
                     Id = movie.Id,
                     Name = movie.Name,
+                    Duration = movie.Duration,
                     Origin = movie.Origin,
                     Description = movie.Description,
                     Version = movie.Version,
@@ -223,6 +232,86 @@ public static class DbInitializer
         context.SaveChanges();
     }
 
+    public static void SeedShowTimeSlots(MovieTheaterDbContext context, List<ShowTimeSlot> showTimeSlots)
+    {
+        foreach (var slot in showTimeSlots)
+        {
+            if (!ExistsInDb<ShowTimeSlot>(context, s => s.Time == slot.Time))
+            {
+                context.ShowTimeSlots.Add(slot);
+            }
+        }
+        context.SaveChanges();
+    }
+
+    public static void SeedShowTimes(MovieTheaterDbContext context, List<ShowTimeJsonViewModel> showTimes)
+    {
+        foreach (var showTime in showTimes)
+        {
+            if (!ExistsInDb<ShowTime>(context, s =>
+                s.CinemaRoomId == showTime.CinemaRoomId &&
+                s.ShowTimeSlotId == showTime.ShowTimeSlotId &&
+                s.ShowDate == DateOnly.Parse(showTime.ShowDate)))
+            {
+                var movie = context.Movies.Find(showTime.MovieId);
+                var timeSlot = context.ShowTimeSlots.Find(showTime.ShowTimeSlotId);
+
+                if (movie == null || timeSlot == null)
+                {
+                    Console.WriteLine($"Warning: Movie or TimeSlot not found for ShowTime {showTime.ShowTimeId}");
+                    continue;
+                }
+
+                var showDate = DateOnly.Parse(showTime.ShowDate);
+                if (HasTimeConflict(context, showTime.CinemaRoomId, showDate, timeSlot.Time, movie.Duration, showTime.ShowTimeId))
+                {
+                    Console.WriteLine($"Warning: Time conflict detected for ShowTime {showTime.ShowTimeId} in room {showTime.CinemaRoomId} at {showDate} {timeSlot.Time}");
+                    continue;
+                }
+
+                context.ShowTimes.Add(new ShowTime
+                {
+                    Id = showTime.ShowTimeId,
+                    MovieId = showTime.MovieId,
+                    CinemaRoomId = showTime.CinemaRoomId,
+                    ShowTimeSlotId = showTime.ShowTimeSlotId,
+                    ShowDate = showDate,
+                    CreatedAt = DateTime.Now,
+                    IsActive = true,
+                    IsDeleted = false
+                });
+            }
+        }
+        context.SaveChanges();
+    }
+
+    private static bool HasTimeConflict(MovieTheaterDbContext context, Guid roomId, DateOnly showDate, TimeSpan startTime, int duration, Guid currentShowTimeId)
+    {
+        var showTimesInRoom = context.ShowTimes
+            .Where(s => s.CinemaRoomId == roomId && s.ShowDate == showDate && s.Id != currentShowTimeId)
+            .Select(s => new
+            {
+                s.ShowTimeSlot!.Time,
+                s.Movie!.Duration
+            })
+            .ToList();
+
+        var newEndTime = startTime.Add(TimeSpan.FromMinutes(duration));
+
+        foreach (var existingShowTime in showTimesInRoom)
+        {
+            var existingEndTime = existingShowTime.Time.Add(TimeSpan.FromMinutes(existingShowTime.Duration));
+
+            if ((startTime >= existingShowTime.Time && startTime < existingEndTime) ||
+                (newEndTime > existingShowTime.Time && newEndTime <= existingEndTime) ||
+                (startTime <= existingShowTime.Time && newEndTime >= existingEndTime))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     private static bool ExistsInDb<T>(MovieTheaterDbContext context, Func<T, bool> predicate) where T : class
     {
@@ -258,4 +347,13 @@ internal class UserJsonViewModel
     public required string DateOfBirth { get; set; }
 
     public required string Role { get; set; }
+}
+
+public class ShowTimeJsonViewModel
+{
+    public required Guid ShowTimeId { get; set; }
+    public required Guid MovieId { get; set; }
+    public required Guid CinemaRoomId { get; set; }
+    public required Guid ShowTimeSlotId { get; set; }
+    public required string ShowDate { get; set; }
 }

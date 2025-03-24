@@ -2,6 +2,7 @@
   {
     "Id": "b6a77a0f-86f4-4c55-a3e2-19c8b9a1e7d6",
     "Name": "Inception",
+    "Duration": 148,
     "Origin": "USA",
     "Description": "A thief who enters the dreams of others to steal secrets is given a chance at redemption.",
     "Version": 1,
@@ -12,6 +13,7 @@
   {
     "Id": "ecfc6a15-5b3e-4238-93c2-8712d7e4d7bc",
     "Name": "Parasite",
+    "Duration": 132,
     "Origin": "South Korea",
     "Description": "A poor family schemes to become employed by a wealthy family by infiltrating their household.",
     "Version": 1,
@@ -22,6 +24,7 @@
   {
     "Id": "3d8c9c98-9f77-4fd5-95f3-8ff3e1c8396d",
     "Name": "Interstellar",
+    "Duration": 169,
     "Origin": "USA",
     "Description": "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
     "Version": 2,
@@ -32,6 +35,7 @@
   {
     "Id": "9f05a4a3-82b6-4e59-baa1-0671f649f640",
     "Name": "Spirited Away",
+    "Duration": 125,
     "Origin": "Japan",
     "Description": "A young girl enters a mysterious world of spirits and must find a way to free her parents.",
     "Version": 1,
@@ -42,11 +46,100 @@
   {
     "Id": "572f2aef-6df8-4c71-b1a2-d3c4b078c7b5",
     "Name": "The Dark Knight",
+    "Duration": 152,
     "Origin": "USA",
     "Description": "Batman faces the Joker, a criminal mastermind who seeks to create chaos in Gotham City.",
     "Version": 2,
     "PosterUrl": "https://example.com/darkknight.jpg",
     "Status": 3,
     "ReleasedDate": "2008-07-18"
+  },
+  {
+    "Id": "7a8b9c0d-1234-5678-9101-112131415161",
+    "Name": "The Matrix",
+    "Duration": 136,
+    "Origin": "USA",
+    "Description": "A computer programmer discovers a mysterious world of digital reality.",
+    "Version": 1,
+    "PosterUrl": "https://example.com/matrix.jpg",
+    "Status": 3,
+    "ReleasedDate": "1999-03-31"
+  },
+  {
+    "Id": "8b9c0d1e-2345-6789-0123-223343536262",
+    "Name": "The Lord of the Rings: The Fellowship of the Ring",
+    "Duration": 178,
+    "Origin": "New Zealand",
+    "Description": "A young hobbit and his companions embark on a quest to destroy a powerful ring.",
+    "Version": 1,
+    "PosterUrl": "https://example.com/lotr.jpg",
+    "Status": 1,
+    "ReleasedDate": "2001-12-19"
+  },
+  {
+    "Id": "9c0d1e2f-3456-7890-1234-334555657373",
+    "Name": "Spider-Man: No Way Home",
+    "Duration": 148,
+    "Origin": "USA",
+    "Description": "Peter Parker seeks Doctor Strange's help to make people forget about Spider-Man's identity.",
+    "Version": 1,
+    "PosterUrl": "https://example.com/spiderman.jpg",
+    "Status": 1,
+    "ReleasedDate": "2021-12-17"
+  },
+  {
+    "Id": "0d1e2f3a-4567-8901-2345-445767758484",
+    "Name": "The Grand Budapest Hotel",
+    "Duration": 99,
+    "Origin": "Germany",
+    "Description": "A writer encounters the owner of an aging high-class hotel, who tells him of his early years serving as a lobby boy.",
+    "Version": 1,
+    "PosterUrl": "https://example.com/grandbudapest.jpg",
+    "Status": 1,
+    "ReleasedDate": "2014-03-07"
+  },
+  {
+    "Id": "1e2f3f4a-5678-9012-3456-556979859595",
+    "Name": "Everything Everywhere All at Once",
+    "Duration": 139,
+    "Origin": "USA",
+    "Description": "An aging Chinese immigrant is swept up in an insane adventure, where she alone can save the world by exploring other universes connecting with the lives she could have led.",
+    "Version": 1,
+    "PosterUrl": "https://example.com/everything.jpg",
+    "Status": 1,
+    "ReleasedDate": "2022-03-25"
+  },
+  {
+    "Id": "2f3f4e5a-6789-0123-4567-667181860606",
+    "Name": "The Matrix (3D)",
+    "Duration": 136,
+    "Origin": "USA",
+    "Description": "A computer programmer discovers a mysterious world of digital reality.",
+    "Version": 2,
+    "PosterUrl": "https://example.com/matrix3d.jpg",
+    "Status": 1,
+    "ReleasedDate": "2024-03-20"
+  },
+  {
+    "Id": "3e4e5f6a-7890-1234-5678-778292961717",
+    "Name": "The Lord of the Rings: The Fellowship of the Ring (3D)",
+    "Duration": 178,
+    "Origin": "New Zealand",
+    "Description": "A young hobbit and his companions embark on a quest to destroy a powerful ring.",
+    "Version": 2,
+    "PosterUrl": "https://example.com/lotr3d.jpg",
+    "Status": 1,
+    "ReleasedDate": "2024-03-21"
+  },
+  {
+    "Id": "4e5c6e7a-8901-2345-6789-889303062828",
+    "Name": "Spider-Man: No Way Home (3D)",
+    "Duration": 148,
+    "Origin": "USA",
+    "Description": "Peter Parker seeks Doctor Strange's help to make people forget about Spider-Man's identity.",
+    "Version": 2,
+    "PosterUrl": "https://example.com/spiderman3d.jpg",
+    "Status": 1,
+    "ReleasedDate": "2024-03-22"
   }
 ]

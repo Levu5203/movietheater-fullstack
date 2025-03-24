@@ -158,12 +158,26 @@ if (app.Environment.IsDevelopment())
     // Debug information about seed file paths
     var rolesJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "roles.json");
     var usersJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "users.json");
+    var roomsJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "rooms.json");
+    var genreJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "genres.json");
+    var moviesJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "movies.json");
+    var showTimeSlotsJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "showTime.json");
+
 
     Console.WriteLine($"WebRootPath: {app.Environment.WebRootPath}");
     Console.WriteLine($"Roles JSON path: {rolesJsonPath}");
     Console.WriteLine($"Users JSON path: {usersJsonPath}");
+    Console.WriteLine($"Rooms JSON path: {roomsJsonPath}");
+    Console.WriteLine($"Genres JSON path: {genreJsonPath}");
+    Console.WriteLine($"Movies JSON path: {moviesJsonPath}");
+    Console.WriteLine($"ShowTime JSON path: {showTimeSlotsJsonPath}");
     Console.WriteLine($"Roles file exists: {File.Exists(rolesJsonPath)}");
     Console.WriteLine($"Users file exists: {File.Exists(usersJsonPath)}");
+    Console.WriteLine($"Rooms file exists: {File.Exists(roomsJsonPath)}");
+    Console.WriteLine($"Genres file exists: {File.Exists(genreJsonPath)}");
+    Console.WriteLine($"Movies file exists: {File.Exists(moviesJsonPath)}");
+    Console.WriteLine($"ShowTime file exists: {File.Exists(showTimeSlotsJsonPath)}");
+
 
     // Ensure the directory exists
     Directory.CreateDirectory(Path.Combine(app.Environment.WebRootPath, "data"));
@@ -171,7 +185,7 @@ if (app.Environment.IsDevelopment())
     // Attempt to seed the database
     try
     {
-        DbInitializer.Seed(context, userManager, roleManager, rolesJsonPath, usersJsonPath);
+        DbInitializer.Seed(context, userManager, roleManager, rolesJsonPath, usersJsonPath, roomsJsonPath, genreJsonPath, moviesJsonPath, showTimeSlotsJsonPath);
         Console.WriteLine("Database seeded successfully.");
         
     }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieTheater.Data;
 
@@ -11,9 +12,11 @@ using MovieTheater.Data;
 namespace MovieTheater.Data.Migrations
 {
     [DbContext(typeof(MovieTheaterDbContext))]
-    partial class MovieTheaterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250324180306_AddMovieDuratio")]
+    partial class AddMovieDuratio
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -340,8 +343,8 @@ namespace MovieTheater.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Origin")
                         .IsRequired()

@@ -4,7 +4,7 @@
 
 ### Add a migration
 ```bash
-dotnet ef migrations add FixMovieModel --project MovieTheater.Data --startup-project MovieTheater.API --context MovieTheaterDbContext --output-dir Migrations
+dotnet ef migrations add AddMovieDuratio --project MovieTheater.Data --startup-project MovieTheater.API --context MovieTheaterDbContext --output-dir Migrations
 dotnet ef migrations add [MigrationName] --project MovieTheater.Data --startup-project MovieTheater.API --context StorageDbContext --output-dir Migrations/Storage
 ```
 

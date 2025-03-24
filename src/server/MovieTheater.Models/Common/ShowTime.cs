@@ -29,4 +29,16 @@ public class ShowTime : MasterDataBaseEntity, IMasterDataBaseEntity
     public virtual ShowTimeSlot? ShowTimeSlot { get; set; }
 
     public virtual ICollection<Invoice> Invoices { get; set; } = [];
+
+    [NotMapped]
+    public TimeSpan EndTime
+    {
+        get
+        {
+            if (ShowTimeSlot == null || Movie == null)
+                return TimeSpan.Zero;
+
+            return ShowTimeSlot.Time.Add(TimeSpan.FromMinutes(Movie.Duration));
+        }
+    }
 }
