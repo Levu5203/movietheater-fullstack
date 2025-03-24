@@ -1,3 +1,4 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Identity;
 using MovieTheater.Models.Security;
 using Newtonsoft.Json;
@@ -70,6 +71,11 @@ public static class DbInitializer
             TotalScore = user.TotalScore,
             Email = user.Email,
             PhoneNumber = user.PhoneNumber,
+            DateOfBirth = DateTime.ParseExact(
+                user.DateOfBirth,
+                "yyyy-MM-dd", 
+                CultureInfo.InvariantCulture
+            ).ToLocalTime(),
             EmailConfirmed = true,
             IsActive = true,
         };
@@ -132,6 +138,8 @@ internal class UserJsonViewModel
     public required int TotalScore { get; set; }
 
     public required string PhoneNumber { get; set; }
+
+    public required string DateOfBirth { get; set; }
 
     public required string Role { get; set; }
 }
