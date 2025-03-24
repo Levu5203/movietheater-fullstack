@@ -30,13 +30,6 @@ public class RegisterRequestCommandHandler : BaseHandler, IRequestHandler<Regist
 
     public async Task<LoginResponse> Handle(RegisterRequestCommand request, CancellationToken cancellationToken)
     {
-        // Check if user with this username or email already exists
-        var existingUserByName = await _userManager.FindByNameAsync(request.Username);
-        if (existingUserByName != null)
-        {
-            throw new InvalidOperationException("Username already exists");
-        }
-        
         var existingUserByEmail = await _userManager.FindByEmailAsync(request.Email);
         if (existingUserByEmail != null)
         {
@@ -46,15 +39,15 @@ public class RegisterRequestCommandHandler : BaseHandler, IRequestHandler<Regist
         // Create new user
         var user = new User
         {
-            UserName = request.Username,
             FirstName = request.FirstName,
             LastName = request.LastName,
+            UserName = request.Username,
             Email = request.Email,
             DateOfBirth = request.DateOfBirth,
             Gender = request.Gender,
             IdentityCard = request.IdentityCard,
+            PhoneNumber = request.PhoneNumber,
             TotalScore = 0,
-            Password = request.Password,
             Address = request.Address,
             IsActive = true,
             EmailConfirmed = true 

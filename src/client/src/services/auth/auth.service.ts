@@ -4,6 +4,7 @@ import { LoginRequest } from '../../models/auth/login-request.model';
 import { LoginResponse } from '../../models/auth/login-response.model';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { RegisterRequest } from '../../models/auth/register-request.model';
 
 @Injectable({
   providedIn: 'root',
@@ -37,6 +38,18 @@ export class AuthService implements IAuthService {
       .pipe(
         tap((response: LoginResponse) => {
           localStorage.setItem('accessToken', response.accessToken);
+          this._isAuthenticated.next(true);
+        })
+      );
+  }
+
+  public register(registerRequest: RegisterRequest): Observable<LoginResponse> {
+    return this.httpClient
+      .post<LoginResponse>(this.apiUrl + '/register', registerRequest)
+      .pipe(
+        tap((response: LoginResponse) => {
+          localStorage.setItem('accessToken', response.accessToken);
+
           this._isAuthenticated.next(true);
         })
       );

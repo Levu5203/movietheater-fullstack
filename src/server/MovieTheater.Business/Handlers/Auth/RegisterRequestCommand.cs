@@ -15,7 +15,7 @@ public class RegisterRequestCommand : IRequest<LoginResponse>
     public required string LastName { get; set; }
 
     [Required(ErrorMessage = "{0} is required")]
-    [StringLength(50, ErrorMessage = "{0} must be between {2} and {1} characters", MinimumLength = 1)]
+    [StringLength(50, ErrorMessage = "{0} must be between {2} and {1} characters", MinimumLength = 5)]
     public required string Username { get; set; }
 
     [Required(ErrorMessage = "{0} is required")]
@@ -37,6 +37,8 @@ public class RegisterRequestCommand : IRequest<LoginResponse>
     [Required(ErrorMessage = "{0} is required")]
     [StringLength(18, ErrorMessage = "{0} must be between {2} and {1} characters", MinimumLength = 10)]
     public required string IdentityCard { get; set; }
+
+    public string? PhoneNumber { get; set; }
 
     public DateTime DateOfBirth { get; set; }
 

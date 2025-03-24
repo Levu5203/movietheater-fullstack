@@ -8,12 +8,17 @@ public class User : IdentityUser<Guid>, IMasterDataBaseEntity
 {
     public required string FirstName { get; set; }
     public required string LastName { get; set; }
-    public required string Password { get; set; }
-    public required string Address { get; set; }
+
+    [NotMapped]
+    public string DisplayName => FirstName + " " + LastName;
+    public string? Address { get; set; }
     public DateTime DateOfBirth { get; set; }
     public required string Gender { get; set; }
     public required string IdentityCard { get; set; }
-    public required int TotalScore { get; set; }
+
+    public string? Avatar { get; set; }
+
+    public int TotalScore { get; set; } = 0;
     public DateTime CreatedAt { get; set; }
 
     [ForeignKey(nameof(CreatedBy))]
