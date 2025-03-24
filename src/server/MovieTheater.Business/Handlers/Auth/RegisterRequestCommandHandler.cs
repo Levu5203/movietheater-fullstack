@@ -30,6 +30,14 @@ public class RegisterRequestCommandHandler : BaseHandler, IRequestHandler<Regist
 
     public async Task<LoginResponse> Handle(RegisterRequestCommand request, CancellationToken cancellationToken)
     {
+        // Check if the username already exists in the system
+        var existingUserByUsername = await _userManager.FindByNameAsync(request.Username);
+        if (existingUserByUsername!= null)
+        {
+            throw new InvalidOperationException("Username already exists");
+        }
+
+        // Check if the email already exists in the system
         var existingUserByEmail = await _userManager.FindByEmailAsync(request.Email);
         if (existingUserByEmail != null)
         {
@@ -47,7 +55,6 @@ public class RegisterRequestCommandHandler : BaseHandler, IRequestHandler<Regist
             Gender = request.Gender,
             IdentityCard = request.IdentityCard,
             PhoneNumber = request.PhoneNumber,
-            TotalScore = 0,
             IsActive = true,
             EmailConfirmed = true 
         };
@@ -79,12 +86,19 @@ public class RegisterRequestCommandHandler : BaseHandler, IRequestHandler<Regist
             expiryMinutes = 15;
         }
         
-        // Return login response
+        var userInformation = new UserInformation
+        {
+            Id = user.Id.ToString(),
+            Avatar = user.Avatar,
+            DisplayName = user.DisplayName,
+        };
+        // Return response
         return new LoginResponse
         {
             AccessToken = accessToken,
             RefreshToken = refreshToken.Token,
-            ExpiresAt = DateTime.UtcNow.AddMinutes(expiryMinutes)
+            ExpiresAt = DateTime.UtcNow.AddMinutes(expiryMinutes),
+            User = userInformation
         };
     }
 }

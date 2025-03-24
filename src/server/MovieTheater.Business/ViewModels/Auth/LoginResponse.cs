@@ -1,3 +1,5 @@
+using MovieTheater.Models.Security;
+
 namespace MovieTheater.Business.ViewModels.auth;
 
 public class LoginResponse
@@ -7,4 +9,6 @@ public class LoginResponse
     public required string RefreshToken { get; set; }
     
     public DateTime ExpiresAt { get; set; }
+
+    public required UserInformation User { get; set; }
 }

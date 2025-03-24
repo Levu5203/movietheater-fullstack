@@ -11,6 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { AUTH_SERVICE } from '../../../../constants/injection.constant';
 import { IAuthService } from '../../../../services/auth/auth-service.interface';
+import { UserInformation } from '../../../../models/auth/user-information.model';
 
 @Component({
   selector: 'app-header',
@@ -26,12 +27,20 @@ export class HeaderComponent {
     this.authService.isAuthenticated().subscribe((res) => {
       this.isAuthenticated = res;
     });
+
+    this.authService.getUserInformation().subscribe((res) => {
+      if (res) {
+        this.currentUser = res;
+      }
+    });
   }
 
   public faUser: IconDefinition = faUserCircle;
 
   public faDropDown: IconDefinition = faSortDesc;
   public isAuthenticated: boolean = false;
+  public currentUser: UserInformation | null = null;
+
   // Show form login
   openLogin() {
     this.modalService.open('login');
