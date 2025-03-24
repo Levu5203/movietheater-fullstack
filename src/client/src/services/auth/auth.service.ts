@@ -10,7 +10,7 @@ import { RegisterRequest } from '../../models/auth/register-request.model';
   providedIn: 'root',
 })
 export class AuthService implements IAuthService {
-  private apiUrl: string = 'http://localhost:5198/api/auth';
+  private apiUrl: string = 'http://localhost:5063/api/auth';
   private _isAuthenticated: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
 

@@ -41,8 +41,4 @@ public class RegisterRequestCommand : IRequest<LoginResponse>
     public string? PhoneNumber { get; set; }
 
     public DateTime DateOfBirth { get; set; }
-
-    [Required(ErrorMessage = "{0} is required")]
-    [StringLength(500, ErrorMessage = "{0} must be between {2} and {1} characters", MinimumLength = 4)]
-    public required string Address { get; set; }
 }

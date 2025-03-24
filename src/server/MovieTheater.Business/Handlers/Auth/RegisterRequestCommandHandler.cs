@@ -48,7 +48,6 @@ public class RegisterRequestCommandHandler : BaseHandler, IRequestHandler<Regist
             IdentityCard = request.IdentityCard,
             PhoneNumber = request.PhoneNumber,
             TotalScore = 0,
-            Address = request.Address,
             IsActive = true,
             EmailConfirmed = true 
         };
