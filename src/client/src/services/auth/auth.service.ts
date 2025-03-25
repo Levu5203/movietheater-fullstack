@@ -12,19 +12,19 @@ import { UserInformation } from '../../models/auth/user-information.model';
 })
 export class AuthService implements IAuthService {
   private readonly apiUrl: string = 'http://localhost:5063/api/auth';
-  private _isAuthenticated: BehaviorSubject<boolean> =
+  private readonly _isAuthenticated: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
 
-  private _isAuthenticated$: Observable<boolean> =
+  private readonly _isAuthenticated$: Observable<boolean> =
     this._isAuthenticated.asObservable();
 
-  private _userInformation: BehaviorSubject<UserInformation | null> =
+  private readonly _userInformation: BehaviorSubject<UserInformation | null> =
     new BehaviorSubject<UserInformation | null>(null);
 
-  private _userInformation$: Observable<UserInformation | null> =
+  private readonly _userInformation$: Observable<UserInformation | null> =
     this._userInformation.asObservable();
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private readonly httpClient: HttpClient) {
     // Check if the access token is present in local storage
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
@@ -37,7 +37,7 @@ export class AuthService implements IAuthService {
     }
   }
   getAccessToken(): string {
-    return localStorage.getItem('accessToken') || '';
+    return localStorage.getItem('accessToken') ?? '';
   }
 
   public isAuthenticated(): Observable<boolean> {

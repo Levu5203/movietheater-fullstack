@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieTheater.API", "MovieTheater.API\MovieTheater.API.csproj", "{238B16AE-B7FD-439F-8237-11683C006F92}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieTheater.Models", "MovieTheater.Models\MovieTheater.Models.csproj", "{9ACC5E8B-F266-482D-971F-039550375232}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieTheater.Data", "MovieTheater.Data\MovieTheater.Data.csproj", "{C478CB22-3656-48A8-8F39-59ADAEA1F5F2}"
@@ -28,10 +26,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{238B16AE-B7FD-439F-8237-11683C006F92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{238B16AE-B7FD-439F-8237-11683C006F92}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{238B16AE-B7FD-439F-8237-11683C006F92}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{238B16AE-B7FD-439F-8237-11683C006F92}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9ACC5E8B-F266-482D-971F-039550375232}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9ACC5E8B-F266-482D-971F-039550375232}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9ACC5E8B-F266-482D-971F-039550375232}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -40,5 +40,5 @@ public class RegisterRequestCommand : IRequest<LoginResponse>
 
     public string? PhoneNumber { get; set; }
 
-    public DateTime DateOfBirth { get; set; }
+    public DateTime? DateOfBirth { get; set; }
 }
