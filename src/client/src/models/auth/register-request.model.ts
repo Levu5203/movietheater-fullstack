@@ -5,8 +5,8 @@ export class RegisterRequest {
   public confirmPassword!: string;
   public firstName!: string;
   public lastName!: string;
-  public dateOfBirth!: Date;
+  public dateOfBirth!: Date | null;
   public identityCard!: string;
-  public phoneNumber!: string;
+  public phoneNumber!: string | null;
   public gender!: string;
 }

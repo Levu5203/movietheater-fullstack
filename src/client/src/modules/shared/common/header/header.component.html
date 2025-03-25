@@ -50,22 +50,22 @@
 
     <ng-container *ngIf="isAuthenticated; else unAuthenticated">
       <div
-        class="flex items-center space-x-4 cursor-pointer"
+        class="relative flex items-center space-x-4 cursor-pointer"
         (click)="toggleDropdown()"
         *ngIf="isAuthenticated"
       >
         <fa-icon [icon]="faUser" class="text-3xl"></fa-icon>
-
-        <fa-icon [icon]="faDropDown" class></fa-icon>
+        <p>{{ currentUser?.displayName }}</p>
+        <fa-icon [icon]="faDropDown" class="mb-1.5"></fa-icon>
 
         <!-- Dropdown menu -->
         <div
           class="absolute top-full md:right-40 right-0 w-48 bg-black text-white shadow-lg rounded-md"
           *ngIf="isDropdownOpen"
         >
-          <a routerLink="/profile" class="block px-4 p-3 hover:text-red-500">{{
-            currentUser?.displayName
-          }}</a>
+          <a routerLink="/profile" class="block px-4 p-3 hover:text-red-500"
+            >Profile</a
+          >
           <a
             href="#"
             class="block px-4 p-3 hover:text-red-500"
@@ -90,12 +90,14 @@
     <ng-template #unAuthenticated>
       <div class="flex md:space-x-8 space-x-4">
         <button
+          type="button"
           (click)="openRegister()"
           class="border border-white text-white px-10 py-2 rounded-full hover:bg-white hover:text-black"
         >
           Register
         </button>
         <button
+          type="button"
           (click)="openLogin()"
           class="bg-red-500 whitespace-nowrap px-10 py-2 rounded-full hover:bg-red-600"
         >

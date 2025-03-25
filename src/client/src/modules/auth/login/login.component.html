@@ -15,9 +15,12 @@
         <fa-icon [icon]="faTimes" class="text-2xl"></fa-icon>
       </button>
     </div>
+
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="form-group mb-4">
-        <label for="email" class="block mb-2">Email</label>
+        <label for="email" class="block mb-2"
+          >Email<span class="text-red-500 ml-1">*</span></label
+        >
         <input
           id="email"
           type="email"
@@ -25,28 +28,59 @@
           class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400"
           placeholder="Enter email"
           required
+          [ngClass]="{
+            'border-red-500 bg-red-100 text-red-500':
+              form.get('email')?.invalid && form.get('email')?.touched
+          }"
         /><span
           *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
           class="text-red-500 text-sm"
-          >Email is required with at least 3 characters and at most 50
-          characters.</span
+          >Email is required.</span
         >
       </div>
       <div class="form-group mb-4">
-        <label for="password" class="block mb-2">Password</label>
-        <input
-          id="password"
-          type="password"
-          formControlName="password"
-          class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400"
-          placeholder="Enter password"
-          required
-        />
+        <label for="password" class="block mb-2"
+          >Password<span class="text-red-500 ml-1">*</span></label
+        >
+        <div class="relative">
+          <input
+            id="password"
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400 pr-10"
+            placeholder="Enter password"
+            required
+            [ngClass]="{
+              'border-red-500 bg-red-100 text-red-500':
+                form.get('password')?.invalid && form.get('password')?.touched
+            }"
+          />
+          <button
+            type="button"
+            class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-200 transition-colors"
+            (click)="showPassword = !showPassword"
+            aria-label="Toggle password visibility"
+            [ngClass]="{
+              '*:text-black':
+                form.get('password')?.invalid && form.get('password')?.touched
+            }"
+          >
+            <fa-icon
+              *ngIf="!showPassword"
+              [icon]="faEye"
+              class="text-l text-white"
+            ></fa-icon>
+            <fa-icon
+              *ngIf="showPassword"
+              [icon]="faEyeSlash"
+              class="text-l text-white"
+            ></fa-icon>
+          </button>
+        </div>
         <span
           *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
           class="text-red-500 text-sm"
-          >Password must include at least 1 uppercase, 1 lowercase, 1 digit, and
-          1 special character.</span
+          >Password is required.</span
         >
       </div>
       <div class="flex justify-end items-end">
@@ -54,6 +88,12 @@
           >Forgot password?</a
         >
       </div>
+      <p
+        *ngIf="showErrorMessage"
+        class="text-red-500 text-center text-sm italic"
+      >
+        {{ errorMessage }}
+      </p>
 
       <button
         type="submit"
