@@ -31,5 +31,16 @@ namespace MovieTheater.WebAPI.Controllers
             var result = await _mediator.Send(command);
             return Ok(result);
         }
+
+
+        [HttpPost("register")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> RegisterAsync([FromBody] RegisterRequestCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
     }
 }

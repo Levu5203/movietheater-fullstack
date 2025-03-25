@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -13,6 +13,8 @@ import {
 } from '@fortawesome/angular-fontawesome';
 import { ModalService } from '../../../services/modal.service';
 import { faCalendar, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { AUTH_SERVICE } from '../../../constants/injection.constant';
+import { IAuthService } from '../../../services/auth/auth-service.interface';
 
 @Component({
   selector: 'app-register',
@@ -25,8 +27,10 @@ export class RegisterComponent implements OnInit {
 
   public faCalendar: IconDefinition = faCalendar;
 
-
-  constructor(private modalService: ModalService) {}
+  constructor(
+    private modalService: ModalService,
+    @Inject(AUTH_SERVICE) private authService: IAuthService
+  ) {}
   openModal() {
     this.modalService.open('login');
   }
@@ -53,11 +57,18 @@ export class RegisterComponent implements OnInit {
         Validators.minLength(1),
         Validators.maxLength(255),
       ]),
-      dateOfBirth: new FormControl(new Date()),
       username: new FormControl('', [
         Validators.required,
-        Validators.minLength(3),
+        Validators.minLength(1),
         Validators.maxLength(255),
+      ]),
+      dateOfBirth: new FormControl(new Date()),
+      gender: new FormControl('', [Validators.required]),
+      email: new FormControl('', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(50),
+        Validators.email,
       ]),
       password: new FormControl('', [
         Validators.required,
@@ -75,11 +86,20 @@ export class RegisterComponent implements OnInit {
       ]),
       identityCard: new FormControl('', [
         Validators.required,
-        Validators.minLength(5),
-        Validators.maxLength(255),
+        Validators.minLength(10),
+        Validators.maxLength(18),
+        Validators.pattern('^[0-9]{10,18}$'),
       ]),
-      address: new FormControl(''),
       phoneNumber: new FormControl(''),
+    });
+  }
+
+  public onSubmit(): void {
+    this.authService.register(this.form.value).subscribe((response) => {
+      if (response) {
+        // Redirect to home page
+        this.closeModal();
+      }
     });
   }
 }

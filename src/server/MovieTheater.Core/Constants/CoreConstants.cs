@@ -1,5 +1,3 @@
-using System;
-
 namespace MovieTheater.Core.Constants;
 
 public class CoreConstants

@@ -4,29 +4,32 @@
   <div
     class="w-screen md:w-[500px] bg-[#0B0D13] shadow-lg rounded-lg p-10 md:p-8 *:text-white"
   >
-    <!-- <h2 class="text-2xl font-semibold text-center mb-4">LOGIN</h2> -->
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-2xl font-semibold text-center w-full">LOGIN</h2>
       <button
+        title="Close modal"
+        type="button"
         class="text-white pl-4 py-2 rounded-md cursor-pointer"
         (click)="closeModal()"
       >
         <fa-icon [icon]="faTimes" class="text-2xl"></fa-icon>
       </button>
     </div>
-    <form>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="form-group mb-4">
         <label for="email" class="block mb-2">Email</label>
         <input
           id="email"
-          type="text"
+          type="email"
+          formControlName="email"
           class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400"
           placeholder="Enter email"
           required
         /><span
           *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
           class="text-red-500 text-sm"
-          >Email is required</span
+          >Email is required with at least 3 characters and at most 50
+          characters.</span
         >
       </div>
       <div class="form-group mb-4">
@@ -34,6 +37,7 @@
         <input
           id="password"
           type="password"
+          formControlName="password"
           class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400"
           placeholder="Enter password"
           required
@@ -41,7 +45,8 @@
         <span
           *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
           class="text-red-500 text-sm"
-          >Password is required</span
+          >Password must include at least 1 uppercase, 1 lowercase, 1 digit, and
+          1 special character.</span
         >
       </div>
       <div class="flex justify-end items-end">
