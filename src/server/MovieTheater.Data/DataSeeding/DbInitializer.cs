@@ -9,7 +9,7 @@ namespace MovieTheater.Data.DataSeeding;
 public static class DbInitializer
 {
     public static void Seed(MovieTheaterDbContext context, UserManager<User> userManager, RoleManager<Role> roleManager,
-        string rolesJsonPath, string usersJsonPath, string roomsJsonPath, string genreJsonPath, string moviesJsonPath, string showTimeSlotsJsonPath, string showTimeJsonPath)
+        string rolesJsonPath, string usersJsonPath, string roomsJsonPath, string genreJsonPath, string moviesJsonPath, string showTimeSlotsJsonPath, string showTimeJsonPath, string invoicesJsonPath, string historyScoresJsonPath)
     {
         context.Database.EnsureCreated();
 
@@ -34,7 +34,13 @@ public static class DbInitializer
         string jsonShowTimes = File.ReadAllText(showTimeJsonPath);
         var showTimes = JsonConvert.DeserializeObject<List<ShowTimeJsonViewModel>>(jsonShowTimes);
 
-        if (roles == null || users == null || rooms == null || genres == null || movies == null || showTimeSlots == null || showTimes == null)
+        string jsonInvoices = File.ReadAllText(invoicesJsonPath);
+        var invoices = JsonConvert.DeserializeObject<List<Invoice>>(jsonInvoices);
+
+        string jsonHistoryScores = File.ReadAllText(historyScoresJsonPath);
+        var historyScores = JsonConvert.DeserializeObject<List<HistoryScore>>(jsonHistoryScores);
+
+        if (roles == null || users == null || rooms == null || genres == null || movies == null || showTimeSlots == null || showTimes == null || invoices == null || historyScores == null)
         {
             return;
         }
@@ -45,6 +51,8 @@ public static class DbInitializer
         SeedMovies(context, movies);
         SeedShowTimeSlots(context, showTimeSlots);
         SeedShowTimes(context, showTimes);
+        SeedInvoices(context, invoices);
+        SeedHistoryScores(context, historyScores);
 
         context.SaveChanges();
     }
@@ -150,8 +158,6 @@ public static class DbInitializer
                         SeatRows = room.SeatRows,
                         SeatColumns = room.SeatColumns,
                         CreatedAt = DateTime.Now,
-                        IsActive = true,
-                        IsDeleted = false,
                     });
                 }
                 context.SaveChanges();
@@ -178,8 +184,6 @@ public static class DbInitializer
                     SeatType = SeatType.STANDARD,
                     CinemaRoomId = room.Id,
                     CreatedAt = DateTime.Now,
-                    IsActive = true,
-                    IsDeleted = false,
                 };
 
                 seats.Add(seat);
@@ -224,8 +228,6 @@ public static class DbInitializer
                     Status = movie.Status,
                     ReleasedDate = movie.ReleasedDate,
                     CreatedAt = DateTime.Now,
-                    IsActive = true,
-                    IsDeleted = false
                 });
             }
         }
@@ -277,8 +279,6 @@ public static class DbInitializer
                     ShowTimeSlotId = showTime.ShowTimeSlotId,
                     ShowDate = showDate,
                     CreatedAt = DateTime.Now,
-                    IsActive = true,
-                    IsDeleted = false
                 });
             }
         }
@@ -313,11 +313,45 @@ public static class DbInitializer
         return false;
     }
 
+
+    private static void SeedInvoices(MovieTheaterDbContext context, List<Invoice> invoices)
+    {
+        if (ExistsInDb<Invoice>(context, x => true))
+        {
+            return;
+        }
+
+        foreach (var invoice in invoices)
+        {
+            if (!ExistsInDb<Invoice>(context, x => x.Id == invoice.Id))
+            {
+                context.Invoices.Add(invoice);
+            }
+        }
+        context.SaveChanges();
+    }
+
+    private static void SeedHistoryScores(MovieTheaterDbContext context, List<HistoryScore> historyScores)
+    {
+        if (ExistsInDb<HistoryScore>(context, x => true))
+        {
+            return;
+        }
+
+        foreach (var historyScore in historyScores)
+        {
+            if (!ExistsInDb<HistoryScore>(context, x => x.Id == historyScore.Id))
+            {
+                context.HistoryScores.Add(historyScore);
+            }
+        }
+        context.SaveChanges();
+    }
+
     private static bool ExistsInDb<T>(MovieTheaterDbContext context, Func<T, bool> predicate) where T : class
     {
         return context.Set<T>().Any(predicate);
     }
-
 }
 
 internal class UserJsonViewModel

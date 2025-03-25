@@ -4,13 +4,13 @@
 
 ### Add a migration
 ```bash
-dotnet ef migrations add AddMovieDuratio --project MovieTheater.Data --startup-project MovieTheater.API --context MovieTheaterDbContext --output-dir Migrations
+dotnet ef migrations add ModifyModels --project MovieTheater.Data --startup-project MovieTheater.WebAPI --context MovieTheaterDbContext --output-dir Migrations
 dotnet ef migrations add [MigrationName] --project MovieTheater.Data --startup-project MovieTheater.API --context StorageDbContext --output-dir Migrations/Storage
 ```
 
 ### Update the database
 ```bash
-dotnet ef database update --project MovieTheater.Data --startup-project MovieTheater.API --context MovieTheaterDbContext
+dotnet ef database update --project MovieTheater.Data --startup-project MovieTheater.WebAPI --context MovieTheaterDbContext
 dotnet ef database update --project MovieTheater.Data --startup-project MovieTheater.API --context StorageDbContext
 ```
 
@@ -27,7 +27,7 @@ dotnet ef database drop --project MovieTheater.Data --startup-project MovieTheat
 
 ### Remove a migration
 ```bash
-dotnet ef migrations remove --project MovieTheater.Data --startup-project MovieTheater.API --context MovieTheaterDbContext
+dotnet ef migrations remove --project MovieTheater.Data --startup-project MovieTheater.WebAPI --context MovieTheaterDbContext
 dotnet ef migrations remove --project MovieTheater.Data --startup-project MovieTheater.API --context StorageDbContext
 ```
 

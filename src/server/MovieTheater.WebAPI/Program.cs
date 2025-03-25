@@ -158,6 +158,8 @@ if (app.Environment.IsDevelopment())
     var moviesJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "movies.json");
     var showTimeSlotsJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "showTimeSlots.json");
     var showTimeJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "showTime.json");
+    var invoicesJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "invoices.json");
+    var historyScoresJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "historyScores.json");
 
     Console.WriteLine($"WebRootPath: {app.Environment.WebRootPath}");
     Console.WriteLine($"Roles JSON path: {rolesJsonPath}");
@@ -167,6 +169,8 @@ if (app.Environment.IsDevelopment())
     Console.WriteLine($"Movies JSON path: {moviesJsonPath}");
     Console.WriteLine($"ShowTimeSlots JSON path: {showTimeSlotsJsonPath}");
     Console.WriteLine($"ShowTime JSON path: {showTimeJsonPath}");
+    Console.WriteLine($"Invoices JSON path: {invoicesJsonPath}");
+    Console.WriteLine($"HistoryScores JSON path: {historyScoresJsonPath}");
     Console.WriteLine($"Roles file exists: {File.Exists(rolesJsonPath)}");
     Console.WriteLine($"Users file exists: {File.Exists(usersJsonPath)}");
     Console.WriteLine($"Rooms file exists: {File.Exists(roomsJsonPath)}");
@@ -174,13 +178,15 @@ if (app.Environment.IsDevelopment())
     Console.WriteLine($"Movies file exists: {File.Exists(moviesJsonPath)}");
     Console.WriteLine($"ShowTimeSlots file exists: {File.Exists(showTimeSlotsJsonPath)}");
     Console.WriteLine($"ShowTime file exists: {File.Exists(showTimeJsonPath)}");
+    Console.WriteLine($"Invoices file exists: {File.Exists(invoicesJsonPath)}");
+    Console.WriteLine($"HistoryScores file exists: {File.Exists(historyScoresJsonPath)}");
     // Ensure the directory exists
     Directory.CreateDirectory(Path.Combine(app.Environment.WebRootPath, "data"));
 
     // Attempt to seed the database
     try
     {
-        DbInitializer.Seed(context, userManager, roleManager, rolesJsonPath, usersJsonPath, roomsJsonPath, genresJsonPath, moviesJsonPath, showTimeSlotsJsonPath, showTimeJsonPath);
+        DbInitializer.Seed(context, userManager, roleManager, rolesJsonPath, usersJsonPath, roomsJsonPath, genresJsonPath, moviesJsonPath, showTimeSlotsJsonPath, showTimeJsonPath, invoicesJsonPath, historyScoresJsonPath);
         Console.WriteLine("Database seeded successfully.");
         
     }

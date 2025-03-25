@@ -1,0 +1,47 @@
+[
+  {
+    "Id": "a1b2c3d4-1111-4562-b3fc-111122223333",
+    "TotalMoney": 150000,
+    "AddedScore": 15,
+    "UserId": "93f8139d-3195-4a4e-647b-08dd5c670130",
+    "ShowTimeId": "a1b2c3d4-1111-4562-b3fc-444455556666",
+    "CreatedAt": "2025-03-26T09:00:00",
+    "CreatedById": "136A79F3-F5D8-4709-85FA-89702B862358"
+  },
+  {
+    "Id": "b2c3d4e5-2222-4562-b3fc-222233334444",
+    "TotalMoney": 200000,
+    "AddedScore": 20,
+    "UserId": "56C86DC2-0C0D-4699-BC37-5953B0EFB356",
+    "ShowTimeId": "b2c3d4e5-2222-4562-b3fc-555566667777",
+    "CreatedAt": "2025-03-26T10:00:00",
+    "CreatedById": "93f8139d-3195-4a4e-647b-08dd5c670130"
+  },
+  {
+    "Id": "c3d4e5f6-3333-4562-b3fc-333344445555",
+    "TotalMoney": 180000,
+    "AddedScore": 18,
+    "UserId": "136A79F3-F5D8-4709-85FA-89702B862358",
+    "ShowTimeId": "c3d4e5f6-3333-4562-b3fc-666677778888",
+    "CreatedAt": "2025-03-26T11:00:00",
+    "CreatedById": "93f8139d-3195-4a4e-647b-08dd5c670130"
+  },
+  {
+    "Id": "d4e5f6a7-4444-4562-b3fc-444455556666",
+    "TotalMoney": 250000,
+    "AddedScore": 25,
+    "UserId": "81002E02-9E55-44AF-A1B3-6CC24AA12F1C",
+    "ShowTimeId": "d4e5f6a7-4444-4562-b3fc-777788889999",
+    "CreatedAt": "2025-03-26T13:00:00",
+    "CreatedById": "136A79F3-F5D8-4709-85FA-89702B862358"
+  },
+  {
+    "Id": "e5f6a7b8-5555-4562-b3fc-555566667777",
+    "TotalMoney": 300000,
+    "AddedScore": 30,
+    "UserId": "93f8139d-3195-4a4e-647b-08dd5c670130",
+    "ShowTimeId": "e5f6a7b8-5555-4562-b3fc-888899990000",
+    "CreatedAt": "2025-03-27T09:00:00",
+    "CreatedById": "93f8139d-3195-4a4e-647b-08dd5c670130"
+  }
+] 
