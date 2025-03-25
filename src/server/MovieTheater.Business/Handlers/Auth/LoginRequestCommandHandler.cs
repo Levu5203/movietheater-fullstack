@@ -42,7 +42,7 @@ public class LoginRequestCommandHandler:
         var user = await _userManager.FindByEmailAsync(request.Email);
         if (user == null)
         {
-            throw new UnauthorizedAccessException("Invalid Email");
+            throw new UnauthorizedAccessException("The email address you entered isn't connected to an account.");
         }
 
         // Check if the user is active
@@ -55,7 +55,7 @@ public class LoginRequestCommandHandler:
         var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
         if (!result.Succeeded)
         {
-            throw new UnauthorizedAccessException("Invalid password");
+            throw new UnauthorizedAccessException("Invalid password. Try other password for account with email "+user.Email);
         }
 
         // Get user roles
