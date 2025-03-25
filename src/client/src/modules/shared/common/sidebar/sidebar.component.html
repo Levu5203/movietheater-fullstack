@@ -7,7 +7,7 @@
     </div>
   
     <div [ngClass]="isShowSidebar ? '': 'flex flex-col bg-gray-900 rounded-t-xl'" class="menu-items flex-grow">
-        <a href="" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">
+        <a href="./admin/dashboard" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">
           <fa-icon [icon]="faDashboard" class="text-xl"></fa-icon>
           <span [ngClass]="isShowSidebar ? 'block': 'hidden'">Dashboard</span>
         </a>
@@ -22,7 +22,7 @@
             </div>
           </button>
           <div [ngClass]="isShowSidebar ? 'block': 'hidden'" *ngIf="isUserDropdownOpen" class="pl-8 space-y-2">
-            <a href="" class="block p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">Customer List</a>
+            <a href="./admin/customelist" class="block p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">Customer List</a>
             <a href="" class="block p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">Employee List</a>
           </div>
         </div>
