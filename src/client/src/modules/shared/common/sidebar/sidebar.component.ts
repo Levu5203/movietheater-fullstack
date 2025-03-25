@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
 import { FontAwesomeModule, IconDefinition } from '@fortawesome/angular-fontawesome';
 import { faAngleDoubleLeft, faAngleDoubleRight, faCaretDown, faDashboard, faDoorOpen, faFilm, faGear, faList, faPercent, faTicketSimple, faUser, faUserShield } from '@fortawesome/free-solid-svg-icons';
 
@@ -10,6 +11,14 @@ import { faAngleDoubleLeft, faAngleDoubleRight, faCaretDown, faDashboard, faDoor
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
+  constructor(private router: Router){
+
+  }
+
+  public isActive(route: string): boolean {
+    return this.router.url === route; // Kiểm tra trang hiện tại
+  }
+
   //#region Font Awesome Icons
   public faDashboard: IconDefinition = faDashboard;
   public faList: IconDefinition = faList;
@@ -26,6 +35,15 @@ export class SidebarComponent {
 
   ngOnInit(): void {
     this.checkScreenSize(); // Kiểm tra kích thước màn hình khi component khởi tạo
+    this.restoreDropdownState(); // Khôi phục trạng thái dropdown từ localStorage
+  }
+
+  private restoreDropdownState() {
+    const userDropdownState = localStorage.getItem('isUserDropdownOpen');
+    const ticketDropdownState = localStorage.getItem('isTicketDropdownOpen');
+  
+    this.isUserDropdownOpen = userDropdownState === 'true';
+    this.isTicketDropdownOpen = ticketDropdownState === 'true';
   }
 
   @HostListener('window:resize', ['$event'])
@@ -39,6 +57,16 @@ export class SidebarComponent {
     } else {
       this.isShowSidebar = true;
     }
+  }
+
+  toggleUserDropdown() {
+    this.isUserDropdownOpen = !this.isUserDropdownOpen;
+    localStorage.setItem('isUserDropdownOpen', String(this.isUserDropdownOpen));
+  }
+
+  toggleTicketDropdown() {
+    this.isTicketDropdownOpen = !this.isTicketDropdownOpen;
+    localStorage.setItem('isTicketDropdownOpen', String(this.isTicketDropdownOpen));
   }
 
   //#endregion

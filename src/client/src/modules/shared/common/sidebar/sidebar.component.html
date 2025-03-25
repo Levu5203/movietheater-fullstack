@@ -7,57 +7,76 @@
     </div>
   
     <div [ngClass]="isShowSidebar ? '': 'flex flex-col bg-gray-900 rounded-t-xl'" class="menu-items flex-grow">
-        <a href="./admin/dashboard" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">
+        <a 
+          routerLink="/admin/dashboard"
+          [ngClass]="{'active': isActive('/admin/dashboard') || isActive('/admin')}"
+          href="./admin/dashboard" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-gray-500 hover:text-black">
           <fa-icon [icon]="faDashboard" class="text-xl"></fa-icon>
           <span [ngClass]="isShowSidebar ? 'block': 'hidden'">Dashboard</span>
         </a>
   
         <div class="">
-          <button (click)="isUserDropdownOpen = !isUserDropdownOpen" 
-            class="flex items-center justify-between p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">
+          <button (click)="toggleUserDropdown()" 
+            class="flex items-center justify-between p-1 pl-2 m-2 rounded-xl hover:bg-gray-500 hover:text-black">
             <div class="flex items-center space-x-2">
               <fa-icon [icon]="faUser" class="text-xl"></fa-icon>
               <span [ngClass]="isShowSidebar ? 'block': 'hidden'">User Management</span>
-              <fa-icon [ngClass]="isShowSidebar ? 'block': 'hidden'" [icon]="faCaretDown" class=""></fa-icon>
+              <fa-icon [ngClass]="isShowSidebar ? 'block': 'hidden'" [icon]="faCaretDown"></fa-icon>
             </div>
           </button>
           <div [ngClass]="isShowSidebar ? 'block': 'hidden'" *ngIf="isUserDropdownOpen" class="pl-8 space-y-2">
-            <a href="" class="block p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">Customer List</a>
-            <a href="" class="block p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">Employee List</a>
+            <a routerLink="/admin/customermanagement" [ngClass]="{'active': isActive('/admin/customermanagement')}" href="./admin/customermanagement"
+              class="block p-1 pl-2 m-2 rounded-xl hover:bg-gray-500 hover:text-black">Customer List</a>
+            <a routerLink="/admin/employeemanagement" [ngClass]="{'active': isActive('/admin/employeemanagement')}" href="./admin/employeemanagement"
+              class="block p-1 pl-2 m-2 rounded-xl hover:bg-gray-500 hover:text-black">Employee List</a>
           </div>
         </div>
   
         <div class="whitespace-nowrap">
-          <button (click)="isTicketDropdownOpen = !isTicketDropdownOpen" 
-            class="flex items-center justify-between p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">
+          <button (click)="toggleTicketDropdown()" 
+            class="flex items-center justify-between p-1 pl-2 m-2 rounded-xl hover:bg-gray-500 hover:text-black">
             <div class="flex items-center space-x-2">
               <fa-icon [icon]="faTicketSimple" class="text-xl"></fa-icon>
               <span [ngClass]="isShowSidebar ? 'block': 'hidden'">Ticket Management</span>
-              <fa-icon [ngClass]="isShowSidebar ? 'block': 'hidden'" [icon]="faCaretDown" class=""></fa-icon>
+              <fa-icon [ngClass]="isShowSidebar ? 'block': 'hidden'" [icon]="faCaretDown"></fa-icon>
             </div>
           </button>
           <div [ngClass]="isShowSidebar ? 'block': 'hidden'" *ngIf="isTicketDropdownOpen" class="pl-8 space-y-2">
-            <a href="./admin/ticketlist" class="block p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">Ticket List</a>
-            <a href="./admin/ticketselling" class="block p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">Ticket Selling</a>
+            <a routerLink="/admin/ticketlist" [ngClass]="{'active': isActive('/admin/ticketlist')}" href="./admin/ticketlist"
+              class="block p-1 pl-2 m-2 rounded-xl hover:bg-gray-500 hover:text-black">Ticket List</a>
+            <a routerLink="/admin/ticketselling" [ngClass]="{'active': isActive('/admin/ticketselling')}" href="./admin/ticketselling"
+              class="block p-1 pl-2 m-2 rounded-xl hover:bg-gray-500 hover:text-black">Ticket Selling</a>
           </div>
         </div>
   
-        <a href="./admin/moviemanagement" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">
+        <a
+          routerLink="/admin/moviemanagement"
+          [ngClass]="{'active': isActive('/admin/moviemanagement')}" 
+          href="./admin/moviemanagement" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-gray-500 hover:text-black">
           <fa-icon [icon]="faFilm" class="text-xl"></fa-icon>
           <span [ngClass]="isShowSidebar ? 'block': 'hidden'">Movie Management</span>
         </a>
   
-        <a href="./admin/roommanagement" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">
+        <a 
+          routerLink="/admin/roommanagement"
+          [ngClass]="{'active': isActive('/admin/roommanagement')}" 
+          href="./admin/roommanagement" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-gray-500 hover:text-black">
             <fa-icon [icon]="faDoorOpen" class="text-xl"></fa-icon>
             <span [ngClass]="isShowSidebar ? 'block': 'hidden'">Room Management</span>
         </a>
   
-        <a href="./admin/promotionmanagement" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">
+        <a 
+          routerLink="/admin/promotionmanagement"
+          [ngClass]="{'active': isActive('/admin/promotionmanagement')}" 
+          href="./admin/promotionmanagement" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-gray-500 hover:text-black">
           <fa-icon [icon]="faPercent" class="text-xl"></fa-icon>
           <span [ngClass]="isShowSidebar ? 'block': 'hidden'">Promotion</span>
         </a>
   
-        <a href="" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">
+        <a 
+          routerLink="/admin/setting"
+          [ngClass]="{'active': isActive('/admin/setting')}" 
+          href="./admin/setting" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-gray-500 hover:text-black">
           <fa-icon [icon]="faGear" class="text-xl"></fa-icon>
           <span [ngClass]="isShowSidebar ? 'block': 'hidden'">Setting</span>
         </a>
