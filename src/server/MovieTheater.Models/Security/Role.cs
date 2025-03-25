@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
@@ -6,7 +7,9 @@ namespace MovieTheater.Models.Security;
 [Table("Roles", Schema = "Security")]
 public class Role : IdentityRole<Guid>, IMasterDataBaseEntity
 {
+    [StringLength(255)]
     public string? Description { get; set; }
+    
     public DateTime CreatedAt { get; set;}
 
     [ForeignKey(nameof(CreatedBy))]
