@@ -15,7 +15,7 @@ public class Promotion : MasterDataBaseEntity, IMasterDataBaseEntity
         public required string Description { get; set; }
 
         [Required(ErrorMessage = "Discount is required")]
-        [Range(0, 1, ErrorMessage = "Discount must be between 0 and 100")]
+        [Range(0, 1, ErrorMessage = "Discount must be between 0 and 1")]
         [Column(TypeName = "decimal(3,2)")]
         public required decimal Discount { get; set; }
 

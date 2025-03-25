@@ -9,7 +9,9 @@ namespace MovieTheater.Data.DataSeeding;
 public static class DbInitializer
 {
     public static void Seed(MovieTheaterDbContext context, UserManager<User> userManager, RoleManager<Role> roleManager,
-        string rolesJsonPath, string usersJsonPath, string roomsJsonPath, string genreJsonPath, string moviesJsonPath, string showTimeSlotsJsonPath, string showTimeJsonPath, string invoicesJsonPath, string historyScoresJsonPath)
+        string rolesJsonPath, string usersJsonPath, string roomsJsonPath, string genreJsonPath, string moviesJsonPath,
+        string showTimeSlotsJsonPath, string showTimeJsonPath, string invoicesJsonPath, string historyScoresJsonPath,
+        string promotionsJsonPath, string ticketsJsonPath)
     {
         context.Database.EnsureCreated();
 
@@ -35,12 +37,20 @@ public static class DbInitializer
         var showTimes = JsonConvert.DeserializeObject<List<ShowTimeJsonViewModel>>(jsonShowTimes);
 
         string jsonInvoices = File.ReadAllText(invoicesJsonPath);
-        var invoices = JsonConvert.DeserializeObject<List<Invoice>>(jsonInvoices);
+        var invoices = JsonConvert.DeserializeObject<List<InvoiceJsonViewModel>>(jsonInvoices);
 
         string jsonHistoryScores = File.ReadAllText(historyScoresJsonPath);
-        var historyScores = JsonConvert.DeserializeObject<List<HistoryScore>>(jsonHistoryScores);
+        var historyScores = JsonConvert.DeserializeObject<List<HistoryScoreJsonViewModel>>(jsonHistoryScores);
 
-        if (roles == null || users == null || rooms == null || genres == null || movies == null || showTimeSlots == null || showTimes == null || invoices == null || historyScores == null)
+        string jsonPromotions = File.ReadAllText(promotionsJsonPath);
+        var promotions = JsonConvert.DeserializeObject<List<Promotion>>(jsonPromotions);
+
+        string jsonTickets = File.ReadAllText(ticketsJsonPath);
+        var tickets = JsonConvert.DeserializeObject<List<TicketJsonViewModel>>(jsonTickets);
+
+        if (roles == null || users == null || rooms == null || genres == null || movies == null ||
+            showTimeSlots == null || showTimes == null || invoices == null || historyScores == null ||
+            promotions == null || tickets == null)
         {
             return;
         }
@@ -53,6 +63,8 @@ public static class DbInitializer
         SeedShowTimes(context, showTimes);
         SeedInvoices(context, invoices);
         SeedHistoryScores(context, historyScores);
+        SeedPromotions(context, promotions);
+        SeedTickets(context, tickets);
 
         context.SaveChanges();
     }
@@ -313,7 +325,7 @@ public static class DbInitializer
     }
 
 
-    private static void SeedInvoices(MovieTheaterDbContext context, List<Invoice> invoices)
+    private static void SeedInvoices(MovieTheaterDbContext context, List<InvoiceJsonViewModel> invoices)
     {
         if (ExistsInDb<Invoice>(context, x => true))
         {
@@ -324,13 +336,35 @@ public static class DbInitializer
         {
             if (!ExistsInDb<Invoice>(context, x => x.Id == invoice.Id))
             {
-                context.Invoices.Add(invoice);
+                var user = context.Users.Find(invoice.UserId);
+                var showTime = context.ShowTimes.Find(invoice.ShowTimeId);
+
+                if (user == null || showTime == null)
+                {
+                    Console.WriteLine($"Warning: User or ShowTime not found for Invoice {invoice.Id}");
+                    continue;
+                }
+
+                context.Invoices.Add(new Invoice
+                {
+                    Id = invoice.Id,
+                    TotalMoney = invoice.TotalMoney,
+                    AddedScore = invoice.AddedScore,
+                    UserId = invoice.UserId,
+                    User = user,
+                    ShowTimeId = invoice.ShowTimeId,
+                    ShowTime = showTime,
+                    CreatedAt = invoice.CreatedAt,
+                    CreatedById = invoice.CreatedById,
+                    IsActive = invoice.IsActive,
+                    IsDeleted = invoice.IsDeleted
+                });
             }
         }
         context.SaveChanges();
     }
 
-    private static void SeedHistoryScores(MovieTheaterDbContext context, List<HistoryScore> historyScores)
+    private static void SeedHistoryScores(MovieTheaterDbContext context, List<HistoryScoreJsonViewModel> historyScores)
     {
         if (ExistsInDb<HistoryScore>(context, x => true))
         {
@@ -341,7 +375,103 @@ public static class DbInitializer
         {
             if (!ExistsInDb<HistoryScore>(context, x => x.Id == historyScore.Id))
             {
-                context.HistoryScores.Add(historyScore);
+                var invoice = context.Invoices.Find(historyScore.InvoiceId);
+
+                if (invoice == null)
+                {
+                    Console.WriteLine($"Warning: Invoice not found for HistoryScore {historyScore.Id}");
+                    continue;
+                }
+
+                context.HistoryScores.Add(new HistoryScore
+                {
+                    Id = historyScore.Id,
+                    Score = historyScore.Score,
+                    ScoreStatus = (ScoreStatus)historyScore.ScoreStatus,
+                    Description = historyScore.Description,
+                    InvoiceId = historyScore.InvoiceId,
+                    Invoice = invoice,
+                    CreatedAt = historyScore.CreatedAt
+                });
+            }
+        }
+        context.SaveChanges();
+    }
+
+    private static void SeedPromotions(MovieTheaterDbContext context, List<Promotion> promotions)
+    {
+        foreach (var promotion in promotions)
+        {
+            if (!ExistsInDb<Promotion>(context, x => x.Id == promotion.Id))
+            {
+                context.Promotions.Add(promotion);
+            }
+        }
+        context.SaveChanges();
+    }
+
+    private static Guid GetSeatId(MovieTheaterDbContext context, Guid cinemaRoomId, char row, int column)
+    {
+        var seat = context.Seats.FirstOrDefault(s => 
+            s.CinemaRoomId == cinemaRoomId && 
+            s.Row == row && 
+            s.Column == column);
+            
+        if (seat == null)
+        {
+            throw new Exception($"Seat not found at row {row}, column {column} in room {cinemaRoomId}");
+        }
+        
+        return seat.Id;
+    }
+
+    private static void SeedTickets(MovieTheaterDbContext context, List<TicketJsonViewModel> tickets)
+    {
+        foreach (var ticket in tickets)
+        {
+            if (!ExistsInDb<Ticket>(context, x => x.Id == ticket.Id))
+            {
+                var invoice = context.Invoices.Find(ticket.InvoiceId);
+                var promotion = context.Promotions.Find(ticket.PromotionId);
+
+                if (invoice == null || promotion == null)
+                {
+                    Console.WriteLine($"Warning: Invoice or Promotion not found for Ticket {ticket.Id}");
+                    continue;
+                }
+
+                // Kiểm tra xem phòng chiếu có khớp với invoice không
+                var showTime = context.ShowTimes.Find(invoice.ShowTimeId);
+                if (showTime == null || showTime.CinemaRoomId != ticket.CinemaRoomId)
+                {
+                    Console.WriteLine($"Warning: CinemaRoomId mismatch for Ticket {ticket.Id}. Expected: {showTime?.CinemaRoomId}, Got: {ticket.CinemaRoomId}");
+                    continue;
+                }
+
+                try
+                {
+                    // Lấy ID của ghế dựa trên vị trí và phòng chiếu
+                    var seatId = GetSeatId(context, ticket.CinemaRoomId, ticket.Row, ticket.Column);
+
+                    context.Tickets.Add(new Ticket
+                    {
+                        Id = ticket.Id,
+                        Price = ticket.Price,
+                        BookingDate = ticket.BookingDate,
+                        Status = ticket.Status,
+                        InvoiceId = ticket.InvoiceId,
+                        SeatId = seatId,
+                        PromotionId = ticket.PromotionId,
+                        CreatedAt = ticket.CreatedAt,
+                        IsActive = ticket.IsActive,
+                        IsDeleted = ticket.IsDeleted
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Warning: {ex.Message} for Ticket {ticket.Id}");
+                    continue;
+                }
             }
         }
         context.SaveChanges();
@@ -351,42 +481,4 @@ public static class DbInitializer
     {
         return context.Set<T>().Any(predicate);
     }
-}
-
-internal class UserJsonViewModel
-{
-    public Guid Id { get; set; }
-
-    public required string FirstName { get; set; }
-
-    public required string LastName { get; set; }
-
-    public required string UserName { get; set; }
-
-    public required string Address { get; set; }
-
-    public required string Email { get; set; }
-
-    public required string Password { get; set; }
-
-    public required string IdentityCard { get; set; }
-
-    public required string Gender { get; set; }
-
-    public required int TotalScore { get; set; }
-
-    public required string PhoneNumber { get; set; }
-
-    public required string DateOfBirth { get; set; }
-
-    public required string Role { get; set; }
-}
-
-public class ShowTimeJsonViewModel
-{
-    public required Guid ShowTimeId { get; set; }
-    public required Guid MovieId { get; set; }
-    public required Guid CinemaRoomId { get; set; }
-    public required Guid ShowTimeSlotId { get; set; }
-    public required string ShowDate { get; set; }
 }
