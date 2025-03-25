@@ -15,6 +15,7 @@
         <fa-icon [icon]="faTimes" class="text-2xl"></fa-icon>
       </button>
     </div>
+
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="form-group mb-4">
         <label for="email" class="block mb-2">Email</label>
@@ -25,6 +26,10 @@
           class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400"
           placeholder="Enter email"
           required
+          [ngClass]="{
+            'border-red-500 bg-red-100 text-red-500':
+              form.get('email')?.invalid && form.get('email')?.touched
+          }"
         /><span
           *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
           class="text-red-500 text-sm"
@@ -41,6 +46,10 @@
           class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400"
           placeholder="Enter password"
           required
+          [ngClass]="{
+            'border-red-500 bg-red-100 text-red-500':
+              form.get('password')?.invalid && form.get('password')?.touched
+          }"
         />
         <span
           *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
@@ -54,10 +63,14 @@
           >Forgot password?</a
         >
       </div>
+      <p *ngIf="errorMessage" class="text-red-500 text-center text-sm italic">
+        {{ errorMessage }}
+      </p>
 
       <button
         type="submit"
-        class="w-full bg-[#EF4444] text-white py-2 rounded-md mt-4 hover:bg-[#E30713] cursor-pointer transition"
+        class="w-full bg-[#EF4444] text-white py-2 rounded-md mt-4 hover:bg-[#E30713] cursor-pointer transition disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed"
+        [disabled]="form.invalid || errorMessage"
       >
         Login
       </button>

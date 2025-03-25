@@ -24,6 +24,8 @@ import { IAuthService } from '../../../services/auth/auth-service.interface';
 })
 export class LoginComponent implements OnInit {
   public faTimes: IconDefinition = faTimes;
+
+  public errorMessage: string = '';
   constructor(
     private modalService: ModalService,
     @Inject(AUTH_SERVICE) private authService: IAuthService
@@ -68,11 +70,19 @@ export class LoginComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    this.authService.login(this.form.value).subscribe((response) => {
-      if (response) {
-        // Hide the modal
-        this.closeModal();
-      }
+    if (this.form.invalid) return;
+
+    this.authService.login(this.form.value).subscribe({
+      next: (response) => {
+        if (response) {
+          // Hide the modal
+          this.closeModal();
+        }
+      },
+
+      error: (error) => {
+        this.errorMessage = error.message;
+      },
     });
   }
 }

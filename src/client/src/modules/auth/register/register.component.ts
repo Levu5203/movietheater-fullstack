@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -24,12 +26,13 @@ import { IAuthService } from '../../../services/auth/auth-service.interface';
 })
 export class RegisterComponent implements OnInit {
   public faTimes: IconDefinition = faTimes;
-
   public faCalendar: IconDefinition = faCalendar;
 
+  public errorMessage: string = '';
+
   constructor(
-    private modalService: ModalService,
-    @Inject(AUTH_SERVICE) private authService: IAuthService
+    private readonly modalService: ModalService,
+    @Inject(AUTH_SERVICE) private readonly authService: IAuthService
   ) {}
   openModal() {
     this.modalService.open('login');
@@ -46,60 +49,84 @@ export class RegisterComponent implements OnInit {
   }
 
   public createForm() {
-    this.form = new FormGroup({
-      firstName: new FormControl('', [
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(255),
-      ]),
-      lastName: new FormControl('', [
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(255),
-      ]),
-      username: new FormControl('', [
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(255),
-      ]),
-      dateOfBirth: new FormControl(new Date()),
-      gender: new FormControl('', [Validators.required]),
-      email: new FormControl('', [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(50),
-        Validators.email,
-      ]),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(20),
-        Validators.pattern(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/
-        ),
-      ]),
-      confirmPassword: new FormControl('', [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(20),
-        Validators.pattern(this.form?.get('password')?.value),
-      ]),
-      identityCard: new FormControl('', [
-        Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(18),
-        Validators.pattern('^[0-9]{10,18}$'),
-      ]),
-      phoneNumber: new FormControl(''),
-    });
+    this.form = new FormGroup(
+      {
+        firstName: new FormControl('', [
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(255),
+        ]),
+        lastName: new FormControl('', [
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(255),
+        ]),
+        username: new FormControl('', [
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(255),
+        ]),
+        dateOfBirth: new FormControl(new Date()),
+        gender: new FormControl('Male', [Validators.required]),
+        email: new FormControl('', [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(50),
+          Validators.email,
+        ]),
+        password: new FormControl('', [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(20),
+          Validators.pattern(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/
+          ),
+        ]),
+        confirmPassword: new FormControl('', [Validators.required]),
+        identityCard: new FormControl('', [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(18),
+          Validators.pattern('^[0-9]{10,18}$'),
+        ]),
+        phoneNumber: new FormControl('', Validators.pattern('^[0-9]{10,15}$')),
+      },
+      { validators: this.passwordMatchValidator }
+    );
+  }
+
+  passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
+
+    if (!password || !confirmPassword) {
+      return null;
+    }
+
+    // Only validate if both fields have values
+    if (password.pristine || confirmPassword.pristine) {
+      return null;
+    }
+
+    return password.value === confirmPassword.value
+      ? null
+      : { passwordMismatch: true };
   }
 
   public onSubmit(): void {
-    this.authService.register(this.form.value).subscribe((response) => {
-      if (response) {
-        // Redirect to home page
-        this.closeModal();
-      }
+    if (this.form.invalid) return;
+
+    this.authService.register(this.form.value).subscribe({
+      next: (response) => {
+        if (response) {
+          // Hide the modal
+          this.closeModal();
+        }
+      },
+
+      error: (error) => {
+        this.errorMessage = error.message;
+      },
     });
   }
 }
