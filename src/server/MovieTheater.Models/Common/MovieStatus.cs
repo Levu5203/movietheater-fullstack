@@ -2,7 +2,7 @@ namespace MovieTheater.Models.Common;
 
 public enum MovieStatus
 {
-    NowShowing,
-    ComingSoon,
-    NotAvailable
+    NowShowing = 1,
+    ComingSoon = 2,
+    NotAvailable = 3
 }
