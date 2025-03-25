@@ -52,14 +52,6 @@ export class LoginComponent implements OnInit {
   public showPassword = false;
   public showConfirmPassword = false;
 
-  togglePasswordVisibility(field: 'password' | 'confirmPassword') {
-    if (field === 'password') {
-      this.showPassword = !this.showPassword;
-    } else {
-      this.showConfirmPassword = !this.showConfirmPassword;
-    }
-  }
-
   ngOnInit(): void {
     this.createForm();
   }
@@ -81,6 +73,7 @@ export class LoginComponent implements OnInit {
 
   public onSubmit(): void {
     if (this.form.invalid) {
+      this.showErrorMessage = true;
       this.errorMessage = 'Email and password are required';
       return;
     }

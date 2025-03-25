@@ -51,10 +51,10 @@ public class RegisterRequestCommandHandler : BaseHandler, IRequestHandler<Regist
             LastName = request.LastName,
             UserName = request.Username,
             Email = request.Email,
-            DateOfBirth = request.DateOfBirth,
+            DateOfBirth = request.DateOfBirth ?? null,
             Gender = request.Gender,
             IdentityCard = request.IdentityCard,
-            PhoneNumber = request.PhoneNumber,
+            PhoneNumber = request.PhoneNumber ?? string.Empty,
             IsActive = true,
             EmailConfirmed = true 
         };
