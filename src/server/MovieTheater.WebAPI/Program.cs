@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -95,6 +96,13 @@ builder.Services.AddVersionedApiExplorer(options =>
     // Add version 1.0 to the explorer
     options.GroupNameFormat = "'v'VVV";
     options.SubstituteApiVersionInUrl = true;
+});
+
+builder.Services.AddApiVersioning(options =>
+{
+    options.ReportApiVersions = true;
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0);
 });
 
 // Register JWT with Bearer token
