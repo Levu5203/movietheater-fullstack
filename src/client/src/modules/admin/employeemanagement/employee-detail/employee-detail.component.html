@@ -39,19 +39,15 @@
                     <p class="font-semibold">0987654321</p>
                 </div>
             </div>
-
-
-
-
-
-
             <div class="col-span-2">
                 <label class="text-gray-500">Address</label>
                 <p class="font-semibold">Duy Tan, Cau Giay, Ha Noi</p>
             </div>
         </div>
         <div class="mt-6 flex justify-end">
-            <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Back</button>
+            <button type="button" class="text-black px-4 py-2 rounded mr-2 hover:underline cursor-pointer" (click)="goBack()">Back</button>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mr-2 hover:bg-blue-600 cursor-pointer" (click)="onEdit(employee)">Edit</button>
+            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 cursor-pointer" (click)="onDelete(employee)">Delete</button>
         </div>
     </div>
 </section>

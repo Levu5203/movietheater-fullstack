@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TicketService } from '../ticket.service';
+import { TicketSellingService } from '../ticketselling.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
@@ -17,7 +17,7 @@ export class TicketsellingPaymentComponent implements OnInit {
 
   isShowMemberInfo: boolean = false;
 
-  constructor(private ticketService: TicketService) {}
+  constructor(private ticketService: TicketSellingService) {}
 
   checkMember() {
     this.isShowMemberInfo = true;

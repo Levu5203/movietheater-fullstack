@@ -14,7 +14,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { TiketsellingSelectseatComponent } from "./tiketselling-selectseat/tiketselling-selectseat.component";
 import { TicketsellingPaymentComponent } from "./ticketselling-payment/ticketselling-payment.component";
-import { TicketService } from './ticket.service';
+import { TicketSellingService } from './ticketselling.service';
 
 @Component({
   selector: 'app-ticketselling',
@@ -37,7 +37,7 @@ export class TicketsellingComponent implements OnInit {
 
   currentView: 'ticketselling' | 'select-seat' | 'payment' = 'ticketselling';
 
-  constructor(private ticketService: TicketService) {}
+  constructor(private ticketService: TicketSellingService) {}
 
   ngOnInit() {
     this.ticketService.getCurrentView().subscribe(view => {

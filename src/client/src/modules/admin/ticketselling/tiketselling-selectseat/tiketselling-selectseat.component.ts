@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TicketService } from '../ticket.service';
+import { TicketSellingService } from '../ticketselling.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowLeft, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
@@ -25,8 +25,7 @@ export class TiketsellingSelectseatComponent implements OnInit {
   selectedSeats: any[] = [];
   totalPrice: number = 0;
 
-  constructor(private ticketService: TicketService) {
-    // Khởi tạo danh sách ghế
+  constructor(private ticketService: TicketSellingService) {
     for (let i = 0; i < 48; i++) {
       this.seats.push({
         label: String.fromCharCode(65 + Math.floor(i / 8)) + (i % 8 + 1),

@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class TicketService {
+export class TicketSellingService {
   private currentView = new BehaviorSubject<'ticketselling' | 'select-seat' | 'payment'>('ticketselling');
   private selectedSeats = new BehaviorSubject<any[]>([]);
   private totalPrice = new BehaviorSubject<number>(0);

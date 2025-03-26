@@ -1,4 +1,4 @@
-<section class="">
+<section *ngIf="currentView === 'list'">
     <div class="bg-white rounded-lg shadow overflow-x-auto">
         <h2 class="text-xl font-bold p-6">Employee Management</h2>
         <div class="flex justify-between items-center px-6">
@@ -15,7 +15,8 @@
                     <fa-icon [icon]="faFilter" class="fas fa-filter w-6 h-6"></fa-icon>
                 </button>
             </div>
-            <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">Add new
+            <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer"
+                (click)="onAdd()">Add new
                 employee</button>
         </div>
         <!-- Filter Dropdown -->
@@ -93,14 +94,17 @@
                         <td class="py-2 px-4">0987654321</td>
                         <td class="py-2 px-4">
                             <div class="flex justify-between items-center">
-                                <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faEdit" class=" text-gray-500"></fa-icon>
+                                <button class="mr-2 cursor-pointer"
+                                    (click)="onEdit(1)">
+                                    <fa-icon [icon]="faEdit" class="text-gray-500 hover:text-blue-500"></fa-icon>
                                 </button>
-                                <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faTrash" class=" text-gray-500"></fa-icon>
+                                <button class="mr-2 cursor-pointer"
+                                    (click)="onDelete(1)">
+                                    <fa-icon [icon]="faTrash" class="text-gray-500 hover:text-red-500"></fa-icon>
                                 </button>
-                                <button class="hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faInfoCircle" class=" text-gray-500"></fa-icon>
+                                <button class="cursor-pointer"
+                                    (click)="onViewDetail(1)">
+                                    <fa-icon [icon]="faInfoCircle" class="text-gray-500 hover:text-blue-500"></fa-icon>
                                 </button>
                             </div>
                         </td>
@@ -115,14 +119,17 @@
                         <td class="py-2 px-4">0987654321</td>
                         <td class="py-2 px-4">
                             <div class="flex justify-between items-center">
-                                <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faEdit" class=" text-gray-500"></fa-icon>
+                                <button class="mr-2 cursor-pointer"
+                                    (click)="onEdit(2)">
+                                    <fa-icon [icon]="faEdit" class="text-gray-500 hover:text-blue-500"></fa-icon>
                                 </button>
-                                <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faTrash" class=" text-gray-500"></fa-icon>
+                                <button class="mr-2 cursor-pointer"
+                                    (click)="onDelete(2)">
+                                    <fa-icon [icon]="faTrash" class="text-gray-500 hover:text-red-500"></fa-icon>
                                 </button>
-                                <button class="hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faInfoCircle" class=" text-gray-500"></fa-icon>
+                                <button class="cursor-pointer"
+                                    (click)="onViewDetail(2)">
+                                    <fa-icon [icon]="faInfoCircle" class="text-gray-500 hover:text-blue-500"></fa-icon>
                                 </button>
                             </div>
                         </td>
@@ -137,14 +144,17 @@
                         <td class="py-2 px-4">0987654321</td>
                         <td class="py-2 px-4">
                             <div class="flex justify-between items-center">
-                                <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faEdit" class=" text-gray-500"></fa-icon>
+                                <button class="mr-2 cursor-pointer"
+                                    (click)="onEdit(3)">
+                                    <fa-icon [icon]="faEdit" class="text-gray-500 hover:text-blue-500"></fa-icon>
                                 </button>
-                                <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faTrash" class=" text-gray-500"></fa-icon>
+                                <button class="mr-2 cursor-pointer"
+                                    (click)="onDelete(3)">
+                                    <fa-icon [icon]="faTrash" class="text-gray-500 hover:text-red-500"></fa-icon>
                                 </button>
-                                <button class="hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faInfoCircle" class=" text-gray-500"></fa-icon>
+                                <button class="cursor-pointer"
+                                    (click)="onViewDetail(3)">
+                                    <fa-icon [icon]="faInfoCircle" class="text-gray-500 hover:text-blue-500"></fa-icon>
                                 </button>
                             </div>
                         </td>
@@ -159,14 +169,17 @@
                         <td class="py-2 px-4">0987654321</td>
                         <td class="py-2 px-4">
                             <div class="flex justify-between items-center">
-                                <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faEdit" class=" text-gray-500"></fa-icon>
+                                <button class="mr-2 cursor-pointer"
+                                    (click)="onEdit(4)">
+                                    <fa-icon [icon]="faEdit" class="text-gray-500 hover:text-blue-500"></fa-icon>
                                 </button>
-                                <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faTrash" class=" text-gray-500"></fa-icon>
+                                <button class="mr-2 cursor-pointer"
+                                    (click)="onDelete(4)">
+                                    <fa-icon [icon]="faTrash" class="text-gray-500 hover:text-red-500"></fa-icon>
                                 </button>
-                                <button class="hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faInfoCircle" class=" text-gray-500"></fa-icon>
+                                <button class="cursor-pointer"
+                                    (click)="onViewDetail(4)">
+                                    <fa-icon [icon]="faInfoCircle" class="text-gray-500 hover:text-blue-500"></fa-icon>
                                 </button>
                             </div>
                         </td>
@@ -181,14 +194,17 @@
                         <td class="py-2 px-4">0987654321</td>
                         <td class="py-2 px-4">
                             <div class="flex justify-between items-center">
-                                <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faEdit" class=" text-gray-500"></fa-icon>
+                                <button class="mr-2 cursor-pointer"
+                                    (click)="onEdit(5)">
+                                    <fa-icon [icon]="faEdit" class="text-gray-500 hover:text-blue-500"></fa-icon>
                                 </button>
-                                <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faTrash" class=" text-gray-500"></fa-icon>
+                                <button class="mr-2 cursor-pointer"
+                                    (click)="onDelete(5)">
+                                    <fa-icon [icon]="faTrash" class="text-gray-500 hover:text-red-500"></fa-icon>
                                 </button>
-                                <button class="hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faInfoCircle" class=" text-gray-500"></fa-icon>
+                                <button class="cursor-pointer"
+                                    (click)="onViewDetail(5)">
+                                    <fa-icon [icon]="faInfoCircle" class="text-gray-500 hover:text-blue-500"></fa-icon>
                                 </button>
                             </div>
                         </td>
@@ -203,14 +219,17 @@
                         <td class="py-2 px-4">0987654321</td>
                         <td class="py-2 px-4">
                             <div class="flex justify-between items-center">
-                                <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faEdit" class=" text-gray-500"></fa-icon>
+                                <button class="mr-2 cursor-pointer"
+                                    (click)="onEdit(6)">
+                                    <fa-icon [icon]="faEdit" class="text-gray-500 hover:text-blue-500"></fa-icon>
                                 </button>
-                                <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faTrash" class=" text-gray-500"></fa-icon>
+                                <button class="mr-2 cursor-pointer"
+                                    (click)="onDelete(6)">
+                                    <fa-icon [icon]="faTrash" class="text-gray-500 hover:text-red-500"></fa-icon>
                                 </button>
-                                <button class="hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faInfoCircle" class=" text-gray-500"></fa-icon>
+                                <button class="cursor-pointer"
+                                    (click)="onViewDetail(6)">
+                                    <fa-icon [icon]="faInfoCircle" class="text-gray-500 hover:text-blue-500"></fa-icon>
                                 </button>
                             </div>
                         </td>
@@ -225,14 +244,17 @@
                         <td class="py-2 px-4">0987654321</td>
                         <td class="py-2 px-4">
                             <div class="flex justify-between items-center">
-                                <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faEdit" class=" text-gray-500"></fa-icon>
+                                <button class="mr-2 cursor-pointer"
+                                    (click)="onEdit(7)">
+                                    <fa-icon [icon]="faEdit" class="text-gray-500 hover:text-blue-500"></fa-icon>
                                 </button>
-                                <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faTrash" class=" text-gray-500"></fa-icon>
+                                <button class="mr-2 cursor-pointer"
+                                    (click)="onDelete(7)">
+                                    <fa-icon [icon]="faTrash" class="text-gray-500 hover:text-red-500"></fa-icon>
                                 </button>
-                                <button class="hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faInfoCircle" class=" text-gray-500"></fa-icon>
+                                <button class="cursor-pointer"
+                                    (click)="onViewDetail(7)">
+                                    <fa-icon [icon]="faInfoCircle" class="text-gray-500 hover:text-blue-500"></fa-icon>
                                 </button>
                             </div>
                         </td>
@@ -247,14 +269,17 @@
                         <td class="py-2 px-4">0987654321</td>
                         <td class="py-2 px-4">
                             <div class="flex justify-between items-center">
-                                <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faEdit" class=" text-gray-500"></fa-icon>
+                                <button class="mr-2 cursor-pointer"
+                                    (click)="onEdit(8)">
+                                    <fa-icon [icon]="faEdit" class="text-gray-500 hover:text-blue-500"></fa-icon>
                                 </button>
-                                <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faTrash" class=" text-gray-500"></fa-icon>
+                                <button class="mr-2 cursor-pointer"
+                                    (click)="onDelete(8)">
+                                    <fa-icon [icon]="faTrash" class="text-gray-500 hover:text-red-500"></fa-icon>
                                 </button>
-                                <button class="hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faInfoCircle" class=" text-gray-500"></fa-icon>
+                                <button class="cursor-pointer"
+                                    (click)="onViewDetail(8)">
+                                    <fa-icon [icon]="faInfoCircle" class="text-gray-500 hover:text-blue-500"></fa-icon>
                                 </button>
                             </div>
                         </td>
@@ -269,14 +294,17 @@
                         <td class="py-2 px-4">0987654321</td>
                         <td class="py-2 px-4">
                             <div class="flex justify-between items-center">
-                                <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faEdit" class=" text-gray-500"></fa-icon>
+                                <button class="mr-2 cursor-pointer"
+                                    (click)="onEdit(9)">
+                                    <fa-icon [icon]="faEdit" class="text-gray-500 hover:text-blue-500"></fa-icon>
                                 </button>
-                                <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faTrash" class=" text-gray-500"></fa-icon>
+                                <button class="mr-2 cursor-pointer"
+                                    (click)="onDelete(9)">
+                                    <fa-icon [icon]="faTrash" class="text-gray-500 hover:text-red-500"></fa-icon>
                                 </button>
-                                <button class="hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faInfoCircle" class=" text-gray-500"></fa-icon>
+                                <button class="cursor-pointer"
+                                    (click)="onViewDetail(9)">
+                                    <fa-icon [icon]="faInfoCircle" class="text-gray-500 hover:text-blue-500"></fa-icon>
                                 </button>
                             </div>
                         </td>
@@ -291,14 +319,17 @@
                         <td class="py-2 px-4">0987654321</td>
                         <td class="py-2 px-4">
                             <div class="flex justify-between items-center">
-                                <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faEdit" class=" text-gray-500"></fa-icon>
+                                <button class="mr-2 cursor-pointer"
+                                    (click)="onEdit(10)">
+                                    <fa-icon [icon]="faEdit" class="text-gray-500 hover:text-blue-500"></fa-icon>
                                 </button>
-                                <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faTrash" class=" text-gray-500"></fa-icon>
+                                <button class="mr-2 cursor-pointer"
+                                    (click)="onDelete(10)">
+                                    <fa-icon [icon]="faTrash" class="text-gray-500 hover:text-red-500"></fa-icon>
                                 </button>
-                                <button class="hover:bg-gray-100 cursor-pointer">
-                                    <fa-icon [icon]="faInfoCircle" class=" text-gray-500"></fa-icon>
+                                <button class="cursor-pointer"
+                                    (click)="onViewDetail(10)">
+                                    <fa-icon [icon]="faInfoCircle" class="text-gray-500 hover:text-blue-500"></fa-icon>
                                 </button>
                             </div>
                         </td>
@@ -333,6 +364,6 @@
     </div>
 </section>
 
-<app-employee-detail></app-employee-detail>
+<app-employee-detail *ngIf="currentView === 'detail'"></app-employee-detail>
 
-<app-employee-addedit></app-employee-addedit>
+<app-employee-addedit *ngIf="currentView === 'add' || currentView === 'edit'"></app-employee-addedit>

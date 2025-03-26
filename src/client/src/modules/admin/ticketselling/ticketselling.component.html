@@ -1,4 +1,4 @@
-<section [ngClass]="currentView === 'ticketselling' ? '' : 'hidden'" class="flex-1 bg-white rounded-lg shadow p-6 w-full">
+<section *ngIf="currentView === 'ticketselling'" class="flex-1 bg-white rounded-lg shadow p-6 w-full">
     <h2 class="text-2xl font-bold mb-4">Selling Ticket</h2>
     <div class="xl:flex items-center mb-4 xl:relative">
         <div class="flex items-center mb-4">
@@ -129,5 +129,5 @@
     </div>
 </section>
 
-<app-tiketselling-selectseat [ngClass]="currentView === 'select-seat' ? '' : 'hidden'"></app-tiketselling-selectseat>
-<app-ticketselling-payment [ngClass]="currentView === 'payment' ? '' : 'hidden'"></app-ticketselling-payment>
+<app-tiketselling-selectseat *ngIf="currentView === 'select-seat'"></app-tiketselling-selectseat>
+<app-ticketselling-payment *ngIf="currentView === 'payment'"></app-ticketselling-payment>
