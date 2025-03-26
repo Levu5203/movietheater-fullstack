@@ -69,12 +69,12 @@
                 <span>VIP Seat</span>
             </div>
         </div>
-        <div class="flex justify-between items-center">
-            <div class="flex flex-col justify-start">
-                <div class="">
+        <div class="flex flex-row justify-between items-center mt-4 px-4">
+            <div class="text-left">
+                <div>
                     <span>Selected Seat:</span>
-                    <ng-container class="grid grid-cols-8 gap-1 lg:gap-4 mb-2" *ngFor="let seat of selectedSeats">
-                        <span class="h-auto aspect-square m-0.5 lg:m-1 p-1 rounded text-white text-sm lg:text-base"
+                    <ng-container class="grid grid-cols-8 gap-8 mb-2" *ngFor="let seat of selectedSeats">
+                        <span class="h-auto p-1 m-0.5 rounded text-white text-sm lg:text-base"
                             [ngClass]="seat.isVip ? 'bg-yellow-500' : 'bg-gray-500'">{{seat.label}}</span>
                     </ng-container>
                 </div>
@@ -84,10 +84,8 @@
                 </div>
             </div>
             <div class="mt-6 flex justify-end">
-                <button type="button"
-                    class="text-black px-4 py-2 rounded mr-2 hover:underline cursor-pointer">Cancel</button>
-                <button type="submit"
-                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">Payment</button>
+                <button type="button" class="text-black px-4 py-2 rounded mr-2 hover:underline cursor-pointer" (click)="onCancel()">Cancel</button>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer" (click)="onPayment()">Payment</button>
             </div>
         </div>
     </div>
