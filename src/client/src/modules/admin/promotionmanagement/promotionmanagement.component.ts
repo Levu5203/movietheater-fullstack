@@ -20,6 +20,13 @@ export class PromotionmanagementComponent {
   public faAngleLeft: IconDefinition = faAngleLeft;
   public faAnglesLeft: IconDefinition = faAnglesLeft;
   public faAnglesRight: IconDefinition = faAnglesRight;
+
+  public isDropdownOpen: boolean = false;
+
+  public toggleDropdown(): void {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
   public promotions = [
     {
       "id": 1,
