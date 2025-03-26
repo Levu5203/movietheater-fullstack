@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, Inject } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ModalService } from '../../../../services/modal.service';
 import {
+  faBars,
   faSortDesc,
   faUser,
   faUserCircle,
@@ -22,7 +23,8 @@ import { UserInformation } from '../../../../models/auth/user-information.model'
 export class HeaderComponent {
   constructor(
     private modalService: ModalService,
-    @Inject(AUTH_SERVICE) private authService: IAuthService
+    @Inject(AUTH_SERVICE) private authService: IAuthService,
+    private router: Router // Inject Router
   ) {
     this.authService.isAuthenticated().subscribe((res) => {
       this.isAuthenticated = res;
@@ -35,9 +37,15 @@ export class HeaderComponent {
     });
   }
 
+  public isActive(route: string): boolean {
+    return this.router.url === route; // Kiểm tra trang hiện tại
+  }
+
   public faUser: IconDefinition = faUserCircle;
+  public faBars: IconDefinition = faBars;
 
   public faDropDown: IconDefinition = faSortDesc;
+  public isMobileMenuOpen = false;
   public isAuthenticated: boolean = false;
   public currentUser: UserInformation | null = null;
 
@@ -57,6 +65,10 @@ export class HeaderComponent {
   // Đóng/mở dropdown menu
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 
   public logout(): void {

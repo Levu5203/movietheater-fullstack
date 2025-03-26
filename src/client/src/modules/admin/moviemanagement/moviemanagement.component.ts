@@ -21,6 +21,13 @@ export class MoviemanagementComponent {
     public faAngleLeft: IconDefinition = faAngleLeft;
     public faAnglesLeft: IconDefinition = faAnglesLeft;
     public faAnglesRight: IconDefinition = faAnglesRight;
+
+    public isDropdownOpen: boolean = false;
+
+    public toggleDropdown(): void {
+      this.isDropdownOpen = !this.isDropdownOpen;
+    }
+
   public movies = [
     {
       "Id": 1,
