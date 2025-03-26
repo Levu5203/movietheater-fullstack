@@ -6,6 +6,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { RegisterRequest } from '../../models/auth/register-request.model';
 import { UserInformation } from '../../models/auth/user-information.model';
+import { UserInformationFromToken } from '../../models/auth/user-information-from-token';
 
 @Injectable({
   providedIn: 'root',
@@ -60,6 +61,7 @@ export class AuthService implements IAuthService {
           );
           this._isAuthenticated.next(true);
           this._userInformation.next(response.user);
+          this.checkTokenExpired();
         }),
         catchError((error: HttpErrorResponse) => {
           let errorMessage = 'An error occurred. Please try again.';
@@ -90,6 +92,7 @@ export class AuthService implements IAuthService {
           );
           this._isAuthenticated.next(true);
           this._userInformation.next(response.user);
+          this.checkTokenExpired();
         }),
         catchError((error: HttpErrorResponse) => {
           let errorMessage = 'An error occurred. Please try again.';
@@ -108,19 +111,18 @@ export class AuthService implements IAuthService {
 
   logout(): void {
     // Remove the access token from local storage
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('userInformation');
+    localStorage.clear();
 
     this._isAuthenticated.next(false);
     this._userInformation.next(null);
   }
 
-  public getUserInformationFromAccessToken(): Observable<UserInformation | null> {
+  public getUserInformationFromAccessToken(): UserInformationFromToken | null {
     // Using JWT to decode the access token and get the user information
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
       const payload = JSON.parse(atob(accessToken.split('.')[1]));
-      const userInformation: UserInformation = {
+      const userInformation: UserInformationFromToken = {
         id: payload.nameid,
         email: payload.email,
         displayName: payload.fullName,
@@ -129,11 +131,28 @@ export class AuthService implements IAuthService {
           payload[
             'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
           ],
+        exp: payload.exp,
       };
-      console.log(userInformation);
-
-      this._userInformation.next(userInformation);
+      return userInformation;
     }
-    return this._userInformation$;
+    return null;
+  }
+  private isTokenExpired(): boolean {
+    try {
+      const userInformationFromToken = this.getUserInformationFromAccessToken();
+      const expiry = userInformationFromToken!.exp;
+
+      return Math.floor(new Date().getTime() / 1000) >= expiry;
+    } catch {
+      return true;
+    }
+  }
+
+  private checkTokenExpired(): void {
+    setInterval(() => {
+      if (this.isTokenExpired()) {
+        this.logout();
+      }
+    }, 10000);
   }
 }
