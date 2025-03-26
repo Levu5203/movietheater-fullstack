@@ -23,7 +23,17 @@
         (click)="toggleDropdown()"
         *ngIf="isAuthenticated"
       >
-        <fa-icon [icon]="faUser" class="text-3xl"></fa-icon>
+        <img
+          *ngIf="currentUser?.avatar"
+          class="w-8 h-8 rounded-full border border-gray-500 shadow-sm"
+          src="{{ currentUser?.avatar }}"
+          alt=""
+        />
+        <fa-icon
+          *ngIf="!currentUser?.avatar"
+          [icon]="faUser"
+          class="text-3xl"
+        ></fa-icon>
         <p>{{ currentUser?.displayName }}</p>
         <fa-icon [icon]="faDropDown" class="mb-1.5"></fa-icon>
 
