@@ -54,15 +54,26 @@
           />
         </div>
         <div class="flex-1">
-          <label class="text-sm" for="gender-male">Gender</label>
-          <div class="flex items-center space-x-4 mt-2">
-            <label class="flex items-center space-x-1">
-              <input id="gender-male" type="radio" name="gender" checked class="text-blue-600" />
-              <span>Male</span>
+          <label for="gender" class="text-sm">Gender</label>
+          <div class="flex gap-4 py-2">
+            <label class="flex items-center">
+              <input
+                type="radio"
+                formControlName="gender"
+                value="Male"
+                class="mr-2"
+                checked
+              />
+              Male
             </label>
-            <label class="flex items-center space-x-1">
-              <input id="gender-female" type="radio" name="gender" class="text-blue-600" />
-              <span>Female</span>
+            <label class="flex items-center">
+              <input
+                type="radio"
+                formControlName="gender"
+                value="Female"
+                class="mr-2"
+              />
+              Female
             </label>
           </div>
         </div>
@@ -131,4 +142,3 @@
     </form>
   </div>
 </section>
-<app-change-password *ngIf="isShowModal"></app-change-password>

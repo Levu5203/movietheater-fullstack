@@ -108,15 +108,6 @@ export class RegisterComponent implements OnInit {
       },
       { validators: this.passwordMatchValidator }
     );
-    // this.form.get('phoneNumber')?.valueChanges.subscribe((value) => {
-    //   const control = this.form.get('phoneNumber');
-    //   if (value && value.trim() !== '') {
-    //     control?.setValidators([Validators.pattern('^[0-9]{10,15}$')]);
-    //   } else {
-    //     control?.clearValidators();
-    //   }
-    //   control?.updateValueAndValidity();
-    // });
 
     this.form.valueChanges.subscribe(() => {
       this.showErrorMessage = false;
@@ -127,22 +118,14 @@ export class RegisterComponent implements OnInit {
   private setupPhoneNumberValidation() {
     const phoneControl = this.form.get('phoneNumber');
 
-    phoneControl?.valueChanges
-      .pipe(
-        // Add a small delay to avoid ExpressionChangedAfterItHasBeenCheckedError
-        debounceTime(0)
-      )
-      .subscribe((value) => {
-        if (value && value.trim() !== '') {
-          phoneControl.setValidators([
-            Validators.pattern(/^[0-9]{10,15}$/), // Correct regex pattern
-            // Add any other validators you want when field has value
-          ]);
-        } else {
-          phoneControl.clearValidators();
-        }
-        phoneControl.updateValueAndValidity({ emitEvent: false });
-      });
+    phoneControl?.valueChanges.pipe(debounceTime(0)).subscribe((value) => {
+      if (value && value.trim() !== '') {
+        phoneControl.setValidators([Validators.pattern(/^\d{10,15}$/)]);
+      } else {
+        phoneControl.clearValidators();
+      }
+      phoneControl.updateValueAndValidity({ emitEvent: false });
+    });
   }
 
   passwordMatchValidator(control: AbstractControl): ValidationErrors | null {

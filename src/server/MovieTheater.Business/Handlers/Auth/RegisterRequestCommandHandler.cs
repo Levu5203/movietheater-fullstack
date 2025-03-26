@@ -54,7 +54,7 @@ public class RegisterRequestCommandHandler : BaseHandler, IRequestHandler<Regist
             DateOfBirth = request.DateOfBirth ?? null,
             Gender = request.Gender,
             IdentityCard = request.IdentityCard,
-            PhoneNumber = request.PhoneNumber ?? string.Empty,
+            PhoneNumber = request.PhoneNumber ?? null,
             IsActive = true,
             EmailConfirmed = true 
         };
