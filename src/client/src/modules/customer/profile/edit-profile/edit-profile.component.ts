@@ -4,22 +4,22 @@ import {
   IconDefinition,
 } from '@fortawesome/angular-fontawesome';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
+
 import { ModalService } from '../../../../services/modal.service';
-import { ChangePasswordComponent } from '../change-password/change-password.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-edit-profile',
-  imports: [FontAwesomeModule, ChangePasswordComponent],
+  imports: [CommonModule, FontAwesomeModule],
   templateUrl: './edit-profile.component.html',
   styleUrl: './edit-profile.component.css',
 })
 export class EditProfileComponent {
   public faCalendar: IconDefinition = faCalendar;
 
-  constructor(private modalService: ModalService) {}
-  public isShowModal: boolean = false;
+
+  constructor(private readonly modalService: ModalService) {}
   openModal() {
-    this.isShowModal = true;
     this.modalService.open('changePassword');
   }
 }

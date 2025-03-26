@@ -53,26 +53,17 @@ public class UnitOfWork : IUnitOfWork
 
     public IMasterDataRepository<Ticket> TicketRepository => _ticketRepository ??= new MasterDataRepository<Ticket>(_context, _currentUser);
 
-    private IRepository<ShowTimeSlot>? _showTimeSlotRepository;
-    public IRepository<ShowTimeSlot> ShowTimeSlotRepository => _showTimeSlotRepository ??= new Repository<ShowTimeSlot>(_context, _currentUser);
-
-    private IRepository<SeatShowTime>? _seatShowTimeRepository;
-    public IRepository<SeatShowTime> SeatShowTimeRepository => _seatShowTimeRepository ??= new Repository<SeatShowTime>(_context, _currentUser);
-
     private IRepository<HistoryScore>? _HistoryScoreRepository;
     public IRepository<HistoryScore> HistoryScoreRepository => _HistoryScoreRepository ??= new Repository<HistoryScore>(_context, _currentUser);
-
-    private IRepository<TicketShowtimeMovie>? _ticketShowtimeMovieRepository;
-    public IRepository<TicketShowtimeMovie> TicketShowtimeMovieRepository => _ticketShowtimeMovieRepository ??= new Repository<TicketShowtimeMovie>(_context, _currentUser);
 
 
     #endregion
 
     #region Implementation of Repositories
 
-    // private IRepository<RefreshToken>? _refreshTokenRepository;
+    private IRepository<RefreshToken>? _refreshTokenRepository;
 
-    // public IRepository<RefreshToken> RefreshTokenRepository => _refreshTokenRepository ??= new Repository<RefreshToken>(_context, _currentUser);
+    public IRepository<RefreshToken> RefreshTokenRepository => _refreshTokenRepository ??= new Repository<RefreshToken>(_context, _currentUser);
 
     public IRepository<T> Repository<T>() where T : BaseEntity, IBaseEntity
     {

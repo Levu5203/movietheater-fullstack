@@ -2,7 +2,8 @@
   class="fixed top-0 left-0 w-full border-b border-gray-800 shadow-md text-white backdrop-blur-lg bg-[#0B0D13]/30 transition-all duration-300 z-50"
   [ngStyle]="{
     'background-color': 'rgba(11, 13, 19, ' + bgHeaderOpacity + ')'
-  }">
+  }"
+>
   <nav class="flex justify-between items-center w-4/5 mx-auto py-3">
     <a href="" class="flex flex-col items-center">
       <img src="../assets/logo.png" alt="Logo" class="w-16" />
@@ -16,27 +17,50 @@
       <a href="./ticketprice" class="hover:text-red-500">Ticket Price</a>
     </div>
 
-    <div class="flex space-x-8" *ngIf="!isLoggedIn">
-      <button (click)="openRegister()"
-        class="border border-white text-white px-10 py-2 rounded-full hover:bg-white hover:text-black">
-        Sign up
-      </button>
-      <button (click)="openLogin()" class="bg-red-500 px-10 py-2 rounded-full hover:bg-red-600">
-        Log in
-      </button>
-    </div>
+    <ng-container *ngIf="isAuthenticated; else unAuthenticated">
+      <div
+        class="relative flex items-center space-x-2 cursor-pointer"
+        (click)="toggleDropdown()"
+        *ngIf="isAuthenticated"
+      >
+        <fa-icon [icon]="faUser" class="text-3xl"></fa-icon>
+        <p>{{ currentUser?.displayName }}</p>
+        <fa-icon [icon]="faDropDown" class="mb-1.5"></fa-icon>
 
-    <div class="relative flex items-center space-x-4 cursor-pointer" (click)="toggleDropdown()" *ngIf="isLoggedIn">
-
-      <fa-icon [icon]="faUser" class="text-3xl"></fa-icon>
-
-      <fa-icon [icon]="faDropDown" class></fa-icon>
-
-      <!-- Dropdown menu -->
-      <div class="absolute top-full right-0 mt-2 w-48 bg-black text-white shadow-lg rounded-md" *ngIf="isDropdownOpen">
-        <a routerLink="/profile" class="block px-4 p-3 hover:text-red-500">Profile</a>
-        <a href="#" class="block px-4 p-3 hover:text-red-500" (click)="logout()">Logout</a>
+        <!-- Dropdown menu -->
+        <div
+          class="absolute top-full right-0 mt-2 w-48 bg-black text-white shadow-lg rounded-md"
+          *ngIf="isDropdownOpen"
+        >
+          <a routerLink="/profile" class="block px-4 p-3 hover:text-red-500"
+            >Profile</a
+          >
+          <a
+            href="#"
+            class="block px-4 p-3 hover:text-red-500"
+            (click)="logout()"
+            >Logout</a
+          >
+        </div>
       </div>
-    </div>
+    </ng-container>
+    <ng-template #unAuthenticated>
+      <div class="flex space-x-8">
+        <button
+          type="button"
+          (click)="openRegister()"
+          class="border border-white text-white px-10 py-2 rounded-full hover:bg-white hover:text-black"
+        >
+          Sign up
+        </button>
+        <button
+          type="button"
+          (click)="openLogin()"
+          class="bg-red-500 px-10 py-2 rounded-full hover:bg-red-600"
+        >
+          Log in
+        </button>
+      </div>
+    </ng-template>
   </nav>
 </header>

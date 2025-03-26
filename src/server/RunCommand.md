@@ -23,5 +23,5 @@
 4. Dotnet Watch
     
     ```bash
-    dotnet watch --project MovieTheater.API
+    dotnet watch --project MovieTheater.WebAPI
     ```

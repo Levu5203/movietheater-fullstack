@@ -10,19 +10,19 @@ dotnet ef migrations add [MigrationName] --project MovieTheater.Data --startup-p
 
 ### Update the database
 ```bash
-dotnet ef database update --project MovieTheater.Data --startup-project MovieTheater.API --context MovieTheaterDbContext
-dotnet ef database update --project MovieTheater.Data --startup-project MovieTheater.API --context StorageDbContext
+dotnet ef database update --project MovieTheater.Data --startup-project MovieTheater.WebAPI --context MovieTheaterDbContext
+dotnet ef database update --project MovieTheater.Data --startup-project MovieTheater.WebAPI --context StorageDbContext
 ```
 
 ### Roll Back a migration
 ```bash
-dotnet ef database update InitialCommonAndSecuritySchemaAndConfig --project MovieTheater.Data --startup-project MovieTheater.API --context MovieTheaterDbContext
+dotnet ef database update InitialCommonAndSecuritySchemaAndConfig --project MovieTheater.Data --startup-project MovieTheater.WebAPI --context MovieTheaterDbContext
 ```
 
 ### Drop the database
 ```bash
-dotnet ef database drop --project MovieTheater.API --startup-project MovieTheater.API --context MovieTheaterDbContext
-dotnet ef database drop --project MovieTheater.Data --startup-project MovieTheater.API --context StorageDbContext
+dotnet ef database drop --project MovieTheater.WebAPI --startup-project MovieTheater.WebAPI --context MovieTheaterDbContext
+dotnet ef database drop --project MovieTheater.Data --startup-project MovieTheater.WebAPI --context StorageDbContext
 ```
 
 ### Remove a migration
@@ -34,12 +34,12 @@ dotnet ef migrations remove --project MovieTheater.Data --startup-project MovieT
 ## 2. Using the Package Manager Console
 ### Add a migration
 ```bash
-Add-Migration [MigrationName] -Project MovieTheater.Data -StartupProject MovieTheater.API -Context MovieTheaterDbContext -OutputDir MovieTheater.Data/Migrations
+Add-Migration [MigrationName] -Project MovieTheater.Data -StartupProject MovieTheater.WebAPI -Context MovieTheaterDbContext -OutputDir MovieTheater.Data/Migrations
 ```
 
 ### Update the database
 ```bash
-Update-Database -Project MovieTheater.Data -StartupProject MovieTheater.API -Context MovieTheaterDbContext
+Update-Database -Project MovieTheater.Data -StartupProject MovieTheater.WebAPI -Context MovieTheaterDbContext
 ```
 
 ### Roll back a migration
@@ -49,7 +49,7 @@ dotnet ef database update [MigrationName] --project QuizApp.Data --startup-proje
 
 ### Remove a migration
 ```bash
-Remove-Migration -Project MovieTheater.Data -StartupProject MovieTheater.API -Context MovieTheaterDbContext
+Remove-Migration -Project MovieTheater.Data -StartupProject MovieTheater.WebAPI -Context MovieTheaterDbContext
 ```
 
 []: # Path: README.md

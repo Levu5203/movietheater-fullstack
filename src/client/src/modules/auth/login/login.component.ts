@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -12,7 +12,9 @@ import {
   IconDefinition,
 } from '@fortawesome/angular-fontawesome';
 import { ModalService } from '../../../services/modal.service';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { AUTH_SERVICE } from '../../../constants/injection.constant';
+import { IAuthService } from '../../../services/auth/auth-service.interface';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +24,21 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 })
 export class LoginComponent implements OnInit {
   public faTimes: IconDefinition = faTimes;
-  constructor(private modalService: ModalService) {}
+  public faEye: IconDefinition = faEye;
+  public faEyeSlash: IconDefinition = faEyeSlash;
+
+  public errorMessage: string = '';
+  public showErrorMessage: boolean = false;
+  constructor(
+    private modalService: ModalService,
+    @Inject(AUTH_SERVICE) private authService: IAuthService
+  ) {
+    this.authService.isAuthenticated().subscribe((res) => {
+      if (res) {
+        this.closeModal();
+      }
+    });
+  }
   openModal() {
     this.modalService.open('register');
   }
@@ -33,22 +49,47 @@ export class LoginComponent implements OnInit {
 
   public form!: FormGroup;
 
+  public showPassword = false;
+  public showConfirmPassword = false;
+
   ngOnInit(): void {
     this.createForm();
   }
 
   public createForm() {
     this.form = new FormGroup({
-      email: new FormControl('', [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(255),
-      ]),
+      email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(8),
         Validators.maxLength(20),
       ]),
+    });
+
+    this.form.valueChanges.subscribe(() => {
+      this.showErrorMessage = false;
+    });
+  }
+
+  public onSubmit(): void {
+    if (this.form.invalid) {
+      this.showErrorMessage = true;
+      this.errorMessage = 'Email and password are required';
+      return;
+    }
+
+    this.authService.login(this.form.value).subscribe({
+      next: (response) => {
+        if (response) {
+          // Hide the modal
+          this.closeModal();
+        }
+      },
+
+      error: (error) => {
+        this.showErrorMessage = true;
+        this.errorMessage = error.message;
+      },
     });
   }
 }
