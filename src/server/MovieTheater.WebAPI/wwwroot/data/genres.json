@@ -1,0 +1,78 @@
+[
+    {
+        "GenreId": "1c9f6e7d-1e21-4e1d-9f0a-ec6d3a45f3ab",
+        "Type": "Action"
+    },
+    {
+        "GenreId": "f54a1a5d-1b3c-4e93-b5c1-94d93a4c4f7d",
+        "Type": "Adventure"
+    },
+    {
+        "GenreId": "24e39e88-bf71-41f9-8731-478cdd48e601",
+        "Type": "Animation"
+    },
+    {
+        "GenreId": "e8bcf9e2-c7b9-4047-a91d-64cf5a3127f3",
+        "Type": "Biography"
+    },
+    {
+        "GenreId": "3c1a4ebf-2c93-4a6d-9d47-812ac9fded73",
+        "Type": "Comedy"
+    },
+    {
+        "GenreId": "2a7b3f2d-9b6e-47c1-9448-b92ec8f2d5ab",
+        "Type": "Crime"
+    },
+    {
+        "GenreId": "cfa24a59-2e8c-4237-b3a5-d83d2e1f94c2",
+        "Type": "Drama"
+    },
+    {
+        "GenreId": "e3bf724d-74f2-44ad-bbdf-9cf68f6b34f6",
+        "Type": "Family"
+    },
+    {
+        "GenreId": "0d4a9b84-9f5e-4f74-b3a6-1f9a1c7e1d59",
+        "Type": "Fantasy"
+    },
+    {
+        "GenreId": "5e1f2b48-6d8a-4e2a-9c5d-ec9b4f7c1f23",
+        "Type": "History"
+    },
+    {
+        "GenreId": "d71e8a4b-7a8c-4d12-b94a-f3d2c9e2b6d4",
+        "Type": "Horror"
+    },
+    {
+        "GenreId": "a5f47b2e-3c9d-421a-9b2a-dc1f7e3b68a2",
+        "Type": "Musical"
+    },
+    {
+        "GenreId": "9c3a7e2b-8f4d-4b7a-92c1-a2d9e4f6c7d3",
+        "Type": "Mystery"
+    },
+    {
+        "GenreId": "b1d74a2f-6e8b-43d1-8c7e-2d9a5f3c1a4b",
+        "Type": "Romance"
+    },
+    {
+        "GenreId": "e9f1c3a7-4b8d-4a2f-92b6-c7d1a5e3f49d",
+        "Type": "SciFi"
+    },
+    {
+        "GenreId": "c2d7a4b9-8f3e-41a7-92d5-1f3c6e8b4a2f",
+        "Type": "Sport"
+    },
+    {
+        "GenreId": "b4e2f7d9-3a8c-4c1a-92f5-6e1d3a5b7f4c",
+        "Type": "Thriller"
+    },
+    {
+        "GenreId": "d9f3a7c1-4b8e-4a2f-92d5-6e1b3a5f7c4a",
+        "Type": "War"
+    },
+    {
+        "GenreId": "c1d7a4f9-8b3e-41a7-92d5-1f3c6e8b4a2f",
+        "Type": "Western"
+    }
+]

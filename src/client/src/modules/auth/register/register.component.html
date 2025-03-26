@@ -1,13 +1,15 @@
 <div
   class="fixed transform translate-y-[-50%] top-1/2 left-1/2 translate-x-[-50%] flex items-center justify-center z-50 shadow-[10px_20px_35px_rgba(0,0,0,0.25)] shadow-slate-800"
 >
-  <!-- Login Box -->
+  <!-- Register Box -->
   <div
     class="bg-[#0B0D13] px-6 py-4 *:text-white shadow-lg rounded-lg w-screen max-h-screen lg:w-[1000px] overflow-x-auto"
   >
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-2xl font-semibold text-center w-full">REGISTER</h2>
       <button
+        title="Close modal"
+        type="button"
         class="text-white pl-4 py-2 rounded-md cursor-pointer"
         (click)="closeModal()"
       >
@@ -21,13 +23,19 @@
       class="grid grid-cols-1 md:grid-cols-2 gap-4"
     >
       <div>
-        <label class="block mb-2">First Name</label>
+        <label for="firstName" class="block mb-2"
+          >First Name<span class="text-red-500 ml-1">*</span></label
+        >
         <input
           type="text"
           formControlName="firstName"
           class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400"
           placeholder="Enter first name"
           required
+          [ngClass]="{
+            'border-red-500 bg-red-100 text-red-500':
+              form.get('firstName')?.invalid && form.get('firstName')?.touched
+          }"
         />
         <span
           *ngIf="
@@ -35,60 +43,79 @@
           "
           class="text-red-500 text-sm"
         >
-          First name is required
+          First name is required with 1-50 characters.
         </span>
       </div>
 
       <div class="form-group mb-2">
-        <label class="block mb-2">Last name</label>
+        <label for="lastName" class="block mb-2"
+          >Last name<span class="text-red-500 ml-1">*</span></label
+        >
         <input
           type="text"
           formControlName="lastName"
           class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400"
           placeholder="Enter last name"
           required
+          [ngClass]="{
+            'border-red-500 bg-red-100 text-red-500':
+              form.get('lastName')?.invalid && form.get('lastName')?.touched
+          }"
         />
         <span
           *ngIf="form.get('lastName')?.invalid && form.get('lastName')?.touched"
           class="text-red-500 text-sm"
         >
-          Last name is required
+          Last name is required with 1-50 characters.
         </span>
       </div>
       <div>
-        <label class="block mb-2">Username</label>
+        <label for="username" class="block mb-2"
+          >Username<span class="text-red-500 ml-1">*</span></label
+        >
         <input
           type="text"
           formControlName="username"
           class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400"
           placeholder="Enter username"
+          required
+          [ngClass]="{
+            'border-red-500 bg-red-100 text-red-500':
+              form.get('username')?.invalid && form.get('username')?.touched
+          }"
         />
         <span
           *ngIf="form.get('username')?.invalid && form.get('username')?.touched"
           class="text-red-500 text-sm"
         >
-          Username is required
+          Username is required with 5-50 characters.
         </span>
       </div>
       <div>
-        <label class="block mb-2">Email</label>
+        <label for="email" class="block mb-2"
+          >Email<span class="text-red-500 ml-1">*</span></label
+        >
         <input
           type="email"
           formControlName="email"
           class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400"
           placeholder="Enter email"
           required
+          [ngClass]="{
+            'border-red-500 bg-red-100 text-red-500':
+              form.get('email')?.invalid && form.get('email')?.touched
+          }"
         />
         <span
           *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
           class="text-red-500 text-sm"
         >
-          Email is required
+          Email is required with 3-50 characters
         </span>
       </div>
 
       <div>
-        <label class="block mb-2">Date of Birth</label>
+        <label for="dateOfBirth" class="block mb-2">Date of Birth</label>
         <div class="relative">
           <input
             title="Date of Birth"
@@ -105,7 +132,9 @@
       </div>
 
       <div>
-        <label class="block mb-2">Gender</label>
+        <label for="gender" class="block mb-2"
+          >Gender<span class="text-red-500 ml-1">*</span></label
+        >
         <div class="flex gap-4 py-2">
           <label class="flex items-center">
             <input
@@ -113,6 +142,7 @@
               formControlName="gender"
               value="Male"
               class="mr-2"
+              checked
             />
             Male
           </label>
@@ -129,13 +159,20 @@
       </div>
 
       <div>
-        <label class="block mb-2">Identity Card</label>
+        <label for="identityCard" class="block mb-2"
+          >Identity Card<span class="text-red-500 ml-1">*</span></label
+        >
         <input
           type="text"
           formControlName="identityCard"
           class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400"
           placeholder="Enter identity card number"
           required
+          [ngClass]="{
+            'border-red-500 bg-red-100 text-red-500':
+              form.get('identityCard')?.invalid &&
+              form.get('identityCard')?.touched
+          }"
         />
         <span
           *ngIf="
@@ -144,46 +181,126 @@
           "
           class="text-red-500 text-sm"
         >
-          Identity card is required
+          Enter a valid identity card (10-18 digits).
         </span>
       </div>
 
       <div>
-        <label class="block mb-2">Phone Number</label>
+        <label for="phoneNumber" class="block mb-2">Phone Number</label>
         <input
           type="tel"
           formControlName="phoneNumber"
           class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400"
           placeholder="Enter phone number"
-        />
-      </div>
-
-      <div>
-        <label class="block mb-2">Password</label>
-        <input
-          type="password"
-          formControlName="password"
-          class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400"
-          placeholder="Enter password"
-          required
+          [ngClass]="{
+            'border-red-500 bg-red-100 text-red-500':
+              form.get('phoneNumber')?.invalid &&
+              form.get('phoneNumber')?.touched &&
+              form.get('phoneNumber')?.value?.trim() !== ''
+          }"
         />
         <span
-          *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
+          *ngIf="
+            form.get('phoneNumber')?.invalid &&
+            form.get('phoneNumber')?.touched &&
+            form.get('phoneNumber')?.value?.trim() !== ''
+          "
           class="text-red-500 text-sm"
         >
-          Password is required
+          Enter a valid phone number (10-15 digits).
         </span>
       </div>
 
       <div>
-        <label class="block mb-2">Confirm Password</label>
-        <input
-          type="password"
-          formControlName="confirmPassword"
-          class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400"
-          placeholder="Confirm password"
-          required
-        />
+        <label for="password" class="block mb-2"
+          >Password<span class="text-red-500 ml-1">*</span></label
+        >
+        <div class="relative">
+          <input
+            id="password"
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400 pr-10"
+            placeholder="Enter password"
+            required
+            [ngClass]="{
+              'border-red-500 bg-red-100 text-red-500':
+                form.get('password')?.invalid && form.get('password')?.touched
+            }"
+          />
+          <button
+            type="button"
+            class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-200 transition-colors"
+            (click)="showPassword = !showPassword"
+            aria-label="Toggle password visibility"
+            [ngClass]="{
+              '*:text-black':
+                form.get('password')?.invalid && form.get('password')?.touched
+            }"
+          >
+            <fa-icon
+              *ngIf="!showPassword"
+              [icon]="faEye"
+              class="text-l text-white"
+            ></fa-icon>
+            <fa-icon
+              *ngIf="showPassword"
+              [icon]="faEyeSlash"
+              class="text-l text-white"
+            ></fa-icon>
+          </button>
+        </div>
+        <span
+          *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
+          class="text-red-500 text-sm"
+        >
+          Password must include at least 1 uppercase, 1 lowercase, 1 digit, and
+          1 special character, with 8-20 characters.
+        </span>
+      </div>
+
+      <div>
+        <label for="confirmPassword" class="block mb-2"
+          >Confirm Password<span class="text-red-500 ml-1">*</span></label
+        >
+        <div class="relative">
+          <input
+            id="confirmPassword"
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            formControlName="confirmPassword"
+            class="w-full bg-[#0B0D13] px-3 py-2 border rounded-md focus:outline-none focus:ring focus:border-gray-400 pr-10"
+            placeholder="Confirm password"
+            required
+            [ngClass]="{
+              'border-red-500 bg-red-100 text-red-500':
+                form.get('confirmPassword')?.invalid &&
+                form.get('confirmPassword')?.touched || 
+                form.errors?.['passwordMismatch'] && form.get('confirmPassword')?.dirty
+            }"
+          />
+          <button
+            type="button"
+            class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-200 transition-colors"
+            (click)="showConfirmPassword = !showConfirmPassword"
+            aria-label="Toggle confirm password visibility"
+            [ngClass]="{
+              '*:text-black':
+                form.get('confirmPassword')?.invalid && form.get('confirmPassword')?.touched || 
+                form.errors?.['passwordMismatch'] && form.get('confirmPassword')?.dirty
+            }"
+          >
+            <fa-icon
+              *ngIf="!showConfirmPassword"
+              [icon]="faEye"
+              class="text-l text-white"
+            ></fa-icon>
+            <fa-icon
+              *ngIf="showConfirmPassword"
+              [icon]="faEyeSlash"
+              class="text-l text-white"
+            ></fa-icon>
+          </button>
+        </div>
         <span
           *ngIf="
             form.get('confirmPassword')?.invalid &&
@@ -193,12 +310,26 @@
         >
           Confirm password is required
         </span>
+        <span
+          *ngIf="
+            !form.get('confirmPassword')?.errors?.['required'] &&
+            form.errors?.['passwordMismatch'] && 
+            form.get('confirmPassword')?.dirty"
+          class="text-red-500 text-sm"
+        >
+          Passwords do not match
+        </span>
       </div>
-
+      <p
+        *ngIf="showErrorMessage"
+        class="md:col-span-2 my-2 text-red-500 text-center text-sm italic"
+      >
+        {{ errorMessage }}
+      </p>
       <div class="md:col-span-2">
         <button
           type="submit"
-          class="w-full bg-[#EF4444] text-white py-2 rounded-md mt-4 hover:bg-[#E30713] cursor-pointer transition"
+          class="w-full bg-[#EF4444] text-white py-2 rounded-md hover:bg-[#E30713] cursor-pointer transition"
         >
           Register
         </button>

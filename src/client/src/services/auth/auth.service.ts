@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { IAuthService } from './auth-service.interface';
 import { LoginRequest } from '../../models/auth/login-request.model';
 import { LoginResponse } from '../../models/auth/login-response.model';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { RegisterRequest } from '../../models/auth/register-request.model';
 import { UserInformation } from '../../models/auth/user-information.model';
 
@@ -11,20 +11,20 @@ import { UserInformation } from '../../models/auth/user-information.model';
   providedIn: 'root',
 })
 export class AuthService implements IAuthService {
-  private apiUrl: string = 'http://localhost:5063/api/auth';
-  private _isAuthenticated: BehaviorSubject<boolean> =
+  private readonly apiUrl: string = 'http://localhost:5063/api/auth';
+  private readonly _isAuthenticated: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
 
-  private _isAuthenticated$: Observable<boolean> =
+  private readonly _isAuthenticated$: Observable<boolean> =
     this._isAuthenticated.asObservable();
 
-  private _userInformation: BehaviorSubject<UserInformation | null> =
+  private readonly _userInformation: BehaviorSubject<UserInformation | null> =
     new BehaviorSubject<UserInformation | null>(null);
 
-  private _userInformation$: Observable<UserInformation | null> =
+  private readonly _userInformation$: Observable<UserInformation | null> =
     this._userInformation.asObservable();
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private readonly httpClient: HttpClient) {
     // Check if the access token is present in local storage
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
@@ -37,7 +37,7 @@ export class AuthService implements IAuthService {
     }
   }
   getAccessToken(): string {
-    return localStorage.getItem('accessToken') || '';
+    return localStorage.getItem('accessToken') ?? '';
   }
 
   public isAuthenticated(): Observable<boolean> {
@@ -60,6 +60,20 @@ export class AuthService implements IAuthService {
           );
           this._isAuthenticated.next(true);
           this._userInformation.next(response.user);
+        }),
+        catchError((error: HttpErrorResponse) => {
+          let errorMessage = 'An error occurred. Please try again.';
+
+          if (error.status === 401) {
+            errorMessage = error.error?.message || 'Invalid email or password.';
+          } else if (error.status === 400) {
+            errorMessage = error.error?.message || 'Invalid request data.';
+          } else if (error.status === 0) {
+            errorMessage =
+              'Unable to connect to the server. Please check your internet connection.';
+          }
+
+          return throwError(() => new Error(errorMessage));
         })
       );
   }
@@ -76,6 +90,18 @@ export class AuthService implements IAuthService {
           );
           this._isAuthenticated.next(true);
           this._userInformation.next(response.user);
+        }),
+        catchError((error: HttpErrorResponse) => {
+          let errorMessage = 'An error occurred. Please try again.';
+
+          if (error.status === 400) {
+            errorMessage = error.error?.message || 'Invalid request data.';
+          } else if (error.status === 0) {
+            errorMessage =
+              'Unable to connect to the server. Please check your internet connection.';
+          }
+
+          return throwError(() => new Error(errorMessage));
         })
       );
   }

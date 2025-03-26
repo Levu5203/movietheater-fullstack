@@ -58,7 +58,7 @@ builder.Services.AddSwaggerGen(options =>
 // Register DbContext
 builder.Services.AddDbContext<MovieTheaterDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("MovieTheaterDbConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MovieTheaterDbConnectionLocal"));
 });
 
 // Register Identity: UserManager, RoleManager, SignInManager
@@ -146,6 +146,9 @@ builder.Services.AddCors(options =>
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(LoginRequestCommand).Assembly));
 
+// Add AutoMapper
+// builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
@@ -172,22 +175,48 @@ if (app.Environment.IsDevelopment())
     // Debug information about seed file paths
     var rolesJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "roles.json");
     var usersJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "users.json");
+    var roomsJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "cinemaRooms.json");
+    var genresJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "genres.json");
+    var moviesJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "movies.json");
+    var showTimeSlotsJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "showTimeSlots.json");
+    var showTimeJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "showTime.json");
+    var invoicesJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "invoices.json");
+    var historyScoresJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "historyScores.json");
+    var promotionsJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "promotions.json");
+    var ticketsJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "tickets.json");
 
     Console.WriteLine($"WebRootPath: {app.Environment.WebRootPath}");
     Console.WriteLine($"Roles JSON path: {rolesJsonPath}");
     Console.WriteLine($"Users JSON path: {usersJsonPath}");
+    Console.WriteLine($"Rooms JSON path: {roomsJsonPath}");
+    Console.WriteLine($"Genres JSON path: {genresJsonPath}");
+    Console.WriteLine($"Movies JSON path: {moviesJsonPath}");
+    Console.WriteLine($"ShowTimeSlots JSON path: {showTimeSlotsJsonPath}");
+    Console.WriteLine($"ShowTime JSON path: {showTimeJsonPath}");
+    Console.WriteLine($"Invoices JSON path: {invoicesJsonPath}");
+    Console.WriteLine($"HistoryScores JSON path: {historyScoresJsonPath}");
+    Console.WriteLine($"Promotions JSON path: {promotionsJsonPath}");
+    Console.WriteLine($"Tickets JSON path: {ticketsJsonPath}");
     Console.WriteLine($"Roles file exists: {File.Exists(rolesJsonPath)}");
     Console.WriteLine($"Users file exists: {File.Exists(usersJsonPath)}");
-
+    Console.WriteLine($"Rooms file exists: {File.Exists(roomsJsonPath)}");
+    Console.WriteLine($"Genres file exists: {File.Exists(genresJsonPath)}");
+    Console.WriteLine($"Movies file exists: {File.Exists(moviesJsonPath)}");
+    Console.WriteLine($"ShowTimeSlots file exists: {File.Exists(showTimeSlotsJsonPath)}");
+    Console.WriteLine($"ShowTime file exists: {File.Exists(showTimeJsonPath)}");
+    Console.WriteLine($"Invoices file exists: {File.Exists(invoicesJsonPath)}");
+    Console.WriteLine($"HistoryScores file exists: {File.Exists(historyScoresJsonPath)}");
+    Console.WriteLine($"Promotions file exists: {File.Exists(promotionsJsonPath)}");
+    Console.WriteLine($"Tickets file exists: {File.Exists(ticketsJsonPath)}");
     // Ensure the directory exists
     Directory.CreateDirectory(Path.Combine(app.Environment.WebRootPath, "data"));
 
     // Attempt to seed the database
     try
     {
-        DbInitializer.Seed(context, userManager, roleManager, rolesJsonPath, usersJsonPath);
+        DbInitializer.Seed(context, userManager, roleManager, rolesJsonPath, usersJsonPath, roomsJsonPath, genresJsonPath, moviesJsonPath, showTimeSlotsJsonPath, showTimeJsonPath, invoicesJsonPath, historyScoresJsonPath, promotionsJsonPath, ticketsJsonPath);
         Console.WriteLine("Database seeded successfully.");
-        
+
     }
     catch (Exception ex)
     {
@@ -206,3 +235,4 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 await app.RunAsync();
+

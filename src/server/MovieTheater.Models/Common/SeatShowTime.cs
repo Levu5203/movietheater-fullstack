@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace MovieTheater.Models.Common;
 
 [Table("SeatShowTimes", Schema = "Common")]
-public class SeatShowTime : BaseEntity
+public class SeatShowTime
 {   
     [Required(ErrorMessage = "SeatShowTimeId is required")]
     public required Guid SeatShowTimeId { get; set; }
