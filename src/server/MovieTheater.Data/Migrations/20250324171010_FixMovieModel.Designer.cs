@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieTheater.Data;
 
@@ -11,9 +12,11 @@ using MovieTheater.Data;
 namespace MovieTheater.Data.Migrations
 {
     [DbContext(typeof(MovieTheaterDbContext))]
-    partial class MovieTheaterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250324171010_FixMovieModel")]
+    partial class FixMovieModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -215,6 +218,9 @@ namespace MovieTheater.Data.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<Guid>("HistoryScoreId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("InvoiceId")
                         .HasColumnType("uniqueidentifier");
 
@@ -326,9 +332,6 @@ namespace MovieTheater.Data.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int>("Duration")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -337,8 +340,8 @@ namespace MovieTheater.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Origin")
                         .IsRequired()
@@ -415,7 +418,7 @@ namespace MovieTheater.Data.Migrations
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<decimal>("Discount")
-                        .HasColumnType("decimal(3,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
@@ -513,11 +516,29 @@ namespace MovieTheater.Data.Migrations
 
             modelBuilder.Entity("MovieTheater.Models.Common.SeatShowTime", b =>
                 {
-                    b.Property<Guid>("SeatShowTimeId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DeletedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("SeatId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SeatShowTimeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ShowTimeId")
@@ -526,7 +547,19 @@ namespace MovieTheater.Data.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.HasKey("SeatShowTimeId");
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UpdatedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("DeletedById");
+
+                    b.HasIndex("UpdatedById");
 
                     b.ToTable("SeatShowTimes", "Common");
                 });
@@ -592,14 +625,44 @@ namespace MovieTheater.Data.Migrations
 
             modelBuilder.Entity("MovieTheater.Models.Common.ShowTimeSlot", b =>
                 {
-                    b.Property<Guid>("ShowTimeSlotId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DeletedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ShowTimeSlotId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<TimeSpan>("Time")
                         .HasColumnType("time");
 
-                    b.HasKey("ShowTimeSlotId");
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UpdatedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("DeletedById");
+
+                    b.HasIndex("UpdatedById");
 
                     b.ToTable("ShowTimeSlots", "Common");
                 });
@@ -672,26 +735,6 @@ namespace MovieTheater.Data.Migrations
 
             modelBuilder.Entity("MovieTheater.Models.Common.TicketShowtimeMovie", b =>
                 {
-                    b.Property<Guid>("TicketShowTimeMovieId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("MovieId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ShowTimeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TicketId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("TicketShowTimeMovieId");
-
-                    b.ToTable("TicketShowTimeMovies", "Common");
-                });
-
-            modelBuilder.Entity("MovieTheater.Models.Security.RefreshToken", b =>
-                {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
@@ -708,35 +751,25 @@ namespace MovieTheater.Data.Migrations
                     b.Property<Guid?>("DeletedById")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("ExpiryDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsRevoked")
-                        .HasColumnType("bit");
+                    b.Property<Guid>("MovieId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("IsUsed")
-                        .HasColumnType("bit");
+                    b.Property<Guid>("ShowTimeId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ReasonRevoked")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("TicketId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ReplacedByToken")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("TicketShowTimeMovieId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("UpdatedById")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -747,9 +780,7 @@ namespace MovieTheater.Data.Migrations
 
                     b.HasIndex("UpdatedById");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("RefreshTokens", "Security");
+                    b.ToTable("TicketShowTimeMovies", "Common");
                 });
 
             modelBuilder.Entity("MovieTheater.Models.Security.Role", b =>
@@ -775,8 +806,7 @@ namespace MovieTheater.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -824,10 +854,7 @@ namespace MovieTheater.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Avatar")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -840,7 +867,7 @@ namespace MovieTheater.Data.Migrations
                     b.Property<Guid?>("CreatedById")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("DateOfBirth")
+                    b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedAt")
@@ -858,8 +885,7 @@ namespace MovieTheater.Data.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
                         .IsRequired()
@@ -867,8 +893,7 @@ namespace MovieTheater.Data.Migrations
 
                     b.Property<string>("IdentityCard")
                         .IsRequired()
-                        .HasMaxLength(18)
-                        .HasColumnType("nvarchar(18)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -878,8 +903,7 @@ namespace MovieTheater.Data.Migrations
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -894,6 +918,10 @@ namespace MovieTheater.Data.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -1170,6 +1198,27 @@ namespace MovieTheater.Data.Migrations
                     b.Navigation("UpdatedBy");
                 });
 
+            modelBuilder.Entity("MovieTheater.Models.Common.SeatShowTime", b =>
+                {
+                    b.HasOne("MovieTheater.Models.Security.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("MovieTheater.Models.Security.User", "DeletedBy")
+                        .WithMany()
+                        .HasForeignKey("DeletedById");
+
+                    b.HasOne("MovieTheater.Models.Security.User", "UpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("UpdatedById");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("DeletedBy");
+
+                    b.Navigation("UpdatedBy");
+                });
+
             modelBuilder.Entity("MovieTheater.Models.Common.ShowTime", b =>
                 {
                     b.HasOne("MovieTheater.Models.Common.CinemaRoom", "CinemaRoom")
@@ -1211,6 +1260,27 @@ namespace MovieTheater.Data.Migrations
                     b.Navigation("Movie");
 
                     b.Navigation("ShowTimeSlot");
+
+                    b.Navigation("UpdatedBy");
+                });
+
+            modelBuilder.Entity("MovieTheater.Models.Common.ShowTimeSlot", b =>
+                {
+                    b.HasOne("MovieTheater.Models.Security.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("MovieTheater.Models.Security.User", "DeletedBy")
+                        .WithMany()
+                        .HasForeignKey("DeletedById");
+
+                    b.HasOne("MovieTheater.Models.Security.User", "UpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("UpdatedById");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("DeletedBy");
 
                     b.Navigation("UpdatedBy");
                 });
@@ -1260,7 +1330,7 @@ namespace MovieTheater.Data.Migrations
                     b.Navigation("UpdatedBy");
                 });
 
-            modelBuilder.Entity("MovieTheater.Models.Security.RefreshToken", b =>
+            modelBuilder.Entity("MovieTheater.Models.Common.TicketShowtimeMovie", b =>
                 {
                     b.HasOne("MovieTheater.Models.Security.User", "CreatedBy")
                         .WithMany()
@@ -1274,19 +1344,11 @@ namespace MovieTheater.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UpdatedById");
 
-                    b.HasOne("MovieTheater.Models.Security.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("CreatedBy");
 
                     b.Navigation("DeletedBy");
 
                     b.Navigation("UpdatedBy");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MovieTheater.Models.Security.Role", b =>

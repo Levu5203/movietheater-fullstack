@@ -28,5 +28,5 @@ public class BaseEntity : IBaseEntity
 
     public User? DeletedBy { get; set; }
 
-    public bool IsDeleted { get; set; }
+    public bool IsDeleted { get; set; } = false;
 }

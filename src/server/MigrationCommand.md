@@ -4,8 +4,8 @@
 
 ### Add a migration
 ```bash
-dotnet ef migrations add UpdateUserModels --project MovieTheater.Data --startup-project MovieTheater.WebAPI --context MovieTheaterDbContext --output-dir Migrations
-dotnet ef migrations add [MigrationName] --project MovieTheater.Data --startup-project MovieTheater.WebAPI --context StorageDbContext --output-dir Migrations/Storage
+dotnet ef migrations add UpdateCommonModels --project MovieTheater.Data --startup-project MovieTheater.API --context MovieTheaterDbContext --output-dir Migrations
+dotnet ef migrations add [MigrationName] --project MovieTheater.Data --startup-project MovieTheater.API --context StorageDbContext --output-dir Migrations/Storage
 ```
 
 ### Update the database
@@ -27,8 +27,8 @@ dotnet ef database drop --project MovieTheater.Data --startup-project MovieTheat
 
 ### Remove a migration
 ```bash
-dotnet ef migrations remove --project MovieTheater.Data --startup-project MovieTheater.WebAPI --context MovieTheaterDbContext
-dotnet ef migrations remove --project MovieTheater.Data --startup-project MovieTheater.WebAPI --context StorageDbContext
+dotnet ef migrations remove --project MovieTheater.Data --startup-project MovieTheater.API --context MovieTheaterDbContext
+dotnet ef migrations remove --project MovieTheater.Data --startup-project MovieTheater.API --context StorageDbContext
 ```
 
 ## 2. Using the Package Manager Console
