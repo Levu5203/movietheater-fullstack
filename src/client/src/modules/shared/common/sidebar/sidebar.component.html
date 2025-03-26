@@ -22,8 +22,8 @@
             </div>
           </button>
           <div [ngClass]="isShowSidebar ? 'block': 'hidden'" *ngIf="isUserDropdownOpen" class="pl-8 space-y-2">
-            <a href="" class="block p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">Customer List</a>
-            <a href="" class="block p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">Employee List</a>
+            <a href="./admin/customermanagement" class="block p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">Customer List</a>
+            <a href="./admin/employeemanagement" class="block p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">Employee List</a>
           </div>
         </div>
   
@@ -38,7 +38,7 @@
           </button>
           <div [ngClass]="isShowSidebar ? 'block': 'hidden'" *ngIf="isTicketDropdownOpen" class="pl-8 space-y-2">
             <a href="./admin/ticketlist" class="block p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">Ticket List</a>
-            <a href="" class="block p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">Ticket Selling</a>
+            <a href="./admin/ticketselling" class="block p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">Ticket Selling</a>
           </div>
         </div>
   
@@ -47,7 +47,7 @@
           <span [ngClass]="isShowSidebar ? 'block': 'hidden'">Movie Management</span>
         </a>
   
-        <a href="" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">
+        <a href="./admin/roommanagement" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-white hover:text-black">
             <fa-icon [icon]="faDoorOpen" class="text-xl"></fa-icon>
             <span [ngClass]="isShowSidebar ? 'block': 'hidden'">Room Management</span>
         </a>
@@ -65,10 +65,14 @@
   
     <div class="menu-bottom flex  items-center *:cursor-pointer"
         [ngClass]="isShowSidebar ? '': 'flex-row justify-center bg-gray-900 rounded-b-xl'">
-        <button type="button" title="Collapse" (click)="isShowSidebar = !isShowSidebar"
+        <div type="button" title="Collapse"
             class="flex flex-row justify-between items-center p-2 bg-white text-black rounded-xl w-full m-2">
-            <a class="left-0" [ngClass]="isShowSidebar ? 'block': 'hidden'" href="">Log out</a>
-            <fa-icon [icon]="isShowSidebar ? faAngleDoubleLeft: faAngleDoubleRight" class="text-xl"></fa-icon>
-        </button>
+            <button>
+              <a class="left-0" [ngClass]="isShowSidebar ? 'block': 'hidden'" href="/">Log out</a>
+            </button>
+            <button (click)="isShowSidebar = !isShowSidebar">
+              <fa-icon [icon]="isShowSidebar ? faAngleDoubleLeft: faAngleDoubleRight" class="text-xl"></fa-icon>
+            </button>
+        </div>
     </div>
   </aside>

@@ -6,9 +6,6 @@ namespace MovieTheater.Models.Common;
 [Table("HistoryScores", Schema = "Common")]
 public class HistoryScore : BaseEntity
 {   
-    [Required(ErrorMessage = "HistoryScoreId is required")]
-    public required Guid HistoryScoreId { get; set; }
-
     [Required(ErrorMessage = "UserId is required")]
     public required int Score { get; set; }
 
