@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { FontAwesomeModule, IconDefinition } from '@fortawesome/angular-fontawesome';
-import { faAngleDoubleLeft, faAngleDoubleRight, faCaretDown, faDashboard, faDoorOpen, faFilm, faGear, faList, faPercent, faTicketSimple, faUser, faUserShield } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDoubleLeft, faAngleDoubleRight, faCaretDown, faDashboard, faDoorOpen, faFilm, faGear, faList, faPercent, faTicketSimple, faUser, faUserAlt, faUserLarge, faUserShield } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-sidebar',
@@ -25,7 +25,7 @@ export class SidebarComponent {
   public faGear: IconDefinition = faGear;
   public faAngleDoubleLeft: IconDefinition = faAngleDoubleLeft;
   public faAngleDoubleRight: IconDefinition = faAngleDoubleRight;
-  public faUser: IconDefinition = faUser;
+  public faUser: IconDefinition = faUserAlt;
   public faUserShield: IconDefinition = faUserShield;
   public faTicketSimple: IconDefinition = faTicketSimple;
   public faFilm: IconDefinition = faFilm;

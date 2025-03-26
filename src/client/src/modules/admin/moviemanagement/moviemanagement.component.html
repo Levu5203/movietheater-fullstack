@@ -48,9 +48,9 @@
         </form>
     </div>
   
-    <div class="overflow-hidden rounded-2xl border-2 border-[#E8F1FD]">
-      <table class="min-w-full bg-white">
-        <thead class="bg-[#F7F9FC] border-b border-[#E8F1FD] relative">
+    <div class="rounded-2xl border-2 border-[#E8F1FD] overflow-hidden">
+      <table class="hidden md:table min-w-full bg-white">
+        <thead class="bg-[#F7F9FC] border-b border-[#E8F1FD]">
           <tr class="text-left">
             <th class="px-4 py-2">#</th>
             <th class="px-4 py-2">Movie Name</th>
@@ -71,14 +71,53 @@
             <td class="px-4 py-2">{{ movie.Actors }}</td>
             <td class="px-4 py-2">{{ movie.Duration }} min</td>
             <td class="px-4 py-2">{{ movie.Version }}</td>
-            <td class="px-4 py-2 flex gap-2">
-              <button class="text-blue-500 hover:text-blue-700"><a href="./admin/updatemovie">✏️</a></button>
-              <button class="text-red-500 hover:text-red-700">🗑️</button>
+            <td class="px-4 py-2">
+              <div class="flex justify-center items-center gap-2">
+                <button class="text-blue-500 hover:text-blue-700">
+                  <a href="./admin/updatemovie">
+                    <fa-icon [icon]="faEdit" class="text-gray-500"></fa-icon>
+                  </a>
+                </button>
+                <button class="text-red-500 hover:text-red-700">
+                  <a href="">
+                    <fa-icon [icon]="faTrash" class="text-gray-500"></fa-icon>
+                  </a>
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>
       </table>
+    
+      <!-- Mobile View -->
+      <div class="md:hidden">
+        <div *ngFor="let movie of paginatedMovies" class="flex justify-between border-b border-[#E8F1FD] p-4 bg-white items-center">
+          <div>
+            <p class="font-bold"># {{ movie.Id }}</p>
+            <p><span class="font-semibold">Name:</span> {{ movie.Name }}</p>
+            <p><span class="font-semibold">Release Date:</span> {{ movie.ReleaseDate }}</p>
+            <p><span class="font-semibold">Director:</span> {{ movie.Director }}</p>
+            <p><span class="font-semibold">Actors:</span> {{ movie.Actors }}</p>
+            <p><span class="font-semibold">Duration:</span> {{ movie.Duration }} min</p>
+            <p><span class="font-semibold">Version:</span> {{ movie.Version }}</p>
+          </div>
+    
+          <div class="flex gap-4 ml-auto">
+            <button class="text-blue-500 hover:text-blue-700">
+              <a href="./admin/updatemovie">
+                <fa-icon [icon]="faEdit" class="text-gray-500"></fa-icon>
+              </a>
+            </button>
+            <button class="text-red-500 hover:text-red-700">
+              <a href="">
+                <fa-icon [icon]="faTrash" class="text-gray-500"></fa-icon>
+              </a>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+    
 
     <div class="flex justify-center items-center py-4 px-10 text-sm">
       <button

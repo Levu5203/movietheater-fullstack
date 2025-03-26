@@ -9,15 +9,16 @@
     <div [ngClass]="isShowSidebar ? '': 'flex flex-col bg-gray-900 rounded-t-xl'" class="menu-items flex-grow">
         <a 
           routerLink="/admin/dashboard"
-          [ngClass]="{'active': isActive('/admin/dashboard') || isActive('/admin')}"
-          href="./admin/dashboard" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-gray-500 hover:text-black">
+          [ngClass]="{'active': isActive('/admin/dashboard') || isActive('/admin'), 'justify-center': !isShowSidebar}"
+          href="./admin/dashboard" 
+          class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-gray-400 hover:text-black">
           <fa-icon [icon]="faDashboard" class="text-xl"></fa-icon>
           <span [ngClass]="isShowSidebar ? 'block': 'hidden'">Dashboard</span>
         </a>
   
         <div class="">
           <button (click)="toggleUserDropdown()" 
-            class="flex items-center justify-between p-1 pl-2 m-2 rounded-xl hover:bg-gray-500 hover:text-black">
+            class="flex items-center justify-between p-1 pl-2 m-2 rounded-xl hover:bg-gray-400 hover:text-black">
             <div class="flex items-center space-x-2">
               <fa-icon [icon]="faUser" class="text-xl"></fa-icon>
               <span [ngClass]="isShowSidebar ? 'block': 'hidden'">User Management</span>
@@ -25,17 +26,19 @@
             </div>
           </button>
           <div [ngClass]="isShowSidebar ? 'block': 'hidden'" *ngIf="isUserDropdownOpen" class="pl-8 space-y-2">
-            <a routerLink="/admin/customermanagement" [ngClass]="{'active': isActive('/admin/customermanagement')}" href="./admin/customermanagement"
-              class="block p-1 pl-2 m-2 rounded-xl hover:bg-gray-500 hover:text-black">Customer List</a>
-            <a routerLink="/admin/employeemanagement" [ngClass]="{'active': isActive('/admin/employeemanagement')}" href="./admin/employeemanagement"
-              class="block p-1 pl-2 m-2 rounded-xl hover:bg-gray-500 hover:text-black">Employee List</a>
+            <a routerLink="/admin/customermanagement" [ngClass]="{'active': isActive('/admin/customermanagement'), 'justify-center': !isShowSidebar}" href="./admin/customermanagement"
+              class="block p-1 pl-2 m-2 rounded-xl hover:bg-gray-400 hover:text-black">Customer List</a>
+            <a routerLink="/admin/employeemanagement" [ngClass]="{'active': isActive('/admin/employeemanagement'), 'justify-center': !isShowSidebar}" href="./admin/employeemanagement"
+              class="block p-1 pl-2 m-2 rounded-xl hover:bg-gray-400 hover:text-black">Employee List</a>
           </div>
         </div>
   
         <div class="whitespace-nowrap">
           <button (click)="toggleTicketDropdown()" 
-            class="flex items-center justify-between p-1 pl-2 m-2 rounded-xl hover:bg-gray-500 hover:text-black">
-            <div class="flex items-center space-x-2">
+            class="flex items-center justify-between p-1 pl-2 m-2 rounded-xl hover:bg-gray-400 hover:text-black">
+            <div
+            [ngClass]="isShowSidebar ? '': 'justify-center'"
+            class="flex items-center space-x-2">
               <fa-icon [icon]="faTicketSimple" class="text-xl"></fa-icon>
               <span [ngClass]="isShowSidebar ? 'block': 'hidden'">Ticket Management</span>
               <fa-icon [ngClass]="isShowSidebar ? 'block': 'hidden'" [icon]="faCaretDown"></fa-icon>
@@ -43,40 +46,43 @@
           </button>
           <div [ngClass]="isShowSidebar ? 'block': 'hidden'" *ngIf="isTicketDropdownOpen" class="pl-8 space-y-2">
             <a routerLink="/admin/ticketlist" [ngClass]="{'active': isActive('/admin/ticketlist')}" href="./admin/ticketlist"
-              class="block p-1 pl-2 m-2 rounded-xl hover:bg-gray-500 hover:text-black">Ticket List</a>
+              class="block p-1 pl-2 m-2 rounded-xl hover:bg-gray-400 hover:text-black">Ticket List</a>
             <a routerLink="/admin/ticketselling" [ngClass]="{'active': isActive('/admin/ticketselling')}" href="./admin/ticketselling"
-              class="block p-1 pl-2 m-2 rounded-xl hover:bg-gray-500 hover:text-black">Ticket Selling</a>
+              class="block p-1 pl-2 m-2 rounded-xl hover:bg-gray-400 hover:text-black">Ticket Selling</a>
           </div>
         </div>
   
         <a
           routerLink="/admin/moviemanagement"
-          [ngClass]="{'active': isActive('/admin/moviemanagement')}" 
-          href="./admin/moviemanagement" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-gray-500 hover:text-black">
+          [ngClass]="{'active': isActive('/admin/moviemanagement'), 'justify-center': !isShowSidebar}" 
+          href="./admin/moviemanagement" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-gray-400 hover:text-black">
           <fa-icon [icon]="faFilm" class="text-xl"></fa-icon>
           <span [ngClass]="isShowSidebar ? 'block': 'hidden'">Movie Management</span>
         </a>
   
         <a 
           routerLink="/admin/roommanagement"
-          [ngClass]="{'active': isActive('/admin/roommanagement')}" 
-          href="./admin/roommanagement" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-gray-500 hover:text-black">
+          [ngClass]="{'active': isActive('/admin/roommanagement'), 'justify-center': !isShowSidebar}" 
+          href="./admin/roommanagement" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-gray-400 hover:text-black">
             <fa-icon [icon]="faDoorOpen" class="text-xl"></fa-icon>
             <span [ngClass]="isShowSidebar ? 'block': 'hidden'">Room Management</span>
         </a>
   
         <a 
           routerLink="/admin/promotionmanagement"
-          [ngClass]="{'active': isActive('/admin/promotionmanagement')}" 
-          href="./admin/promotionmanagement" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-gray-500 hover:text-black">
+          [ngClass]="{'active': isActive('/admin/promotionmanagement'), 'justify-center': !isShowSidebar}" 
+          href="./admin/promotionmanagement" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-gray-400 hover:text-black">
           <fa-icon [icon]="faPercent" class="text-xl"></fa-icon>
           <span [ngClass]="isShowSidebar ? 'block': 'hidden'">Promotion</span>
         </a>
   
         <a 
           routerLink="/admin/setting"
-          [ngClass]="{'active': isActive('/admin/setting')}" 
-          href="./admin/setting" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-gray-500 hover:text-black">
+          [ngClass]="{
+            'active': isActive('/admin/setting'),
+            'justify-center': !isShowSidebar
+          }" 
+          href="./admin/setting" class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-gray-400 hover:text-black">
           <fa-icon [icon]="faGear" class="text-xl"></fa-icon>
           <span [ngClass]="isShowSidebar ? 'block': 'hidden'">Setting</span>
         </a>
@@ -85,7 +91,8 @@
     <div class="menu-bottom flex  items-center *:cursor-pointer"
         [ngClass]="isShowSidebar ? '': 'flex-row justify-center bg-gray-900 rounded-b-xl'">
         <div type="button" title="Collapse"
-            class="flex flex-row justify-between items-center p-2 bg-white text-black rounded-xl w-full m-2">
+            [ngClass]="isShowSidebar ? '': 'justify-center'"
+            class="flex flex-row justify-between items-center p-2 bg-gray-300 text-black rounded-xl w-full m-2">
             <button>
               <a class="left-0" [ngClass]="isShowSidebar ? 'block': 'hidden'" href="/">Log out</a>
             </button>
