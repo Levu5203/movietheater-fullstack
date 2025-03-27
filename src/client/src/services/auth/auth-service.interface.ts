@@ -13,4 +13,5 @@ export interface IAuthService {
   getAccessToken(): string;
   getUserInformation(): Observable<UserInformation | null>;
   getUserInformationFromAccessToken(): UserInformationFromToken | null;
+  isTokenExpired(): boolean;
 }

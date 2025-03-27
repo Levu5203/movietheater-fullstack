@@ -137,7 +137,7 @@ export class AuthService implements IAuthService {
     }
     return null;
   }
-  private isTokenExpired(): boolean {
+  public isTokenExpired(): boolean {
     try {
       const userInformationFromToken = this.getUserInformationFromAccessToken();
       const expiry = userInformationFromToken!.exp;
