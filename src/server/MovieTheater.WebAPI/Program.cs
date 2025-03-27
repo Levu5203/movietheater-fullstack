@@ -58,7 +58,7 @@ builder.Services.AddSwaggerGen(options =>
 // Register DbContext
 builder.Services.AddDbContext<MovieTheaterDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("MovieTheaterDbConnectionLocal"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MovieTheaterDbConnection"));
 });
 
 // Register Identity: UserManager, RoleManager, SignInManager
