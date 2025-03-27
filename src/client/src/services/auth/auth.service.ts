@@ -155,4 +155,20 @@ export class AuthService implements IAuthService {
       }
     }, 10000);
   }
+
+  public forgotPassword(email: string): Observable<any> {
+    return this.httpClient.post(this.apiUrl + '/forgot-password', { email });
+  }
+
+  public resetPassword(
+    token: string,
+    password: string,
+    confirmPassword: string
+  ): Observable<any> {
+    return this.httpClient.post(this.apiUrl + '/reset-password', {
+      token,
+      password,
+      confirmPassword,
+    });
+  }
 }

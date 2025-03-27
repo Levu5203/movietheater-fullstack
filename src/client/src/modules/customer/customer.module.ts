@@ -9,6 +9,8 @@ import { SeatshowtimeComponent } from './seatshowtime/seatshowtime.component';
 import { BookingComponent } from './booking/booking.component';
 import { MoviedetailComponent } from './moviedetail/moviedetail.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ResetPasswordComponent } from '../auth/resetpassword/resetpassword.component';
+import { ForgotPasswordComponent } from '../auth/forgotpassword/forgotpassword.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -19,11 +21,14 @@ const routes: Routes = [
   { path: 'booking', component: BookingComponent },
   { path: 'moviedetail', component: MoviedetailComponent },
   { path: 'profile', component: ProfileComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({
   declarations: [],
   imports: [CommonModule, RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
 export class CustomerModule {}

@@ -14,4 +14,10 @@ export interface IAuthService {
   getUserInformation(): Observable<UserInformation | null>;
   getUserInformationFromAccessToken(): UserInformationFromToken | null;
   isTokenExpired(): boolean;
+  forgotPassword(email: string): Observable<any>;
+  resetPassword(
+    token: string,
+    password: string,
+    confirmPassword: string
+  ): Observable<any>;
 }
