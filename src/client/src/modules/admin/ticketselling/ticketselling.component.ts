@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   FontAwesomeModule,
@@ -14,14 +14,16 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { TiketsellingSelectseatComponent } from "./tiketselling-selectseat/tiketselling-selectseat.component";
 import { TicketsellingPaymentComponent } from "./ticketselling-payment/ticketselling-payment.component";
+import { TicketSellingService } from './ticketselling.service';
 
 @Component({
   selector: 'app-ticketselling',
   imports: [FontAwesomeModule, CommonModule, FormsModule, TiketsellingSelectseatComponent, TicketsellingPaymentComponent],
   templateUrl: './ticketselling.component.html',
-  styleUrl: './ticketselling.component.css',
+  styleUrls: ['./ticketselling.component.css'],
+  standalone: true,
 })
-export class TicketsellingComponent {
+export class TicketsellingComponent implements OnInit {
   //#region Font Awesome Icons
   public faArrowLeft: IconDefinition = faArrowLeft;
   public faAngleRight: IconDefinition = faAngleRight;
@@ -32,4 +34,17 @@ export class TicketsellingComponent {
 
   public currentPage: number = 1;
   public totalPages: number = 10;
+
+  currentView: 'ticketselling' | 'select-seat' | 'payment' = 'ticketselling';
+
+  constructor(private ticketService: TicketSellingService) {}
+
+  ngOnInit() {
+    this.ticketService.getCurrentView().subscribe(view => {
+      this.currentView = view;
+    });
+  }
+  onSelectShowtime() {
+    this.ticketService.setCurrentView('select-seat');
+  }
 }

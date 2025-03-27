@@ -1,16 +1,45 @@
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { TicketSellingService } from '../ticketselling.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-ticketselling-payment',
   imports: [FontAwesomeModule, CommonModule],
   templateUrl: './ticketselling-payment.component.html',
-  styleUrl: './ticketselling-payment.component.css',
+  styleUrls: ['./ticketselling-payment.component.css'],
+  standalone: true,
 })
-export class TicketsellingPaymentComponent {
-  public isShowMemberInfo: boolean = false;
+export class TicketsellingPaymentComponent implements OnInit {
+
+  selectedSeats: any[] = [];
+  totalPrice: number = 0;
+
+  isShowMemberInfo: boolean = false;
+
+  constructor(private ticketService: TicketSellingService) {}
+
   checkMember() {
     this.isShowMemberInfo = true;
+  }
+
+  ngOnInit() {
+    this.ticketService.getSelectedSeats().subscribe((seats) => {
+      this.selectedSeats = seats;
+    });
+
+    this.ticketService.getTotalPrice().subscribe((price) => {
+      this.totalPrice = price;
+    });
+  }
+
+  onCancel() {
+    this.ticketService.setCurrentView('select-seat');
+  }
+
+  onConfirmPayment() {
+    // Xử lý thanh toán ở đây
+    console.log('Thanh toán thành công!');
+    this.ticketService.setCurrentView('ticketselling');
   }
 }

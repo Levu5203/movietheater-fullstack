@@ -1,6 +1,6 @@
 <section class="flex-1 bg-white rounded-lg shadow p-6 w-full">
     <h2 class="text-2xl font-bold mb-4">Selling Ticket</h2>
-    <div class="lg:flex items-center mb-4 lg:relative">
+    <div class="xl:flex items-center mb-4 xl:relative">
         <div class="flex items-center mb-4">
             <button class="mr-2 p-2 w-10 h-10 rounded-xl shadow-md hover:bg-gray-100 cursor-pointer">
                 <fa-icon [icon]="faArrowLeft" class="w-6 h-6"></fa-icon>
@@ -8,7 +8,7 @@
             <input type="text" placeholder="Search"
                 class="flex-1 px-4 py-2 rounded-3xl bg-gray-200 hover:bg-gray-300 cursor-pointer">
         </div>
-        <div class="flex flex-col items-center mb-4 lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2">
+        <div class="flex flex-col items-center mb-4 xl:absolute xl:left-1/2 xl:transform xl:-translate-x-1/2">
             <span class="text-red-500 font-bold mb-2">● Now showing</span>
             <div class="flex">
                 <button
@@ -69,12 +69,12 @@
                 <span>VIP Seat</span>
             </div>
         </div>
-        <div class="flex justify-between items-center">
-            <div class="flex flex-col justify-start">
-                <div class="">
+        <div class="flex flex-row justify-between items-center mt-4 px-4">
+            <div class="text-left">
+                <div>
                     <span>Selected Seat:</span>
-                    <ng-container class="grid grid-cols-8 gap-1 lg:gap-4 mb-2" *ngFor="let seat of selectedSeats">
-                        <span class="h-auto aspect-square m-0.5 lg:m-1 p-1 rounded text-white text-sm lg:text-base"
+                    <ng-container class="grid grid-cols-8 gap-8 mb-2" *ngFor="let seat of selectedSeats">
+                        <span class="h-auto p-1 m-0.5 rounded text-white text-sm lg:text-base"
                             [ngClass]="seat.isVip ? 'bg-yellow-500' : 'bg-gray-500'">{{seat.label}}</span>
                     </ng-container>
                 </div>
