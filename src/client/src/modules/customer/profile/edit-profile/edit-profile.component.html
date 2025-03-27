@@ -45,15 +45,23 @@
       <div class="flex space-x-4">
         <div class="flex-1">
           <label class="text-sm" for="dateOfBirth">Date of Birth</label>
-          <input
-            name="dateOfBirth"
-            title="dateOfBirth"
-            type="text"
-            value="01/01/2003"
-            class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm"
-          />
+          <div class="relative">
+            <input
+              name="dateOfBirth"
+              title="Date of Birth"
+              type="date"
+              value="2003-01-01"
+              class="w-full mt-1 p-2 bg-transparent border border-white rounded appearance-none"
+            />
+            <span
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-white pointer-events-none"
+            >
+              <fa-icon [icon]="faCalendar"></fa-icon>
+            </span>
+          </div>
         </div>
         <div class="flex-1">
+
           <label for="gender" class="text-sm">Gender</label>
           <div class="flex gap-4 py-2">
             <label class="flex items-center">

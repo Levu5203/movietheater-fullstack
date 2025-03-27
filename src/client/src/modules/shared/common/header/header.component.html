@@ -4,7 +4,7 @@
     'background-color': 'rgba(11, 13, 19, ' + bgHeaderOpacity + ')'
   }"
 >
-  <nav class="flex justify-between items-center w-4/5 mx-auto py-3">
+  <nav class="flex justify-between items-center w-4/5 mx-auto py-3 relative">
     <!-- Menu button -->
     <button
       class="md:hidden text-white text-2xl mr-4"
@@ -45,20 +45,14 @@
         >Ticket Price</a
       >
     </div>
-       
-
 
     <ng-container *ngIf="isAuthenticated; else unAuthenticated">
-      <div
-        class="flex items-center space-x-4 cursor-pointer"
-        (click)="toggleDropdown()"
-        *ngIf="isAuthenticated"
-      >
+      <div class="relative flex items-center space-x-4 cursor-pointer" (click)="toggleDropdown()">
         <img
           *ngIf="currentUser?.avatar"
           class="w-8 h-8 rounded-full border border-gray-500 shadow-sm"
           src="{{ currentUser?.avatar }}"
-          alt=""
+          alt="User Avatar"
         />
         <fa-icon
           *ngIf="!currentUser?.avatar"
@@ -66,27 +60,20 @@
           class="text-3xl"
         ></fa-icon>
         <p>{{ currentUser?.displayName }}</p>
-        <fa-icon [icon]="faDropDown" class="mb-1.5"></fa-icon>
+        <fa-icon [icon]="faDropDown" class="mb-1.5" ></fa-icon>
 
         <!-- Dropdown menu -->
         <div
-          class="absolute top-full md:right-40 right-0 w-48 bg-black text-white shadow-lg rounded-md"
-          *ngIf="isDropdownOpen"
+          class="absolute top-12 right-0 w-48 bg-black text-white shadow-lg rounded-md transition-opacity duration-300"
+          [ngClass]="{'opacity-100 visible': isDropdownOpen, 'opacity-0 invisible': !isDropdownOpen}"
         >
-          <a routerLink="/profile" class="block px-4 p-3 hover:text-red-500"
-            >Profile</a
-          >
-          <a
-            href="#"
-            class="block px-4 p-3 hover:text-red-500"
-            (click)="logout()"
-            >Logout</a
-          >
+          <a routerLink="/profile" class="block px-4 p-3 hover:text-red-500">Profile</a>
+          <a href="#" class="block px-4 p-3 hover:text-red-500" (click)="logout()">Logout</a>
         </div>
       </div>
     </ng-container>
 
-     <!-- Mobile Navigation -->
+    <!-- Mobile Navigation -->
     <div
       class="absolute top-full left-0 w-40 bg-black text-white flex flex-col items-center md:hidden rounded-xl transition-all duration-300"
       *ngIf="isMobileMenuOpen"
