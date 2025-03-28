@@ -22,10 +22,57 @@ namespace MovieTheater.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProfile()
         {
-            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new UnauthorizedAccessException());
-            var query = new GetProfileByIdQuery { Id = userId };
-            var profile = await _mediator.Send(query);
-            return Ok(profile);
+            // Lấy Id từ token
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null || !Guid.TryParse(userId, out var userGuid))
+            {
+                return BadRequest("UserId not found or invalid.");
+            }
+
+            try
+            {
+                // Tạo query để lấy profile
+                var query = new GetProfileByIdQuery { Id = userGuid };
+
+                var result = await _mediator.Send(query);
+
+                if (result == null)
+                {
+                    return NotFound("User not found.");
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error: {ex.Message}");
+            }
+        }
+
+        [HttpPut("edit")]
+        public async Task<IActionResult> EditProfile([FromBody] EditProfileCommand command)
+        {
+            // Lấy Id từ token
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null || !Guid.TryParse(userId, out var userGuid))
+            {
+                return BadRequest("UserId not found or invalid.");
+            }
+
+            // Gán id vào command
+            command.Id = userGuid;
+
+            try
+            {
+                var result = await _mediator.Send(command);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

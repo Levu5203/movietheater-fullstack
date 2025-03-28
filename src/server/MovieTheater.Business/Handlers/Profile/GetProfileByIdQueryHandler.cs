@@ -12,8 +12,8 @@ public class GetProfileByIdQueryHandler : BaseHandler, IRequestHandler<GetProfil
     {
     }
 
-    public async Task<UserProfileViewModel> Handle(GetProfileByIdQuery getProfileByIdQuery, CancellationToken cancellationToken) {
-        var user = await _unitOfWork.UserRepository.GetByIdAsync(getProfileByIdQuery.Id);
+    public async Task<UserProfileViewModel> Handle(GetProfileByIdQuery request, CancellationToken cancellationToken) {
+        var user = await _unitOfWork.UserRepository.GetByIdAsync(request.Id);
 
         if(user == null || user.IsDeleted){
             throw new KeyNotFoundException("User not found");
