@@ -137,7 +137,7 @@ export class AuthService implements IAuthService {
     }
     return null;
   }
-  private isTokenExpired(): boolean {
+  public isTokenExpired(): boolean {
     try {
       const userInformationFromToken = this.getUserInformationFromAccessToken();
       const expiry = userInformationFromToken!.exp;
@@ -154,5 +154,45 @@ export class AuthService implements IAuthService {
         this.logout();
       }
     }, 10000);
+  }
+
+  public hasAnyRole(requiredRoles: string[]): boolean {
+    if (!this.isAuthenticated()) return false;
+
+    const userInfo = this.getUserInformationFromAccessToken();
+    return requiredRoles.some((role) => userInfo?.roles?.includes(role));
+  }
+
+  public forgotPassword(email: string): Observable<any> {
+    return this.httpClient.post(this.apiUrl + '/forgot-password', { email });
+  }
+
+  public resetPassword(
+    token: string,
+    password: string,
+    email: string
+  ): Observable<any> {
+    return this.httpClient
+      .post(this.apiUrl + '/reset-password', {
+        token,
+        password,
+        email,
+      })
+      .pipe(
+        catchError((error) => {
+          // Xử lý lỗi HTTP
+          let errorMessage = 'An unknown error occurred';
+          if (error.error?.message) {
+            errorMessage = error.error.message;
+          } else if (error.statusText) {
+            errorMessage = error.statusText;
+          }
+          return throwError(() => ({
+            error: {
+              message: errorMessage,
+            },
+          }));
+        })
+      );
   }
 }

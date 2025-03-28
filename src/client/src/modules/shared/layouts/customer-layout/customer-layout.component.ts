@@ -7,6 +7,7 @@ import { RegisterComponent } from '../../../auth/register/register.component';
 import { ChangePasswordComponent } from '../../../customer/profile/change-password/change-password.component';
 import { ModalService } from '../../../../services/modal.service';
 import { CommonModule } from '@angular/common';
+import { ForgotPasswordComponent } from '../../../auth/forgotpassword/forgotpassword.component';
 
 @Component({
   selector: 'app-customer-layout',
@@ -18,6 +19,7 @@ import { CommonModule } from '@angular/common';
     LoginComponent,
     RegisterComponent,
     ChangePasswordComponent,
+    ForgotPasswordComponent,
   ],
   templateUrl: './customer-layout.component.html',
   styleUrl: './customer-layout.component.css',
