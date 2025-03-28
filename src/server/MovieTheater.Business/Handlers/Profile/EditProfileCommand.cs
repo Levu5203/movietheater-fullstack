@@ -1,5 +1,4 @@
-using MediatR;
-using MovieTheater.Models.Security;
+using MovieTheater.Business.ViewModels.Profile;
 
 namespace MovieTheater.Business.Handlers.Profile;
 
@@ -14,4 +13,5 @@ public class EditProfileCommand : BaseUpdateCommand<UserProfileViewModel>
     public string? Avatar { get; set; }
     public required string Email { get; set; }
     public required string Username { get; set; }
+    public required string PhoneNumber { get; set; }
 }

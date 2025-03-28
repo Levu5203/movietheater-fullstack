@@ -1,6 +1,3 @@
-using System;
-using MovieTheater.Models.Common;
-
 namespace MovieTheater.Business.ViewModels.Showtime;
 
 public class ShowtimeViewModel : MasterBaseViewModel

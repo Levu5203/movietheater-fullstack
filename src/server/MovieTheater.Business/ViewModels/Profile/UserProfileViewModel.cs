@@ -1,22 +1,28 @@
-public class UserProfileViewModel
+namespace MovieTheater.Business.ViewModels.Profile
 {
-    public required string FirstName { get; set; }
+    public class UserProfileViewModel
+    {
+        public Guid Id { get; set; }
+        public required string FirstName { get; set; }
 
-    public required string LastName { get; set; }
+        public required string LastName { get; set; }
 
-    public string DisplayName => $"{FirstName} {LastName}";
+        public string DisplayName => $"{FirstName} {LastName}";
 
-    public string? Address { get; set; }
+        public string? Address { get; set; }
 
-    public DateTime? DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
-    public required string Gender { get; set; }
+        public required string Gender { get; set; }
 
-    public required string IdentityCard { get; set; }
+        public required string IdentityCard { get; set; }
 
-    public string? Avatar { get; set; }
+        public string? Avatar { get; set; }
 
-    public required string Email { get; set; }
+        public required string Email { get; set; }
 
-    public required string Username { get; set; }
+        public required string Username { get; set; }
+
+        public required string PhoneNumber { get; set; }
+    }
 }

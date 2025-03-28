@@ -1,6 +1,4 @@
-using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
-using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -61,7 +59,7 @@ builder.Services.AddSwaggerGen(options =>
 // Register DbContext
 builder.Services.AddDbContext<MovieTheaterDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("MovieTheaterDbConnectionLocal"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MovieTheaterDbConnectionLocal")).EnableSensitiveDataLogging();
 });
 
 // Register Identity: UserManager, RoleManager, SignInManager

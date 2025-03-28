@@ -1,8 +1,7 @@
 using AutoMapper;
 using MediatR;
-using MovieTheater.Data;
+using MovieTheater.Business.ViewModels.Profile;
 using MovieTheater.Data.UnitOfWorks;
-using MovieTheater.Models.Security;
 
 namespace MovieTheater.Business.Handlers.Profile;
 
