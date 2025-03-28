@@ -33,7 +33,7 @@ public class ForgotPasswordCommandHandler : IRequestHandler<ForgotPasswordComman
         var frontendBaseUrl = _configuration["FrontendSettings:BaseUrl"];
         var resetLink = $"{frontendBaseUrl}/reset-password?email={user.Email}&token={token}";
 
-        var emailBody = $"Click <a href='{resetLink}'>here</a> to reset your password. The link is valid for 1 hour.";
+        var emailBody = $"Click <a href='{resetLink}'>here</a> to reset your password. The link is valid for 5 minutes.";
 
         await _emailService.SendEmailAsync(user.Email!, "Reset Password", emailBody);
 

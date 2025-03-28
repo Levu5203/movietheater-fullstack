@@ -63,7 +63,7 @@ builder.Services.AddDbContext<MovieTheaterDbContext>(options =>
 });
 
 builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
-    options.TokenLifespan = TimeSpan.FromHours(1));
+    options.TokenLifespan = TimeSpan.FromMinutes(5));
 
 builder.Services.Configure<EmailViewModel>(builder.Configuration.GetSection("EmailSettings"));
 
