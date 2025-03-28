@@ -156,6 +156,13 @@ export class AuthService implements IAuthService {
     }, 10000);
   }
 
+  public hasAnyRole(requiredRoles: string[]): boolean {
+    if (!this.isAuthenticated()) return false;
+
+    const userInfo = this.getUserInformationFromAccessToken();
+    return requiredRoles.some((role) => userInfo?.roles?.includes(role));
+  }
+
   public forgotPassword(email: string): Observable<any> {
     return this.httpClient.post(this.apiUrl + '/forgot-password', { email });
   }

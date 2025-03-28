@@ -14,6 +14,7 @@ export interface IAuthService {
   getUserInformation(): Observable<UserInformation | null>;
   getUserInformationFromAccessToken(): UserInformationFromToken | null;
   isTokenExpired(): boolean;
+  hasAnyRole(requiredRoles: string[]): boolean;
   forgotPassword(email: string): Observable<any>;
   resetPassword(
     token: string,

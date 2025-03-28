@@ -11,5 +11,5 @@ export const canActivateTeam: CanActivateFn = (
   state: RouterStateSnapshot
 ) => {
   const permissionsService = inject(PERMISSION_SERVICE);
-  return permissionsService.checkAdminPermission();
+  return permissionsService.checkAdminOrEmployeePermission();
 };

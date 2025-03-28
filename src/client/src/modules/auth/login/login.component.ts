@@ -6,14 +6,17 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import {
   FontAwesomeModule,
   IconDefinition,
 } from '@fortawesome/angular-fontawesome';
 import { ModalService } from '../../../services/modal.service';
 import { faTimes, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { AUTH_SERVICE } from '../../../constants/injection.constant';
+import {
+  AUTH_SERVICE,
+  MODAL_SERVICE,
+} from '../../../constants/injection.constant';
 import { IAuthService } from '../../../services/auth/auth-service.interface';
 
 @Component({
@@ -30,11 +33,17 @@ export class LoginComponent implements OnInit {
   public errorMessage: string = '';
   public showErrorMessage: boolean = false;
   constructor(
-    private modalService: ModalService,
-    @Inject(AUTH_SERVICE) private authService: IAuthService
+    @Inject(MODAL_SERVICE) private readonly modalService: ModalService,
+    @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
+    private readonly router: Router
   ) {
     this.authService.isAuthenticated().subscribe((res) => {
       if (res) {
+        const userRoles =
+        this.authService.getUserInformationFromAccessToken()?.roles;
+        if (userRoles && this.authService.hasAnyRole(['Admin', 'Employee'])) {
+          this.router.navigate(['/admin']);
+        }
         this.closeModal();
       }
     });
@@ -83,6 +92,7 @@ export class LoginComponent implements OnInit {
         if (response) {
           // Hide the modal
           this.closeModal();
+          window.location.reload();
         }
       },
 

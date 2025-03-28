@@ -1,7 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import {
-  AUTH_SERVICE,
-} from '../../constants/injection.constant';
+import { AUTH_SERVICE } from '../../constants/injection.constant';
 import { IAuthService } from '../auth/auth-service.interface';
 import { Router } from '@angular/router';
 import { IPermissionService } from './permission-service.interface';
@@ -43,18 +41,14 @@ export class PermissionService implements IPermissionService {
     return true;
   }
 
-  checkAdminPermission(): boolean {
-    if (!this.isAuthenticated() || !this.isAdmin()) {
+  checkAdminOrEmployeePermission(): boolean {
+    if (
+      !this.isAuthenticated() ||
+      !this.authService.hasAnyRole(['Admin', 'Employee'])
+    ) {
       this.router.navigate(['/']);
       return false;
     }
     return true;
-  }
-
-  hasAnyRole(requiredRoles: string[]): boolean {
-    if (!this.isAuthenticated()) return false;
-
-    const userInfo = this.authService.getUserInformationFromAccessToken();
-    return requiredRoles.some((role) => userInfo?.roles?.includes(role));
   }
 }
