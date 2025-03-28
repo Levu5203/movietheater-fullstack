@@ -1,4 +1,6 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
+using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -7,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MovieTheater.Business.Handlers.Auth;
+using MovieTheater.Business.Mappings;
 using MovieTheater.Business.Services;
 using MovieTheater.Data;
 using MovieTheater.Data.DataSeeding;
@@ -58,7 +61,7 @@ builder.Services.AddSwaggerGen(options =>
 // Register DbContext
 builder.Services.AddDbContext<MovieTheaterDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("MovieTheaterDbConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MovieTheaterDbConnectionLocal"));
 });
 
 // Register Identity: UserManager, RoleManager, SignInManager
@@ -124,8 +127,9 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = builder.Configuration["JWT:Issuer"],
         ValidAudience = builder.Configuration["JWT:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-            builder.Configuration["JWT:Secret"] ?? throw new InvalidOperationException("JWT:Secret is not configured.")))
+            builder.Configuration["JWT:Secret"] ?? throw new InvalidOperationException("JWT:Secret is not configured."))),
     };
+
 });
 
 builder.Services.AddCors(options =>
@@ -139,6 +143,13 @@ builder.Services.AddCors(options =>
         .AllowAnyOrigin()
         .AllowAnyMethod()
         .AllowAnyHeader());
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .WithExposedHeaders("Authorization");
+    });
 });
 
 
@@ -147,7 +158,7 @@ builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(LoginRequestCommand).Assembly));
 
 // Add AutoMapper
-// builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
