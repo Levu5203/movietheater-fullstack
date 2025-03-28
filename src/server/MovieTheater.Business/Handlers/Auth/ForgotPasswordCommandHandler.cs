@@ -12,10 +12,10 @@ public class ForgotPasswordCommandHandler : IRequestHandler<ForgotPasswordComman
 
     private readonly IEmailService _emailService;
 
-        private readonly IConfiguration _configuration;
+    private readonly IConfiguration _configuration;
 
 
-    public ForgotPasswordCommandHandler(UserManager<User> userManager, IEmailService emailService,  IConfiguration configuration)
+    public ForgotPasswordCommandHandler(UserManager<User> userManager, IEmailService emailService, IConfiguration configuration)
     {
         _userManager = userManager;
         _emailService = emailService;
@@ -31,7 +31,7 @@ public class ForgotPasswordCommandHandler : IRequestHandler<ForgotPasswordComman
 
         // Build the reset link manually
         var frontendBaseUrl = _configuration["FrontendSettings:BaseUrl"];
-        var resetLink = $"{frontendBaseUrl}/reset-password?email={user.Email}&token={Uri.UnescapeDataString(token)}";
+        var resetLink = $"{frontendBaseUrl}/reset-password?email={user.Email}&token={token}";
 
         var emailBody = $"Click <a href='{resetLink}'>here</a> to reset your password. The link is valid for 1 hour.";
 

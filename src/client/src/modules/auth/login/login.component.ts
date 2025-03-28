@@ -33,23 +33,12 @@ export class LoginComponent implements OnInit {
   public errorMessage: string = '';
   public showErrorMessage: boolean = false;
   constructor(
-    @Inject(MODAL_SERVICE) private readonly modalService: ModalService,
+    private readonly modalService: ModalService,
     @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
     private readonly router: Router
-  ) {
-    this.authService.isAuthenticated().subscribe((res) => {
-      if (res) {
-        const userRoles =
-        this.authService.getUserInformationFromAccessToken()?.roles;
-        if (userRoles && this.authService.hasAnyRole(['Admin', 'Employee'])) {
-          this.router.navigate(['/admin']);
-        }
-        this.closeModal();
-      }
-    });
-  }
-  openModal() {
-    this.modalService.open('register');
+  ) {}
+  openModal(modalName: string) {
+    this.modalService.open(modalName);
   }
 
   closeModal() {
@@ -90,9 +79,15 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.form.value).subscribe({
       next: (response) => {
         if (response) {
-          // Hide the modal
-          this.closeModal();
-          window.location.reload();
+          const userRoles =
+            this.authService.getUserInformationFromAccessToken()?.roles;
+          console.log(userRoles);
+
+          if (userRoles && this.authService.hasAnyRole(['Admin', 'Employee'])) {
+            this.router.navigate(['/admin']);
+          } else {
+            this.closeModal();
+          }
         }
       },
 

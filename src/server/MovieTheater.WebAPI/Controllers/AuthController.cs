@@ -71,7 +71,7 @@ public class AuthController(IMediator mediator) : ControllerBase
         var result = await _mediator.Send(command);
         if (!result)
         {
-            return BadRequest("Email not found");
+            return BadRequest(new { message = "Email not found" });
         }
         return Ok(new { message = "Link to reset password has been sent to your email." });
     }
@@ -82,9 +82,12 @@ public class AuthController(IMediator mediator) : ControllerBase
         var result = await _mediator.Send(command);
         if (!result)
         {
-            return BadRequest("Invalid or expired token.");
+            return BadRequest(new
+            {
+                message = "Invalid or expired token. Please request a new password reset link"
+            });
         }
 
-        return Ok("Password has been reset successfully.");
+        return Ok(new { message = "Password has been reset successfully." });
     }
 }

@@ -8,5 +8,5 @@ public class ResetPasswordCommand : IRequest<bool>
 
     public required string Token { get; set; }
 
-    public required string NewPassword { get; set; }
+    public required string Password { get; set; }
 }
