@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MovieTheater.Business.Handlers.Auth;
 using MovieTheater.Business.Services;
+using MovieTheater.Business.ViewModels.Auth;
 using MovieTheater.Data;
 using MovieTheater.Data.DataSeeding;
 using MovieTheater.Data.Repositories;
@@ -58,8 +59,13 @@ builder.Services.AddSwaggerGen(options =>
 // Register DbContext
 builder.Services.AddDbContext<MovieTheaterDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("MovieTheaterDbConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MovieTheaterDbConnectionLocal"));
 });
+
+builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
+    options.TokenLifespan = TimeSpan.FromMinutes(5));
+
+builder.Services.Configure<EmailViewModel>(builder.Configuration.GetSection("EmailSettings"));
 
 // Register Identity: UserManager, RoleManager, SignInManager
 builder.Services.AddIdentity<User, Role>(options =>
@@ -86,6 +92,9 @@ builder.Services.AddScoped<IUserIdentity, UserIdentity>();
 
 // Register Token Service
 builder.Services.AddScoped<ITokenService, TokenService>();
+
+// Register Email Service
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 // Register controllers
 builder.Services.AddControllers();

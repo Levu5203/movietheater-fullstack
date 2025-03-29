@@ -9,10 +9,4 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'client';
-
-  // Clears all localStorage when the tab/browser is closed
-  @HostListener('window:beforeunload', ['$event'])
-  clearLocalStorage(event: Event) {
-    localStorage.clear();
-  }
 }
