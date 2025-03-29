@@ -1,19 +1,8 @@
-<section
-  class="flex flex-col md:flex-row max-w-6xl mx-auto mt-10 p-4 space-y-6 md:p-2 md:space-y-0 md:space-x-10"
->
+<section class="flex flex-col md:flex-row max-w-6xl mx-auto mt-10 p-4 space-y-6 md:p-2 md:space-y-0 md:space-x-10">
   <!-- Left Avatar -->
-  <div
-    class="flex flex-col items-center space-y-4 pb-4 border-b-1 border-slate-500 md:border-none md:mt-6"
-  >
-    <img
-      src="./assets/profile-user.png"
-      alt="Avatar"
-      class="w-32 h-32 rounded-full"
-    />
-    <button
-      type="button"
-      class="bg-[#EF4444] hover:bg-[#E30713] px-4 py-2 rounded text-sm cursor-pointer"
-    >
+  <div class="flex flex-col items-center space-y-4 pb-4 border-b-1 border-slate-500 md:border-none md:mt-6">
+    <img src="./assets/profile-user.png" alt="Avatar" class="w-32 h-32 rounded-full" />
+    <button type="button" class="bg-[#EF4444] hover:bg-[#E30713] px-4 py-2 rounded text-sm cursor-pointer">
       Change avatar
     </button>
   </div>
@@ -21,66 +10,59 @@
   <!-- Right Details -->
   <div class="flex-1 md:border-l border-slate-500 md:pl-10">
     <h2 class="text-2xl font-bold mb-6 text-center">DETAIL INFORMATION</h2>
-    <form class="space-y-4">
-      <div>
-        <label class="text-sm" for="username">Username</label>
-        <input
-          type="text"
-          name="username"
-          title="username"
-          value="superadmin@123"
-          class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm"
-        />
-      </div>
-      <div>
-        <label class="text-sm" for="fullName">Full Name</label>
-        <input
-          type="text"
-          name="fullName"
-          title="fullName"
-          value="Dinh Xuan Cong"
-          class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm"
-        />
+    <div class="flex items-center mb-4">
+      <label class="text-sm">Username:</label>
+      <span class="ml-5 text-xl">{{currentUser?.username}}</span>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+      <div class="flex space-x-4">
+        <div class="flex-1">
+          <label class="text-sm" for="firstName">First Name</label>
+          <input type="text" formControlName="firstName"
+            class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm" placeholder="Enter Firstname"
+            required [ngClass]="{
+                'border-red-500 bg-red-100 text-red-500':
+                  form.get('firstName')?.invalid && form.get('firstName')?.touched
+              }" />
+          <span *ngIf="
+                form.get('firstName')?.invalid && form.get('firstName')?.touched
+              " class="text-red-500 text-sm">
+            First name is required with 1-50 characters.
+          </span>
+        </div>
+        <div class="flex-1">
+          <label class="text-sm" for="lastName">Last Name</label>
+          <input type="text" formControlName="lastName"
+            class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm" placeholder="Enter last name"
+            required [ngClass]="{
+              'border-red-500 bg-red-100 text-red-500':
+                form.get('lastName')?.invalid && form.get('lastName')?.touched
+            }" />
+          <span *ngIf="form.get('lastName')?.invalid && form.get('lastName')?.touched" class="text-red-500 text-sm">
+            Last name is required with 1-50 characters.
+          </span>
+        </div>
       </div>
       <div class="flex space-x-4">
         <div class="flex-1">
           <label class="text-sm" for="dateOfBirth">Date of Birth</label>
           <div class="relative">
-            <input
-              name="dateOfBirth"
-              title="Date of Birth"
-              type="date"
-              value="2003-01-01"
-              class="w-full mt-1 p-2 bg-transparent border border-white rounded appearance-none"
-            />
-            <span
-              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-white pointer-events-none"
-            >
+            <input formControlName="dateOfBirth" type="date"
+              class="w-full mt-1 p-2 bg-transparent border border-white rounded appearance-none" />
+            <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-white pointer-events-none">
               <fa-icon [icon]="faCalendar"></fa-icon>
             </span>
           </div>
         </div>
         <div class="flex-1">
-
           <label for="gender" class="text-sm">Gender</label>
           <div class="flex gap-4 py-2">
             <label class="flex items-center">
-              <input
-                type="radio"
-                formControlName="gender"
-                value="Male"
-                class="mr-2"
-                checked
-              />
+              <input type="radio" formControlName="gender" value="Male" class="mr-2" />
               Male
             </label>
             <label class="flex items-center">
-              <input
-                type="radio"
-                formControlName="gender"
-                value="Female"
-                class="mr-2"
-              />
+              <input type="radio" formControlName="gender" value="Female" class="mr-2" />
               Female
             </label>
           </div>
@@ -89,60 +71,65 @@
       <div class="flex space-x-4">
         <div class="flex-1">
           <label class="text-sm" for="identityCard">Identity Card</label>
-          <input
-            name="identityCard"
-            title="identityCard"
-            type="text"
-            value="0123456789"
+          <input formControlName="identityCard" type="text"
             class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm"
-          />
+            placeholder="Enter identity card number" required [ngClass]="{
+              'border-red-500 bg-red-100 text-red-500':
+                form.get('identityCard')?.invalid &&
+                form.get('identityCard')?.touched
+            }" />
+          <span *ngIf="
+              form.get('identityCard')?.invalid &&
+              form.get('identityCard')?.touched
+            " class="text-red-500 text-sm">
+            Enter a valid identity card (10-18 digits).
+          </span>
         </div>
         <div class="flex-1">
           <label class="text-sm" for="email">Email</label>
-          <input
-            name="email"
-            title="email"
-            type="email"
-            value="superadmin@gmail.com"
-            class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm"
-          />
+          <input formControlName="email" type="email"
+            class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm" placeholder="Enter email"
+            required [ngClass]="{
+              'border-red-500 bg-red-100 text-red-500':
+                form.get('email')?.invalid && form.get('email')?.touched
+            }" />
+          <span *ngIf="form.get('email')?.invalid && form.get('email')?.touched" class="text-red-500 text-sm">
+            Email is required with 3-50 characters
+          </span>
         </div>
       </div>
       <div class="flex space-x-4">
         <div class="flex-1">
           <label class="text-sm" for="phoneNumber">Phone Number</label>
-          <input
-            name="phoneNumber"
-            title="phoneNumber"
-            type="text"
-            value="0123456789"
-            class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm"
-          />
+          <input formControlName="phoneNumber" type="text"
+            class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm" placeholder="Enter phone number"
+            [ngClass]="{
+              'border-red-500 bg-red-100 text-red-500':
+                form.get('phoneNumber')?.invalid &&
+                form.get('phoneNumber')?.touched &&
+                form.get('phoneNumber')?.value?.trim() !== ''
+            }" />
+          <span *ngIf="
+              form.get('phoneNumber')?.invalid &&
+              form.get('phoneNumber')?.touched &&
+              form.get('phoneNumber')?.value?.trim() !== ''
+            " class="text-red-500 text-sm">
+            Enter a valid phone number (10-15 digits).
+          </span>
         </div>
         <div class="flex-1">
           <label class="text-sm" for="address">Address</label>
-          <input
-            name="address"
-            title="address"
-            type="text"
-            value="Duy Tan, Cau Giay, Ha Noi"
-            class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm"
-          />
+          <input formControlName="address" type="text"
+            class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm" />
         </div>
       </div>
       <div class="flex justify-end py-4">
         <div class="flex flex-row space-x-4 w-full pl-0 md:w-1/2 md:pl-2">
-          <button
-            type="button"
-            (click)="openModal()"
-            class="border border-white hover:bg-gray-500 px-4 py-2 rounded text-sm w-full cursor-pointer"
-          >
+          <button type="button" (click)="openModal()"
+            class="border border-white hover:bg-gray-500 px-4 py-2 rounded text-sm w-full cursor-pointer">
             Change password
           </button>
-          <button
-            type="submit"
-            class="bg-[#EF4444] hover:bg-[#E30713] px-4 py-2 rounded text-sm w-full cursor-pointer"
-          >
+          <button type="submit" class="bg-[#EF4444] hover:bg-[#E30713] px-4 py-2 rounded text-sm w-full cursor-pointer">
             Save Information
           </button>
         </div>
