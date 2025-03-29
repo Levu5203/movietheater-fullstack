@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace MovieTheater.Business.Handlers.Auth;
+namespace MovieTheater.Business.Handlers.Profile;
 
 public class ChangePasswordCommand : IRequest<bool>
 {

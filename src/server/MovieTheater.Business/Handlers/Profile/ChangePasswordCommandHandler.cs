@@ -2,7 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using MovieTheater.Models.Security;
 
-namespace MovieTheater.Business.Handlers.Auth;
+namespace MovieTheater.Business.Handlers.Profile;
 
 public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, bool>
 {
