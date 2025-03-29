@@ -90,4 +90,19 @@ public class AuthController(IMediator mediator) : ControllerBase
 
         return Ok(new { message = "Password has been reset successfully." });
     }
+
+        [HttpPost("change-password")]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommand command)
+    {
+        var result = await _mediator.Send(command);
+        if (!result)
+        {
+            return BadRequest(new
+            {
+                message = "Error changing password!"
+            });
+        }
+
+        return Ok(new { message = "Password has been changed successfully." });
+    }
 }
