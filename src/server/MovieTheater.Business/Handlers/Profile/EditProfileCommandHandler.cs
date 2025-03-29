@@ -26,14 +26,12 @@ public class EditProfileCommandHandle : BaseHandler, IRequestHandler<EditProfile
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;
             user.Address = request.Address;
-            user.DateOfBirth = request.DateOfBirth;
+            user.DateOfBirth = request.DateOfBirth ?? user.DateOfBirth;
             user.Gender = request.Gender;
             user.IdentityCard = request.IdentityCard;
             user.Avatar = request.Avatar;
+            user.PhoneNumber = request.PhoneNumber;
             user.Email = request.Email;
-            user.UserName = request.Username;
-            user.UpdatedAt = DateTime.UtcNow;
-
             _unitOfWork.UserRepository.Update(user);
             await _unitOfWork.SaveChangesAsync();
             await _unitOfWork.CommitTransactionAsync();

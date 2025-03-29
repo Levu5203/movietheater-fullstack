@@ -9,11 +9,11 @@ namespace MovieTheater.WebAPI.Controllers
     [Authorize]
     [Route("api/profile")]
     [ApiController]
-    public class ProfileController : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public ProfileController(IMediator mediator)
+        public UserController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -70,7 +70,7 @@ namespace MovieTheater.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest($"Controller: {ex.Message}");
             }
         }
     }
