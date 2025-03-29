@@ -2,8 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError } from 'rxjs';
 import { UserProfileViewModel } from '../models/profile/user-profile.model';
-import { AuthService } from './auth/auth.service';
-import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -13,20 +11,11 @@ export class ProfileService {
   private getProfileUrl = `${this.apiUrl}`;
   private updateProfileUrl = `${this.apiUrl}/edit`;
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
-
-  private getHeaders() {
-    const token = this.authService.getAccessToken();
-    return new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
-  }
+  constructor(private http: HttpClient) {}
 
   getProfile(): Observable<UserProfileViewModel> {
     return this.http
-      .get<UserProfileViewModel>(this.getProfileUrl, {
-        headers: this.getHeaders(),
-      })
+      .get<UserProfileViewModel>(this.getProfileUrl)
       .pipe(
         catchError((error) => {
           console.error('Failed to get profile:', error);
@@ -39,9 +28,7 @@ export class ProfileService {
     profileData: Partial<UserProfileViewModel>
   ): Observable<UserProfileViewModel> {
     return this.http
-      .put<UserProfileViewModel>(this.updateProfileUrl, profileData, {
-        headers: this.getHeaders(),
-      })
+      .put<UserProfileViewModel>(this.updateProfileUrl, profileData)
       .pipe(
         catchError((error) => {
           console.error('Failed to update profile:', error);
@@ -49,4 +36,9 @@ export class ProfileService {
         })
       );
   }
+
+  changePassword(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/change-password`, data);
+  }
+  
 }
