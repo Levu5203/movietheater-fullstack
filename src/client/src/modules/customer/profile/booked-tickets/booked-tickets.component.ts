@@ -40,12 +40,14 @@ export class BookedTicketsComponent implements OnInit {
   public faAnglesLeft: IconDefinition = faAnglesLeft;
   public faAnglesRight: IconDefinition = faAnglesRight;
 
+  //Drop downdown
   public isDropdownOpen: boolean = false;
 
   public toggleDropdown(): void {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
+  //Call API
   bookedTickets: any[] = [];
 
   constructor(private http: HttpClient) {}
@@ -58,7 +60,7 @@ export class BookedTicketsComponent implements OnInit {
     const token = localStorage.getItem('accessToken');
 
     if (!token) {
-      console.error('⚠ Không tìm thấy token! Hãy đăng nhập lại.');
+      console.error('Không tìm thấy token! Hãy đăng nhập lại.');
       return;
     }
 
@@ -71,23 +73,18 @@ export class BookedTicketsComponent implements OnInit {
       .subscribe(
         (data) => {
           this.bookedTickets = data;
-          console.log('✅ Danh sách vé đã đặt:', this.bookedTickets);
+          console.log('Danh sách vé đã đặt:', this.bookedTickets);
         },
         (error) => {
-          console.error('❌ Lỗi khi lấy danh sách vé đã đặt:', error);
+          console.error('Lỗi khi lấy danh sách vé đã đặt:', error);
         }
       );
   }
 
-
+  //Pagination 
   public Math = Math;
   currentPage: number = 1;
-  itemsPerPage: number = 1;
-
-  get paginatedTickets() {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    return this.bookedTickets.slice(startIndex, startIndex + this.itemsPerPage);
-  }
+  itemsPerPage: number = 3;
 
   nextPage() {
     if (this.currentPage < Math.ceil(this.bookedTickets.length / this.itemsPerPage)) {
@@ -100,4 +97,26 @@ export class BookedTicketsComponent implements OnInit {
       this.currentPage--;
     }
   }
+
+  // Search
+  searchKeyword: string = '';
+
+  get filteredTickets() {
+    if (!this.searchKeyword.trim()) {
+      return this.bookedTickets.slice(
+        (this.currentPage - 1) * this.itemsPerPage,
+        this.currentPage * this.itemsPerPage
+      );
+    }
+  
+    const filtered = this.bookedTickets.filter(ticket =>
+      ticket.movieName.toLowerCase().includes(this.searchKeyword.toLowerCase())
+    );
+  
+    return filtered.slice(
+      (this.currentPage - 1) * this.itemsPerPage,
+      this.currentPage * this.itemsPerPage
+    );
+  }
+  
 }

@@ -4,8 +4,10 @@
       <div class="flex items-center">
         <input
           type="text"
-          placeholder="Search"
+          placeholder="Enter movie name"
           class="flex-1 px-4 py-2 rounded bg-[#0B0D13] hover:bg-gray-800 cursor-pointer"
+          [(ngModel)]="searchKeyword"
+          [ngModelOptions]="{standalone: true}"
         />
         <button
           title="filter"
@@ -124,7 +126,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let ticket of paginatedTickets; let i = index" class="bg-gray-800 border-b border-slate-400 *:py-4">
+        <tr *ngFor="let ticket of filteredTickets; let i = index" class="bg-gray-800 border-b border-slate-400 *:py-4">
           <td class="px-4 py-2">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
           <td class="px-4 py-2">{{ ticket.movieName }}</td>
           <td class="px-4 py-2">{{ ticket.bookingDate }}</td>

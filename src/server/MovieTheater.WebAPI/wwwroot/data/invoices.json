@@ -43,5 +43,32 @@
     "ShowTimeId": "e5f6a7b8-5555-4562-b3fc-888899990000",
     "CreatedAt": "2025-03-27T09:00:00",
     "CreatedById": "93f8139d-3195-4a4e-647b-08dd5c670130"
+  },
+  {
+    "Id": "b2c3d4e5-2222-4562-b3fc-222233334445",
+    "TotalMoney": 200000,
+    "AddedScore": 20,
+    "UserId": "56C86DC2-0C0D-4699-BC37-5953B0EFB356",
+    "ShowTimeId": "a1b2c3d4-1111-4562-b3fc-444455556666",
+    "CreatedAt": "2025-03-26T10:00:00",
+    "CreatedById": "93f8139d-3195-4a4e-647b-08dd5c670130"
+  },
+  {
+    "Id": "b2c3d4e5-2222-4562-b3fc-222233334446",
+    "TotalMoney": 200000,
+    "AddedScore": 20,
+    "UserId": "56C86DC2-0C0D-4699-BC37-5953B0EFB356",
+    "ShowTimeId": "c3d4e5f6-3333-4562-b3fc-666677778888",
+    "CreatedAt": "2025-03-26T10:00:00",
+    "CreatedById": "93f8139d-3195-4a4e-647b-08dd5c670130"
+  },
+  {
+    "Id": "b2c3d4e5-2222-4562-b3fc-222233334447",
+    "TotalMoney": 200000,
+    "AddedScore": 20,
+    "UserId": "56C86DC2-0C0D-4699-BC37-5953B0EFB356",
+    "ShowTimeId": "d4e5f6a7-4444-4562-b3fc-777788889999",
+    "CreatedAt": "2025-03-26T10:00:00",
+    "CreatedById": "93f8139d-3195-4a4e-647b-08dd5c670130"
   }
 ] 

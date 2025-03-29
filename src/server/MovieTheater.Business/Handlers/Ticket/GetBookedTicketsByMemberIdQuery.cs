@@ -4,7 +4,7 @@ using MovieTheater.Business.ViewModels.Ticket;
 
 namespace MovieTheater.Business.Handlers.Ticket;
 
-public class GetBookedTicketsByMemberIdQuery : IRequest<List<BookedTicketViewModel>>
+public class GetBookedTicketsByMemberIdQuery : BaseGetByIdQuery<List<BookedTicketViewModel>>
 {
     public Guid MemberId { get; }
 

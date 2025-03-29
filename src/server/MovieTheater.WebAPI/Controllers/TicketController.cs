@@ -27,11 +27,9 @@ namespace MovieTheater.WebAPI.Controllers
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-
         if (string.IsNullOrEmpty(userId)) {
             return Unauthorized("User not authenticated");
         }
-
 
         var query = new GetBookedTicketsByMemberIdQuery(Guid.Parse(userId));
         var result = await _mediator.Send(query);
