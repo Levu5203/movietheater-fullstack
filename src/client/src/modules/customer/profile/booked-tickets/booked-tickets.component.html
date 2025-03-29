@@ -1,5 +1,5 @@
 <section class="max-w-6xl mx-2 md:mx-auto py-10 text-white">
-  <form>
+  <form [formGroup]="filterForm">
     <div class="flex justify-between items-center mb-4">
       <div class="flex items-center">
         <input
@@ -36,6 +36,7 @@
           type="button"
           class="hover:underline cursor-pointer"
           id="resetFilter"
+          (click)="resetFilter()"
         >
           <fa-icon [icon]="faRotateLeft" class="mr-2"></fa-icon>
           <span>Reset Filter</span>
@@ -47,9 +48,7 @@
           <label class="text-sm">From Date</label>
           <div class="relative">
             <input
-              id="fromDate"
-              name="fromDate"
-              title="From date"
+              formControlName="fromDate"
               type="date"
               class="w-full mt-1 p-2 bg-[#0B0D13] border border-white rounded appearance-none"
             />
@@ -66,10 +65,7 @@
           <label class="text-sm">To Date</label>
           <div class="relative">
             <input
-              id="toDate
-              name="
-              toDate
-              title="To date"
+              formControlName="toDate"
               type="date"
               class="w-full mt-1 p-2 bg-[#0B0D13] border border-white rounded appearance-none"
             />
@@ -89,9 +85,11 @@
             formControlName="status"
             class="w-full mt-1 p-2.5 border border-white rounded bg-[#0B0D13]"
           >
-            <option value="" class="bg-[#0B0D13] text-white">All</option>
-            <option value="ADDED" class="bg-[#0B0D13] text-white">ADDED</option>
-            <option value="USED" class="bg-[#0B0D13] text-white">USED</option>
+            <option value="All" class="bg-[#0B0D13] text-white">All</option>
+            <option value="AlreadyPaid" class="bg-[#0B0D13] text-white">AlreadyPaid</option>
+            <option value="WaitForPayment" class="bg-[#0B0D13] text-white">WaitForPayment</option>
+            <option value="Cancelled" class="bg-[#0B0D13] text-white">Cancelled</option>
+            <option value="Used" class="bg-[#0B0D13] text-white">Used</option>
           </select>
         </div>
       </div>
@@ -100,63 +98,59 @@
           type="button"
           class="w-full sm:w-auto px-8 border border-white text-white p-2 rounded hover:bg-slate-600 transition cursor-pointer"
           (click)="toggleDropdown()"
+          (click)="resetFilter()"
         >
           Cancel
-        </button>
-
-        <button
-          type="submit"
-          class="w-full sm:w-auto px-8 p-2 bg-[#EF4444] hover:bg-[#E30713] rounded text-white transition cursor-pointer"
-        >
-          Apply
         </button>
       </div>
     </div>
   </form>
-  <!-- Table -->
-  <div class="overflow-x-auto">
-    <table class="min-w-[600px] w-full text-sm *:text-center">
-      <thead>
-        <tr class="bg-[#6A1B1B] text-white border-b border-slate-400 *:p-4">
-          <th>No</th>
-          <th>MOVIE NAME</th>
-          <th>BOOKING DATE</th>
-          <th>TOTAL AMOUNT</th>
-          <th>STATUS</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let ticket of filteredTickets; let i = index" class="bg-gray-800 border-b border-slate-400 *:py-4">
-          <td class="px-4 py-2">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
-          <td class="px-4 py-2">{{ ticket.movieName }}</td>
-          <td class="px-4 py-2">{{ ticket.bookingDate }}</td>
-          <td class="px-4 py-2">{{ ticket.totalMoney }}</td>
-          <td class="px-4 py-2">{{ ticket.status }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <div class="flex flex-col">
+      <!-- Table -->
+    <div class="overflow-x-auto min-h-100">
+      <table class="min-w-[600px] w-full text-sm *:text-center">
+        <thead>
+          <tr class="bg-[#6A1B1B] text-white border-b border-slate-400 *:p-4">
+            <th>No</th>
+            <th>MOVIE NAME</th>
+            <th>BOOKING DATE</th>
+            <th>TOTAL AMOUNT</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ticket of searchedAndFilteredTickets; let i = index" class="bg-gray-800 border-b border-slate-400 *:py-4">
+            <td class="px-4 py-2">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+            <td class="px-4 py-2">{{ ticket.movieName }}</td>
+            <td class="px-4 py-2">{{ ticket.bookingDate }}</td>
+            <td class="px-4 py-2">{{ ticket.totalMoney }}</td>
+            <td class="px-4 py-2">{{ ticket.status }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-  <!-- Pagination -->
-  <div class="flex justify-end gap-2 mt-6 items-center">
-    <button
-      (click)="prevPage()"
-      [disabled]="currentPage === 1"
-      class="px-4 py-2 rounded bg-gray-500 hover:bg-gray-600 text-white disabled:opacity-50"
-    >
-      Prev
-    </button>
-
-
-    <span class="text-lg">Page {{ currentPage }} / {{ Math.ceil(bookedTickets.length / itemsPerPage) }}</span>
+    <!-- Pagination -->
+    <div class="flex justify-end gap-2 mt-6 items-center">
+      <button
+        (click)="prevPage()"
+        [disabled]="currentPage === 1"
+        class="px-4 py-2 rounded bg-gray-500 hover:bg-gray-600 text-white disabled:opacity-50"
+      >
+        Prev
+      </button>
 
 
-    <button
-      (click)="nextPage()"
-      [disabled]="currentPage >= Math.ceil(bookedTickets.length / itemsPerPage)"
-      class="px-4 py-2 rounded bg-gray-500 hover:bg-gray-600 text-white disabled:opacity-50"
-    >
-      Next
-    </button>
+      <span class="text-lg">Page {{ currentPage }} / {{ Math.ceil(bookedTickets.length / itemsPerPage) }}</span>
+
+
+      <button
+        (click)="nextPage()"
+        [disabled]="currentPage >= Math.ceil(bookedTickets.length / itemsPerPage)"
+        class="px-4 py-2 rounded bg-gray-500 hover:bg-gray-600 text-white disabled:opacity-50"
+      >
+        Next
+      </button>
+    </div>
   </div>
 </section>

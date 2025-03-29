@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   FontAwesomeModule,
   IconDefinition,
@@ -22,7 +22,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-booked-tickets',
-  imports: [CommonModule, FontAwesomeModule, FormsModule],
+  imports: [CommonModule, FontAwesomeModule, FormsModule, ReactiveFormsModule],
   templateUrl: './booked-tickets.component.html',
   styleUrl: './booked-tickets.component.css',
 })
@@ -41,6 +41,7 @@ export class BookedTicketsComponent implements OnInit {
   public faAnglesRight: IconDefinition = faAnglesRight;
 
   //Drop downdown
+
   public isDropdownOpen: boolean = false;
 
   public toggleDropdown(): void {
@@ -50,7 +51,13 @@ export class BookedTicketsComponent implements OnInit {
   //Call API
   bookedTickets: any[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private fb: FormBuilder) {
+    this.filterForm = this.fb.group({
+      fromDate: [''],
+      toDate: [''],
+      status: ['']
+    });
+  }
 
   ngOnInit(): void {
     this.loadBookedTickets();
@@ -98,18 +105,55 @@ export class BookedTicketsComponent implements OnInit {
     }
   }
 
-  // Search
-  searchKeyword: string = '';
+  //Filter and Search
+  public filterForm: FormGroup;
 
   get filteredTickets() {
+    const filterData = this.filterForm.value;
+    const fromDate = filterData.fromDate ? new Date(filterData.fromDate) : null;
+    const toDate = filterData.toDate ? new Date(filterData.toDate) : null;
+    const status = filterData.status ? filterData.status.toLowerCase() : '';
+  
+    return this.bookedTickets.filter(ticket => {
+      const bookingDate = new Date(ticket.bookingDate); // Chuyển đổi ngày đặt vé sang kiểu Date
+  
+      // Kiểm tra ngày bắt đầu
+      if (fromDate && bookingDate < fromDate) {
+        return false;
+      }
+  
+      // Kiểm tra ngày kết thúc
+      if (toDate && bookingDate > toDate) {
+        return false;
+      }
+  
+      // Kiểm tra trạng thái
+      if (status && ticket.status.toLowerCase() !== status) {
+        return false;
+      }
+  
+      return true;
+    });
+  }
+
+  applyFilter() {
+    const filterData = this.filterForm.value;
+    console.log('Filter Data:', filterData);
+    console.log(this.filteredTickets)
+  }
+
+  searchKeyword: string = '';
+
+
+  get searchedAndFilteredTickets() {
     if (!this.searchKeyword.trim()) {
-      return this.bookedTickets.slice(
+      return this.filteredTickets.slice(
         (this.currentPage - 1) * this.itemsPerPage,
         this.currentPage * this.itemsPerPage
       );
     }
   
-    const filtered = this.bookedTickets.filter(ticket =>
+    const filtered = this.filteredTickets.filter(ticket =>
       ticket.movieName.toLowerCase().includes(this.searchKeyword.toLowerCase())
     );
   
@@ -119,4 +163,12 @@ export class BookedTicketsComponent implements OnInit {
     );
   }
   
+  //Reset filter
+  public resetFilter() {
+    this.filterForm.reset({
+      fromDate: '',
+      toDate: '',
+      status: ''
+    });
+  }
 }
