@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MovieTheater.Business.Handlers.Auth;
+using MovieTheater.Business.Mappings;
 using MovieTheater.Business.Services;
 using MovieTheater.Business.ViewModels.Auth;
 using MovieTheater.Data;
@@ -133,8 +134,9 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = builder.Configuration["JWT:Issuer"],
         ValidAudience = builder.Configuration["JWT:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-            builder.Configuration["JWT:Secret"] ?? throw new InvalidOperationException("JWT:Secret is not configured.")))
+            builder.Configuration["JWT:Secret"] ?? throw new InvalidOperationException("JWT:Secret is not configured."))),
     };
+
 });
 
 builder.Services.AddCors(options =>
@@ -148,6 +150,13 @@ builder.Services.AddCors(options =>
         .AllowAnyOrigin()
         .AllowAnyMethod()
         .AllowAnyHeader());
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .WithExposedHeaders("Authorization");
+    });
 });
 
 
@@ -156,7 +165,7 @@ builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(LoginRequestCommand).Assembly));
 
 // Add AutoMapper
-// builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
