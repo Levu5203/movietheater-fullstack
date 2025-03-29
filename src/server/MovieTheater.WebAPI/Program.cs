@@ -2,11 +2,14 @@ using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MovieTheater.Business.Handlers.Auth;
+using MovieTheater.Business.Mappings;
 using MovieTheater.Business.Services;
+using MovieTheater.Business.ViewModels.Auth;
 using MovieTheater.Data;
 using MovieTheater.Data.DataSeeding;
 using MovieTheater.Data.Repositories;
@@ -60,6 +63,11 @@ builder.Services.AddDbContext<MovieTheaterDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MovieTheaterDbConnectionLocal"));
 });
 
+builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
+    options.TokenLifespan = TimeSpan.FromMinutes(5));
+
+builder.Services.Configure<EmailViewModel>(builder.Configuration.GetSection("EmailSettings"));
+
 // Register Identity: UserManager, RoleManager, SignInManager
 builder.Services.AddIdentity<User, Role>(options =>
 {
@@ -86,6 +94,9 @@ builder.Services.AddScoped<IUserIdentity, UserIdentity>();
 // Register Token Service
 builder.Services.AddScoped<ITokenService, TokenService>();
 
+// Register Email Service
+builder.Services.AddScoped<IEmailService, EmailService>();
+
 // Register controllers
 builder.Services.AddControllers();
 
@@ -95,6 +106,13 @@ builder.Services.AddVersionedApiExplorer(options =>
     // Add version 1.0 to the explorer
     options.GroupNameFormat = "'v'VVV";
     options.SubstituteApiVersionInUrl = true;
+});
+
+builder.Services.AddApiVersioning(options =>
+{
+    options.ReportApiVersions = true;
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0);
 });
 
 // Register JWT with Bearer token
@@ -116,8 +134,9 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = builder.Configuration["JWT:Issuer"],
         ValidAudience = builder.Configuration["JWT:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-            builder.Configuration["JWT:Secret"] ?? throw new InvalidOperationException("JWT:Secret is not configured.")))
+            builder.Configuration["JWT:Secret"] ?? throw new InvalidOperationException("JWT:Secret is not configured."))),
     };
+
 });
 
 builder.Services.AddCors(options =>
@@ -131,6 +150,13 @@ builder.Services.AddCors(options =>
         .AllowAnyOrigin()
         .AllowAnyMethod()
         .AllowAnyHeader());
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .WithExposedHeaders("Authorization");
+    });
 });
 
 
@@ -139,7 +165,7 @@ builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(LoginRequestCommand).Assembly));
 
 // Add AutoMapper
-// builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

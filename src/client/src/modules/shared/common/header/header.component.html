@@ -4,30 +4,55 @@
     'background-color': 'rgba(11, 13, 19, ' + bgHeaderOpacity + ')'
   }"
 >
-  <nav class="flex justify-between items-center w-4/5 mx-auto py-3">
+  <nav class="flex justify-between items-center w-4/5 mx-auto py-3 relative">
+    <!-- Menu button -->
+    <button
+      class="md:hidden text-white text-2xl mr-4"
+      (click)="toggleMobileMenu()"
+    >
+      <fa-icon [icon]="faBars"></fa-icon>
+    </button>
+
     <a href="" class="flex flex-col items-center">
       <img src="../assets/logo.png" alt="Logo" class="w-16" />
       <span class="font-bold">TonyCinema</span>
     </a>
 
+    <!-- Desktop Menu -->
     <div class="hidden md:flex space-x-20 text-white">
-      <a href="./home" class="hover:text-red-500">Home</a>
-      <a href="./showtime" class="hover:text-red-500">Show Time</a>
-      <a href="./promotion" class="hover:text-red-500">Promotion</a>
-      <a href="./ticketprice" class="hover:text-red-500">Ticket Price</a>
+      <a
+        routerLink="/home"
+        [ngClass]="{'active': isActive('/home') || isActive('/')}"
+        class="hover:text-gray-400"
+        >Home</a
+      >
+      <a
+        routerLink="/showtime"
+        [ngClass]="{'active': isActive('/showtime')}"
+        class="hover:text-gray-400"
+        >Show Time</a
+      >
+      <a
+        routerLink="/promotion"
+        [ngClass]="{'active': isActive('/promotion')}"
+        class="hover:text-gray-400"
+        >Promotion</a
+      >
+      <a
+        routerLink="/ticketprice"
+        [ngClass]="{'active': isActive('/ticketprice')}"
+        class="hover:text-gray-400"
+        >Ticket Price</a
+      >
     </div>
 
     <ng-container *ngIf="isAuthenticated; else unAuthenticated">
-      <div
-        class="relative flex items-center space-x-2 cursor-pointer"
-        (click)="toggleDropdown()"
-        *ngIf="isAuthenticated"
-      >
+      <div class="relative flex items-center space-x-4 cursor-pointer" (click)="toggleDropdown()">
         <img
           *ngIf="currentUser?.avatar"
           class="w-8 h-8 rounded-full border border-gray-500 shadow-sm"
           src="{{ currentUser?.avatar }}"
-          alt=""
+          alt="User Avatar"
         />
         <fa-icon
           *ngIf="!currentUser?.avatar"
@@ -35,38 +60,43 @@
           class="text-3xl"
         ></fa-icon>
         <p>{{ currentUser?.displayName }}</p>
-        <fa-icon [icon]="faDropDown" class="mb-1.5"></fa-icon>
+        <fa-icon [icon]="faDropDown" class="mb-1.5" ></fa-icon>
 
         <!-- Dropdown menu -->
         <div
-          class="absolute top-full right-0 mt-2 w-48 bg-black text-white shadow-lg rounded-md"
-          *ngIf="isDropdownOpen"
+          class="absolute top-12 right-0 w-48 bg-black text-white shadow-lg rounded-md transition-opacity duration-300"
+          [ngClass]="{'opacity-100 visible': isDropdownOpen, 'opacity-0 invisible': !isDropdownOpen}"
         >
-          <a routerLink="/profile" class="block px-4 p-3 hover:text-red-500"
-            >Profile</a
-          >
-          <a
-            href="#"
-            class="block px-4 p-3 hover:text-red-500"
-            (click)="logout()"
-            >Logout</a
-          >
+          <a routerLink="/profile" class="block px-4 p-3 hover:text-red-500">Profile</a>
+          <a href="#" class="block px-4 p-3 hover:text-red-500" (click)="logout()">Logout</a>
         </div>
       </div>
     </ng-container>
+
+    <!-- Mobile Navigation -->
+    <div
+      class="absolute top-full left-0 w-40 bg-black text-white flex flex-col items-center md:hidden rounded-xl transition-all duration-300"
+      *ngIf="isMobileMenuOpen"
+    >
+      <a href="./home" class="block w-full text-center py-3 hover:text-red-500">Home</a>
+      <a href="./showtime" class="block w-full text-center py-3 hover:text-red-500">Show Time</a>
+      <a href="./promotion" class="block w-full text-center py-3 hover:text-red-500">Promotion</a>
+      <a href="./ticketprice" class="block w-full text-center py-3 hover:text-red-500">Ticket Price</a>
+    </div>
+
     <ng-template #unAuthenticated>
-      <div class="flex space-x-8">
+      <div class="flex md:space-x-8 space-x-4">
         <button
           type="button"
           (click)="openRegister()"
           class="border border-white text-white px-10 py-2 rounded-full hover:bg-white hover:text-black"
         >
-          Sign up
+          Register
         </button>
         <button
           type="button"
           (click)="openLogin()"
-          class="bg-red-500 px-10 py-2 rounded-full hover:bg-red-600"
+          class="bg-red-500 whitespace-nowrap px-10 py-2 rounded-full hover:bg-red-600"
         >
           Log in
         </button>

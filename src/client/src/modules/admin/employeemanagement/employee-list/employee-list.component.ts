@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FontAwesomeModule,
   IconDefinition,
@@ -19,6 +19,7 @@ import { EmployeeDetailComponent } from '../employee-detail/employee-detail.comp
 import { EmployeeAddeditComponent } from '../employee-addedit/employee-addedit.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { EmployeeManagementService } from '../employeemanagement.service';
 
 @Component({
   selector: 'app-employeemanagement',
@@ -32,7 +33,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './employee-list.component.html',
   styleUrl: './employee-list.component.css',
 })
-export class EmployeemanagementComponent {
+export class EmployeemanagementComponent implements OnInit {
   //#region Font Awesome Icons
   public faArrowLeft: IconDefinition = faArrowLeft;
   public faRotateLeft: IconDefinition = faRotateLeft;
@@ -46,11 +47,36 @@ export class EmployeemanagementComponent {
   public faAnglesRight: IconDefinition = faAnglesRight;
   //#endregion
 
+  currentView: 'list' | 'detail' | 'add' | 'edit' = 'list';
+
+  constructor(public employeeManagementService: EmployeeManagementService) { }
+
+  ngOnInit(): void {
+    this.employeeManagementService.currentView$.subscribe((view) => {
+      this.currentView = view;
+    });
+  }
+
   public isDropdownOpen: boolean = false;
   public currentPage: number = 1;
   public totalPages: number = 10;
 
   public toggleDropdown(): void {
     this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  onViewDetail(employee: any): void {
+    this.employeeManagementService.goToDetail(employee);
+  }
+
+  onAdd(): void {
+    this.employeeManagementService.goToAdd();
+  }
+
+  onEdit(employee: any): void {
+    this.employeeManagementService.goToEdit(employee);
+  }
+  onDelete(employee: any): void {
+    this.employeeManagementService.goToList();
   }
 }

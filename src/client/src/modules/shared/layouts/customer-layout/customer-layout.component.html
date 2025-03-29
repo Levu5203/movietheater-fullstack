@@ -1,8 +1,8 @@
-<section class="h-full relative flex">
+<section class="min-h-screen relative flex">
   <!-- Backdrop -->
   <ng-container *ngIf="modalService.modal$ | async as modal">
     <div
-      class="fixed inset-0 bg-black opacity-50 z-40"
+      class="fixed inset-0 bg-white opacity-60 z-40"
       (click)="modalService.close()"
     ></div>
 
@@ -12,10 +12,13 @@
     <app-change-password
       *ngIf="modal === 'changePassword'"
     ></app-change-password>
+    <app-forgot-password
+      *ngIf="modal === 'forgot-password'"
+    ></app-forgot-password>
   </ng-container>
 
   <!-- Content -->
-  <div class="flex flex-col h-full w-full relative z-10">
+  <div class="flex flex-col flex-grow relative z-10">
     <app-header></app-header>
     <main class="flex-grow">
       <router-outlet />
