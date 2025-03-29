@@ -1,7 +1,6 @@
-using System;
 using AutoMapper;
-using MovieTheater.Business.Handlers.Auth;
-using MovieTheater.Business.ViewModels.auth;
+using MovieTheater.Business.ViewModels.Users;
+using MovieTheater.Models.Security;
 
 namespace MovieTheater.Business.Mappings;
 
@@ -9,7 +8,8 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<LoginRequestCommand, LoginResponse>();
         // Thêm các mapping khác tại đây
+        CreateMap<UserViewModel, User>().ReverseMap();
+
     }
 }
