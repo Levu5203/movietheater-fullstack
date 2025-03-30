@@ -10,7 +10,7 @@ import { PaginatedResult } from '../../core/models/paginated-result.model';
 export class MasterDataService<T> implements IMasterDataService<T> {
   protected readonly baseUrl = 'http://localhost:5063/api/v1/';
 
-  constructor(protected http: HttpClient, protected apiUrl: string) {
+  constructor(protected http: HttpClient, protected apiUrl: String) {
     this.baseUrl += apiUrl;
   }
 

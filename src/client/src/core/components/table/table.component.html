@@ -1,7 +1,7 @@
 <!-- List -->
-<div class="card bg-white my-4 rounded-md shadow-md">
+<div class="card bg-white m-4 rounded-md shadow-md">
   <!-- List Items -->
-  <div class="card-body p-4">
+  <div class="card-body">
     <table class="w-full text-left text-sm border-b border-gray-300">
       <thead class="bg-blue-100 border-t border-gray-300">
         <tr class="*:p-2 *:border *:border-gray-200">
@@ -54,7 +54,9 @@
         </ng-container>
         <ng-template #emptyData>
           <tr>
-            <td colspan="4" class="text-center">No data found</td>
+            <td [colSpan]="columns.length + 2" class="text-center py-2">
+              No data found
+            </td>
           </tr>
         </ng-template>
       </tbody>
@@ -62,82 +64,50 @@
   </div>
 
   <!-- Pagination -->
-  <div
-    class="card-footer p-4 border-t border-gray-200 flex justify-between items-center"
-  >
-    <!-- Page Size -->
-    <div class="page-size">
-      <label for="page-size" class="mr-4">Items per page:</label>
-      <select
-        id="page-size"
-        class="p-2 border border-gray-200 rounded-sm"
-        [(ngModel)]="currentPageSize"
-        (change)="onPageSizeChange.emit($event)"
-      >
-        <option *ngFor="let item of pageSizeOptions" [value]="item">
-          {{ item }}
-        </option>
-      </select>
-    </div>
-    <!-- Page Items -->
-    <nav
-      class="page-items flex items-center space-x-2 text-slate-500 *:w-10 *:h-10 *:hover:bg-blue-500 *:hover:text-white *:rounded-full *:border *:border-blue-500 *:cursor-pointer"
+  <div class="flex justify-center items-center py-4 px-10 text-sm">
+    <button
+      title="first"
+      type="button"
+      (click)="onPageChange.emit(1)"
+      class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer"
     >
-      <button
-        (click)="onPageChange.emit(1)"
-        class="disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-slate-500"
-        title="First"
-        type="button"
-        [disabled]="currentPage == 1"
-      >
-        <fa-icon [icon]="faAngleDoubleLeft"></fa-icon>
-      </button>
-      <button
-        (click)="onPageChange.emit(currentPage - 1)"
-        class="disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-slate-500"
-        title="First"
-        type="button"
-        [disabled]="currentPage == 1"
-      >
-        <fa-icon [icon]="faAngleLeft"></fa-icon>
-      </button>
-      <ng-container *ngFor="let item of generatePageItems()">
-        <button
-          (click)="onPageChange.emit(item)"
-          class="disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-slate-500"
-          title="First"
-          type="button"
-          [ngClass]="{ 'bg-blue-500 text-white': item == currentPage }"
-        >
-          {{ item }}
-        </button>
-      </ng-container>
-
-      <button
-        (click)="onPageChange.emit(currentPage + 1)"
-        class="disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-slate-500"
-        title="First"
-        type="button"
-        [disabled]="data && currentPage === data.totalPages"
-      >
-        <fa-icon [icon]="faAngleRight"></fa-icon>
-      </button>
-      <button
-        (click)="onPageChange.emit(data.totalPages)"
-        class="disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-slate-500"
-        title="First"
-        type="button"
-        [disabled]="data && currentPage === data.totalPages"
-      >
-        <fa-icon [icon]="faAngleDoubleRight"></fa-icon>
-      </button>
-    </nav>
-    <!-- Page Info -->
-    <div class="page-info">
-      <!-- page 1: pageSize*(pageNumber-1) + 1 - pageSize of totalItem -->
-      <!-- page 2: pageSize*(pageNumber-1) + 1 - pageSize of totalItem -->
-      <!-- page 2: pageSize*(pageNumber-1) + 1 - pageSize of totalItem -->
-      {{ generatePageInfo() }}
+      <fa-icon [icon]="faAnglesLeft" class=""></fa-icon>
+    </button>
+    <button
+      title="previous"
+      type="button"
+      (click)="onPageChange.emit(currentPage - 1)"
+      class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer"
+    >
+      <fa-icon [icon]="faAngleLeft" class=""></fa-icon>
+    </button>
+    <div class="flex items-center mx-4">
+      <span>Page</span>
+      <input
+        title="page"
+        type="number"
+        [(ngModel)]="currentPage"
+        class="w-12 mx-2 text-center border rounded"
+        min="1"
+        [max]="data.totalPages"
+      />
+      <span>/ {{ data.totalPages }}</span>
     </div>
+    <button
+      type="button"
+      title="next"
+      (click)="onPageChange.emit(currentPage + 1)"
+      class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer"
+    >
+      <fa-icon [icon]="faAngleRight" class=""></fa-icon>
+    </button>
+    <button
+      type="button"
+      (click)="onPageChange.emit(data.totalPages)"
+      title="last"
+      class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer"
+    >
+      <fa-icon [icon]="faAnglesRight" class=""></fa-icon>
+    </button>
   </div>
 </div>

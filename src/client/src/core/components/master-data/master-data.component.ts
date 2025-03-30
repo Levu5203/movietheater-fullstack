@@ -25,14 +25,13 @@ export class MasterDataListComponent<T> {
   public filter: SearchModel = {
     keyword: '',
     pageNumber: 1,
-    pageSize: 5,
+    pageSize: 10,
     orderBy: '',
     orderDirection: OrderDirection.ASC,
     includeInactive: true,
   };
   public currentPage: number = 1;
-  public currentPageSize: number = 5;
-  public pageSizeOptions: number[] = [5, 10, 20, 50];
+  public currentPageSize: number = 10;
 
   public searchForm!: FormGroup;
 
@@ -61,7 +60,6 @@ export class MasterDataListComponent<T> {
   }
 
   public onCloseDetail(): void {
-    console.log('Event send from detail');
     this.isShowDetail = false;
     this.searchData();
   }

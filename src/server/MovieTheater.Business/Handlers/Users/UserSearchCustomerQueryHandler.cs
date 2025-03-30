@@ -61,9 +61,9 @@ public class UserSearchCustomerQueryHandler :
             query = query.Where(u => u.DateOfBirth >= request.BirthdateStart.Value);
         }
 
-        if (request.BirthdateStart.HasValue)
+        if (request.BirthdateEnd.HasValue)
         {
-            query = query.Where(u => u.DateOfBirth >= request.BirthdateStart.Value);
+            query = query.Where(u => u.DateOfBirth <= request.BirthdateEnd.Value);
         }
 
         // Count total items
@@ -76,7 +76,7 @@ public class UserSearchCustomerQueryHandler :
         }
         else
         {
-            query = query.OrderBy(x => x.DisplayName);
+            query = query.OrderBy(x => x.UserName);
         }
 
         // Get data with pagination

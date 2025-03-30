@@ -12,9 +12,9 @@ import {
   faSearch,
   faRotate,
   faAngleLeft,
-  faAngleDoubleLeft,
   faAngleRight,
-  faAngleDoubleRight,
+  faAnglesRight,
+  faAnglesLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { PaginatedResult } from '../../models/paginated-result.model';
 import { TableColumn } from '../../models/table-column.model';
@@ -33,9 +33,9 @@ export class TableComponent {
   public faSearch: IconDefinition = faSearch;
   public faRotate: IconDefinition = faRotate;
   public faAngleLeft: IconDefinition = faAngleLeft;
-  public faAngleDoubleLeft: IconDefinition = faAngleDoubleLeft;
+  public faAnglesLeft: IconDefinition = faAnglesLeft;
   public faAngleRight: IconDefinition = faAngleRight;
-  public faAngleDoubleRight: IconDefinition = faAngleDoubleRight;
+  public faAnglesRight: IconDefinition = faAnglesRight;
 
   //#endregion
 
