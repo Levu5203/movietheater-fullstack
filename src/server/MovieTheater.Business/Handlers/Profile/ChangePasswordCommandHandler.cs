@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using MovieTheater.Models.Security;
 
@@ -17,6 +18,10 @@ public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordComman
     {
         var user = await _userManager.FindByIdAsync(request.UserId.ToString());
         if (user == null)
+        {
+            return false;
+        }
+        if (request.CurrentPassword == request.NewPassword)
         {
             return false;
         }

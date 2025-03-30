@@ -78,6 +78,18 @@ namespace MovieTheater.WebAPI.Controllers
         [HttpPost("change-password")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommand command)
         {
+            // Lấy Id từ token
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null || !Guid.TryParse(userId, out _))
+            {
+                return BadRequest("UserId not found or invalid.");
+            }
+
+            if (command.CurrentPassword == command.NewPassword)
+            {
+                return BadRequest(new { message = "New password must be different from current password!" });
+            }
             var result = await _mediator.Send(command);
             if (!result)
             {
