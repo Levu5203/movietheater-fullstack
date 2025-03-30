@@ -12,7 +12,7 @@ import { faCalendar, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { ModalService } from '../../../../services/modal.service';
 import { ProfileService } from '../../../../services/profile.service';
 import { UserProfileViewModel } from '../../../../models/profile/user-profile.model';
-import { debounceTime, interval } from 'rxjs';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-edit-profile',
@@ -31,8 +31,8 @@ export class EditProfileComponent implements OnInit {
 
   constructor(
     private readonly modalService: ModalService,
-    private fb: FormBuilder,
-    private profileService: ProfileService
+    private readonly fb: FormBuilder,
+    private readonly profileService: ProfileService
   ) {
     this.form = this.fb.group({
       firstName: [
@@ -63,10 +63,7 @@ export class EditProfileComponent implements OnInit {
         ],
       ],
       dateOfBirth: [null],
-      address: [
-        '',
-        [Validators.maxLength(255)], // ✅ Thêm ràng buộc tối đa 255 ký tự
-      ],
+      address: ['', [Validators.maxLength(255)]],
       gender: ['Male', Validators.required],
       identityCard: [
         '',
@@ -77,12 +74,9 @@ export class EditProfileComponent implements OnInit {
           Validators.pattern('^[0-9]{10,18}$'),
         ],
       ],
-      phoneNumber: [
-        null,
-        Validators.pattern('/^[0-9]{10,15}$/'),
-      ],
+      phoneNumber: [null, Validators.pattern('/^[0-9]{10,15}$/')],
     });
-    this.form.valueChanges.subscribe(() => this.showErrorMessage = false)
+    this.form.valueChanges.subscribe(() => (this.showErrorMessage = false));
     this.setupPhoneNumberValidation();
   }
 
@@ -98,7 +92,6 @@ export class EditProfileComponent implements OnInit {
       phoneControl.updateValueAndValidity({ emitEvent: false });
     });
   }
-
 
   ngOnInit(): void {
     this.loadUserProfile();
@@ -120,7 +113,7 @@ export class EditProfileComponent implements OnInit {
           identityCard: this.currentUser.identityCard,
           email: this.currentUser.email,
           phoneNumber: this.currentUser.phoneNumber,
-          address: this.currentUser.address || '',
+          address: this.currentUser.address ?? '',
         });
       },
       error: (error) => {
