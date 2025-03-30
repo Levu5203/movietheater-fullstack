@@ -55,8 +55,6 @@ public class UnitOfWork : IUnitOfWork
 
     private IRepository<HistoryScore>? _HistoryScoreRepository;
     public IRepository<HistoryScore> HistoryScoreRepository => _HistoryScoreRepository ??= new Repository<HistoryScore>(_context, _currentUser);
-
-
     #endregion
 
     #region Implementation of Repositories

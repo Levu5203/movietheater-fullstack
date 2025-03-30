@@ -238,6 +238,8 @@ public static class DbInitializer
                     PosterUrl = movie.PosterUrl,
                     Status = movie.Status,
                     ReleasedDate = movie.ReleasedDate,
+                    Actors = movie.Actors,
+                    Director = movie.Director,
                     CreatedAt = DateTime.Now,
                 });
             }
