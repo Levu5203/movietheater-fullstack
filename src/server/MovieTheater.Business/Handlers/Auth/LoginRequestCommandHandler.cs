@@ -9,25 +9,25 @@ using MovieTheater.Models.Security;
 
 namespace MovieTheater.Business.Handlers.Auth;
 
-public class LoginRequestCommandHandler:
-    BaseHandler, 
+public class LoginRequestCommandHandler :
+    BaseHandler,
     IRequestHandler<LoginRequestCommand, LoginResponse>
 {
     private readonly UserManager<User> _userManager;
-    
+
     private readonly SignInManager<User> _signInManager;
-    
+
     private readonly ITokenService _tokenService;
 
     private readonly IConfiguration _configuration;
 
     public LoginRequestCommandHandler(
-        IUnitOfWork unitOfWork, 
-        IMapper mapper, 
-        UserManager<User> userManager, 
+        IUnitOfWork unitOfWork,
+        IMapper mapper,
+        UserManager<User> userManager,
         SignInManager<User> signInManager,
         ITokenService tokenService,
-        IConfiguration configuration) : 
+        IConfiguration configuration) :
         base(unitOfWork, mapper)
     {
         _userManager = userManager;
@@ -55,7 +55,7 @@ public class LoginRequestCommandHandler:
         var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
         if (!result.Succeeded)
         {
-            throw new UnauthorizedAccessException("Invalid password. Try other password for account with email "+user.Email);
+            throw new UnauthorizedAccessException("Invalid password. Try other password for account with email " + user.Email);
         }
 
         // Get user roles
@@ -63,18 +63,19 @@ public class LoginRequestCommandHandler:
 
         // Generate access token
         var accessToken = await _tokenService.GenerateTokenAsync(user, userRoles);
-        
+
         // Revoke any existing refresh tokens for security
         await _tokenService.RevokeUserRefreshTokensAsync(user.Id, "User logged in again");
-        
+
         // Generate new refresh token
         var refreshTokenEntity = await _tokenService.GenerateRefreshTokenAsync(user.Id);
 
         // Get token expiration from config
-        if(!int.TryParse(_configuration["JWT:AccessTokenExpiryMinutes"], out var expiryMinutes)){
+        if (!int.TryParse(_configuration["JWT:AccessTokenExpiryMinutes"], out var expiryMinutes))
+        {
             expiryMinutes = 15;
         }
-        
+
         var userInformation = new UserInformation
         {
             Id = user.Id.ToString(),

@@ -134,8 +134,9 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = builder.Configuration["JWT:Issuer"],
         ValidAudience = builder.Configuration["JWT:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-            builder.Configuration["JWT:Secret"] ?? throw new InvalidOperationException("JWT:Secret is not configured.")))
+            builder.Configuration["JWT:Secret"] ?? throw new InvalidOperationException("JWT:Secret is not configured."))),
     };
+
 });
 
 builder.Services.AddCors(options =>
@@ -149,6 +150,13 @@ builder.Services.AddCors(options =>
         .AllowAnyOrigin()
         .AllowAnyMethod()
         .AllowAnyHeader());
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .WithExposedHeaders("Authorization");
+    });
 });
 
 
