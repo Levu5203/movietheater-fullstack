@@ -1,139 +1,165 @@
-<section class="flex flex-col md:flex-row max-w-6xl mx-auto mt-10 p-4 space-y-6 md:p-2 md:space-y-0 md:space-x-10">
-  <!-- Left Avatar -->
-  <div class="flex flex-col items-center space-y-4 pb-4 border-b-1 border-slate-500 md:border-none md:mt-6">
-    <img src="./assets/profile-user.png" alt="Avatar" class="w-32 h-32 rounded-full" />
-    <button type="button" class="bg-[#EF4444] hover:bg-[#E30713] px-4 py-2 rounded text-sm cursor-pointer">
-      Change avatar
-    </button>
+<section>
+  <div *ngIf="successMessage">
+    <div class="fixed inset-0 bg-white opacity-60 z-40" (click)="closeModal()">
+    </div>
+    <!-- Success Message Modal -->
+    <div
+      class="fixed transform translate-y-[-50%] top-1/2 left-1/2 translate-x-[-50%] flex items-center justify-center z-50 shadow-[10px_20px_35px_rgba(0,0,0,0.25)] shadow-slate-800 rounded-2xl">
+      <!-- Modal Content -->
+      <div class="w-screen md:w-[500px] bg-[#0B0D13] shadow-lg rounded-lg p-10 md:p-8 text-center text-white">
+
+        <h3 class="text-xl font-bold mb-4 text-green-500">Success</h3>
+        <p class="text-sm text-gray-300 mb-6">{{ successMessage }}</p>
+
+        <button (click)="closeModal()"
+          class="bg-[#EF4444] text-white px-6 py-2 rounded-md hover:bg-[#E30713] transition">
+          OK
+        </button>
+      </div>
+    </div>
   </div>
 
-  <!-- Right Details -->
-  <div class="flex-1 md:border-l border-slate-500 md:pl-10">
-    <h2 class="text-2xl font-bold mb-6 text-center">DETAIL INFORMATION</h2>
-    <div class="flex items-center mb-4">
-      <label class="text-sm">Username:</label>
-      <span class="ml-5 text-xl">{{currentUser?.username}}</span>
+  <div class="flex flex-col md:flex-row max-w-6xl mx-auto mt-10 p-4 space-y-6 md:p-2 md:space-y-0 md:space-x-10">
+    <!-- Left Avatar -->
+    <div class="flex flex-col items-center space-y-4 pb-4 border-b-1 border-slate-500 md:border-none md:mt-6">
+      <img src="./assets/profile-user.png" alt="Avatar" class="w-32 h-32 rounded-full" />
+      <button type="button" class="bg-[#EF4444] hover:bg-[#E30713] px-4 py-2 rounded text-sm cursor-pointer">
+        Change avatar
+      </button>
     </div>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
-      <div class="flex space-x-4">
-        <div class="flex-1">
-          <label class="text-sm" for="firstName">First Name</label>
-          <input type="text" formControlName="firstName"
-            class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm" placeholder="Enter Firstname"
-            required [ngClass]="{
+
+    <!-- Right Details -->
+    <div class="flex-1 md:border-l border-slate-500 md:pl-10">
+      <h2 class="text-2xl font-bold mb-6 text-center">DETAIL INFORMATION</h2>
+      <div class="flex items-center mb-4">
+        <label class="text-sm">Username:</label>
+        <span class="ml-5 text-xl">{{currentUser?.username}}</span>
+      </div>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+        <div class="flex space-x-4">
+          <div class="flex-1">
+            <label class="text-sm" for="firstName">First Name<span class="text-red-500 ml-1">*</span></label>
+              <input type="text" formControlName="firstName"
+                class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm" placeholder="Enter Firstname"
+                required [ngClass]="{
                 'border-red-500 bg-red-100 text-red-500':
                   form.get('firstName')?.invalid && form.get('firstName')?.touched
               }" />
-          <span *ngIf="
+              <span *ngIf="
                 form.get('firstName')?.invalid && form.get('firstName')?.touched
               " class="text-red-500 text-sm">
-            First name is required with 1-50 characters.
-          </span>
-        </div>
-        <div class="flex-1">
-          <label class="text-sm" for="lastName">Last Name</label>
-          <input type="text" formControlName="lastName"
-            class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm" placeholder="Enter last name"
-            required [ngClass]="{
+                First name is required with 1-50 characters.
+              </span>
+          </div>
+          <div class="flex-1">
+            <label class="text-sm" for="lastName">Last Name<span class="text-red-500 ml-1">*</span></label>
+              <input type="text" formControlName="lastName"
+                class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm" placeholder="Enter last name"
+                required [ngClass]="{
               'border-red-500 bg-red-100 text-red-500':
                 form.get('lastName')?.invalid && form.get('lastName')?.touched
             }" />
-          <span *ngIf="form.get('lastName')?.invalid && form.get('lastName')?.touched" class="text-red-500 text-sm">
-            Last name is required with 1-50 characters.
-          </span>
-        </div>
-      </div>
-      <div class="flex space-x-4">
-        <div class="flex-1">
-          <label class="text-sm" for="dateOfBirth">Date of Birth</label>
-          <div class="relative">
-            <input formControlName="dateOfBirth" type="date"
-              class="w-full mt-1 p-2 bg-transparent border border-white rounded appearance-none" />
-            <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-white pointer-events-none">
-              <fa-icon [icon]="faCalendar"></fa-icon>
-            </span>
+              <span *ngIf="form.get('lastName')?.invalid && form.get('lastName')?.touched" class="text-red-500 text-sm">
+                Last name is required with 1-50 characters.
+              </span>
           </div>
         </div>
-        <div class="flex-1">
-          <label for="gender" class="text-sm">Gender</label>
-          <div class="flex gap-4 py-2">
-            <label class="flex items-center">
-              <input type="radio" formControlName="gender" value="Male" class="mr-2" />
-              Male
-            </label>
-            <label class="flex items-center">
-              <input type="radio" formControlName="gender" value="Female" class="mr-2" />
-              Female
-            </label>
+        <div class="flex space-x-4">
+          <div class="flex-1">
+            <label class="text-sm" for="dateOfBirth">Date of Birth</label>
+            <div class="relative">
+              <input formControlName="dateOfBirth" type="date"
+                class="w-full mt-1 p-2 bg-transparent border border-white rounded appearance-none" />
+              <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-white pointer-events-none">
+                <fa-icon [icon]="faCalendar"></fa-icon>
+              </span>
+            </div>
+          </div>
+          <div class="flex-1">
+            <label for="gender" class="text-sm">Gender<span class="text-red-500 ml-1">*</span></label>
+              <div class="flex gap-4 py-2">
+                <label class="flex items-center">
+                  <input type="radio" formControlName="gender" value="Male" class="mr-2" />
+                  Male
+                </label>
+                <label class="flex items-center">
+                  <input type="radio" formControlName="gender" value="Female" class="mr-2" />
+                  Female
+                </label>
+              </div>
           </div>
         </div>
-      </div>
-      <div class="flex space-x-4">
-        <div class="flex-1">
-          <label class="text-sm" for="identityCard">Identity Card</label>
-          <input formControlName="identityCard" type="text"
-            class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm"
-            placeholder="Enter identity card number" required [ngClass]="{
+        <div class="flex space-x-4">
+          <div class="flex-1">
+            <label class="text-sm" for="identityCard">Identity Card<span class="text-red-500 ml-1">*</span></label>
+              <input formControlName="identityCard" type="text"
+                class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm"
+                placeholder="Enter identity card number" required [ngClass]="{
               'border-red-500 bg-red-100 text-red-500':
                 form.get('identityCard')?.invalid &&
                 form.get('identityCard')?.touched
             }" />
-          <span *ngIf="
+              <span *ngIf="
               form.get('identityCard')?.invalid &&
               form.get('identityCard')?.touched
             " class="text-red-500 text-sm">
-            Enter a valid identity card (10-18 digits).
-          </span>
-        </div>
-        <div class="flex-1">
-          <label class="text-sm" for="email">Email</label>
-          <input formControlName="email" type="email"
-            class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm" placeholder="Enter email"
-            required [ngClass]="{
+                Enter a valid identity card (10-18 digits).
+              </span>
+          </div>
+          <div class="flex-1">
+            <label class="text-sm" for="email">Email<span class="text-red-500 ml-1">*</span></label>
+              <input formControlName="email" type="email"
+                class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm" placeholder="Enter email"
+                required [ngClass]="{
               'border-red-500 bg-red-100 text-red-500':
                 form.get('email')?.invalid && form.get('email')?.touched
             }" />
-          <span *ngIf="form.get('email')?.invalid && form.get('email')?.touched" class="text-red-500 text-sm">
-            Email is required with 3-50 characters
-          </span>
+              <span *ngIf="form.get('email')?.invalid && form.get('email')?.touched" class="text-red-500 text-sm">
+                Email is required with 3-50 characters
+              </span>
+          </div>
         </div>
-      </div>
-      <div class="flex space-x-4">
-        <div class="flex-1">
-          <label class="text-sm" for="phoneNumber">Phone Number</label>
-          <input formControlName="phoneNumber" type="text"
-            class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm" placeholder="Enter phone number"
-            [ngClass]="{
+        <div class="flex space-x-4">
+          <div class="flex-1">
+            <label class="text-sm" for="phoneNumber">Phone Number</label>
+            <input formControlName="phoneNumber" type="text"
+              class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm"
+              placeholder="Enter phone number" [ngClass]="{
               'border-red-500 bg-red-100 text-red-500':
                 form.get('phoneNumber')?.invalid &&
                 form.get('phoneNumber')?.touched &&
                 form.get('phoneNumber')?.value?.trim() !== ''
             }" />
-          <span *ngIf="
+            <span *ngIf="
               form.get('phoneNumber')?.invalid &&
               form.get('phoneNumber')?.touched &&
               form.get('phoneNumber')?.value?.trim() !== ''
             " class="text-red-500 text-sm">
-            Enter a valid phone number (10-15 digits).
-          </span>
+              Enter a valid phone number (10-15 digits).
+            </span>
+          </div>
+          <div class="flex-1">
+            <label class="text-sm" for="address">Address</label>
+            <input formControlName="address" type="text"
+              class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm" />
+          </div>
         </div>
-        <div class="flex-1">
-          <label class="text-sm" for="address">Address</label>
-          <input formControlName="address" type="text"
-            class="w-full mt-1 p-2 bg-transparent border border-white rounded text-sm" />
+        <p *ngIf="showErrorMessage" class="text-red-500 text-center text-sm italic">
+          {{ errorMessage }}
+        </p>
+        <div class="flex justify-end py-4">
+          <div class="flex flex-row space-x-4 w-full pl-0 md:w-1/2 md:pl-2">
+            <button type="button" (click)="openModal()"
+              class="border border-white hover:bg-gray-500 px-4 py-2 rounded text-sm w-full cursor-pointer">
+              Change password
+            </button>
+            <button type="submit"
+              class="bg-[#EF4444] hover:bg-[#E30713] px-4 py-2 rounded text-sm w-full cursor-pointer">
+              Save Information
+            </button>
+          </div>
         </div>
-      </div>
-      <div class="flex justify-end py-4">
-        <div class="flex flex-row space-x-4 w-full pl-0 md:w-1/2 md:pl-2">
-          <button type="button" (click)="openModal()"
-            class="border border-white hover:bg-gray-500 px-4 py-2 rounded text-sm w-full cursor-pointer">
-            Change password
-          </button>
-          <button type="submit" class="bg-[#EF4444] hover:bg-[#E30713] px-4 py-2 rounded text-sm w-full cursor-pointer">
-            Save Information
-          </button>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </section>
