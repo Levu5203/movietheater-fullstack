@@ -48,7 +48,8 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.RoomId, opt => opt.MapFrom(src => src.CinemaRoomId))
             .ForMember(dest => dest.SeatType, opt => opt.MapFrom(src => src.SeatType))
             .ForMember(dest => dest.Row, opt => opt.MapFrom(src => src.Row))
-            .ForMember(dest => dest.Column, opt => opt.MapFrom(src => src.Column));
+            .ForMember(dest => dest.Column, opt => opt.MapFrom(src => src.Column))
+            .ForMember(dest => dest.SeatStatus, opt => opt.MapFrom(src => src.seatStatus));
         CreateMap<SeatReverveCommand, Seat>();
         
     }

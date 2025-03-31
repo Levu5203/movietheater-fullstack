@@ -1,4 +1,5 @@
 using System;
+using MovieTheater.Models.Common;
 
 namespace MovieTheater.Business.ViewModels.Seat;
 
@@ -8,4 +9,5 @@ public class SeatViewModel : MasterBaseViewModel
     public required int Column { get; set; }
     public required int SeatType { get; set; }
     public required Guid RoomId { get; set; }
+    public required int SeatStatus { get; set; }
 }
