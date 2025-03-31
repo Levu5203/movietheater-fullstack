@@ -2,6 +2,8 @@ using System;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Business.Handlers.Showtime;
+using MovieTheater.Business.ViewModels.CinemaRoom;
+using MovieTheater.Business.ViewModels.Seat;
 using MovieTheater.Business.ViewModels.Showtime;
 
 namespace MovieTheater.WebAPI.Controllers
@@ -31,6 +33,22 @@ namespace MovieTheater.WebAPI.Controllers
         public async Task<IActionResult> GetByIdAsync(Guid id)
         {
             var query = new ShowtimeGetByIdQuery{Id = id};
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+        [HttpGet("{id}/room")]
+        [ProducesResponseType(typeof(CinemaViewModel), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetRoomByIdShowtime(Guid id)
+        {
+            var query = new ShowtimeByIdGetRoomQuery(id);
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+        [HttpGet("{id}/seats")]
+        [ProducesResponseType(typeof(IEnumerable<SeatViewModel>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetSeatsByShowtimeId(Guid id)
+        {
+            var query = new GetSeatsByShowTimeIdQuery{ShowTimeId = id};
             var result = await _mediator.Send(query);
             return Ok(result);
         }

@@ -1,8 +1,11 @@
 using System;
 using AutoMapper;
 using MovieTheater.Business.Handlers.Auth;
+using MovieTheater.Business.Handlers.Seat;
 using MovieTheater.Business.ViewModels.auth;
+using MovieTheater.Business.ViewModels.CinemaRoom;
 using MovieTheater.Business.ViewModels.Movie;
+using MovieTheater.Business.ViewModels.Seat;
 using MovieTheater.Business.ViewModels.Showtime;
 using MovieTheater.Models.Common;
 
@@ -27,9 +30,26 @@ public class MappingProfile : Profile
         //Mapper for showtime
         CreateMap<ShowTime, ShowtimeViewModel>()
             .ForMember(dest => dest.MovieName, opt => opt.MapFrom(src => src.Movie.Name))
-            .ForMember(dest => dest.RoomName, 
+            .ForMember(dest => dest.RoomName,
                 opt => opt.MapFrom(src => src.CinemaRoom.Name))
-            .ForMember(dest => dest.StartTime, 
+            .ForMember(dest => dest.StartTime,
                opt => opt.MapFrom(src => src.ShowTimeSlot.Time.ToString(@"hh\:mm\:ss")));
+
+        CreateMap<ShowTime, CinemaViewModel>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CinemaRoom.Id))
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.CinemaRoom.Name))
+            .ForMember(dest => dest.SeatRow, opt => opt.MapFrom(src => src.CinemaRoom.SeatRows))
+            .ForMember(dest => dest.SeatColumn, opt => opt.MapFrom(src => src.CinemaRoom.SeatColumns));
+        CreateMap<CinemaRoom, CinemaViewModel>()
+            .ForMember(dest => dest.SeatRow, opt => opt.MapFrom(src => src.SeatRows))
+            .ForMember(dest => dest.SeatColumn, opt => opt.MapFrom(src => src.SeatColumns));
+
+        CreateMap<Seat, SeatViewModel>()
+            .ForMember(dest => dest.RoomId, opt => opt.MapFrom(src => src.CinemaRoomId))
+            .ForMember(dest => dest.SeatType, opt => opt.MapFrom(src => src.SeatType))
+            .ForMember(dest => dest.Row, opt => opt.MapFrom(src => src.Row))
+            .ForMember(dest => dest.Column, opt => opt.MapFrom(src => src.Column));
+        CreateMap<SeatReverveCommand, Seat>();
+        
     }
 }
