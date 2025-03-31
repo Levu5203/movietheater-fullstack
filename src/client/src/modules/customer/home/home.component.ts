@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FontAwesomeModule, IconDefinition } from '@fortawesome/angular-fontawesome';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule],
+  imports: [CommonModule, FontAwesomeModule],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
   images = [
@@ -15,6 +17,9 @@ export class HomeComponent {
     '../assets/film4.jpg',
     '../assets/film5.jpg'
   ];
+
+  public faPrevious: IconDefinition = faChevronLeft;
+  public faNext: IconDefinition = faChevronRight;
   
   currentIndex = 0;
   interval: any;
