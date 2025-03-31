@@ -41,6 +41,8 @@ export class TableComponent {
 
   @Input() columns: TableColumn[] = [];
   @Input() public isShowNumber?: boolean = true;
+  @Input() public editable?: boolean = true;
+
   @Input() public currentPage: number = 1;
   @Input() public currentPageSize: number = 10;
 
@@ -57,26 +59,4 @@ export class TableComponent {
 
   @Output() public onPageChange: EventEmitter<number> =
     new EventEmitter<number>();
-
-  public generatePageItems(): number[] {
-    if (!this.data) {
-      return [];
-    }
-
-    const totalPage = this.data.totalPages;
-    return Array.from({ length: totalPage }, (_, i) => i + 1);
-  }
-
-  public generatePageInfo(): string {
-    if (this.data) {
-      return `Page ${this.currentPageSize * (this.data.pageNumber - 1) + 1} -
-      ${
-        this.currentPageSize * this.data.pageNumber > this.data.totalCount
-          ? this.data.totalCount
-          : this.currentPageSize * this.data.pageNumber
-      } of ${this.data.totalCount}`;
-    }
-
-    return '';
-  }
 }

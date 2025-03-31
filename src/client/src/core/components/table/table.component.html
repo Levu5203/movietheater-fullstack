@@ -25,12 +25,13 @@
               {{ item[column.value] }}
             </td>
             <td>
-              <div class="flex space-x-2 *:cursor-pointer">
+              <div class="flex justify-center space-x-2 *:cursor-pointer">
                 <button
                   class="border-0"
                   title="Edit"
                   type="button"
                   (click)="onEdit.emit(item.id)"
+                  *ngIf="editable"
                 >
                   <fa-icon
                     [icon]="faEdit"
@@ -76,7 +77,7 @@
     <button
       title="previous"
       type="button"
-      (click)="onPageChange.emit(currentPage - 1)"
+      (click)="onPageChange.emit(currentPage > 1 ? currentPage - 1 : 1)"
       class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer"
     >
       <fa-icon [icon]="faAngleLeft" class=""></fa-icon>
@@ -87,16 +88,22 @@
         title="page"
         type="number"
         [(ngModel)]="currentPage"
+        (ngModelChange)="onPageChange.emit(currentPage)"
         class="w-12 mx-2 text-center border rounded"
         min="1"
         [max]="data.totalPages"
+        [disabled]="currentPage < 1 || currentPage > data.totalPages"
       />
       <span>/ {{ data.totalPages }}</span>
     </div>
     <button
       type="button"
       title="next"
-      (click)="onPageChange.emit(currentPage + 1)"
+      (click)="
+        onPageChange.emit(
+          currentPage > data.totalPages ? currentPage + 1 : data.totalPages
+        )
+      "
       class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer"
     >
       <fa-icon [icon]="faAngleRight" class=""></fa-icon>

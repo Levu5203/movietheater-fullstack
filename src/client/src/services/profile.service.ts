@@ -10,6 +10,7 @@ export class ProfileService {
   private apiUrl = 'http://localhost:5063/api/v1/user';
   private getProfileUrl = `${this.apiUrl}`;
   private updateProfileUrl = `${this.apiUrl}/edit`;
+  private changePasswordUrl = `${this.apiUrl}/change-password`;
 
   constructor(private http: HttpClient) {}
 
@@ -36,6 +37,6 @@ export class ProfileService {
   }
 
   changePassword(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/change-password`, data);
+    return this.http.post(this.changePasswordUrl, data);
   }
 }

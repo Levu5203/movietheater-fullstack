@@ -23,8 +23,11 @@ import { debounceTime } from 'rxjs';
 })
 export class EditProfileComponent implements OnInit {
   public faCalendar: IconDefinition = faCalendar;
+  
   currentUser!: UserProfileViewModel | null;
   form: FormGroup;
+  
+  public successMessage = '';
   error: string | null = null;
   public errorMessage: string = '';
   showErrorMessage: boolean = false;
@@ -151,12 +154,16 @@ export class EditProfileComponent implements OnInit {
 
     this.profileService.updateProfile(updatedProfile).subscribe({
       next: (profile) => {
-        console.log('Profile updated successfully:', profile);
+        this.successMessage = 'Profile updated successfully!';
       },
       error: (error) => {
         this.showErrorMessage = true;
         this.errorMessage = error.message;
       },
     });
+  }
+
+  closeModal(){
+    this.successMessage = '';
   }
 }

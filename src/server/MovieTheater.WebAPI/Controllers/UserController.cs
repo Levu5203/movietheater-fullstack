@@ -60,6 +60,7 @@ public class UserController(IMediator mediator) : ControllerBase
         return Ok(result);
     }
 
+
     [HttpGet]
     public async Task<IActionResult> GetProfile()
     {
@@ -119,16 +120,29 @@ public class UserController(IMediator mediator) : ControllerBase
     [HttpPost("change-password")]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommand command)
     {
+        // Lấy Id từ token
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (userId == null || !Guid.TryParse(userId, out _))
+        {
+            return BadRequest("UserId not found or invalid.");
+        }
+
+        if (command.CurrentPassword == command.NewPassword)
+        {
+            return BadRequest(new { message = "New password must be different from current password!" });
+        }
         var result = await _mediator.Send(command);
         if (!result)
         {
             return BadRequest(new
             {
-                message = "Error changing password!"
+                message = "Error changing password! Try again."
             });
         }
 
         return Ok(new { message = "Password has been changed successfully." });
     }
+
 }
 

@@ -37,12 +37,13 @@ export class ChangePasswordComponent {
   public faEye: IconDefinition = faEye;
   public faEyeSlash: IconDefinition = faEyeSlash;
 
+  public successMessage = '';
   public errorMessage: string = '';
   public showErrorMessage: boolean = false;
   public form!: FormGroup;
   public showPassword = false;
+  public showNewPassword = false;
   public showConfirmPassword = false;
-  public successMessage = '';
 
   public createForm() {
     this.form = new FormGroup(
@@ -88,7 +89,7 @@ export class ChangePasswordComponent {
     private readonly profileService: ProfileService,
     @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
     private readonly modalService: ModalService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.createForm();
@@ -117,8 +118,18 @@ export class ChangePasswordComponent {
           },
           error: (error) => {
             this.showErrorMessage = true;
-            this.errorMessage =
-              error.error || 'An error occurred. Please try again.';
+            // Nếu API trả về một object có chứa message, lấy thông tin đó
+            if (error.error && typeof error.error === 'object' && error.error.message) {
+              this.errorMessage = error.error.message;
+            }
+            // Nếu API trả về một chuỗi lỗi trực tiếp
+            else if (typeof error.error === 'string') {
+              this.errorMessage = error.error;
+            }
+            // Trường hợp lỗi khác
+            else {
+              this.errorMessage = 'An error occurred. Please try again.';
+            }
           },
         });
       } else {
