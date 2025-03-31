@@ -2,14 +2,14 @@
 <div class="card bg-white m-4 rounded-md shadow-md">
   <!-- List Items -->
   <div class="card-body">
-    <table class="w-full text-center text-sm border-b border-gray-300">
+    <table class="w-full text-left text-sm border-b border-gray-300">
       <thead class="bg-blue-100 border-t border-gray-300">
         <tr class="*:p-2 *:border *:border-gray-200">
           <th *ngIf="isShowNumber">No</th>
           <th *ngFor="let item of columns">
             {{ item.name }}
           </th>
-          <th>Actions</th>
+          <th class="text-center">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -24,7 +24,7 @@
             <td *ngFor="let column of columns">
               {{ item[column.value] | customFormat : column.type }}
             </td>
-            <td>
+            <td class="text-center">
               <div class="flex justify-center space-x-2 *:cursor-pointer">
                 <button
                   class="border-0"
@@ -39,16 +39,16 @@
                   ></fa-icon>
                 </button>
                 <button
-                  class="border-0"
-                  title="Delete"
-                  type="button"
-                  (click)="onDelete.emit(item.id)"
-                >
-                  <fa-icon
-                    [icon]="faTrash"
-                    class="text-red-500 hover:text-red-700"
-                  ></fa-icon>
-                </button>
+                class="border-0 flex items-center justify-center w-8 h-8"
+                title="Delete"
+                type="button"
+                (click)="onDelete.emit(item.id)"
+              >
+                <fa-icon
+                  [icon]="faTrash"
+                  class="text-red-500 hover:text-red-700 w-5 h-5"
+                ></fa-icon>
+              </button>
               </div>
             </td>
           </tr>
