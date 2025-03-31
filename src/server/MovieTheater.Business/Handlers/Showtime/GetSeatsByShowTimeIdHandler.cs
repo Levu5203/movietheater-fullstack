@@ -21,7 +21,6 @@ public class GetSeatsByShowTimeIdHandler(IUnitOfWork unitOfWork, IMapper mapper)
             throw new ResourceNotFoundException($"Showtime or Room not found for ID {request.ShowTimeId}");
         }
         var availableSeats = showtime.CinemaRoom.Seats
-            .Where(seat => seat.IsActive) 
             .ToList();
         return _mapper.Map<IEnumerable<SeatViewModel>>(availableSeats);
     }

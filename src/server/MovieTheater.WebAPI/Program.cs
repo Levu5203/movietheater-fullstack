@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using MovieTheater.Business.Handlers.Auth;
 using MovieTheater.Business.Services;
 using MovieTheater.Data;
 using MovieTheater.Data.DataSeeding;
@@ -142,9 +141,15 @@ builder.Services.AddCors(options =>
 });
 
 
-// Register MediatR
+// // Register MediatR
+// builder.Services.AddMediatR(cfg =>
+//     cfg.RegisterServicesFromAssembly(typeof(LoginRequestCommand).Assembly));
 builder.Services.AddMediatR(cfg =>
-    cfg.RegisterServicesFromAssembly(typeof(LoginRequestCommand).Assembly));
+{
+    cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
+});
+
+
 
 // Add AutoMapper
 // builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);

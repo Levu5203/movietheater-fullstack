@@ -195,6 +195,7 @@ public static class DbInitializer
                     SeatType = SeatType.STANDARD,
                     CinemaRoomId = room.Id,
                     CreatedAt = DateTime.Now,
+                    seatStatus = SeatStatus.Available
                 };
 
                 seats.Add(seat);
@@ -460,7 +461,7 @@ public static class DbInitializer
                         Id = ticket.Id,
                         Price = ticket.Price,
                         BookingDate = ticket.BookingDate,
-                        Status = ticket.Status,
+                        Status = TicketStatus.AlreadyPaid,
                         InvoiceId = ticket.InvoiceId,
                         SeatId = seatId,
                         PromotionId = ticket.PromotionId,
