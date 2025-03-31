@@ -1,5 +1,3 @@
-using MovieTheater.Models.Security;
-
 namespace MovieTheater.Business.ViewModels.auth;
 
 public class LoginResponse
