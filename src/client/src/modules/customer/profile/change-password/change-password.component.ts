@@ -21,8 +21,8 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ProfileService } from '../../../../services/profile.service';
-import { AuthService } from '../../../../services/auth/auth.service';
 import { AUTH_SERVICE } from '../../../../constants/injection.constant';
+import { IAuthService } from '../../../../services/auth/auth-service.interface';
 
 @Component({
   selector: 'app-change-password',
@@ -87,7 +87,7 @@ export class ChangePasswordComponent {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly profileService: ProfileService,
-    @Inject(AUTH_SERVICE) private readonly authService: AuthService,
+    @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
     private readonly modalService: ModalService
   ) { }
 
