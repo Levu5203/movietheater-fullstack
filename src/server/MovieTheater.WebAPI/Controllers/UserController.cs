@@ -6,14 +6,15 @@ using MovieTheater.Business.Handlers.Profile;
 
 namespace MovieTheater.WebAPI.Controllers
 {
-    [Authorize]
-    [Route("api/profile")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    [ApiVersion("1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
+    public class ProfileController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public UserController(IMediator mediator)
+        public ProfileController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -77,12 +78,24 @@ namespace MovieTheater.WebAPI.Controllers
         [HttpPost("change-password")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommand command)
         {
+            // Lấy Id từ token
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null || !Guid.TryParse(userId, out _))
+            {
+                return BadRequest("UserId not found or invalid.");
+            }
+
+            if (command.CurrentPassword == command.NewPassword)
+            {
+                return BadRequest(new { message = "New password must be different from current password!" });
+            }
             var result = await _mediator.Send(command);
             if (!result)
             {
                 return BadRequest(new
                 {
-                    message = "Error changing password!"
+                    message = "Error changing password! Try again."
                 });
             }
 
