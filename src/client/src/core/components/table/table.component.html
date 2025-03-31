@@ -22,7 +22,7 @@
               {{ currentPageSize * (currentPage - 1) + i + 1 }}
             </td>
             <td *ngFor="let column of columns">
-              {{ item[column.value] }}
+              {{ item[column.value] | customFormat : column.type }}
             </td>
             <td>
               <div class="flex justify-center space-x-2 *:cursor-pointer">
@@ -40,7 +40,7 @@
                 </button>
                 <button
                   class="border-0"
-                  title="Edit"
+                  title="Delete"
                   type="button"
                   (click)="onDelete.emit(item.id)"
                 >
@@ -92,7 +92,7 @@
         class="w-12 mx-2 text-center border rounded"
         min="1"
         [max]="data.totalPages"
-        [disabled]="currentPage < 1 || currentPage > data.totalPages"
+        [disabled]="currentPage <= 1 || currentPage >= data.totalPages"
       />
       <span>/ {{ data.totalPages }}</span>
     </div>
@@ -101,7 +101,7 @@
       title="next"
       (click)="
         onPageChange.emit(
-          currentPage > data.totalPages ? currentPage + 1 : data.totalPages
+          currentPage < data.totalPages ? currentPage + 1 : data.totalPages
         )
       "
       class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer"

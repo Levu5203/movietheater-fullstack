@@ -18,10 +18,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { PaginatedResult } from '../../models/paginated-result.model';
 import { TableColumn } from '../../models/table-column.model';
+import { PipesModule } from '../../../pipes/pipe.module';
 
 @Component({
   selector: 'app-table',
-  imports: [CommonModule, FontAwesomeModule, FormsModule],
+  imports: [CommonModule, FontAwesomeModule, FormsModule, PipesModule],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css',
 })
@@ -47,8 +48,6 @@ export class TableComponent {
   @Input() public currentPageSize: number = 10;
 
   @Input() public data!: PaginatedResult<any>;
-
-  @Input() public pageSizeOptions: number[] = [5, 10, 25, 50, 100];
 
   @Output() public onEdit: EventEmitter<string> = new EventEmitter<string>();
 

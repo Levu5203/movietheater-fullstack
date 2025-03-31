@@ -67,12 +67,14 @@ export class CustomermanagementComponent
     { name: 'Username', value: 'username' },
     { name: 'Full Name', value: 'displayName' },
     { name: 'Gender', value: 'gender' },
-    { name: 'Date of birth', value: 'dateOfBirth' },
+    { name: 'Date of birth', value: 'dateOfBirth', type: 'date' },
     { name: 'Email', value: 'email' },
     { name: 'Phone Number', value: 'phoneNumber' },
   ];
 
-  constructor(@Inject(USER_SERVICE) private readonly userService: IUserService) {
+  constructor(
+    @Inject(USER_SERVICE) private readonly userService: IUserService
+  ) {
     super();
   }
 

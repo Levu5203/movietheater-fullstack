@@ -45,11 +45,11 @@ public class UserController(IMediator mediator) : ControllerBase
     }
 
     /// <summary>
-    /// Deletes a user
+    /// Deletes a customer
     /// </summary>
     /// <param name="id"></param>
     /// <returns>boolean</returns>
-    [HttpDelete("{id}")]
+    [HttpDelete("customers/{id}")]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

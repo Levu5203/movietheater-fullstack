@@ -1,30 +1,29 @@
 <section class="">
   <div class="bg-white rounded-lg shadow min-w-[600px] overflow-x-auto">
-    <h2 class="text-xl font-bold p-6">Customer Management</h2>
+    <h2 class="text-xl font-bold p-4">Customer Management</h2>
     <form [formGroup]="searchForm" class="px-4">
       <div class="flex justify-between items-center">
         <div class="flex items-center mb-4">
-          <div class="border border-slate-500">
-            <input
-              type="text"
-              formControlName="keyword"
-              placeholder="Search"
-              class="flex-1 px-4 py-2 bg-white hover:bg-gray-300 cursor-pointer"
-            />
-            <button
-              title="Search"
-              type="submit"
-              (click)="onSubmit()"
-              class="border-l border-slate-500 p-2 w-10 h-10 hover:bg-gray-100 cursor-pointer"
-            >
-              <fa-icon [icon]="faSearch" class="w-6 h-6"></fa-icon>
-            </button>
-          </div>
+          <input
+            type="text"
+            placeholder="Search"
+            formControlName="keyword"
+            class="flex-1 px-4 py-2 rounded-3xl bg-gray-200 hover:bg-gray-300 cursor-pointer"
+          />
+
+          <button
+            title="Search"
+            type="submit"
+            (click)="onSubmit()"
+            class="mx-2 p-2 w-10 h-10 text-gray-700 rounded-xl hover:bg-gray-100 cursor-pointer"
+          >
+            <fa-icon [icon]="faSearch" class="w-6 h-6"></fa-icon>
+          </button>
           <button
             title="filter"
             type="button"
             id="filterButton"
-            class="ml-2 p-2 w-10 h-10 text-gray-700 rounded-xl hover:bg-gray-100 cursor-pointer"
+            class="p-2 w-10 h-10 text-gray-700 rounded-xl hover:bg-gray-100 cursor-pointer"
             [ngClass]="
               isDropdownOpen ? 'bg-gray-100 shadow-inner shadow-gray-300' : ''
             "
@@ -117,11 +116,9 @@
       [editable]="false"
       [columns]="columns"
       [data]="data"
-      [currentPageSize]="currentPageSize"
       [currentPage]="currentPage"
       (onDelete)="delete($event)"
       (onPageChange)="onPageChange($event)"
-      (onPageSizeChange)="onPageSizeChange($event)"
     >
     </app-table>
   </div>
