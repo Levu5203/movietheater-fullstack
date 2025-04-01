@@ -1,5 +1,5 @@
 import { Component, HostListener } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NavigationStart, Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +10,21 @@ import { RouterOutlet } from '@angular/router';
 export class AppComponent {
   title = 'client';
 
-//   // Clears all localStorage when the tab/browser is closed
-//   @HostListener('window:beforeunload', ['$event'])
-//   clearLocalStorage(event: Event) {
-//     localStorage.clear();
-//   }
+  private isNavigating = false;
+
+  constructor(private readonly router: Router) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.isNavigating = true;
+      }
+    });
+  }
+
+  @HostListener('window:beforeunload')
+  onBeforeUnload() {
+    if (!this.isNavigating) {
+      localStorage.removeItem('token');
+    }
+    this.isNavigating = false;
+  }
 }
