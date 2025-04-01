@@ -55,15 +55,20 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Column, opt => opt.MapFrom(src => src.Column))
             .ForMember(dest => dest.SeatStatus, opt => opt.MapFrom(src => src.seatStatus));
         CreateMap<SeatReverveCommand, Seat>();
-        
-        CreateMap<TicketViewModel, Ticket>()
+
+        CreateMap<Ticket, TicketViewModel>()
+            // .ForMember(dest => dest.TicketId, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Seat, opt => opt.MapFrom(src => src.Seat));
-        
+            // .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status));
+
+        // CreateMap<TicketViewModel, Ticket>()
+        //     .ForMember(dest => dest.Seat, opt => opt.MapFrom(src => src.Seat));
+
         CreateMap<Invoice, InvoicePreviewViewModel>()
             .ForMember(dest => dest.RoomName, opt => opt.MapFrom(src => src.ShowTime.CinemaRoom.Name))
             .ForMember(dest => dest.MovieName, opt => opt.MapFrom(src => src.ShowTime.Movie.Name))
             .ForMember(dest => dest.ShowDate, opt => opt.MapFrom(src => src.ShowTime.ShowDate))
             .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.ShowTime.ShowTimeSlot.Time));
-            
+
     }
 }

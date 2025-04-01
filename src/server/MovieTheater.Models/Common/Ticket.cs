@@ -27,9 +27,7 @@ public class Ticket : MasterDataBaseEntity, IMasterDataBaseEntity
 
     [ForeignKey(nameof(SeatId))]
     public virtual Seat? Seat { get; set; }
-
-    [Required(ErrorMessage = "Promotion is required")]
-    public required Guid PromotionId { get; set; }
+    public Guid? PromotionId { get; set; }
 
     [ForeignKey(nameof(PromotionId))]
     public virtual Promotion? Promotion { get; set; }

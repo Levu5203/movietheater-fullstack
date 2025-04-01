@@ -34,18 +34,18 @@ public class SeatReverveHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserIde
                 UpdatedById = currentUser.UserId,
                 TotalMoney = 0,
                 AddedScore = 0,
-                User = _unitOfWork.UserRepository.GetById(currentUser.UserId),
+                User = await _unitOfWork.UserRepository.GetByIdAsync(currentUser.UserId),
                 ShowTimeId = showtime.Id,
             };
             //set seats to pendding
             foreach (var seat in seats)
             {
-                // seat.seatStatus = SeatStatus.Pendding;
+                seat.seatStatus = SeatStatus.Pending;
                 seat.UpdatedById = currentUser.UserId;
                 seat.UpdatedAt = DateTime.Now;
                 _unitOfWork.SeatRepository.Update(seat);
             }
-            var tickes = seats.Select(seat => new Ticket
+            var tickets = seats.Select(seat => new Ticket
             {
                 Id = Guid.NewGuid(),
                 SeatId = seat.Id,
@@ -53,18 +53,17 @@ public class SeatReverveHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserIde
                 Status = TicketStatus.WaitForPayment,
                 BookingDate = DateTime.Now,
                 InvoiceId = invoice.Id,
-                PromotionId = Guid.Empty,
             }).ToList();
-            foreach (var ticket in tickes)
+            foreach (var ticket in tickets)
             {
                 _unitOfWork.TicketRepository.Add(ticket);
             }
-            invoice.TotalMoney = tickes.Sum(t => t.Price);
-            invoice.AddedScore = tickes.Count * 10;
+            invoice.TotalMoney = tickets.Sum(t => t.Price);
+            invoice.AddedScore = tickets.Count * 10;
             _unitOfWork.InvoiceRepository.Add(invoice);
             await unitOfWork.SaveChangesAsync();
             await transaction.CommitAsync();
-            return _mapper.Map<IEnumerable<TicketViewModel>>(tickes);
+            return _mapper.Map<IEnumerable<TicketViewModel>>(tickets);
         }
         catch (Exception e)
         {
