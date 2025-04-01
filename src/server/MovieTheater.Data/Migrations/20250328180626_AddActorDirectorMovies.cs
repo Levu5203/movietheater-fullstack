@@ -5,7 +5,7 @@
 namespace MovieTheater.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateUserModels : Migration
+    public partial class AddActorDirectorMovies : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -81,6 +81,24 @@ namespace MovieTheater.Data.Migrations
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)",
                 oldNullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "Actors",
+                schema: "Common",
+                table: "Movies",
+                type: "nvarchar(255)",
+                maxLength: 255,
+                nullable: false,
+                defaultValue: "");
+
+            migrationBuilder.AddColumn<string>(
+                name: "Director",
+                schema: "Common",
+                table: "Movies",
+                type: "nvarchar(255)",
+                maxLength: 255,
+                nullable: false,
+                defaultValue: "");
         }
 
         /// <inheritdoc />
@@ -90,6 +108,16 @@ namespace MovieTheater.Data.Migrations
                 name: "Avatar",
                 schema: "Security",
                 table: "Users");
+
+            migrationBuilder.DropColumn(
+                name: "Actors",
+                schema: "Common",
+                table: "Movies");
+
+            migrationBuilder.DropColumn(
+                name: "Director",
+                schema: "Common",
+                table: "Movies");
 
             migrationBuilder.AlterColumn<string>(
                 name: "LastName",

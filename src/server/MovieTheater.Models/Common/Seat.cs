@@ -22,4 +22,5 @@ public class Seat : MasterDataBaseEntity, IMasterDataBaseEntity
 
     [ForeignKey(nameof(CinemaRoomId))]
     public virtual CinemaRoom? CinemaRoom { get; set; }
+    public required SeatStatus seatStatus { get; set; }
 }

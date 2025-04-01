@@ -14,7 +14,7 @@ public class Ticket : MasterDataBaseEntity, IMasterDataBaseEntity
 
     [Required(ErrorMessage = "Status is required")]
     [EnumDataType(typeof(TicketStatus), ErrorMessage = "Invalid ticket status")]
-    public required string Status { get; set; }
+    public required TicketStatus Status { get; set; }
 
     [Required(ErrorMessage = "InvoiceId is required")]
     public required Guid InvoiceId { get; set; }
