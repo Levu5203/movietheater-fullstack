@@ -75,7 +75,7 @@ public class UserController(IMediator mediator) : ControllerBase
         try
         {
             // Tạo query để lấy profile
-            var query = new GetProfileByIdQuery { Id = userGuid };
+            var query = new ProfileGetByIdQuery { Id = userGuid };
 
             var result = await _mediator.Send(query);
 

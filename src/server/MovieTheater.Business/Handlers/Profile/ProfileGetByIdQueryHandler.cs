@@ -5,13 +5,13 @@ using MovieTheater.Data.UnitOfWorks;
 
 namespace MovieTheater.Business.Handlers.Profile;
 
-public class GetProfileByIdQueryHandler : BaseHandler, IRequestHandler<GetProfileByIdQuery, UserProfileViewModel>
+public class ProfileGetByIdQueryHandler : BaseHandler, IRequestHandler<ProfileGetByIdQuery, UserProfileViewModel>
 {
-    public GetProfileByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
+    public ProfileGetByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {
     }
 
-    public async Task<UserProfileViewModel> Handle(GetProfileByIdQuery request, CancellationToken cancellationToken) {
+    public async Task<UserProfileViewModel> Handle(ProfileGetByIdQuery request, CancellationToken cancellationToken) {
         var user = await _unitOfWork.UserRepository.GetByIdAsync(request.Id);
 
         if(user == null || user.IsDeleted){
