@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Business.Handlers.CinemaRoom;
 using MovieTheater.Business.ViewModels.Room;
+using MovieTheater.Core;
 
 namespace MovieTheater.WebAPI.Controllers
 {
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/rooms")]
     [ApiController]
     [ApiVersion("1.0")]
     // [Authorize]
@@ -30,5 +31,13 @@ namespace MovieTheater.WebAPI.Controllers
             return Ok(result);
         }
 
+        [HttpPost("search")]
+        // [Authorize(Roles = "Admin, Employee")]
+        [ProducesResponseType(typeof(PaginatedResult<CinemaRoomViewModel>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> SearchCustomerAsync([FromBody] CinemaRoomSearchQuery query)
+        {
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
     }
 }
