@@ -1,5 +1,3 @@
-using System;
-using System.Security.AccessControl;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +24,7 @@ public class SeatReverveHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserIde
                 .Where(s => request.SeatIds.Contains(s.Id))
                 .ToListAsync(cancellationToken);
             if (seats.Count != request.SeatIds.Count) throw new ResourceNotFoundException("Seat not found");
-            var invoice = new Invoice
+            var invoice = new Models.Common.Invoice
             {
                 Id = Guid.NewGuid(),
                 UserId = currentUser.UserId,
@@ -42,7 +40,7 @@ public class SeatReverveHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserIde
             //set seats to pendding
             foreach (var seat in seats)
             {
-                seat.seatStatus = SeatStatus.Pendding;
+                // seat.seatStatus = SeatStatus.Pendding;
                 seat.UpdatedById = currentUser.UserId;
                 seat.UpdatedAt = DateTime.Now;
                 _unitOfWork.SeatRepository.Update(seat);

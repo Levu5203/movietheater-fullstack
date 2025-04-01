@@ -4,9 +4,11 @@ using MovieTheater.Business.Handlers.Auth;
 using MovieTheater.Business.Handlers.Seat;
 using MovieTheater.Business.ViewModels.auth;
 using MovieTheater.Business.ViewModels.CinemaRoom;
+using MovieTheater.Business.ViewModels.Invoice;
 using MovieTheater.Business.ViewModels.Movie;
 using MovieTheater.Business.ViewModels.Seat;
 using MovieTheater.Business.ViewModels.Showtime;
+using MovieTheater.Business.ViewModels.Ticket;
 using MovieTheater.Models.Common;
 
 namespace MovieTheater.Business.Mappings;
@@ -52,5 +54,14 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.SeatStatus, opt => opt.MapFrom(src => src.seatStatus));
         CreateMap<SeatReverveCommand, Seat>();
         
+        CreateMap<TicketViewModel, Ticket>()
+            .ForMember(dest => dest.Seat, opt => opt.MapFrom(src => src.Seat));
+        
+        CreateMap<Invoice, InvoicePreviewViewModel>()
+            .ForMember(dest => dest.RoomName, opt => opt.MapFrom(src => src.ShowTime.CinemaRoom.Name))
+            .ForMember(dest => dest.MovieName, opt => opt.MapFrom(src => src.ShowTime.Movie.Name))
+            .ForMember(dest => dest.ShowDate, opt => opt.MapFrom(src => src.ShowTime.ShowDate))
+            .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.ShowTime.ShowTimeSlot.Time));
+            
     }
 }
