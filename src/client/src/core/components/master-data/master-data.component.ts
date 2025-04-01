@@ -19,7 +19,7 @@ export class MasterDataListComponent<T> {
   public faRotate: IconDefinition = faRotate;
 
   //#endregion
-
+  public isLoading: boolean = false
   public isShowDetail: boolean = false;
   public selectedItem!: T | undefined | null;
   public filter: SearchModel = {

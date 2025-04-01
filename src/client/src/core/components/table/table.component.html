@@ -91,10 +91,10 @@
         (ngModelChange)="onPageChange.emit(currentPage)"
         class="w-12 mx-2 text-center border rounded"
         min="1"
-        [max]="data.totalPages"
-        [disabled]="currentPage <= 1 || currentPage >= data.totalPages"
+        [max]="data?.totalPages ?? 0"
+        [disabled]="currentPage <= 1 || currentPage >= (data?.totalPages ?? 0)"
       />
-      <span>/ {{ data.totalPages }}</span>
+      <span>/ {{ data?.totalPages ?? 0 }}</span>
     </div>
     <button
       type="button"

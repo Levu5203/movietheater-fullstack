@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { RoomDetailComponent } from '../room-detail/room-detail.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
@@ -12,17 +12,38 @@ import {
   faAnglesLeft,
   faAnglesRight,
 } from '@fortawesome/free-solid-svg-icons';
-import { FormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RoomManagementService } from '../roommanagement.service';
+import { TableColumn } from '../../../../core/models/table-column.model';
+import { MasterDataListComponent } from '../../../../core/components/master-data/master-data.component';
+import { CinemaRoomViewModel } from '../../../../models/room/room.model';
+import { IRoomService } from '../../../../services/room/room-service.interface';
+import { ROOM_SERVICE } from '../../../../constants/injection.constant';
+import { ServicesModule } from '../../../../services/services.module';
+import { TableComponent } from '../../../../core/components/table/table.component';
 
 @Component({
   selector: 'app-roommanagement',
-  imports: [RoomDetailComponent, FontAwesomeModule, FormsModule, CommonModule],
+  imports: [
+    FontAwesomeModule,
+    FormsModule,
+    CommonModule,
+    ReactiveFormsModule,
+    ServicesModule,
+    TableComponent,
+  ],
   templateUrl: './room-list.component.html',
   styleUrl: './room-list.component.css',
 })
-export class RoommanagementComponent implements OnInit {
+export class RoommanagementComponent
+  extends MasterDataListComponent<CinemaRoomViewModel>
+  implements OnInit
+{
   //#region Font Awesome Icons
   public faArrowLeft: IconDefinition = faArrowLeft;
   public faInfoCircle: IconDefinition = faInfoCircle;
@@ -34,25 +55,52 @@ export class RoommanagementComponent implements OnInit {
   public faAnglesRight: IconDefinition = faAnglesRight;
   //#endregion
 
-  currentView: 'list' | 'detail' = 'list';
-
-  constructor(public roomService: RoomManagementService) { }
-
-  ngOnInit(): void {
-    this.roomService.currentView$.subscribe((view) => {
-      this.currentView = view;
-    });
-  }
-
   public isDropdownOpen: boolean = false;
-  public currentPage: number = 1;
-  public totalPages: number = 10;
-
   public toggleDropdown(): void {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
-  onViewDetail(room: any): void {
-    this.roomService.goToDetail(room);
+  public override columns: TableColumn[] = [
+    { name: 'Room Id', value: 'id' },
+    { name: 'Room Name', value: 'name' },
+    { name: 'Capacity', value: 'capacity' },
+  ];
+
+  constructor(
+    @Inject(ROOM_SERVICE) private readonly roomService: IRoomService
+  ) {
+    super();
+  }
+
+  protected override createForm(): void {
+    this.searchForm = new FormGroup({
+      keyword: new FormControl(''),
+      minCapacity: new FormControl(null),
+      maxCapacity: new FormControl(null),
+    });
+  }
+
+  syncValidation(changedField: 'min' | 'max') {
+    const minCtrl = this.searchForm.get('minCapacity');
+    const maxCtrl = this.searchForm.get('maxCapacity');
+
+    if (minCtrl?.value && maxCtrl?.value) {
+      if (minCtrl.value > maxCtrl.value) {
+        minCtrl.setErrors({ invalidRange: true });
+        maxCtrl.setErrors({ invalidRange: true });
+      } else {
+        minCtrl.setErrors(null);
+        maxCtrl.setErrors(null);
+      }
+    }
+    maxCtrl?.updateValueAndValidity(); // Cập nhật validation maxCtrl
+    minCtrl?.updateValueAndValidity(); // Cập nhật validation minCtrl
+  }
+
+  protected override searchData(): void {
+    this.roomService.search(this.filter).subscribe((res) => {
+      this.data = res;
+    });
+    this.isLoading = false;
   }
 }

@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { USER_SERVICE } from '../constants/injection.constant';
+import { ROOM_SERVICE, USER_SERVICE } from '../constants/injection.constant';
 import { UserService } from './user/user.service';
 import { ProfileService } from './profile.service';
+import { RoomService } from './room/room.service';
 
 @NgModule({
   declarations: [],
@@ -16,6 +17,10 @@ import { ProfileService } from './profile.service';
       provide: 'profileService',
       useClass: ProfileService,
     },
+    {
+      provide: ROOM_SERVICE,
+      useClass: RoomService,
+    }
   ],
 })
 export class ServicesModule {}

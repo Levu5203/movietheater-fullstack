@@ -19,6 +19,7 @@ export class MasterDataService<T> implements IMasterDataService<T> {
   }
 
   search(filter: any): Observable<PaginatedResult<T>> {
+    
     return this.http.post<PaginatedResult<T>>(this.baseUrl + '/search', filter);
   }
 

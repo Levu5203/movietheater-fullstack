@@ -22,7 +22,7 @@ const routes: Routes = [
   { path: 'employeemanagement', component: EmployeemanagementComponent },
   { path: 'moviemanagement', component: MoviemanagementComponent },
   { path: 'promotionmanagement', component: PromotionmanagementComponent },
-  { path: 'roommanagement', component: RoommanagementComponent },
+  { path: 'rooms', component: RoommanagementComponent },
   { path: 'ticketselling', component: TicketsellingComponent },
   { path: 'ticketlist', component: TicketlistComponent },
   { path: 'setting', component: SettingComponent },
