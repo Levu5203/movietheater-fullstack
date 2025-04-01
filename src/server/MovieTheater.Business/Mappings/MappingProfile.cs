@@ -1,20 +1,15 @@
 using AutoMapper;
-<<<<<<< HEAD
-using MovieTheater.Business.ViewModels.Profile;
-using MovieTheater.Business.ViewModels.Users;
-using MovieTheater.Models.Security;
-=======
-using MovieTheater.Business.Handlers.Auth;
 using MovieTheater.Business.Handlers.Seat;
-using MovieTheater.Business.ViewModels.auth;
 using MovieTheater.Business.ViewModels.CinemaRoom;
 using MovieTheater.Business.ViewModels.Invoice;
 using MovieTheater.Business.ViewModels.Movie;
+using MovieTheater.Business.ViewModels.Profile;
 using MovieTheater.Business.ViewModels.Seat;
 using MovieTheater.Business.ViewModels.Showtime;
 using MovieTheater.Business.ViewModels.Ticket;
+using MovieTheater.Business.ViewModels.Users;
 using MovieTheater.Models.Common;
->>>>>>> Vu/bookingticket
+using MovieTheater.Models.Security;
 
 namespace MovieTheater.Business.Mappings;
 
@@ -22,14 +17,9 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-<<<<<<< HEAD
-
         CreateMap<User, UserProfileViewModel>();
         // Thêm các mapping khác tại đây
         CreateMap<UserViewModel, User>().ReverseMap();
-
-=======
-        CreateMap<LoginRequestCommand, LoginResponse>();
         //
         CreateMap<Movie, MovieViewModel>()
             .ForMember(dest => dest.Genres,
@@ -75,6 +65,5 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.ShowDate, opt => opt.MapFrom(src => src.ShowTime.ShowDate))
             .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.ShowTime.ShowTimeSlot.Time));
             
->>>>>>> Vu/bookingticket
     }
 }
