@@ -18,7 +18,7 @@ namespace MovieTheater.WebAPI.Controllers
     {
         private readonly IMediator _mediator = mediator;
         /// <summary>
-        /// Retrieves all orders (admin only).
+        /// Retrieves all movies.
         /// </summary>
         /// <returns>A collection of all orders.</returns>
         [HttpGet("movies")]

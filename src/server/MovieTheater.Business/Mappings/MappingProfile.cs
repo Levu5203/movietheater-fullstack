@@ -36,6 +36,8 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.MovieName, opt => opt.MapFrom(src => src.Movie.Name))
             .ForMember(dest => dest.RoomName,
                 opt => opt.MapFrom(src => src.CinemaRoom.Name))
+            .ForMember(dest => dest.RoomId,
+                opt => opt.MapFrom(src => src.CinemaRoom.Id))
             .ForMember(dest => dest.StartTime,
                opt => opt.MapFrom(src => src.ShowTimeSlot.Time.ToString(@"hh\:mm\:ss")));
 
@@ -57,18 +59,21 @@ public class MappingProfile : Profile
         CreateMap<SeatReverveCommand, Seat>();
 
         CreateMap<Ticket, TicketViewModel>()
-            // .ForMember(dest => dest.TicketId, opt => opt.MapFrom(src => src.Id))
-            .ForMember(dest => dest.Seat, opt => opt.MapFrom(src => src.Seat));
-            // .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status));
+            .ForMember(dest => dest.TicketId, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.Seat, opt => opt.MapFrom(src => src.Seat))
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status));
 
-        // CreateMap<TicketViewModel, Ticket>()
-        //     .ForMember(dest => dest.Seat, opt => opt.MapFrom(src => src.Seat));
+        CreateMap<TicketViewModel, Ticket>()
+            .ForMember(dest => dest.Seat, opt => opt.MapFrom(src => src.Seat));
 
         CreateMap<Invoice, InvoicePreviewViewModel>()
+            .ForMember(dest => dest.TotalMoney, opt => opt.MapFrom(src => src.TotalMoney))
+            .ForMember(dest => dest.AddedScore, opt => opt.MapFrom(src => src.AddedScore))
+            .ForMember(dest => dest.Tickets, opt => opt.MapFrom(src => src.Tickets))
             .ForMember(dest => dest.RoomName, opt => opt.MapFrom(src => src.ShowTime.CinemaRoom.Name))
             .ForMember(dest => dest.MovieName, opt => opt.MapFrom(src => src.ShowTime.Movie.Name))
             .ForMember(dest => dest.ShowDate, opt => opt.MapFrom(src => src.ShowTime.ShowDate))
-            .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.ShowTime.ShowTimeSlot.Time));
+            .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.ShowTime.ShowTimeSlot.Time.ToString(@"hh\:mm\:ss")));
 
     }
 }
