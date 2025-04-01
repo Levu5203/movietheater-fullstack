@@ -1,315 +1,73 @@
 <section class="">
   <div class="bg-white rounded-lg shadow min-w-[600px] overflow-x-auto">
-    <h2 class="text-xl font-bold p-6">Employee Management</h2>
-    <div class="flex justify-between items-center px-6">
-      <div class="flex items-center mb-4">
-        <button
-          class="mr-2 p-2 w-10 h-10 rounded-xl shadow-md hover:bg-gray-100 cursor-pointer"
-        >
-          <fa-icon [icon]="faArrowLeft" class="w-6 h-6"></fa-icon>
-        </button>
-        <input
-          type="text"
-          placeholder="Search"
-          class="flex-1 px-4 py-2 rounded-3xl bg-gray-200 hover:bg-gray-300 cursor-pointer"
-        />
-        <button
-          id="filterButton"
-          class="ml-2 p-2 w-10 h-10 text-gray-700 rounded-xl hover:bg-gray-100 cursor-pointer"
-          [ngClass]="
-            isDropdownOpen ? 'bg-gray-100 shadow-inner shadow-gray-300' : ''
-          "
-          (click)="toggleDropdown()"
-        >
-          <fa-icon [icon]="faFilter" class="fas fa-filter w-6 h-6"></fa-icon>
-        </button>
+    <h2 class="text-xl font-bold p-4">Customer Management</h2>
+    <form [formGroup]="searchForm" class="px-4">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center mb-4">
+          <input type="text" placeholder="Enter username or email" formControlName="keyword"
+            class="w-full min-w-[250px] px-4 py-2 rounded-3xl bg-gray-200 hover:bg-gray-300 cursor-pointer" />
+
+          <button title="Search" type="submit" (click)="onSubmit()"
+            class="mx-2 p-2 w-10 h-10 text-gray-700 rounded-xl hover:bg-gray-100 cursor-pointer">
+            <fa-icon [icon]="faSearch" class="w-6 h-6"></fa-icon>
+          </button>
+
+          <button title="filter" type="button" id="filterButton"
+            class="p-2 w-10 h-10 text-gray-700 rounded-xl hover:bg-gray-100 cursor-pointer" [ngClass]="
+              isDropdownOpen ? 'bg-gray-100 shadow-inner shadow-gray-300' : ''
+            " (click)="toggleDropdown()">
+            <fa-icon [icon]="faFilter" class="fas fa-filter w-6 h-6"></fa-icon>
+          </button>
+        </div>
       </div>
-    </div>
-    <!-- Filter Dropdown -->
-    <div
-      id="filterDropdown"
-      *ngIf="isDropdownOpen"
-      class="bg-gray-100 mx-4 px-8 py-4 border border-gray-300 rounded-lg shadow-md w-full"
-    >
-      <div
-        class="flex justify-between items-center border-b border-gray-300 mb-4"
-      >
-        <h3 class="text-lg font-bold mb-4">Filter Options</h3>
-        <button
-          type="button"
-          class="hover:underline cursor-pointer"
-          id="resetFilter"
-        >
-          <fa-icon [icon]="faRotateLeft" class="mr-2"></fa-icon>
-          <span>Reset Filter</span>
-        </button>
-      </div>
-      <form>
+      <!-- Filter Dropdown -->
+      <div id="filterDropdown" *ngIf="isDropdownOpen"
+        class="bg-gray-100 px-8 py-4 border border-gray-300 rounded-lg shadow-md w-full">
+        <div class="flex justify-between items-center border-b border-gray-300 mb-4">
+          <h3 class="text-lg font-bold mb-4">Filter Options</h3>
+        </div>
         <div class="grid grid-cols-3 gap-4">
           <div class="mb-4">
-            <label class="text-gray-500 block">Gender</label>
+            <label for="gender" class="text-gray-500 block">Gender</label>
             <div class="flex items-center">
-              <label
-                class="mr-4 flex items-center hover:underline cursor-pointer"
-              >
-                <input
-                  type="radio"
-                  name="filterGender"
-                  value="all"
-                  checked
-                  class="mr-1"
-                />
-                All
-              </label>
-              <label
-                class="mr-4 flex items-center hover:underline cursor-pointer"
-              >
-                <input
-                  type="radio"
-                  name="filterGender"
-                  value="male"
-                  class="mr-1"
-                />
+              <label class="mr-4 flex items-center hover:underline cursor-pointer">
+                <input formControlName="gender" type="radio" name="gender" value="Male" class="mr-1" />
                 Male
               </label>
               <label class="flex items-center hover:underline cursor-pointer">
-                <input
-                  type="radio"
-                  name="filterGender"
-                  value="female"
-                  class="mr-1"
-                />
+                <input formControlName="gender" type="radio" name="gender" value="Female" class="mr-1" />
                 Female
               </label>
             </div>
           </div>
-          <div class="mb-4">
-            <label class="text-gray-500 block">Date of Birth</label>
-            <div class="flex items-center space-x-2">
-              <input
-                type="date"
-                class="border rounded px-2 py-1 hover:bg-gray-100 cursor-pointer w-1/2"
-                placeholder="From"
-              />
-              <input
-                type="date"
-                class="border rounded px-2 py-1 hover:bg-gray-100 cursor-pointer w-1/2"
-                placeholder="To"
-              />
+          <div class="flex flex-row space-x-2 mb-4">
+            <div class="flex flex-col space-x-2">
+              <label for="dateOfBirth" class="text-gray-500 block">Start</label>
+              <input type="date" formControlName="birthDateStart"
+                class="w-full border rounded px-2 py-1 hover:bg-gray-100 cursor-pointer" placeholder="Start" />
+            </div>
+            <div class="flex flex-col space-x-2">
+              <label for="dateOfBirth" class="text-gray-500 block">End</label>
+              <input type="date" formControlName="birthDateEnd"
+                class="w-full border rounded px-2 py-1 hover:bg-gray-100 cursor-pointer" placeholder="End" />
             </div>
           </div>
         </div>
 
         <div class="flex justify-end">
-          <button
-            type="button"
+          <button type="button"
             class="text-black px-4 py-2 rounded mr-2 hover:bg-gray-100 hover:underline cursor-pointer"
-            (click)="toggleDropdown()"
-          >
+            (click)="toggleDropdown()">
             Cancel
           </button>
-          <button
-            type="submit"
-            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer"
-          >
-            Apply
+          <button type="reset" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">
+            Reset
           </button>
         </div>
-      </form>
-    </div>
-    <div class="overflow-x-auto mt-4">
-      <table class="w-full text-left text-sm border-b border-gray-300">
-        <thead class="bg-blue-100 border-t border-gray-300">
-          <tr>
-            <th class="py-2 px-4">#</th>
-            <th class="py-2 px-4">Username</th>
-            <th class="py-2 px-4">Full name</th>
-            <th class="py-2 px-4">Date of birth</th>
-            <th class="py-2 px-4">Gender</th>
-            <th class="py-2 px-4">Email</th>
-            <th class="py-2 px-4">Phone number</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="border-t border-gray-300 hover:bg-gray-100">
-            <td class="py-2 px-4">1</td>
-            <td class="py-2 px-4">nhanvien01</td>
-            <td class="py-2 px-4">Le Quoc Vu</td>
-            <td class="py-2 px-4">01/01/2000</td>
-            <td class="py-2 px-4">Male</td>
-            <td class="py-2 px-4">vulq&#64;domain.com</td>
-            <td class="py-2 px-4">0987654321</td>
-            <td class="py-2 px-4">
-              <button class="hover:bg-gray-100 cursor-pointer">
-                <fa-icon
-                  [icon]="faTrash"
-                  class="text-gray-500 text-center"
-                ></fa-icon>
-              </button>
-            </td>
-          </tr>
-          <tr class="border-t border-gray-300 hover:bg-gray-100">
-            <td class="py-2 px-4">2</td>
-            <td class="py-2 px-4">nhanvien01</td>
-            <td class="py-2 px-4">Le Quoc Vu</td>
-            <td class="py-2 px-4">01/01/2000</td>
-            <td class="py-2 px-4">Male</td>
-            <td class="py-2 px-4">vulq&#64;domain.com</td>
-            <td class="py-2 px-4">0987654321</td>
-            <td class="py-2 px-4">
-              <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                <fa-icon [icon]="faTrash" class="text-gray-500"></fa-icon>
-              </button>
-            </td>
-          </tr>
-          <tr class="border-t border-gray-300 hover:bg-gray-100">
-            <td class="py-2 px-4">3</td>
-            <td class="py-2 px-4">nhanvien01</td>
-            <td class="py-2 px-4">Le Quoc Vu</td>
-            <td class="py-2 px-4">01/01/2000</td>
-            <td class="py-2 px-4">Male</td>
-            <td class="py-2 px-4">vulq&#64;domain.com</td>
-            <td class="py-2 px-4">0987654321</td>
-            <td class="py-2 px-4">
-              <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                <fa-icon [icon]="faTrash" class="text-gray-500"></fa-icon>
-              </button>
-            </td>
-          </tr>
-          <tr class="border-t border-gray-300 hover:bg-gray-100">
-            <td class="py-2 px-4">4</td>
-            <td class="py-2 px-4">nhanvien01</td>
-            <td class="py-2 px-4">Le Quoc Vu</td>
-            <td class="py-2 px-4">01/01/2000</td>
-            <td class="py-2 px-4">Male</td>
-            <td class="py-2 px-4">vulq&#64;domain.com</td>
-            <td class="py-2 px-4">0987654321</td>
-            <td class="py-2 px-4">
-              <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                <fa-icon [icon]="faTrash" class="text-gray-500"></fa-icon>
-              </button>
-            </td>
-          </tr>
-          <tr class="border-t border-gray-300 hover:bg-gray-100">
-            <td class="py-2 px-4">5</td>
-            <td class="py-2 px-4">nhanvien01</td>
-            <td class="py-2 px-4">Le Quoc Vu</td>
-            <td class="py-2 px-4">01/01/2000</td>
-            <td class="py-2 px-4">Male</td>
-            <td class="py-2 px-4">vulq&#64;domain.com</td>
-            <td class="py-2 px-4">0987654321</td>
-            <td class="py-2 px-4">
-              <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                <fa-icon [icon]="faTrash" class="text-gray-500"></fa-icon>
-              </button>
-            </td>
-          </tr>
-          <tr class="border-t border-gray-300 hover:bg-gray-100">
-            <td class="py-2 px-4">6</td>
-            <td class="py-2 px-4">nhanvien01</td>
-            <td class="py-2 px-4">Le Quoc Vu</td>
-            <td class="py-2 px-4">01/01/2000</td>
-            <td class="py-2 px-4">Male</td>
-            <td class="py-2 px-4">vulq&#64;domain.com</td>
-            <td class="py-2 px-4">0987654321</td>
-            <td class="py-2 px-4">
-              <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                <fa-icon [icon]="faTrash" class="text-gray-500"></fa-icon>
-              </button>
-            </td>
-          </tr>
-          <tr class="border-t border-gray-300 hover:bg-gray-100">
-            <td class="py-2 px-4">7</td>
-            <td class="py-2 px-4">nhanvien01</td>
-            <td class="py-2 px-4">Le Quoc Vu</td>
-            <td class="py-2 px-4">01/01/2000</td>
-            <td class="py-2 px-4">Male</td>
-            <td class="py-2 px-4">vulq&#64;domain.com</td>
-            <td class="py-2 px-4">0987654321</td>
-            <td class="py-2 px-4">
-              <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                <fa-icon [icon]="faTrash" class="text-gray-500"></fa-icon>
-              </button>
-            </td>
-          </tr>
-          <tr class="border-t border-gray-300 hover:bg-gray-100">
-            <td class="py-2 px-4">8</td>
-            <td class="py-2 px-4">nhanvien01</td>
-            <td class="py-2 px-4">Le Quoc Vu</td>
-            <td class="py-2 px-4">01/01/2000</td>
-            <td class="py-2 px-4">Male</td>
-            <td class="py-2 px-4">vulq&#64;domain.com</td>
-            <td class="py-2 px-4">0987654321</td>
-            <td class="py-2 px-4">
-              <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                <fa-icon [icon]="faTrash" class="text-gray-500"></fa-icon>
-              </button>
-            </td>
-          </tr>
-          <tr class="border-t border-gray-300 hover:bg-gray-100">
-            <td class="py-2 px-4">9</td>
-            <td class="py-2 px-4">nhanvien01</td>
-            <td class="py-2 px-4">Le Quoc Vu</td>
-            <td class="py-2 px-4">01/01/2000</td>
-            <td class="py-2 px-4">Male</td>
-            <td class="py-2 px-4">vulq&#64;domain.com</td>
-            <td class="py-2 px-4">0987654321</td>
-            <td class="py-2 px-4">
-              <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                <fa-icon [icon]="faTrash" class="text-gray-500"></fa-icon>
-              </button>
-            </td>
-          </tr>
-          <tr class="border-t border-gray-300 hover:bg-gray-100">
-            <td class="py-2 px-4">10</td>
-            <td class="py-2 px-4">nhanvien01</td>
-            <td class="py-2 px-4">Le Quoc Vu</td>
-            <td class="py-2 px-4">01/01/2000</td>
-            <td class="py-2 px-4">Male</td>
-            <td class="py-2 px-4">vulq&#64;domain.com</td>
-            <td class="py-2 px-4">0987654321</td>
-            <td class="py-2 px-4">
-              <button class="mr-2 hover:bg-gray-100 cursor-pointer">
-                <fa-icon [icon]="faTrash" class="text-gray-500"></fa-icon>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="flex justify-center items-center py-4 px-10 text-sm">
-      <button
-        class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer"
-      >
-        <fa-icon [icon]="faAnglesLeft" class=""></fa-icon>
-      </button>
-      <button
-        class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer"
-      >
-        <fa-icon [icon]="faAngleLeft" class=""></fa-icon>
-      </button>
-      <div class="flex items-center mx-4">
-        <span>Page</span>
-        <input
-          type="number"
-          [(ngModel)]="currentPage"
-          class="w-12 mx-2 text-center border rounded"
-          min="1"
-          [max]="totalPages"
-        />
-        <span>/ {{ totalPages }}</span>
       </div>
-      <button
-        class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer"
-      >
-        <fa-icon [icon]="faAngleRight" class=""></fa-icon>
-      </button>
-      <button
-        class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer"
-      >
-        <fa-icon [icon]="faAnglesRight" class=""></fa-icon>
-      </button>
-    </div>
+    </form>
+    <app-table [isShowNumber]="true" [editable]="false" [columns]="columns" [data]="data" [currentPage]="currentPage"
+      (onDelete)="delete($event)" (onPageChange)="onPageChange($event)">
+    </app-table>
   </div>
 </section>

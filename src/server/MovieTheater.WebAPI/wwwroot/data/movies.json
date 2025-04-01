@@ -8,7 +8,9 @@
     "Version": 1,
     "PosterUrl": "https://example.com/inception.jpg",
     "Status": 2,
-    "ReleasedDate": "2010-07-16"
+    "ReleasedDate": "2010-07-16",
+    "Actors": "Leonardo DiCaprio",
+    "Director": "Christopher Nolan"
   },
   {
     "Id": "ecfc6a15-5b3e-4238-93c2-8712d7e4d7bc",
@@ -19,7 +21,9 @@
     "Version": 1,
     "PosterUrl": "https://example.com/parasite.jpg",
     "Status": 3,
-    "ReleasedDate": "2019-05-30"
+    "ReleasedDate": "2019-05-30",
+    "Actors": "Song Kang-ho",
+    "Director": "Bong Joon-ho"
   },
   {
     "Id": "3d8c9c98-9f77-4fd5-95f3-8ff3e1c8396d",
@@ -30,7 +34,9 @@
     "Version": 2,
     "PosterUrl": "https://example.com/interstellar.jpg",
     "Status": 1,
-    "ReleasedDate": "2014-11-07"
+    "ReleasedDate": "2014-11-07",
+    "Actors": "Matthew McConaughey",
+    "Director": "Christopher Nolan"
   },
   {
     "Id": "9f05a4a3-82b6-4e59-baa1-0671f649f640",
@@ -41,7 +47,9 @@
     "Version": 1,
     "PosterUrl": "https://example.com/spiritedaway.jpg",
     "Status": 2,
-    "ReleasedDate": "2001-07-20"
+    "ReleasedDate": "2001-07-20",
+    "Actors": "Rumi Hiiragi",
+    "Director": "Hayao Miyazaki"
   },
   {
     "Id": "572f2aef-6df8-4c71-b1a2-d3c4b078c7b5",
@@ -52,7 +60,9 @@
     "Version": 2,
     "PosterUrl": "https://example.com/darkknight.jpg",
     "Status": 3,
-    "ReleasedDate": "2008-07-18"
+    "ReleasedDate": "2008-07-18",
+    "Actors": "Christian Bale",
+    "Director": "Christopher Nolan"
   },
   {
     "Id": "7a8b9c0d-1234-5678-9101-112131415161",
@@ -63,7 +73,9 @@
     "Version": 1,
     "PosterUrl": "https://example.com/matrix.jpg",
     "Status": 3,
-    "ReleasedDate": "1999-03-31"
+    "ReleasedDate": "1999-03-31",
+    "Actors": "Keanu Reeves",
+    "Director": "Lana Wachowski, Lilly Wachowski"
   },
   {
     "Id": "8b9c0d1e-2345-6789-0123-223343536262",
@@ -74,7 +86,9 @@
     "Version": 1,
     "PosterUrl": "https://example.com/lotr.jpg",
     "Status": 1,
-    "ReleasedDate": "2001-12-19"
+    "ReleasedDate": "2001-12-19",
+    "Actors": "Elijah Wood",
+    "Director": "Peter Jackson"
   },
   {
     "Id": "9c0d1e2f-3456-7890-1234-334555657373",
@@ -85,7 +99,9 @@
     "Version": 1,
     "PosterUrl": "https://example.com/spiderman.jpg",
     "Status": 1,
-    "ReleasedDate": "2021-12-17"
+    "ReleasedDate": "2021-12-17",
+    "Actors": "Tom Holland",
+    "Director": "Jon Watts"
   },
   {
     "Id": "0d1e2f3a-4567-8901-2345-445767758484",
@@ -96,7 +112,9 @@
     "Version": 1,
     "PosterUrl": "https://example.com/grandbudapest.jpg",
     "Status": 1,
-    "ReleasedDate": "2014-03-07"
+    "ReleasedDate": "2014-03-07",
+    "Actors": "Ralph Fiennes",
+    "Director": "Wes Anderson"
   },
   {
     "Id": "1e2f3f4a-5678-9012-3456-556979859595",
@@ -107,39 +125,8 @@
     "Version": 1,
     "PosterUrl": "https://example.com/everything.jpg",
     "Status": 1,
-    "ReleasedDate": "2022-03-25"
-  },
-  {
-    "Id": "2f3f4e5a-6789-0123-4567-667181860606",
-    "Name": "The Matrix (3D)",
-    "Duration": 136,
-    "Origin": "USA",
-    "Description": "A computer programmer discovers a mysterious world of digital reality.",
-    "Version": 2,
-    "PosterUrl": "https://example.com/matrix3d.jpg",
-    "Status": 1,
-    "ReleasedDate": "2024-03-20"
-  },
-  {
-    "Id": "3e4e5f6a-7890-1234-5678-778292961717",
-    "Name": "The Lord of the Rings: The Fellowship of the Ring (3D)",
-    "Duration": 178,
-    "Origin": "New Zealand",
-    "Description": "A young hobbit and his companions embark on a quest to destroy a powerful ring.",
-    "Version": 2,
-    "PosterUrl": "https://example.com/lotr3d.jpg",
-    "Status": 1,
-    "ReleasedDate": "2024-03-21"
-  },
-  {
-    "Id": "4e5c6e7a-8901-2345-6789-889303062828",
-    "Name": "Spider-Man: No Way Home (3D)",
-    "Duration": 148,
-    "Origin": "USA",
-    "Description": "Peter Parker seeks Doctor Strange's help to make people forget about Spider-Man's identity.",
-    "Version": 2,
-    "PosterUrl": "https://example.com/spiderman3d.jpg",
-    "Status": 1,
-    "ReleasedDate": "2024-03-22"
+    "ReleasedDate": "2022-03-25",
+    "Actors": "Michelle Yeoh",
+    "Director": "Daniel Kwan, Daniel Scheinert"
   }
 ]

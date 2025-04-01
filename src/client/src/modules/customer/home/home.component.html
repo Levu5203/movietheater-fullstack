@@ -1,6 +1,24 @@
 <main class="min-h-screen bg-[#10141B] mx-auto px-32 text-white pt-16 h-full w-full">
-  <div class="poster">
-    <img src="../assets/moviebanner.png" class="w-full" alt="" />
+  <div class="relative poster">
+    <img [src]="images[currentIndex]" class="w-full h-[800px] object-cover mx-auto transition-all duration-500"
+      alt="Movie Banner" />
+    <!-- Nút điều hướng trái/phải -->
+    <button (click)="prevSlide()"
+      class="ml-3 absolute left-0 top-1/2 transform -translate-y-1/2 h-12 w-12 group flex items-center justify-center bg-gray-400 rounded-full z-10 hover:bg-gray-600 transition-all duration-300">
+        <fa-icon [icon]="faPrevious" class="text-gray-300 text-3xl"></fa-icon>
+    </button>
+
+    <button (click)="nextSlide()"
+      class="mr-3 absolute right-0 top-1/2 transform -translate-y-1/2 h-12 w-12 group flex items-center justify-center bg-gray-400 rounded-full z-10 hover:bg-gray-500 transition-all duration-300">
+        <fa-icon [icon]="faNext" class="text-gray-300 text-3xl"></fa-icon>
+    </button>
+  </div>
+
+  <div class="dots flex justify-center gap-2 mt-4">
+    <span *ngFor="let img of images; let i = index" (click)="currentIndex = i"
+      class="w-4 h-4 rounded-full cursor-pointer" [class.bg-white]="i === currentIndex"
+      [class.bg-gray-600]="i !== currentIndex">
+    </span>
   </div>
 
   <div class="">

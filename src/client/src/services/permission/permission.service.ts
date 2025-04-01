@@ -23,6 +23,10 @@ export class PermissionService implements IPermissionService {
   }
 
   isAuthenticated(): boolean {
+    if (this.authService.isTokenExpired()) {
+      this.authService.logout();
+      return false;
+    }
     return this.isLoggedIn;
   }
 

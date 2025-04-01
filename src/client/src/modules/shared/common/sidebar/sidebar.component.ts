@@ -1,8 +1,26 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { FontAwesomeModule, IconDefinition } from '@fortawesome/angular-fontawesome';
-import { faAngleDoubleLeft, faAngleDoubleRight, faCaretDown, faDashboard, faDoorOpen, faFilm, faGear, faList, faPercent, faTicketSimple, faUser, faUserAlt, faUserLarge, faUserShield } from '@fortawesome/free-solid-svg-icons';
+import {
+  FontAwesomeModule,
+  IconDefinition,
+} from '@fortawesome/angular-fontawesome';
+import {
+  faAngleDoubleLeft,
+  faAngleDoubleRight,
+  faCaretDown,
+  faDashboard,
+  faDoorOpen,
+  faFilm,
+  faGear,
+  faList,
+  faPercent,
+  faTicketSimple,
+  faUserAlt,
+  faUserShield,
+} from '@fortawesome/free-solid-svg-icons';
+import { AUTH_SERVICE } from '../../../../constants/injection.constant';
+import { IAuthService } from '../../../../services/auth/auth-service.interface';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,9 +29,10 @@ import { faAngleDoubleLeft, faAngleDoubleRight, faCaretDown, faDashboard, faDoor
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
-  constructor(private router: Router){
-
-  }
+  constructor(
+    private router: Router,
+    @Inject(AUTH_SERVICE) private authService: IAuthService
+  ) {}
 
   public isActive(route: string): boolean {
     return this.router.url === route; // Kiểm tra trang hiện tại
@@ -41,7 +60,7 @@ export class SidebarComponent {
   private restoreDropdownState() {
     const userDropdownState = localStorage.getItem('isUserDropdownOpen');
     const ticketDropdownState = localStorage.getItem('isTicketDropdownOpen');
-  
+
     this.isUserDropdownOpen = userDropdownState === 'true';
     this.isTicketDropdownOpen = ticketDropdownState === 'true';
   }
@@ -66,12 +85,21 @@ export class SidebarComponent {
 
   toggleTicketDropdown() {
     this.isTicketDropdownOpen = !this.isTicketDropdownOpen;
-    localStorage.setItem('isTicketDropdownOpen', String(this.isTicketDropdownOpen));
+    localStorage.setItem(
+      'isTicketDropdownOpen',
+      String(this.isTicketDropdownOpen)
+    );
+  }
+
+  public logout(): void {
+    this.authService.logout();
+    setTimeout(() => {
+      this.router.navigate(['/']);
+    }, 500);
   }
 
   //#endregion
   public isShowSidebar: boolean = true;
   public isUserDropdownOpen: boolean = false;
   public isTicketDropdownOpen: boolean = false;
-  
 }

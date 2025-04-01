@@ -31,7 +31,10 @@ export class ProfileComponent implements OnInit {
   profile: UserProfileViewModel | null = null;
   error: string | null = null;
 
-  constructor(private profileService: ProfileService, private modalService: ModalService) {}
+  constructor(
+    private readonly profileService: ProfileService,
+    private readonly modalService: ModalService
+  ) {}
 
   ngOnInit(): void {
     this.loadProfile();

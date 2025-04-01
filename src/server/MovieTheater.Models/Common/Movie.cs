@@ -37,6 +37,12 @@ public class Movie : MasterDataBaseEntity, IMasterDataBaseEntity
 
     [Required(ErrorMessage = "ReleasedDate is required")]
     public required DateOnly ReleasedDate { get; set; }
+    [Required(ErrorMessage = "Director is required")]
+    [StringLength(255, ErrorMessage = "Director can't be longer than 255 characters")]
+    public required string Director {get; set;}
+    [Required(ErrorMessage = "Actors is required")]
+    [StringLength(255, ErrorMessage = "Actors can't be longer than 255 characters")]
+    public required string Actors {get; set;}
 
     public virtual ICollection<ShowTime> ShowTimes { get; set; } = [];
 
