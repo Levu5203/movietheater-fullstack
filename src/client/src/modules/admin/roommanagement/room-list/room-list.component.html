@@ -4,7 +4,7 @@
         <form [formGroup]="searchForm" class="px-4">
             <div class="flex justify-between items-center">
                 <div class="flex items-center mb-4">
-                    <input type="text" placeholder="Enter username or email" formControlName="keyword"
+                    <input type="text" placeholder="Enter room name" formControlName="keyword"
                         class="w-full min-w-[250px] px-4 py-2 rounded-3xl bg-gray-200 hover:bg-gray-300 cursor-pointer" />
 
                     <button title="Search" type="submit" (click)="onSubmit()"
@@ -30,11 +30,11 @@
                 <div class="grid grid-cols-3 gap-4">
                     <div class="flex flex-row space-x-2 mb-4">
                         <div class="flex flex-col space-x-2">
-                            <label for="capacity" class="text-gray-500 block">Start</label>
+                            <label for="capacity" class="text-gray-500 block">Min Capacity</label>
                             <input type="number" formControlName="minCapacity"
                                 [max]="searchForm.get('maxCapacity')?.value" (change)="syncValidation('min')"
                                 class="w-full border rounded px-2 py-1 hover:bg-gray-100 cursor-pointer"
-                                placeholder="Start" />
+                                placeholder="Min Capacity" />
                             <div *ngIf="
                         searchForm.get('minCapacity')?.hasError('invalidRange')
                       " class="text-red-500 text-xs italic">
@@ -42,11 +42,11 @@
                             </div>
                         </div>
                         <div class="flex flex-col space-x-2">
-                            <label for="capacity" class="text-gray-500 block">End</label>
+                            <label for="capacity" class="text-gray-500 block">Max Capacity</label>
                             <input type="number" formControlName="maxCapacity"
                                 [min]="searchForm.get('minCapacity')?.value" (change)="syncValidation('max')"
                                 class="w-full border rounded px-2 py-1 hover:bg-gray-100 cursor-pointer"
-                                placeholder="End" />
+                                placeholder="Max Capacity" />
                             <div *ngIf="searchForm.get('maxCapacity')?.hasError('invalidRange')"
                                 class="text-red-500 text-xs italic">
                                 Max capacity must be greater than or equal to min capacity
@@ -68,7 +68,7 @@
                 </div>
             </div>
         </form>
-        <app-table *ngIf="!isLoading" [isShowNumber]="true" [editable]="false" [columns]="columns" [data]="data"
+        <app-table *ngIf="!isLoading" [isShowNumber]="true" [deletable]="false" [columns]="columns" [data]="data"
             [currentPage]="currentPage" (onPageChange)="onPageChange($event)">
         </app-table>
     </div>

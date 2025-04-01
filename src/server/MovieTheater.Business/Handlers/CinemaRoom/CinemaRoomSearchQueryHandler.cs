@@ -25,7 +25,6 @@ public class CinemaRoomSearchQueryHandler : BaseHandler, IRequestHandler<CinemaR
             var keywordLower = request.Keyword.ToLower();
 
             query = query.Where(x =>
-                x.Id.ToString().Contains(keywordLower) ||
                 x.Name.ToLower().Contains(keywordLower)
             );
         }

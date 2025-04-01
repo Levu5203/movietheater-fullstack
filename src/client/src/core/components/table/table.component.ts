@@ -15,6 +15,7 @@ import {
   faAngleRight,
   faAnglesRight,
   faAnglesLeft,
+  faCircleInfo,
 } from '@fortawesome/free-solid-svg-icons';
 import { PaginatedResult } from '../../models/paginated-result.model';
 import { TableColumn } from '../../models/table-column.model';
@@ -30,6 +31,7 @@ export class TableComponent {
   //#region Font Awesome icons
   public faEdit: IconDefinition = faEdit;
   public faTrash: IconDefinition = faTrash;
+  public faCircleInfo: IconDefinition = faCircleInfo;
   public faPlus: IconDefinition = faPlus;
   public faSearch: IconDefinition = faSearch;
   public faRotate: IconDefinition = faRotate;
@@ -43,6 +45,8 @@ export class TableComponent {
   @Input() columns: TableColumn[] = [];
   @Input() public isShowNumber?: boolean = true;
   @Input() public editable?: boolean = true;
+  @Input() public deletable?: boolean = true;
+  @Input() public infoable?: boolean = true;
 
   @Input() public currentPage: number = 1;
   @Input() public currentPageSize: number = 10;
@@ -52,6 +56,8 @@ export class TableComponent {
   @Output() public onEdit: EventEmitter<string> = new EventEmitter<string>();
 
   @Output() public onDelete: EventEmitter<string> = new EventEmitter<string>();
+
+  @Output() public onInfo: EventEmitter<string> = new EventEmitter<string>();
 
   @Output() public onPageSizeChange: EventEmitter<any> =
     new EventEmitter<any>();
