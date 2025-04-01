@@ -1,13 +1,70 @@
 import { Component } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCamera, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { PromotionService } from '../../../services/promotion/promotion-service';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-addpromotion',
-  imports: [FontAwesomeModule],
+  standalone: true,
+  imports: [FontAwesomeModule, CommonModule, FormsModule],
   templateUrl: './addpromotion.component.html',
   styleUrl: './addpromotion.component.css'
 })
 export class AddpromotionComponent {
   public faCamera: IconDefinition = faCamera;
+  
+  promotion = {
+    promotionTitle: '',
+    description: '',
+    discount: 0,
+    startDate: '',
+    endDate: ''
+  };
+  selectedFile: File | null = null;
+
+  constructor(private promotionService: PromotionService, private router: Router) {}
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      this.selectedFile = file;
+    } else {
+      alert('Please select a valid image file');
+      this.selectedFile = null;
+    }
+  }
+
+  onSubmit() {
+    event?.preventDefault(); // Ngăn trang reload khi submit form
+
+    const formData = new FormData();
+    formData.append('PromotionTitle', this.promotion.promotionTitle);
+    formData.append('Description', this.promotion.description);
+    formData.append('Discount', this.promotion.discount.toString());
+    formData.append('StartDate', this.promotion.startDate);
+    formData.append('EndDate', this.promotion.endDate);
+    console.log(formData.get)
+    
+    if (this.selectedFile) {
+      formData.append('Image', this.selectedFile);
+    }
+
+    this.promotionService.createPromotion(formData).subscribe({
+      next: () => {
+        alert('Promotion created successfully!');
+        this.router.navigate(['admin/promotionmanagement']);
+      },
+      error: (err) => {
+        console.error('Error creating promotion:', err);
+        alert('Failed to create promotion. Please try again.');
+      }
+    });
+  }
+
+  cancel() {
+    this.router.navigate(['admin/promotionmanagement']);
+  }
 }

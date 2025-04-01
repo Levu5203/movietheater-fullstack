@@ -2,6 +2,8 @@ using AutoMapper;
 using MovieTheater.Business.Handlers.Auth;
 using MovieTheater.Business.ViewModels.auth;
 using MovieTheater.Business.ViewModels.Profile;
+using MovieTheater.Business.ViewModels.Promotion;
+using MovieTheater.Models.Common;
 using MovieTheater.Models.Security;
 
 namespace MovieTheater.Business.Mappings;
@@ -13,5 +15,6 @@ public class MappingProfile : Profile
         CreateMap<LoginRequestCommand, LoginResponse>();
         CreateMap<User, UserProfileViewModel>();
         // Thêm các mapping khác tại đây
+        CreateMap<Promotion, PromotionViewModel>();
     }
 }

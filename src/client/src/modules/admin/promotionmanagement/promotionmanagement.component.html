@@ -71,8 +71,8 @@
             <td class="px-4 py-2">{{ promotion.description }}</td>
             <td class="px-4 py-2">
               <div class="flex justify-center items-center gap-2">
-                <button class="text-blue-500 hover:text-blue-700">
-                  <a href="./admin/updatepromotion">
+                <button (click)="updatePromotion(promotion.id)" class="text-blue-500 hover:text-blue-700">
+                  <a>
                     <fa-icon [icon]="faEdit" class="text-gray-500"></fa-icon>
                   </a>
                 </button>

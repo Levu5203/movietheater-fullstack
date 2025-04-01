@@ -35,12 +35,21 @@ public class GenericRepository<T, TContext> : IGenericRepository<T> where T : cl
         DbSet.Add(entity);
     }
 
+    public virtual async Task AddAsync(T entity)
+    {
+        await DbSet.AddAsync(entity);
+    }
+
     public virtual void Add(IEnumerable<T> entities)
     {
         foreach (var entity in entities)
         {
             Add(entity);
         }
+    }
+    public virtual async Task AddAsync(IEnumerable<T> entities)
+    {
+        await DbSet.AddRangeAsync(entities);
     }
 
     public virtual void Update(T entity)

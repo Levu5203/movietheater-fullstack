@@ -4,6 +4,8 @@ import { faAngleLeft, faAngleRight, faAnglesLeft, faAnglesRight, faArrowLeft, fa
 import { FontAwesomeModule, IconDefinition } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { PromotionService } from '../../../services/promotion/promotion-service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-promotionmanagement',
   imports: [CommonModule, FontAwesomeModule, FormsModule],
@@ -28,7 +30,7 @@ export class PromotionmanagementComponent implements OnInit {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
-  constructor(private http: HttpClient) {
+  constructor(private promotionService: PromotionService, private router: Router) {
     this.updatePagination();
   }
   
@@ -40,16 +42,9 @@ export class PromotionmanagementComponent implements OnInit {
   }
 
   loadPromotions() {
-    this.http.get('http://localhost:5063/api/Promotion')
-      .subscribe(
-        (data: any) => {
-          this.promotions = data;
-          console.log('Danh sách promotion:', this.promotions);
-        },
-        (error) => {
-          console.error('Error', error);
-        }
-      );
+    this.promotionService.getPromotions().subscribe(data => {
+      this.promotions = data;
+    });
   }
   
   
@@ -74,5 +69,10 @@ export class PromotionmanagementComponent implements OnInit {
 
   get totalPages(): number {
     return Math.ceil(this.promotions.length / this.itemsPerPage);
+  }
+
+  // update
+  updatePromotion(id: string) {
+    this.router.navigate(['admin/updatepromotion', id]);
   }
 }

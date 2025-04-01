@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MovieTheater.Business.Handlers.Auth;
@@ -96,6 +97,9 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 
 // Register Email Service
 builder.Services.AddScoped<IEmailService, EmailService>();
+
+// Register File Service
+builder.Services.AddScoped<IFileStorageService, FileStorageService>();
 
 // Register controllers
 builder.Services.AddControllers();
@@ -241,6 +245,13 @@ if (app.Environment.IsDevelopment())
         Console.WriteLine($"Error seeding database: {ex.Message}");
     }
 }
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads")),
+    RequestPath = "/uploads"
+});
 
 app.UseCors("AllowAnyOrigin");
 
