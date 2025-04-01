@@ -19,5 +19,7 @@ public class MappingProfile : Profile
         CreateMap<CinemaRoom,CinemaRoomViewModel>();
         CreateMap<CinemaRoomViewModel,CinemaRoom>().ReverseMap();
 
+        CreateMap<Seat, SeatViewModel>();
+        CreateMap<SeatViewModel, Seat>().ReverseMap();
     }
 }
