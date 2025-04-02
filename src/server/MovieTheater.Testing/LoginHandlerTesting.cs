@@ -15,7 +15,7 @@ using MovieTheater.Models.Security;
 namespace MovieTheater.Testing;
 
 [TestFixture]
-public class AuthHandlerTesting
+public class LoginHandlerTesting
 {
     private MovieTheaterDbContext _dbContext;
     private IMapper _mapper;
@@ -27,6 +27,8 @@ public class AuthHandlerTesting
     private Mock<SignInManager<User>> _signInManagerMock;
     private Mock<ITokenService> _tokenServiceMock;
     private IConfiguration _configuration;
+
+    private LoginRequestCommandHandler _handler;
     private const string TestPassword = "Abc@12345";
 
     [SetUp]
@@ -89,47 +91,34 @@ public class AuthHandlerTesting
 
         // Setup test users with pre-hashed passwords
         var hasher = new PasswordHasher<User>();
-        _users = new List<User>
-    {
-        new() {
-            Id = Guid.NewGuid(),
-            UserName = "user1",
-            FirstName = "Customer",
-            LastName = "one",
-            Gender = "Male",
-            IdentityCard = "389518903518",
-            Email = "user1@example.com",
-            IsDeleted = false,
-            IsActive = true,
-            EmailConfirmed = true,
-            PasswordHash = hasher.HashPassword(null, TestPassword)
-        },
-        new() {
-            Id = Guid.NewGuid(),
-            UserName = "user2",
-            FirstName = "Customer",
-            LastName = "two",
-            Gender = "Male",
-            IdentityCard = "389518903518",
-            Email = "user2@example.com",
-            IsDeleted = false,
-            EmailConfirmed = true,
-            PasswordHash = hasher.HashPassword(null, TestPassword)
-        },
-        new() {
-            Id = Guid.NewGuid(),
-            UserName = "user3",
-            FirstName = "Customer",
-            LastName = "three",
-            Gender = "Male",
-            IdentityCard = "389518903518",
-            Email = "user3@example.com",
-            IsDeleted = true,
-            IsActive = false,
-            EmailConfirmed = true,
-            PasswordHash = hasher.HashPassword(null, TestPassword)
-        },
-    };
+        _users = [
+            new() {
+                Id = Guid.NewGuid(),
+                UserName = "user1",
+                FirstName = "Customer",
+                LastName = "one",
+                Gender = "Male",
+                IdentityCard = "389518903518",
+                Email = "user1@example.com",
+                IsDeleted = false,
+                IsActive = true,
+                EmailConfirmed = true,
+                PasswordHash = hasher.HashPassword(null, TestPassword)
+            },
+            new() {
+                Id = Guid.NewGuid(),
+                UserName = "user2",
+                FirstName = "Customer",
+                LastName = "two",
+                Gender = "Male",
+                IdentityCard = "389518903518",
+                Email = "user2@example.com",
+                IsDeleted = false,
+                IsActive = false,
+                EmailConfirmed = true,
+                PasswordHash = hasher.HashPassword(null, TestPassword)
+            },
+        ];
         // Add test users to the in-memory database
         _dbContext.Users.AddRange(_users);
         await _dbContext.SaveChangesAsync();
@@ -173,6 +162,7 @@ public class AuthHandlerTesting
         _userIdentityMock.Setup(ui => ui.UserName).Returns(_users[0].UserName!);
 
         _unitOfWork = new UnitOfWork(_dbContext, _userIdentityMock.Object);
+        _handler = new LoginRequestCommandHandler(_unitOfWork, _mapper, _userManager, _signInManagerMock.Object, _tokenServiceMock.Object, _configuration);
     }
 
     [TearDown]
@@ -194,9 +184,8 @@ public class AuthHandlerTesting
             Email = "user1@example.com",
             Password = TestPassword
         };
-        var handler = new LoginRequestCommandHandler(_unitOfWork, _mapper, _userManager, _signInManagerMock.Object, _tokenServiceMock.Object, _configuration);
 
-        var result = await handler.Handle(loginCommand, CancellationToken.None);
+        var result = await _handler.Handle(loginCommand, CancellationToken.None);
 
         Assert.Multiple(() =>
         {
@@ -216,10 +205,9 @@ public class AuthHandlerTesting
             Email = "nonexistent@example.com",
             Password = TestPassword
         };
-        var handler = new LoginRequestCommandHandler(_unitOfWork, _mapper, _userManager, _signInManagerMock.Object, _tokenServiceMock.Object, _configuration);
 
         var ex = Assert.ThrowsAsync<UnauthorizedAccessException>(() =>
-           handler.Handle(loginCommand, CancellationToken.None));
+           _handler.Handle(loginCommand, CancellationToken.None));
         Assert.That(ex.Message, Is.EqualTo("The email address you entered isn't connected to an account."));
     }
 
@@ -231,10 +219,9 @@ public class AuthHandlerTesting
             Email = "user1@example.com",
             Password = "WrongPassword123"
         };
-        var handler = new LoginRequestCommandHandler(_unitOfWork, _mapper, _userManager, _signInManagerMock.Object, _tokenServiceMock.Object, _configuration);
 
         var ex = Assert.ThrowsAsync<UnauthorizedAccessException>(() =>
-           handler.Handle(loginCommand, CancellationToken.None));
+           _handler.Handle(loginCommand, CancellationToken.None));
         Assert.That(ex.Message, Is.EqualTo("Invalid password. Try other password for account with email user1@example.com"));
     }
 
@@ -243,13 +230,12 @@ public class AuthHandlerTesting
     {
         var loginCommand = new LoginRequestCommand
         {
-            Email = "user3@example.com",
+            Email = "user2@example.com",
             Password = TestPassword
         };
-        var handler = new LoginRequestCommandHandler(_unitOfWork, _mapper, _userManager, _signInManagerMock.Object, _tokenServiceMock.Object, _configuration);
 
         var ex = Assert.ThrowsAsync<UnauthorizedAccessException>(() =>
-           handler.Handle(loginCommand, CancellationToken.None));
+           _handler.Handle(loginCommand, CancellationToken.None));
         Assert.That(ex.Message, Is.EqualTo("Your account is deactivated. Please contact an administrator."));
     }
 }
