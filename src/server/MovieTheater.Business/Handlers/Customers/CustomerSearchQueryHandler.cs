@@ -10,18 +10,18 @@ using MovieTheater.Models.Security;
 
 namespace MovieTheater.Business.Handlers.Users;
 
-public class UserSearchCustomerQueryHandler :
+public class CustomerSearchQueryHandler :
     BaseHandler,
-    IRequestHandler<UserSearchCustomerQuery, PaginatedResult<UserViewModel>>
+    IRequestHandler<CustomerSearchQuery, PaginatedResult<UserViewModel>>
 {
     private readonly UserManager<User> _userManager;
-    public UserSearchCustomerQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, UserManager<User> userManager) : base(unitOfWork, mapper)
+    public CustomerSearchQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, UserManager<User> userManager) : base(unitOfWork, mapper)
     {
         _userManager = userManager;
     }
 
     public async Task<PaginatedResult<UserViewModel>> Handle(
-        UserSearchCustomerQuery request,
+        CustomerSearchQuery request,
         CancellationToken cancellationToken)
     {
         // Create query

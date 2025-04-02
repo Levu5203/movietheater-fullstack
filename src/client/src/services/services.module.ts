@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { USER_SERVICE } from '../constants/injection.constant';
-import { UserService } from './user/user.service';
 import { ProfileService } from './profile.service';
+import { CUSTOMER_SERVICE } from '../constants/injection.constant';
+import { CustomerService } from './customer/customer.service';
 
 @NgModule({
   declarations: [],
   imports: [CommonModule],
   providers: [
     {
-      provide: USER_SERVICE,
-      useClass: UserService,
+      provide: CUSTOMER_SERVICE,
+      useClass: CustomerService,
     },
     {
       provide: 'profileService',
