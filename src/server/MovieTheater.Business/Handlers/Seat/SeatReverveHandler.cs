@@ -45,7 +45,7 @@ public class SeatReverveHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserIde
                 seat.UpdatedAt = DateTime.Now;
                 _unitOfWork.SeatRepository.Update(seat);
             }
-            var tickets = seats.Select(seat => new Ticket
+            var tickets = seats.Select(seat => new Models.Common.Ticket
             {
                 Id = Guid.NewGuid(),
                 SeatId = seat.Id,
