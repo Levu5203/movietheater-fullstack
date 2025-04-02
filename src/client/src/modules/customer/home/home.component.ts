@@ -18,6 +18,28 @@ export class HomeComponent {
     '../assets/film5.jpg'
   ];
 
+  movies = [
+    { title: 'Movie Title 1', image: '../assets/anhkhongdau.png' },
+    { title: 'Movie Title 2', image: '../assets/anhkhongdau.png' },
+    { title: 'Movie Title 3', image: '../assets/anhkhongdau.png' },
+    { title: 'Movie Title 4', image: '../assets/macarong.png' },
+    { title: 'Movie Title 5', image: '../assets/macarong.png' },
+    { title: 'Movie Title 6', image: '../assets/macarong.png' }
+  ];
+
+  promotions1 = [
+    '../assets/km1.png',
+    '../assets/km2.png',
+    '../assets/km3.png',
+    '../assets/km1.png'
+  ];
+  
+  promotions2 = [
+    '../assets/km2.png',
+    '../assets/km3.png',
+    '../assets/km1.png'
+  ];
+
   public faPrevious: IconDefinition = faChevronLeft;
   public faNext: IconDefinition = faChevronRight;
   
@@ -31,7 +53,7 @@ export class HomeComponent {
   startSlideshow() {
     this.interval = setInterval(() => {
       this.nextSlide();
-    }, 3000); // Tự động chuyển ảnh mỗi 3 giây
+    }, 3000);
   }
 
   nextSlide() {

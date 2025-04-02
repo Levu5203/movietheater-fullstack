@@ -4,38 +4,72 @@
     <form [formGroup]="searchForm" class="px-4">
       <div class="flex justify-between items-center">
         <div class="flex items-center mb-4">
-          <input type="text" placeholder="Enter username or email" formControlName="keyword"
-            class="w-full min-w-[250px] px-4 py-2 rounded-3xl bg-gray-200 hover:bg-gray-300 cursor-pointer" />
+          <input
+            type="text"
+            placeholder="Enter username or email"
+            formControlName="keyword"
+            class="w-full min-w-[250px] px-4 py-2 rounded-3xl bg-gray-200 hover:bg-gray-300 cursor-pointer"
+          />
 
-          <button title="Search" type="submit" (click)="onSubmit()"
-            class="mx-2 p-2 w-10 h-10 text-gray-700 rounded-xl hover:bg-gray-100 cursor-pointer">
+          <button
+            title="Search"
+            type="submit"
+            (click)="onSubmit()"
+            class="mx-2 p-2 w-10 h-10 text-gray-700 rounded-xl hover:bg-gray-100 cursor-pointer disabled:cursor-not-allowed"
+            [disabled]="searchForm.invalid"
+          >
             <fa-icon [icon]="faSearch" class="w-6 h-6"></fa-icon>
           </button>
 
-          <button title="filter" type="button" id="filterButton"
-            class="p-2 w-10 h-10 text-gray-700 rounded-xl hover:bg-gray-100 cursor-pointer" [ngClass]="
+          <button
+            title="filter"
+            type="button"
+            id="filterButton"
+            class="p-2 w-10 h-10 text-gray-700 rounded-xl hover:bg-gray-100 cursor-pointer"
+            [ngClass]="
               isDropdownOpen ? 'bg-gray-100 shadow-inner shadow-gray-300' : ''
-            " (click)="toggleDropdown()">
+            "
+            (click)="toggleDropdown()"
+          >
             <fa-icon [icon]="faFilter" class="fas fa-filter w-6 h-6"></fa-icon>
           </button>
         </div>
       </div>
       <!-- Filter Dropdown -->
-      <div id="filterDropdown" *ngIf="isDropdownOpen"
-        class="bg-gray-100 px-8 py-4 border border-gray-300 rounded-lg shadow-md w-full">
-        <div class="flex justify-between items-center border-b border-gray-300 mb-4">
+      <div
+        id="filterDropdown"
+        *ngIf="isDropdownOpen"
+        class="bg-gray-100 px-8 py-4 border border-gray-300 rounded-lg shadow-md w-full"
+      >
+        <div
+          class="flex justify-between items-center border-b border-gray-300 mb-4"
+        >
           <h3 class="text-lg font-bold mb-4">Filter Options</h3>
         </div>
         <div class="grid grid-cols-3 gap-4">
           <div class="mb-4">
             <label for="gender" class="text-gray-500 block">Gender</label>
             <div class="flex items-center">
-              <label class="mr-4 flex items-center hover:underline cursor-pointer">
-                <input formControlName="gender" type="radio" name="gender" value="Male" class="mr-1" />
+              <label
+                class="mr-4 flex items-center hover:underline cursor-pointer"
+              >
+                <input
+                  formControlName="gender"
+                  type="radio"
+                  name="gender"
+                  value="Male"
+                  class="mr-1"
+                />
                 Male
               </label>
               <label class="flex items-center hover:underline cursor-pointer">
-                <input formControlName="gender" type="radio" name="gender" value="Female" class="mr-1" />
+                <input
+                  formControlName="gender"
+                  type="radio"
+                  name="gender"
+                  value="Female"
+                  class="mr-1"
+                />
                 Female
               </label>
             </div>
@@ -43,31 +77,69 @@
           <div class="flex flex-row space-x-2 mb-4">
             <div class="flex flex-col space-x-2">
               <label for="dateOfBirth" class="text-gray-500 block">Start</label>
-              <input type="date" formControlName="birthDateStart"
-                class="w-full border rounded px-2 py-1 hover:bg-gray-100 cursor-pointer" placeholder="Start" />
+              <input
+                type="date"
+                formControlName="birthDateStart"
+                [max]="searchForm.get('birthDateEnd')?.value"
+                (change)="syncDateValidation('start')"
+                class="w-full border rounded px-2 py-1 hover:bg-gray-100 cursor-pointer"
+                placeholder="Start"
+              />
+              <div
+                *ngIf="
+                  searchForm.get('birthDateStart')?.hasError('invalidRange')
+                "
+                class="text-red-500 text-xs italic"
+              >
+                Start date must be BEFORE end date
+              </div>
             </div>
             <div class="flex flex-col space-x-2">
               <label for="dateOfBirth" class="text-gray-500 block">End</label>
-              <input type="date" formControlName="birthDateEnd"
-                class="w-full border rounded px-2 py-1 hover:bg-gray-100 cursor-pointer" placeholder="End" />
+              <input
+                type="date"
+                formControlName="birthDateEnd"
+                [min]="searchForm.get('birthDateStart')?.value"
+                (change)="syncDateValidation('end')"
+                class="w-full border rounded px-2 py-1 hover:bg-gray-100 cursor-pointer"
+                placeholder="End"
+              />
+              <div
+                *ngIf="searchForm.get('birthDateEnd')?.hasError('invalidRange')"
+                class="text-red-500 text-xs italic"
+              >
+                End date must be AFTER start date
+              </div>
             </div>
           </div>
         </div>
 
         <div class="flex justify-end">
-          <button type="button"
+          <button
+            type="button"
             class="text-black px-4 py-2 rounded mr-2 hover:bg-gray-100 hover:underline cursor-pointer"
-            (click)="toggleDropdown()">
+            (click)="toggleDropdown()"
+          >
             Cancel
           </button>
-          <button type="reset" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">
+          <button
+            type="reset"
+            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer"
+          >
             Reset
           </button>
         </div>
       </div>
     </form>
-    <app-table [isShowNumber]="true" [editable]="false" [columns]="columns" [data]="data" [currentPage]="currentPage"
-      (onDelete)="delete($event)" (onPageChange)="onPageChange($event)">
+    <app-table
+      [isShowNumber]="true"
+      [editable]="false"
+      [columns]="columns"
+      [data]="data"
+      [currentPage]="currentPage"
+      (onDelete)="delete($event)"
+      (onPageChange)="onPageChange($event)"
+    >
     </app-table>
   </div>
 </section>
