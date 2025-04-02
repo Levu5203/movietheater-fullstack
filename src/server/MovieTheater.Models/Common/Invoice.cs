@@ -29,4 +29,14 @@ public class Invoice : MasterDataBaseEntity, IMasterDataBaseEntity
     public virtual ICollection<Ticket>? Tickets { get; set; } =[];
 
     public virtual ICollection<HistoryScore> HistoryScores { get; set; } = [];
+    //status: 1: pending, 2: paid, 3: canceled
+    [EnumDataType(typeof(InvoiceStatus), ErrorMessage = "Invalid Invoice Status")]
+    public InvoiceStatus Status { get; set; }
+}
+
+public enum InvoiceStatus
+{
+    Pending = 1,
+    Paid = 2,
+    Canceled = 3
 }
