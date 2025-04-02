@@ -21,7 +21,7 @@ public class EmployeesController(IMediator mediator) : ControllerBase
     /// <returns>List of Employees</returns>
     [HttpGet()]
     [Authorize(Roles = "Admin, Employee")]
-    [ProducesResponseType(typeof(IEnumerable<UserViewModel>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<EmployeeViewModel>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllEmployeeAsync()
     {
         var users = new EmployeeGetAllQuery();
@@ -35,7 +35,7 @@ public class EmployeesController(IMediator mediator) : ControllerBase
     /// <returns>List of Employees match to keyword and filters</returns>
     [HttpPost("search")]
     [Authorize(Roles = "Admin, Employee")]
-    [ProducesResponseType(typeof(PaginatedResult<UserViewModel>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PaginatedResult<EmployeeViewModel>), StatusCodes.Status200OK)]
     public async Task<IActionResult> SearchEmployeeAsync([FromBody] EmployeeSearchQuery query)
     {
         var result = await _mediator.Send(query);
@@ -80,7 +80,7 @@ public class EmployeesController(IMediator mediator) : ControllerBase
     /// <returns>Employee created</returns>
     [HttpPost]
     [Authorize(Roles = "Admin")]
-    [ProducesResponseType(typeof(UserViewModel), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(EmployeeViewModel), StatusCodes.Status201Created)]
     public async Task<IActionResult> CreateAsync([FromBody] EmployeeCreateCommand command)
     {
         var result = await _mediator.Send(command);
@@ -95,7 +95,7 @@ public class EmployeesController(IMediator mediator) : ControllerBase
     /// <returns>User information</returns>
     [HttpPut("{id}")]
     [Authorize(Roles = "Admin")]
-    [ProducesResponseType(typeof(UserViewModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(EmployeeViewModel), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> UpdateAsync(Guid id, [FromBody] EmployeeUpdateCommand command)
     {

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using MovieTheater.Business.ViewModels.Users;
 namespace MovieTheater.Business.Handlers.Employees;
 
-public class EmployeeUpdateCommand : MasterBaseUpdateCommand<UserViewModel>
+public class EmployeeUpdateCommand : MasterBaseUpdateCommand<EmployeeViewModel>
 {
     [Required(ErrorMessage = "{0} is required")]
     [StringLength(50, ErrorMessage = "{0} must be between {2} and {1} characters", MinimumLength = 1)]

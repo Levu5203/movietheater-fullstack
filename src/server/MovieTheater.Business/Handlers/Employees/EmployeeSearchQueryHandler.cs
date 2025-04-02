@@ -12,7 +12,7 @@ namespace MovieTheater.Business.Handlers.Employees;
 
 public class EmployeeSearchQueryHandler :
     BaseHandler,
-    IRequestHandler<EmployeeSearchQuery, PaginatedResult<UserViewModel>>
+    IRequestHandler<EmployeeSearchQuery, PaginatedResult<EmployeeViewModel>>
 {
     private readonly UserManager<User> _userManager;
     public EmployeeSearchQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, UserManager<User> userManager) : base(unitOfWork, mapper)
@@ -20,7 +20,7 @@ public class EmployeeSearchQueryHandler :
         _userManager = userManager;
     }
 
-    public async Task<PaginatedResult<UserViewModel>> Handle(
+    public async Task<PaginatedResult<EmployeeViewModel>> Handle(
         EmployeeSearchQuery request,
         CancellationToken cancellationToken)
     {
@@ -88,9 +88,9 @@ public class EmployeeSearchQueryHandler :
             .ToListAsync(cancellationToken);
 
         // Map to view models
-        var viewModels = _mapper.Map<IEnumerable<UserViewModel>>(items);
+        var viewModels = _mapper.Map<IEnumerable<EmployeeViewModel>>(items);
 
         // Return paginated result
-        return new PaginatedResult<UserViewModel>(request.PageNumber, request.PageSize, total, viewModels);
+        return new PaginatedResult<EmployeeViewModel>(request.PageNumber, request.PageSize, total, viewModels);
     }
 }

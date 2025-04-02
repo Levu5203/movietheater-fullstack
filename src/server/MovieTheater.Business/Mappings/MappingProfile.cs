@@ -22,6 +22,8 @@ public class MappingProfile : Profile
         CreateMap<User, UserProfileViewModel>();
         // Thêm các mapping khác tại đây
         CreateMap<UserViewModel, User>().ReverseMap();
+        CreateMap<EmployeeViewModel, User>().ReverseMap();
+
         //
         CreateMap<Movie, MovieViewModel>()
             .ForMember(dest => dest.Genres,

@@ -9,7 +9,7 @@ namespace MovieTheater.Business.Handlers.Employees;
 
 public class EmployeeGetAllQueryHandler :
     BaseHandler,
-    IRequestHandler<EmployeeGetAllQuery, IEnumerable<UserViewModel>>
+    IRequestHandler<EmployeeGetAllQuery, IEnumerable<EmployeeViewModel>>
 {
     private readonly UserManager<User> _userManager;
 
@@ -18,11 +18,11 @@ public class EmployeeGetAllQueryHandler :
         _userManager = userManager;
     }
 
-    public async Task<IEnumerable<UserViewModel>> Handle(
+    public async Task<IEnumerable<EmployeeViewModel>> Handle(
         EmployeeGetAllQuery request,
         CancellationToken cancellationToken)
     {
         var users = await _userManager.GetUsersInRoleAsync("Employee");
-        return _mapper.Map<IEnumerable<UserViewModel>>(users);
+        return _mapper.Map<IEnumerable<EmployeeViewModel>>(users);
     }
 }
