@@ -1,4 +1,4 @@
-<section *ngIf="currentView === 'list'">
+<section *ngIf="!isShowDetail && !isShowForm">
   <div class="bg-white rounded-lg shadow min-w-[600px] overflow-x-auto">
     <h2 class="text-xl font-bold p-4">Employee Management</h2>
     <form [formGroup]="searchForm" class="px-4">
@@ -36,6 +36,7 @@
         </div>
         <button
           type="button"
+          (click)="create()"
           class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer"
         >
           Add new employee
@@ -142,15 +143,23 @@
       [columns]="columns"
       [data]="data"
       [currentPage]="currentPage"
+      (onView)="view($event)"
       (onDelete)="delete($event)"
+      (onEdit)="edit($event)"
       (onPageChange)="onPageChange($event)"
     >
     </app-table>
   </div>
 </section>
 
-<app-employee-detail *ngIf="currentView === 'detail'"></app-employee-detail>
+<app-employee-detail
+  *ngIf="isShowDetail"
+  [selectedItem]="selectedItem"
+  (close)="onCloseDetail()"
+></app-employee-detail>
 
 <app-employee-addedit
-  *ngIf="currentView === 'add' || currentView === 'edit'"
+  *ngIf="isShowForm"
+  [selectedItem]="selectedItem"
+  (close)="onCloseDetail()"
 ></app-employee-addedit>

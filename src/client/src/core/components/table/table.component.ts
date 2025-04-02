@@ -15,6 +15,7 @@ import {
   faAngleRight,
   faAnglesRight,
   faAnglesLeft,
+  faInfoCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { PaginatedResult } from '../../models/paginated-result.model';
 import { TableColumn } from '../../models/table-column.model';
@@ -28,6 +29,7 @@ import { PipesModule } from '../../../pipes/pipe.module';
 })
 export class TableComponent {
   //#region Font Awesome icons
+  public faInfoCircle: IconDefinition = faInfoCircle;
   public faEdit: IconDefinition = faEdit;
   public faTrash: IconDefinition = faTrash;
   public faPlus: IconDefinition = faPlus;
@@ -48,6 +50,8 @@ export class TableComponent {
   @Input() public currentPageSize: number = 10;
 
   @Input() public data!: PaginatedResult<any>;
+
+  @Output() public onView: EventEmitter<string> = new EventEmitter<string>();
 
   @Output() public onEdit: EventEmitter<string> = new EventEmitter<string>();
 

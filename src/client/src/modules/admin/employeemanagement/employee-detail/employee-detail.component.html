@@ -1,53 +1,73 @@
 <section class="">
-    <div class="bg-white rounded-lg shadow p-6 w-full">
-        <h2 class="text-xl font-bold mb-6">Employee Information</h2>
-        <div class="flex items-center mb-6">
-            <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mr-4">
-                <fa-icon [icon]="faUser" class="text-gray-500 text-3xl"></fa-icon>
-            </div>
-            <div>
-                <h3 class="text-lg font-semibold">Le Quoc Vu</h3>
-                <p class="text-gray-600">nhanvien01</p>
-            </div>
-        </div>
-        <div class="flex flex-col md:grid md:grid-cols-2 gap-2">
-            <div class="flex flex-col gap-2">
-                <div>
-                    <label class="text-gray-500">Full Name</label>
-                    <p class="font-semibold">Le Quoc Vu</p>
-                </div>
-                <div>
-                    <label class="text-gray-500">Date of Birth</label>
-                    <p class="font-semibold">01/01/2000</p>
-                </div>
-                <div>
-                    <label class="text-gray-500">Gender</label>
-                    <p class="font-semibold">Male</p>
-                </div>
-            </div>
-            <div class="flex flex-col gap-2">
-                <div>
-                    <label class="text-gray-500">Identity Card</label>
-                    <p class="font-semibold">001122334455</p>
-                </div>
-                <div>
-                    <label class="text-gray-500">Email</label>
-                    <p class="font-semibold">vulq&#64;domain.com</p>
-                </div>
-                <div>
-                    <label class="text-gray-500">Phone Number</label>
-                    <p class="font-semibold">0987654321</p>
-                </div>
-            </div>
-            <div class="col-span-2">
-                <label class="text-gray-500">Address</label>
-                <p class="font-semibold">Duy Tan, Cau Giay, Ha Noi</p>
-            </div>
-        </div>
-        <div class="mt-6 flex justify-end">
-            <button type="button" class="text-black px-4 py-2 rounded mr-2 hover:underline cursor-pointer" (click)="goBack()">Back</button>
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mr-2 hover:bg-blue-600 cursor-pointer" (click)="onEdit(employee)">Edit</button>
-            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 cursor-pointer" (click)="onDelete(employee)">Delete</button>
-        </div>
+  <div class="bg-white rounded-lg shadow p-6 w-full">
+    <h2 class="text-xl font-bold mb-6">Employee Information</h2>
+    <div class="flex items-center mb-6">
+      <div
+        class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mr-4"
+      >
+        <fa-icon [icon]="faUser" class="text-gray-500 text-3xl"></fa-icon>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold">{{ selectedItem?.displayName }}</h3>
+        <p class="text-gray-600">{{ selectedItem?.username }}</p>
+      </div>
     </div>
+    <div class="flex flex-col md:grid md:grid-cols-2 gap-2">
+      <div class="flex flex-col gap-2">
+        <div>
+          <p class="text-sm pt-2 text-gray-500">Full Name</p>
+          <p class="font-semibold">{{ selectedItem?.displayName }}</p>
+        </div>
+        <div>
+          <p class="text-sm pt-2 text-gray-500">Date of Birth</p>
+          <p class="font-semibold">{{ selectedItem?.dateOfBirth | date: 'mediumDate' }}</p>
+        </div>
+        <div>
+          <p class="text-sm pt-2 text-gray-500">Gender</p>
+          <p class="font-semibold">{{ selectedItem?.gender }}</p>
+        </div>
+      </div>
+      <div class="flex flex-col gap-2">
+        <div>
+          <p class="text-sm pt-2 text-gray-500">Identity Card</p>
+          <p class="font-semibold">{{ selectedItem?.identityCard }}</p>
+        </div>
+        <div>
+          <p class="text-sm pt-2 text-gray-500">Email</p>
+          <p class="font-semibold">{{ selectedItem?.email }}</p>
+        </div>
+        <div>
+          <p class="text-sm pt-2 text-gray-500">Phone Number</p>
+          <p class="font-semibold">{{ selectedItem?.phoneNumber }}</p>
+        </div>
+      </div>
+      <div class="col-span-2">
+        <p class="text-sm pt-2 text-gray-500">Address</p>
+        <p class="font-semibold">{{ selectedItem?.address }}</p>
+      </div>
+    </div>
+    <div class="mt-6 flex justify-end">
+      <button
+        type="button"
+        (click)="onClose()"
+        class="text-black px-4 py-2 rounded mr-2 hover:underline cursor-pointer"
+      >
+        Back
+      </button>
+      <button
+        type="submit"
+        class="bg-blue-500 text-white px-4 py-2 rounded mr-2 hover:bg-blue-600 cursor-pointer"
+        (click)="onEdit(employee)"
+      >
+        Edit
+      </button>
+      <button
+        type="submit"
+        class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 cursor-pointer"
+        (click)="onDelete(employee)"
+      >
+        Delete
+      </button>
+    </div>
+  </div>
 </section>

@@ -26,12 +26,12 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { MasterDataListComponent } from '../../../../core/components/master-data/master-data.component';
-import { UserModel } from '../../../../models/user/user.model';
 import { EMPLOYEE_SERVICE } from '../../../../constants/injection.constant';
 import { IEmployeeService } from '../../../../services/employee/employee-service.interface';
 import { TableColumn } from '../../../../core/models/table-column.model';
 import { TableComponent } from '../../../../core/components/table/table.component';
 import { ServicesModule } from '../../../../services/services.module';
+import { EmployeeModel } from '../../../../models/user/employee.model';
 
 @Component({
   selector: 'app-employeemanagement',
@@ -49,7 +49,7 @@ import { ServicesModule } from '../../../../services/services.module';
   styleUrl: './employee-list.component.css',
 })
 export class EmployeemanagementComponent
-  extends MasterDataListComponent<UserModel>
+  extends MasterDataListComponent<EmployeeModel>
   implements OnInit
 {
   //#region Font Awesome Icons
@@ -70,10 +70,13 @@ export class EmployeemanagementComponent
   public override columns: TableColumn[] = [
     { name: 'Username', value: 'username' },
     { name: 'Full Name', value: 'displayName' },
-    { name: 'Gender', value: 'gender' },
     { name: 'Date of birth', value: 'dateOfBirth', type: 'date' },
+    { name: 'Gender', value: 'gender' },
     { name: 'Email', value: 'email' },
+    { name: 'Identity Card', value: 'identityCard' },
     { name: 'Phone Number', value: 'phoneNumber' },
+    { name: 'Address', value: 'address' },
+    { name: 'Register date', value: 'createdAt', type: 'date' },
   ];
   constructor(
     @Inject(EMPLOYEE_SERVICE) private readonly employeeService: IEmployeeService
@@ -151,26 +154,38 @@ export class EmployeemanagementComponent
       }
     });
   }
+  public edit(id: string): void {
+    this.isShowDetail = false;
+    setTimeout(() => {
+      this.selectedItem = this.data.items.find((x) => x.id === id);
+      this.isShowForm = true;
+
+      // Scroll into view
+    }, 150);
+  }
+
+  public create(): void {
+    this.isShowDetail = false;
+    setTimeout(() => {
+      this.selectedItem = null;
+      this.isShowForm = true;
+
+      // Scroll into view
+    }, 150);
+  }
+
+  public view(id: string): void {
+    this.isShowForm = false;
+    setTimeout(() => {
+      this.selectedItem = this.data.items.find((x) => x.id === id);
+      this.isShowDetail = true;
+
+      // Scroll into view
+    }, 150);
+  }
   public isDropdownOpen: boolean = false;
-  // public currentPage: number = 1;
-  // public totalPages: number = 10;
 
   public toggleDropdown(): void {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
-
-  // onViewDetail(employee: any): void {
-  //   this.employeeManagementService.goToDetail(employee);
-  // }
-
-  // onAdd(): void {
-  //   this.employeeManagementService.goToAdd();
-  // }
-
-  // onEdit(employee: any): void {
-  //   this.employeeManagementService.goToEdit(employee);
-  // }
-  // onDelete(employee: any): void {
-  //   this.employeeManagementService.goToList();
-  // }
 }
