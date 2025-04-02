@@ -46,11 +46,26 @@ namespace MovieTheater.WebAPI.Controllers
         }
 
         /// <summary>
+        /// Get of a room by id
+        /// </summary>
+        /// <param name="roomId">Room Id</param>
+        /// <returns>Room view model</returns>
+        [HttpGet("{roomId}")]
+        // [Authorize(Roles = "Admin")]
+        [ProducesResponseType(typeof(IEnumerable<SeatViewModel>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetRoomByIdAsync(Guid roomId)
+        {
+            var query = new CinemaRoomGetByIdQuery { Id = roomId };
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+
+        /// <summary>
         /// Get seats of a room
         /// </summary>
         /// <param name="roomId">Room Id</param>
         /// <returns>List of seats in the room</returns>
-        [HttpGet("{roomId}")]
+        [HttpGet("{roomId}/seats")]
         // [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(IEnumerable<SeatViewModel>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetSeatsByRoomAsync(Guid roomId)
