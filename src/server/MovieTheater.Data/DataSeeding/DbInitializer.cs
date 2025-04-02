@@ -170,10 +170,10 @@ public static class DbInitializer
                         SeatColumns = room.SeatColumns,
                         CreatedAt = DateTime.Now,
                     });
+                    GenerateSeatsForRoom(context, room);
                 }
                 context.SaveChanges();
 
-                GenerateSeatsForRoom(context, room);
             }
         }
     }
