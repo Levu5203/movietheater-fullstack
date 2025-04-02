@@ -60,7 +60,7 @@ builder.Services.AddSwaggerGen(options =>
 // Register DbContext
 builder.Services.AddDbContext<MovieTheaterDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("MovieTheaterDbConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MovieTheaterDbConnectionLocal"));
 });
 
 builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>

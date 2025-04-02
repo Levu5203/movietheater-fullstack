@@ -15,5 +15,6 @@ public class PromotionViewModel
     public DateTime StartDate { get; set; }
 
     public DateTime EndDate { get; set; }
-    public IFormFile? Image { get; set; }
+    
+    public string? Image { get; set; }
 }
