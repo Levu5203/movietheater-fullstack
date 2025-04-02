@@ -16,6 +16,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { CommonModule } from '@angular/common';
 import {
+  AbstractControl,
   FormControl,
   FormGroup,
   FormsModule,
@@ -79,14 +80,84 @@ export class CustomermanagementComponent
   }
 
   protected override createForm(): void {
-    this.searchForm = new FormGroup({
-      keyword: new FormControl(''),
-      gender: new FormControl(''),
-      birthDateStart: new FormControl(null),
-      birthDateEnd: new FormControl(null),
-    });
+    this.searchForm = new FormGroup(
+      {
+        keyword: new FormControl(''),
+        gender: new FormControl(''),
+        birthDateStart: new FormControl(null),
+        birthDateEnd: new FormControl(null),
+      },
+      { validators: [this.crossFieldValidator] }
+    );
+  }
+  syncDateValidation(changedField: 'start' | 'end') {
+    const startCtrl = this.searchForm.get('birthDateStart');
+    const endCtrl = this.searchForm.get('birthDateEnd');
+
+    if (changedField === 'start') {
+      // Khi birthDateStart thay đổi
+      if (startCtrl?.value && endCtrl?.value) {
+        this.validateDateOrder(startCtrl, endCtrl);
+      }
+      endCtrl?.updateValueAndValidity(); // Cập nhật validation birthDateEnd
+    } else {
+      // Khi birthDateEnd thay đổi
+      if (startCtrl?.value && endCtrl?.value) {
+        this.validateDateOrder(startCtrl, endCtrl);
+      }
+      startCtrl?.updateValueAndValidity(); // Cập nhật validation birthDateStart
+    }
   }
 
+  // Kiểm tra thứ tự ngày
+  private validateDateOrder(
+    startCtrl: AbstractControl,
+    endCtrl: AbstractControl
+  ) {
+    const birthDateStart = new Date(startCtrl.value);
+    const birthDateEnd = new Date(endCtrl.value);
+
+    if (birthDateStart > birthDateEnd) {
+      startCtrl.setErrors({ invalidRange: true });
+      endCtrl.setErrors({ invalidRange: true });
+    } else {
+      startCtrl.setErrors(null);
+      endCtrl.setErrors(null);
+    }
+  }
+
+  // Cross-field validator
+  crossFieldValidator(control: AbstractControl) {
+    const start = control.get('birthDateStart')?.value;
+    const end = control.get('birthDateEnd')?.value;
+
+    if (!start || !end) return null;
+
+    return new Date(start) <= new Date(end) ? null : { dateOrderInvalid: true };
+  }
+  // validateAndReset(field: 'birthDateStart' | 'birthDateEnd') {
+  //   const start = this.searchForm.get('birthDateStart')?.value;
+  //   const end = this.searchForm.get('birthDateEnd')?.value;
+
+  //   // Chỉ validate khi cả 2 trường có giá trị
+  //   if (!start || !end) return;
+
+  //   if (new Date(start) > new Date(end)) {
+  //     // Hiển thị thông báo lỗi trong 3s
+  //     // this.showError = true;
+  //     // clearTimeout(this.errorTimeout);
+  //     // this.errorTimeout = setTimeout(() => (this.showError = false), 3000);
+
+  //     // Reset cả 2 trường
+  //     // this.searchForm.patchValue({
+  //     //   startDate: null,
+  //     //   endDate: null
+  //     // });
+
+  //     // Hoặc chỉ reset trường sai:
+  //     this.searchForm.get(field)?.reset();
+  //   }
+  // }
   protected override searchData(): void {
     this.userService.search(this.filter).subscribe((res) => {
       this.data = res;
