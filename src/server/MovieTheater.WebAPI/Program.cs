@@ -60,7 +60,7 @@ builder.Services.AddSwaggerGen(options =>
 // Register DbContext
 builder.Services.AddDbContext<MovieTheaterDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("MovieTheaterDbConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MovieTheaterDbConnectionLocal"));
 });
 
 builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
@@ -250,12 +250,14 @@ if (app.Environment.IsDevelopment())
     }
 }
 
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads")),
-    RequestPath = "/uploads"
-});
+app.UseStaticFiles(
+//     new StaticFileOptions
+// {
+//     FileProvider = new PhysicalFileProvider(
+//         Path.Combine(Directory.GetCurrentDirectory(), "uploads")),
+//     RequestPath = "/uploads"
+// }
+);
 
 app.UseCors("AllowAnyOrigin");
 

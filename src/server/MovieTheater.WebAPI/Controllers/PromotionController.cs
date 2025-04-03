@@ -32,6 +32,7 @@ namespace MovieTheater.WebAPI.Controllers
         }
 
         [HttpPut("{id}")]
+        [Consumes("multipart/form-data")]
         public async Task<IActionResult> UpdatePromotion(Guid id, [FromForm] UpdatePromotionCommand command)
         {
             if (id != command.Id)

@@ -25,14 +25,13 @@ export class UpdatepromotionComponent implements OnInit {
     image: ''
   };
 
-  // selectedImage: File | null = null;
-  // previewImage: string | null = null;
+  selectedImage: File | null = null;
+  previewImage: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private promotionService: PromotionService,
-    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -42,36 +41,37 @@ export class UpdatepromotionComponent implements OnInit {
         this.promotion = data;
         this.promotion.startDate = data.startDate.split("T")[0]; // Chuyển về yyyy-MM-dd
         this.promotion.endDate = data.endDate.split("T")[0];
-        // this.previewImage = `http://localhost:5063${data.image}`; // Hiển thị ảnh cũ
+        this.previewImage = `http://localhost:5063${data.image}`; // Hiển thị ảnh cũ
+        console.log(this.previewImage)
       });
     }
   }
 
-  // onFileSelected(event: any) {
-  //   if (event.target.files.length > 0) {
-  //     this.selectedImage = event.target.files[0] as File ;
+  onFileSelected(event: any) {
+    if (event.target.files.length > 0) {
+      this.selectedImage = event.target.files[0] as File ;
 
-  //     // Xem trước ảnh mới
-  //     const reader = new FileReader();
-  //     reader.onload = (e: any) => {
-  //       this.previewImage = e.target.result;
-  //     };
-  //     reader.readAsDataURL(this.selectedImage);
-  //   }
-  // }
+      // Xem trước ảnh mới
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.previewImage = e.target.result;
+      };
+      reader.readAsDataURL(this.selectedImage);
+    }
+  }
 
   updatePromotion() {
     const formData = new FormData();
+    formData.append('id', this.promotion.id);
     formData.append('promotionTitle', this.promotion.promotionTitle);
     formData.append('description', this.promotion.description);
     formData.append('discount', this.promotion.discount);
     formData.append('startDate', this.promotion.startDate);
     formData.append('endDate', this.promotion.endDate);
-    formData.append('dummy', 'test'); 
-    console.log(formData);
-    // if (this.selectedImage) {
-    //   formData.append('image', this.selectedImage);
-    // }
+    if (this.selectedImage) {
+      formData.append('image', this.selectedImage);
+    }
+    console.log(typeof(this.selectedImage))
 
     this.promotionService.updatePromotion(this.promotion.id, formData).subscribe(() => {
       alert('Promotion updated successfully!');

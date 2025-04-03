@@ -1,7 +1,7 @@
 <body class="bg-gray-100 w-full">
     <div class="mx-auto bg-white p-8 rounded-lg shadow-md">
       <h2 class="text-2xl font-semibold mb-6">Update Promotion</h2>
-      <form (ngSubmit)="updatePromotion()">
+      <form (ngSubmit)="updatePromotion()" >
         <div class="md:grid grid-cols-2 gap-6">
           <div class="space-y-4">
             <label class="block">Title
@@ -19,23 +19,15 @@
             <label class="block">End Time
               <input type="date" class="w-full p-2 border hover:bg-gray-100 rounded" [(ngModel)]="promotion.endDate" name="endDate">
             </label>
-            <h2>Hello {{ promotion.promotionTitle }}!</h2>
-            <!-- <div class="flex items-center mb-6 mt-4">
+            
+            <div class="flex items-center mb-6 mt-4">
               <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mr-4">
                 <img *ngIf="previewImage" [src]="previewImage" class="w-full h-full rounded-full object-cover">
                 <fa-icon *ngIf="!previewImage" [icon]="faCamera" class="text-gray-500 text-3xl"></fa-icon>
               </div>
-              <input type="file" (change)="onFileSelected($event)" class="hidden" id="fileInput">
-              <label for="fileInput" class="text-blue-500 hover:underline cursor-pointer">Choose image</label>
-            </div> -->
-            <div class="flex items-center mb-6 mt-4">
-                <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mr-4">
-                  <img class="w-full h-full rounded-full object-cover">
-                  <fa-icon [icon]="faCamera" class="text-gray-500 text-3xl"></fa-icon>
-                </div>
-                <input type="file" class="hidden" id="fileInput">
-                <label for="fileInput" class="text-blue-500 hover:underline cursor-pointer">Choose image</label>
-              </div>
+              <input type="file" (change)="onFileSelected($event)" class="" id="fileInput">
+              <label for="fileInput" class="text-blue-500 hover:underline cursor-pointer"></label>
+            </div>
           </div>
         </div>
         <div class="flex justify-end mt-6 space-x-4">

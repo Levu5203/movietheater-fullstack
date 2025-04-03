@@ -6,8 +6,8 @@ namespace MovieTheater.Business.Handlers.Promotion;
 
 public class CreatePromotionCommand : IRequest<Guid>
 {
-    public string PromotionTitle { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
+    public string? PromotionTitle { get; set; }
+    public string? Description { get; set; }
     public decimal Discount { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }

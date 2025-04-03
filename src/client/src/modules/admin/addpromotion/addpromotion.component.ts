@@ -46,7 +46,6 @@ export class AddpromotionComponent {
     formData.append('Discount', this.promotion.discount.toString());
     formData.append('StartDate', this.promotion.startDate);
     formData.append('EndDate', this.promotion.endDate);
-    console.log(formData.get)
     
     if (this.selectedFile) {
       formData.append('Image', this.selectedFile);
