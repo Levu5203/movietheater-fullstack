@@ -53,7 +53,6 @@
         <thead class="bg-[#F7F9FC] border-b border-[#E8F1FD]">
           <tr class="text-left">
             <th class="px-4 py-2">#</th>
-            <th class="px-4 py-2">Promotion ID</th>
             <th class="px-4 py-2">Title</th>
             <th class="px-4 py-2">Start Time</th>
             <th class="px-4 py-2">End Time</th>
@@ -63,18 +62,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let promotion of paginatedPromotions" class="hover:bg-gray-50 border-b border-[#E8F1FD]">
-            <td class="px-4 py-2">{{ promotion.id }}</td>
-            <td class="px-4 py-2">{{ promotion.promotionId }}</td>
-            <td class="px-4 py-2">{{ promotion.title }}</td>
-            <td class="px-4 py-2">{{ promotion.startTime }}</td>
-            <td class="px-4 py-2">{{ promotion.endTime }} min</td>
-            <td class="px-4 py-2">{{ promotion.discountLevel }}</td>
-            <td class="px-4 py-2">{{ promotion.detail }}</td>
+          <tr *ngFor="let promotion of promotions, let i = index" class="hover:bg-gray-50 border-b border-[#E8F1FD]">
+            <td class="px-4 py-2">{{ i + 1 }}</td>
+            <td class="px-4 py-2">{{ promotion.promotionTitle }}</td>
+            <td class="px-4 py-2">{{ promotion.startDate }}</td>
+            <td class="px-4 py-2">{{ promotion.endDate }}</td>
+            <td class="px-4 py-2">{{ promotion.discount * 100 }} %</td>
+            <td class="px-4 py-2">{{ promotion.description }}</td>
             <td class="px-4 py-2">
               <div class="flex justify-center items-center gap-2">
-                <button class="text-blue-500 hover:text-blue-700">
-                  <a href="./admin/updatepromotion">
+                <button (click)="updatePromotion(promotion.id)" class="text-blue-500 hover:text-blue-700">
+                  <a>
                     <fa-icon [icon]="faEdit" class="text-gray-500"></fa-icon>
                   </a>
                 </button>
@@ -92,15 +90,14 @@
     
       <!-- Mobile View -->
       <div class="md:hidden">
-        <div *ngFor="let promotion of paginatedPromotions" class="flex justify-between border-b border-[#E8F1FD] p-4 bg-white items-center">
+        <div *ngFor="let promotion of promotions, let i = index" class="flex justify-between border-b border-[#E8F1FD] p-4 bg-white items-center">
           <div>
-            <p class="font-bold"># {{ promotion.id }}</p>
-            <p><span class="font-semibold">Promotion ID:</span> {{ promotion.promotionId }}</p>
-            <p><span class="font-semibold">Title:</span> {{ promotion.title }}</p>
-            <p><span class="font-semibold">Start Time:</span> {{ promotion.startTime }}</p>
-            <p><span class="font-semibold">End Time:</span> {{ promotion.endTime }} min</p>
-            <p><span class="font-semibold">Discount Level:</span> {{ promotion.discountLevel }}</p>
-            <p><span class="font-semibold">Detail:</span> {{ promotion.detail }}</p>
+            <p class="font-bold"># {{ i + 1 }}</p>
+            <p><span class="font-semibold">Title:</span> {{ promotion.promotionTitle }}</p>
+            <p><span class="font-semibold">Start Time:</span> {{ promotion.startDate }}</p>
+            <p><span class="font-semibold">End Time:</span> {{ promotion.endDate }} min</p>
+            <p><span class="font-semibold">Discount Level:</span> {{ promotion.discount * 100 }}</p>
+            <p><span class="font-semibold">Detail:</span> {{ promotion.description }}</p>
           </div>
           
           <div class="flex gap-4 ml-auto">
@@ -144,29 +141,6 @@
             <fa-icon [icon]="faAnglesRight" class=""></fa-icon>
         </button>
       </div>
-      
-      <!-- <div class="flex justify-between items-center mt-4">
-        <button (click)="goToPage(currentPage - 1)" 
-          [disabled]="currentPage === 1"
-          class="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-400 disabled:opacity-50">
-          Previous
-        </button>
-      
-        <div class="space-x-2">
-          <button *ngFor="let page of [].constructor(totalPages); let i = index"
-            (click)="goToPage(i + 1)"
-            [ngClass]="{'bg-blue-500 text-white': currentPage === i + 1, 'bg-gray-300 hover:bg-gray-400': currentPage !== i + 1}"
-            class="px-3 py-2 rounded-md">
-            {{ i + 1 }}
-          </button>
-        </div>
-      
-        <button (click)="goToPage(currentPage + 1)" 
-          [disabled]="currentPage === totalPages"
-          class="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-400 disabled:opacity-50">
-          Next
-        </button>
-      </div> -->
       
   </div>
   

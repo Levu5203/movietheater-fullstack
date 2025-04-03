@@ -29,7 +29,7 @@ const routes: Routes = [
   { path: 'ticketconfirm', component: TicketconfirmComponent },
   { path: 'addmovie', component: AddmovieComponent },
   { path: 'addpromotion', component: AddpromotionComponent },
-  { path: 'updatemovie', component: UpdatemovieComponent },
+  { path: 'updatepromotion/:id', component: UpdatepromotionComponent },
   { path: 'updatepromotion', component: UpdatepromotionComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

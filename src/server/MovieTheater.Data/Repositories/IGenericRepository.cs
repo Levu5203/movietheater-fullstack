@@ -6,7 +6,11 @@ public interface IGenericRepository<T> where T : class
 {
     void Add(T entity);
 
+    Task AddAsync(T entity);
+
     void Add(IEnumerable<T> entities);
+
+    Task AddAsync(IEnumerable<T> entities);
 
     void Update(T entity);
 

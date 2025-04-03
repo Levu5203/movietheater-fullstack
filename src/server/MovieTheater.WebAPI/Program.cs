@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using MovieTheater.Business.Handlers.Auth;
 using MovieTheater.Business.Mappings;
 using MovieTheater.Business.Services;
 using MovieTheater.Business.ViewModels.Auth;
@@ -97,6 +97,9 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 // Register Email Service
 builder.Services.AddScoped<IEmailService, EmailService>();
 
+// Register File Service
+builder.Services.AddScoped<IFileStorageService, FileStorageService>();
+
 // Register controllers
 builder.Services.AddControllers();
 
@@ -160,12 +163,19 @@ builder.Services.AddCors(options =>
 });
 
 
-// Register MediatR
+// // Register MediatR
+// builder.Services.AddMediatR(cfg =>
+//     cfg.RegisterServicesFromAssembly(typeof(LoginRequestCommand).Assembly));
 builder.Services.AddMediatR(cfg =>
-    cfg.RegisterServicesFromAssembly(typeof(LoginRequestCommand).Assembly));
+{
+    cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
+});
+
+
 
 // Add AutoMapper
-builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+// builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
@@ -239,6 +249,15 @@ if (app.Environment.IsDevelopment())
         Console.WriteLine($"Error seeding database: {ex.Message}");
     }
 }
+
+app.UseStaticFiles(
+//     new StaticFileOptions
+// {
+//     FileProvider = new PhysicalFileProvider(
+//         Path.Combine(Directory.GetCurrentDirectory(), "uploads")),
+//     RequestPath = "/uploads"
+// }
+);
 
 app.UseCors("AllowAnyOrigin");
 

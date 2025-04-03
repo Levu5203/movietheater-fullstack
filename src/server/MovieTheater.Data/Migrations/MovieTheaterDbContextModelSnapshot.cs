@@ -276,6 +276,9 @@ namespace MovieTheater.Data.Migrations
                     b.Property<Guid>("ShowTimeId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<double>("TotalMoney")
                         .HasColumnType("float");
 
@@ -309,6 +312,11 @@ namespace MovieTheater.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Actors")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -322,6 +330,11 @@ namespace MovieTheater.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Director")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
@@ -498,6 +511,9 @@ namespace MovieTheater.Data.Migrations
                     b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("seatStatus")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CinemaRoomId");
@@ -637,15 +653,14 @@ namespace MovieTheater.Data.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<Guid>("PromotionId")
+                    b.Property<Guid?>("PromotionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("SeatId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -1234,8 +1249,7 @@ namespace MovieTheater.Data.Migrations
                     b.HasOne("MovieTheater.Models.Common.Promotion", "Promotion")
                         .WithMany("Tickets")
                         .HasForeignKey("PromotionId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("MovieTheater.Models.Common.Seat", "Seat")
                         .WithMany("Tickets")
