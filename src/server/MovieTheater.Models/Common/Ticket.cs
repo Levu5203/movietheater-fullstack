@@ -51,10 +51,10 @@ public class Ticket : MasterDataBaseEntity, IMasterDataBaseEntity
     [ForeignKey(nameof(PromotionId))]
     public virtual Promotion? Promotion { get; set; }
 
-    public enum TicketStatus
-    {
-        Paid = 1,
-        Issued = 2,
-        Used = 3,
-    }
+}
+public enum TicketStatus
+{
+    Paid = 1,
+    Issued = 2,
+    Used = 3,
 }

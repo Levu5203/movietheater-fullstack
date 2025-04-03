@@ -28,6 +28,8 @@ public class SeatReverveHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserIde
             {
                 Id = Guid.NewGuid(),
                 UserId = currentUser.UserId,
+                CinemaRoomId = showtime.CinemaRoomId,
+                MovieId = showtime.MovieId,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
                 CreatedById = currentUser.UserId,
@@ -50,9 +52,12 @@ public class SeatReverveHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserIde
                 Id = Guid.NewGuid(),
                 SeatId = seat.Id,
                 Price = 50000,
-                Status = TicketStatus.WaitForPayment,
+                Status = TicketStatus.Paid,
                 BookingDate = DateTime.Now,
                 InvoiceId = invoice.Id,
+                ShowTimeId = showtime.Id,
+                MovieId = showtime.MovieId,
+                CinemaRoomId = showtime.CinemaRoomId,
             }).ToList();
             foreach (var ticket in tickets)
             {

@@ -36,7 +36,7 @@
     "Score": 25,
     "ScoreStatus": 1,
     "Description": "Điểm tích lũy từ xem phim",
-    "InvoiceId": "d4e5f6a7-4444-4562-b3fc-444455556666",
+    "InvoiceId": "b2c3d4e5-2222-4562-b3fc-222233334445",
     "CreatedAt": "2025-03-26T12:00:00"
   },
   {
@@ -44,7 +44,7 @@
     "Score": 15,
     "ScoreStatus": 2,
     "Description": "Sử dụng điểm để giảm giá vé",
-    "InvoiceId": "d4e5f6a7-4444-4562-b3fc-444455556666",
+    "InvoiceId": "b2c3d4e5-2222-4562-b3fc-222233334446",
     "CreatedAt": "2025-03-26T13:00:00"
   },
   {
@@ -52,7 +52,7 @@
     "Score": 30,
     "ScoreStatus": 1,
     "Description": "Điểm tích lũy từ xem phim",
-    "InvoiceId": "e5f6a7b8-5555-4562-b3fc-555566667777",
+    "InvoiceId": "b2c3d4e5-2222-4562-b3fc-222233334447",
     "CreatedAt": "2025-03-27T09:00:00"
   }
 ]

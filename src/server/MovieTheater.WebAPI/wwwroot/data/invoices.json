@@ -5,8 +5,12 @@
     "AddedScore": 15,
     "UserId": "93f8139d-3195-4a4e-647b-08dd5c670130",
     "ShowTimeId": "a1b2c3d4-1111-4562-b3fc-444455556666",
+    "CinemaRoomId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "MovieId": "3d8c9c98-9f77-4fd5-95f3-8ff3e1c8396d",
     "CreatedAt": "2025-03-26T09:00:00",
-    "CreatedById": "136A79F3-F5D8-4709-85FA-89702B862358"
+    "CreatedById": "136A79F3-F5D8-4709-85FA-89702B862358",
+    "IsActive": true,
+    "IsDeleted": false
   },
   {
     "Id": "b2c3d4e5-2222-4562-b3fc-222233334444",
@@ -14,8 +18,12 @@
     "AddedScore": 20,
     "UserId": "56C86DC2-0C0D-4699-BC37-5953B0EFB356",
     "ShowTimeId": "b2c3d4e5-2222-4562-b3fc-555566667777",
+    "CinemaRoomId": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
+    "MovieId": "8b9c0d1e-2345-6789-0123-223343536262",
     "CreatedAt": "2025-03-26T10:00:00",
-    "CreatedById": "93f8139d-3195-4a4e-647b-08dd5c670130"
+    "CreatedById": "93f8139d-3195-4a4e-647b-08dd5c670130",
+    "IsActive": true,
+    "IsDeleted": false
   },
   {
     "Id": "c3d4e5f6-3333-4562-b3fc-333344445555",
@@ -23,8 +31,12 @@
     "AddedScore": 18,
     "UserId": "136A79F3-F5D8-4709-85FA-89702B862358",
     "ShowTimeId": "c3d4e5f6-3333-4562-b3fc-666677778888",
+    "CinemaRoomId": "3fa85f64-5717-4562-b3fc-2c963f66afa8",
+    "MovieId": "9c0d1e2f-3456-7890-1234-334555657373",
     "CreatedAt": "2025-03-26T11:00:00",
-    "CreatedById": "93f8139d-3195-4a4e-647b-08dd5c670130"
+    "CreatedById": "93f8139d-3195-4a4e-647b-08dd5c670130",
+    "IsActive": true,
+    "IsDeleted": false
   },
   {
     "Id": "d4e5f6a7-4444-4562-b3fc-444455556666",
@@ -32,8 +44,12 @@
     "AddedScore": 25,
     "UserId": "81002E02-9E55-44AF-A1B3-6CC24AA12F1C",
     "ShowTimeId": "d4e5f6a7-4444-4562-b3fc-777788889999",
+    "CinemaRoomId": "3fa85f64-5717-4562-b3fc-2c963f66afa9",
+    "MovieId": "2f3f4e5a-6789-0123-4567-667181860606",
     "CreatedAt": "2025-03-26T13:00:00",
-    "CreatedById": "136A79F3-F5D8-4709-85FA-89702B862358"
+    "CreatedById": "136A79F3-F5D8-4709-85FA-89702B862358",
+    "IsActive": true,
+    "IsDeleted": false
   },
   {
     "Id": "e5f6a7b8-5555-4562-b3fc-555566667777",
@@ -41,8 +57,12 @@
     "AddedScore": 30,
     "UserId": "93f8139d-3195-4a4e-647b-08dd5c670130",
     "ShowTimeId": "e5f6a7b8-5555-4562-b3fc-888899990000",
+    "CinemaRoomId": "3fa85f64-5717-4562-b3fc-2c963f66afb0",
+    "MovieId": "3e4e5f6a-7890-1234-5678-778292961717",
     "CreatedAt": "2025-03-27T09:00:00",
-    "CreatedById": "93f8139d-3195-4a4e-647b-08dd5c670130"
+    "CreatedById": "93f8139d-3195-4a4e-647b-08dd5c670130",
+    "IsActive": true,
+    "IsDeleted": false
   },
   {
     "Id": "b2c3d4e5-2222-4562-b3fc-222233334445",
@@ -50,8 +70,12 @@
     "AddedScore": 20,
     "UserId": "81002E02-9E55-44AF-A1B3-6CC24AA12F1C",
     "ShowTimeId": "a1b2c3d4-1111-4562-b3fc-444455556666",
+    "CinemaRoomId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "MovieId": "3d8c9c98-9f77-4fd5-95f3-8ff3e1c8396d",
     "CreatedAt": "2025-03-26T10:00:00",
-    "CreatedById": "93f8139d-3195-4a4e-647b-08dd5c670130"
+    "CreatedById": "93f8139d-3195-4a4e-647b-08dd5c670130",
+    "IsActive": true,
+    "IsDeleted": false
   },
   {
     "Id": "b2c3d4e5-2222-4562-b3fc-222233334446",
@@ -59,8 +83,12 @@
     "AddedScore": 20,
     "UserId": "81002E02-9E55-44AF-A1B3-6CC24AA12F1C",
     "ShowTimeId": "c3d4e5f6-3333-4562-b3fc-666677778888",
+    "CinemaRoomId": "3fa85f64-5717-4562-b3fc-2c963f66afa8",
+    "MovieId": "9c0d1e2f-3456-7890-1234-334555657373",
     "CreatedAt": "2025-03-26T10:00:00",
-    "CreatedById": "93f8139d-3195-4a4e-647b-08dd5c670130"
+    "CreatedById": "93f8139d-3195-4a4e-647b-08dd5c670130",
+    "IsActive": true,
+    "IsDeleted": false
   },
   {
     "Id": "b2c3d4e5-2222-4562-b3fc-222233334447",
@@ -68,7 +96,11 @@
     "AddedScore": 20,
     "UserId": "81002E02-9E55-44AF-A1B3-6CC24AA12F1C",
     "ShowTimeId": "d4e5f6a7-4444-4562-b3fc-777788889999",
+    "CinemaRoomId": "3fa85f64-5717-4562-b3fc-2c963f66afa9",
+    "MovieId": "2f3f4e5a-6789-0123-4567-667181860606",
     "CreatedAt": "2025-03-26T10:00:00",
-    "CreatedById": "93f8139d-3195-4a4e-647b-08dd5c670130"
+    "CreatedById": "93f8139d-3195-4a4e-647b-08dd5c670130",
+    "IsActive": true,
+    "IsDeleted": false
   }
 ] 
