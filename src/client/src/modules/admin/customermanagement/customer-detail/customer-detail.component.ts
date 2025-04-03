@@ -3,23 +3,23 @@ import {
   FontAwesomeModule,
   IconDefinition,
 } from '@fortawesome/angular-fontawesome';
-import { faArrowLeft, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { EmployeeModel } from '../../../../models/user/employee.model';
 import { DatePipe } from '@angular/common';
+import { UserModel } from '../../../../models/user/user.model';
 
 @Component({
-  selector: 'app-employee-detail',
+  selector: 'app-customer-detail',
   imports: [FontAwesomeModule, DatePipe],
-  templateUrl: './employee-detail.component.html',
-  styleUrl: './employee-detail.component.css',
+  templateUrl: './customer-detail.component.html',
+  styleUrl: './customer-detail.component.css',
 })
-export class EmployeeDetailComponent {
-  //#region Font Awesome Icons
+export class CustomerDetailComponent {
   public faUser: IconDefinition = faUser;
   public faArrowLeft: IconDefinition = faArrowLeft;
 
   //#endregion
-  @Input() public selectedItem!: EmployeeModel | undefined | null;
+  @Input() public selectedItem!: UserModel | undefined | null;
   @Output() close = new EventEmitter<void>();
 
   onClose() {

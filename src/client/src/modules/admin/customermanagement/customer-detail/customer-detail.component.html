@@ -9,7 +9,7 @@
       >
         <fa-icon [icon]="faArrowLeft" class="text-gray-500 text-xl"></fa-icon>
       </button>
-      <h2 class="text-xl font-bold">Employee Information</h2>
+      <h2 class="text-xl font-bold">Customer Information</h2>
     </div>
     <div class="flex items-center mb-6">
       <div
@@ -31,7 +31,11 @@
         <div>
           <p class="text-sm pt-2 text-gray-500">Date of Birth</p>
           <p class="font-semibold">
-            {{ selectedItem?.dateOfBirth | date : "mediumDate" }}
+            {{
+              selectedItem?.dateOfBirth
+                ? (selectedItem?.dateOfBirth | date : "mediumDate")
+                : "----------"
+            }}
           </p>
         </div>
         <div>
@@ -41,21 +45,15 @@
       </div>
       <div class="flex flex-col gap-2">
         <div>
-          <p class="text-sm pt-2 text-gray-500">Identity Card</p>
-          <p class="font-semibold">{{ selectedItem?.identityCard }}</p>
-        </div>
-        <div>
           <p class="text-sm pt-2 text-gray-500">Email</p>
           <p class="font-semibold">{{ selectedItem?.email }}</p>
         </div>
         <div>
           <p class="text-sm pt-2 text-gray-500">Phone Number</p>
-          <p class="font-semibold">{{ selectedItem?.phoneNumber }}</p>
+          <p class="font-semibold">
+            {{ selectedItem?.phoneNumber ?? "----------" }}
+          </p>
         </div>
-      </div>
-      <div class="col-span-2">
-        <p class="text-sm pt-2 text-gray-500">Address</p>
-        <p class="font-semibold">{{ selectedItem?.address }}</p>
       </div>
     </div>
   </div>
