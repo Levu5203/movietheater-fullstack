@@ -54,7 +54,7 @@
                   class="border-0 flex items-center justify-center w-8 h-8"
                   title="Delete"
                   type="button"
-                  (click)="onDelete.emit(item.id)"
+                  (click)="openConfirmModal(item.id)"
                 >
                   <fa-icon
                     [icon]="faTrash"
@@ -130,3 +130,10 @@
     </button>
   </div>
 </div>
+
+<app-confirm-modal
+  *ngIf="showConfirmModal"
+  [confirmMessage]="confirmMessage"
+  (onConfirm)="confirmDelete()"
+  (onCancel)="closeConfirmModal()"
+></app-confirm-modal>

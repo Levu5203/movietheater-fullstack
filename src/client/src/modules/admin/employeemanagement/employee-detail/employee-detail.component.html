@@ -1,6 +1,16 @@
 <section class="">
-  <div class="bg-white rounded-lg shadow p-6 w-full">
-    <h2 class="text-xl font-bold mb-6">Employee Information</h2>
+  <div class="bg-white rounded-lg shadow py-6 px-10 w-full">
+    <div class="flex flex-row items-center mb-6">
+      <button
+        type="button"
+        (click)="onClose()"
+        class="text-black pr-4 py-2 rounded mr-2 hover:underline cursor-pointer"
+        title="Back"
+      >
+        <fa-icon [icon]="faArrowLeft" class="text-gray-500 text-xl"></fa-icon>
+      </button>
+      <h2 class="text-xl font-bold">Employee Information</h2>
+    </div>
     <div class="flex items-center mb-6">
       <div
         class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mr-4"
@@ -20,7 +30,9 @@
         </div>
         <div>
           <p class="text-sm pt-2 text-gray-500">Date of Birth</p>
-          <p class="font-semibold">{{ selectedItem?.dateOfBirth | date: 'mediumDate' }}</p>
+          <p class="font-semibold">
+            {{ selectedItem?.dateOfBirth | date : "mediumDate" }}
+          </p>
         </div>
         <div>
           <p class="text-sm pt-2 text-gray-500">Gender</p>
@@ -46,28 +58,8 @@
         <p class="font-semibold">{{ selectedItem?.address }}</p>
       </div>
     </div>
-    <div class="mt-6 flex justify-end">
-      <button
-        type="button"
-        (click)="onClose()"
-        class="text-black px-4 py-2 rounded mr-2 hover:underline cursor-pointer"
-      >
-        Back
-      </button>
-      <button
-        type="submit"
-        class="bg-blue-500 text-white px-4 py-2 rounded mr-2 hover:bg-blue-600 cursor-pointer"
-        (click)="onEdit(employee)"
-      >
-        Edit
-      </button>
-      <button
-        type="submit"
-        class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 cursor-pointer"
-        (click)="onDelete(employee)"
-      >
-        Delete
-      </button>
-    </div>
+    <!-- <div class="mt-6 flex justify-end">
+   
+    </div> -->
   </div>
 </section>

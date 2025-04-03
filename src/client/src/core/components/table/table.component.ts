@@ -20,10 +20,17 @@ import {
 import { PaginatedResult } from '../../models/paginated-result.model';
 import { TableColumn } from '../../models/table-column.model';
 import { PipesModule } from '../../../pipes/pipe.module';
+import { ConfirmModalComponent } from '../../../modules/shared/common/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-table',
-  imports: [CommonModule, FontAwesomeModule, FormsModule, PipesModule],
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    FormsModule,
+    PipesModule,
+    ConfirmModalComponent,
+  ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css',
 })
@@ -62,4 +69,28 @@ export class TableComponent {
 
   @Output() public onPageChange: EventEmitter<number> =
     new EventEmitter<number>();
+
+  public showConfirmModal: boolean = false;
+  public confirmMessage: string = '';
+  public deleteId: string = '';
+
+  // Open confirm modal
+  public openConfirmModal(id: string): void {
+    const employee = this.data.items.find((x) => x.id === id);
+    this.confirmMessage = `Are you sure you want to delete ${employee?.username}?`;
+    this.showConfirmModal = true;
+    this.deleteId = id;
+  }
+
+  // Confirm delete action
+  public confirmDelete(): void {
+    this.onDelete.emit(this.deleteId);
+    this.closeConfirmModal();
+  }
+
+  // Close confirm modal
+  public closeConfirmModal(): void {
+    this.showConfirmModal = false;
+    this.deleteId = '';
+  }
 }

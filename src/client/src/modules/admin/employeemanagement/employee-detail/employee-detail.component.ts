@@ -3,7 +3,7 @@ import {
   FontAwesomeModule,
   IconDefinition,
 } from '@fortawesome/angular-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faUser } from '@fortawesome/free-solid-svg-icons';
 import { EmployeeManagementService } from '../employeemanagement.service';
 import { EmployeeModel } from '../../../../models/user/employee.model';
 import { DatePipe } from '@angular/common';
@@ -17,6 +17,8 @@ import { DatePipe } from '@angular/common';
 export class EmployeeDetailComponent implements OnInit {
   //#region Font Awesome Icons
   public faUser: IconDefinition = faUser;
+  public faArrowLeft: IconDefinition = faArrowLeft;
+
   //#endregion
   @Input() public selectedItem!: EmployeeModel | undefined | null;
   @Output() close = new EventEmitter<void>();
