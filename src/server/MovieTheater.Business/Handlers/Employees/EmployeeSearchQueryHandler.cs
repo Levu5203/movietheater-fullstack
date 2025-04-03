@@ -8,25 +8,25 @@ using MovieTheater.Core.Extensions;
 using MovieTheater.Data.UnitOfWorks;
 using MovieTheater.Models.Security;
 
-namespace MovieTheater.Business.Handlers.Users;
+namespace MovieTheater.Business.Handlers.Employees;
 
-public class UserSearchCustomerQueryHandler :
+public class EmployeeSearchQueryHandler :
     BaseHandler,
-    IRequestHandler<UserSearchCustomerQuery, PaginatedResult<UserViewModel>>
+    IRequestHandler<EmployeeSearchQuery, PaginatedResult<EmployeeViewModel>>
 {
     private readonly UserManager<User> _userManager;
-    public UserSearchCustomerQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, UserManager<User> userManager) : base(unitOfWork, mapper)
+    public EmployeeSearchQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, UserManager<User> userManager) : base(unitOfWork, mapper)
     {
         _userManager = userManager;
     }
 
-    public async Task<PaginatedResult<UserViewModel>> Handle(
-        UserSearchCustomerQuery request,
+    public async Task<PaginatedResult<EmployeeViewModel>> Handle(
+        EmployeeSearchQuery request,
         CancellationToken cancellationToken)
     {
         // Create query
-        var customerList = await _userManager.GetUsersInRoleAsync("Customer");
-        var userIdList = customerList.Select(u => u.Id).ToList();
+        var EmployeeList = await _userManager.GetUsersInRoleAsync("Employee");
+        var userIdList = EmployeeList.Select(u => u.Id).ToList();
 
         var query = _unitOfWork.UserRepository.GetQuery()
             .Where(u => userIdList.Contains(u.Id));
@@ -88,9 +88,9 @@ public class UserSearchCustomerQueryHandler :
             .ToListAsync(cancellationToken);
 
         // Map to view models
-        var viewModels = _mapper.Map<IEnumerable<UserViewModel>>(items);
+        var viewModels = _mapper.Map<IEnumerable<EmployeeViewModel>>(items);
 
         // Return paginated result
-        return new PaginatedResult<UserViewModel>(request.PageNumber, request.PageSize, total, viewModels);
+        return new PaginatedResult<EmployeeViewModel>(request.PageNumber, request.PageSize, total, viewModels);
     }
 }

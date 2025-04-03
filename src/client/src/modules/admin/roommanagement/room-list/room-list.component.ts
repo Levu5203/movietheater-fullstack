@@ -108,7 +108,6 @@ export class RoommanagementComponent
     this.roomService.search(this.filter).subscribe((res) => {
       this.data = res;
     });
-    this.isLoading = false;
   }
 
   public viewRoomDetails(roomId: string): void {

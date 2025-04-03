@@ -1,8 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ROOM_SERVICE, USER_SERVICE } from '../constants/injection.constant';
-import { UserService } from './user/user.service';
 import { ProfileService } from './profile.service';
+import {
+  CUSTOMER_SERVICE,
+  EMPLOYEE_SERVICE,
+  ROOM_SERVICE,
+} from '../constants/injection.constant';
+import { CustomerService } from './customer/customer.service';
+import { EmployeeService } from './employee/employee.service';
 import { RoomService } from './room/room.service';
 
 @NgModule({
@@ -10,8 +15,12 @@ import { RoomService } from './room/room.service';
   imports: [CommonModule],
   providers: [
     {
-      provide: USER_SERVICE,
-      useClass: UserService,
+      provide: CUSTOMER_SERVICE,
+      useClass: CustomerService,
+    },
+    {
+      provide: EMPLOYEE_SERVICE,
+      useClass: EmployeeService,
     },
     {
       provide: 'profileService',

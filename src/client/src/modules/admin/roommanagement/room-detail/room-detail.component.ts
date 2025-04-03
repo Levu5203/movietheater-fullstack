@@ -11,7 +11,6 @@ import {
 import { CinemaRoomViewModel } from '../../../../models/room/room.model';
 import { SeatViewModel } from '../../../../models/seat/seat.model';
 import { CommonModule } from '@angular/common';
-import { RoomService } from '../../../../services/room/room.service';
 import { ROOM_SERVICE } from '../../../../constants/injection.constant';
 import { IRoomService } from '../../../../services/room/room-service.interface';
 

@@ -68,7 +68,7 @@
                 </div>
             </div>
         </form>
-        <app-table class="text-center" *ngIf="!isLoading" [isShowNumber]="true" [deletable]="false" [infoable]="false" [columns]="columns" [data]="data"
+        <app-table class="text-center" [isShowNumber]="true" [deletable]="false" [infoable]="false" [columns]="columns" [data]="data"
             [currentPage]="currentPage" (onPageChange)="onPageChange($event)" (onEdit)="viewRoomDetails($event)">
         </app-table>
     </div>

@@ -2,13 +2,13 @@ using AutoMapper;
 using MediatR;
 using MovieTheater.Data.UnitOfWorks;
 
-namespace MovieTheater.Business.Handlers.Users;
+namespace MovieTheater.Business.Handlers.Employees;
 
-public class UserDeleteCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) :
+public class EmployeeDeleteByIdCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) :
     BaseHandler(unitOfWork, mapper),
-    IRequestHandler<UserDeleteByIdCommand, bool>
+    IRequestHandler<EmployeeDeleteByIdCommand, bool>
 {
-    public async Task<bool> Handle(UserDeleteByIdCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(EmployeeDeleteByIdCommand request, CancellationToken cancellationToken)
     {
         var entity = await _unitOfWork.UserRepository.GetByIdAsync(request.Id) ??
                     throw new KeyNotFoundException($"User with {request.Id} is not found");
