@@ -23,9 +23,13 @@ import { TableColumn } from '../../../../core/models/table-column.model';
 import { MasterDataListComponent } from '../../../../core/components/master-data/master-data.component';
 import { CinemaRoomViewModel } from '../../../../models/room/room.model';
 import { IRoomService } from '../../../../services/room/room-service.interface';
-import { ROOM_SERVICE } from '../../../../constants/injection.constant';
+import {
+  MODAL_SERVICE,
+  ROOM_SERVICE,
+} from '../../../../constants/injection.constant';
 import { ServicesModule } from '../../../../services/services.module';
 import { TableComponent } from '../../../../core/components/table/table.component';
+import { ModalService } from '../../../../services/modal.service';
 
 @Component({
   selector: 'app-roommanagement',
@@ -36,6 +40,7 @@ import { TableComponent } from '../../../../core/components/table/table.componen
     ReactiveFormsModule,
     ServicesModule,
     TableComponent,
+    RoomDetailComponent,
   ],
   templateUrl: './room-list.component.html',
   styleUrl: './room-list.component.css',
@@ -45,7 +50,6 @@ export class RoommanagementComponent
   implements OnInit
 {
   //#region Font Awesome Icons
-  public faArrowLeft: IconDefinition = faArrowLeft;
   public faInfoCircle: IconDefinition = faInfoCircle;
   public faAngleRight: IconDefinition = faAngleRight;
   public faAngleLeft: IconDefinition = faAngleLeft;
@@ -55,6 +59,7 @@ export class RoommanagementComponent
   public faAnglesRight: IconDefinition = faAnglesRight;
   //#endregion
 
+  public selectedRoom: CinemaRoomViewModel | null = null;
   public isDropdownOpen: boolean = false;
   public toggleDropdown(): void {
     this.isDropdownOpen = !this.isDropdownOpen;
@@ -67,9 +72,11 @@ export class RoommanagementComponent
   ];
 
   constructor(
-    @Inject(ROOM_SERVICE) private readonly roomService: IRoomService
+    @Inject(ROOM_SERVICE) private readonly roomService: IRoomService,
+    @Inject(MODAL_SERVICE) private readonly modalService: ModalService
   ) {
     super();
+    this.isShowDetail = false;
   }
 
   protected override createForm(): void {
@@ -102,5 +109,16 @@ export class RoommanagementComponent
       this.data = res;
     });
     this.isLoading = false;
+  }
+
+  public viewRoomDetails(roomId: string): void {
+    this.roomService.loadRoomInfo(roomId).subscribe((room) => {
+      // Lấy danh sách ghế của phòng
+      this.roomService.loadRoomSeats(roomId).subscribe((seats) => {
+        this.selectedRoom = { ...room };
+        this.selectedRoom!.seats = seats; // Thêm danh sách ghế vào phòng
+        this.isShowDetail = true;
+      });
+    });
   }
 }
