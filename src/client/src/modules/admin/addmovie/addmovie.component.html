@@ -20,7 +20,10 @@
                     <label class="block">Status
                         <input type="text" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
                     </label>
-                    <label class="block">Release Date
+                    <label class="block">Start Date
+                        <input type="date" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
+                    </label>
+                    <label class="block">End Date
                         <input type="date" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
                     </label>
                     <label class="block">Director
@@ -29,8 +32,8 @@
                     <label class="block">Actors
                         <input type="text" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
                     </label>
-                    <label class="block">Duration
-                        <input type="time" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
+                    <label class="block">Duration (minutes)
+                        <input type="text" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
                     </label>
                 </div>
                 <div>
@@ -82,44 +85,43 @@
                     <label class="block mt-4 mb-2">Schedule:</label>
                     <div class="grid grid-cols-3 gap-2">
                         <label class="flex items-center">
-                            <input type="radio" name="schedule" class="mr-2"> 8:00
+                            <input type="checkbox" name="schedule" class="mr-2"> 8:00
                         </label>
                         <label class="flex items-center">
-                            <input type="radio" name="schedule" class="mr-2"> 9:00
+                            <input type="checkbox" name="schedule" class="mr-2"> 9:00
                         </label>
                         <label class="flex items-center">
-                            <input type="radio" name="schedule" class="mr-2"> 10:00
+                            <input type="checkbox" name="schedule" class="mr-2"> 10:00
                         </label>
                         <label class="flex items-center">
-                            <input type="radio" name="schedule" class="mr-2"> 11:00
+                            <input type="checkbox" name="schedule" class="mr-2"> 11:00
                         </label>
                         <label class="flex items-center">
-                            <input type="radio" name="schedule" class="mr-2"> 12:00
+                            <input type="checkbox" name="schedule" class="mr-2"> 12:00
                         </label>
                         <label class="flex items-center">
-                            <input type="radio" name="schedule" class="mr-2"> 14:00
+                            <input type="checkbox" name="schedule" class="mr-2"> 14:00
                         </label>
                         <label class="flex items-center">
-                            <input type="radio" name="schedule" class="mr-2"> 16:00
+                            <input type="checkbox" name="schedule" class="mr-2"> 16:00
                         </label>
                         <label class="flex items-center">
-                            <input type="radio" name="schedule" class="mr-2"> 18:00
+                            <input type="checkbox" name="schedule" class="mr-2"> 18:00
                         </label>
                         <label class="flex items-center">
-                            <input type="radio" name="schedule" class="mr-2"> 19:00
+                            <input type="checkbox" name="schedule" class="mr-2"> 19:00
                         </label>
                         <label class="flex items-center">
-                            <input type="radio" name="schedule" class="mr-2"> 20:00
+                            <input type="checkbox" name="schedule" class="mr-2"> 20:00
                         </label>
                         <label class="flex items-center">
-                            <input type="radio" name="schedule" class="mr-2"> 22:00
+                            <input type="checkbox" name="schedule" class="mr-2"> 22:00
                         </label>
                         <label class="flex items-center">
-                            <input type="radio" name="schedule" class="mr-2"> 24:00
+                            <input type="checkbox" name="schedule" class="mr-2"> 24:00
                         </label>
                     </div>
-                    <label class="block mt-4">Content:</label>
-                    <input type="text" class="w-full p-2 border hover:bg-gray-100 rounded" value="Content">
+                    
                     <div class="flex items-center mb-6 mt-4">
                         <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mr-4">
                             <fa-icon [icon]="faCamera" class="text-gray-500 text-3xl"></fa-icon>

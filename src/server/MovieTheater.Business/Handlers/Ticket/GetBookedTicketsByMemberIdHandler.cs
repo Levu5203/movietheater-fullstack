@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using MovieTheater.Business.ViewModels.Ticket;
 using MovieTheater.Data;
 using MovieTheater.Data.UnitOfWorks;
+using MovieTheater.Models.Common;
 
 
 namespace MovieTheater.Business.Handlers.Ticket;
@@ -34,7 +35,7 @@ public class GetBookedTicketsByMemberIdHandler : IRequestHandler<GetBookedTicket
             MovieName = t.Invoice.ShowTime.Movie.Name,
             BookingDate = t.BookingDate,
             TotalMoney = t.Invoice.TotalMoney,
-            Status = t.Status
+            Status = t.Status 
         }).ToList();
     }
 }
