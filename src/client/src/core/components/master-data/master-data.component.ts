@@ -19,7 +19,7 @@ export class MasterDataListComponent<T> {
   public faRotate: IconDefinition = faRotate;
 
   //#endregion
-
+  public isShowForm: boolean = false;
   public isShowDetail: boolean = false;
   public selectedItem!: T | undefined | null;
   public filter: SearchModel = {
@@ -61,6 +61,7 @@ export class MasterDataListComponent<T> {
 
   public onCloseDetail(): void {
     this.isShowDetail = false;
+    this.isShowForm = false;
     this.searchData();
   }
 

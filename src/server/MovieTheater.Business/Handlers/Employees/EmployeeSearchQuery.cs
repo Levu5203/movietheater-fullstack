@@ -1,8 +1,8 @@
 using MovieTheater.Business.ViewModels.Users;
 
-namespace MovieTheater.Business.Handlers.Users;
+namespace MovieTheater.Business.Handlers.Employees;
 
-public class UserSearchCustomerQuery : MasterDataSearchQuery<UserViewModel>
+public class EmployeeSearchQuery : MasterDataSearchQuery<EmployeeViewModel>
 {
     public string? Gender { get; set; }
 

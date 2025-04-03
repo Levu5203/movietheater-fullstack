@@ -25,8 +25,8 @@ import {
 import { UserModel } from '../../../models/user/user.model';
 import { MasterDataListComponent } from '../../../core/components/master-data/master-data.component';
 import { TableColumn } from '../../../core/models/table-column.model';
-import { USER_SERVICE } from '../../../constants/injection.constant';
-import { IUserService } from '../../../services/user/user-service.interface';
+import { CUSTOMER_SERVICE } from '../../../constants/injection.constant';
+import { ICustomerService } from '../../../services/customer/customer-service.interface';
 import { TableComponent } from '../../../core/components/table/table.component';
 import { ServicesModule } from '../../../services/services.module';
 
@@ -74,7 +74,7 @@ export class CustomermanagementComponent
   ];
 
   constructor(
-    @Inject(USER_SERVICE) private readonly userService: IUserService
+    @Inject(CUSTOMER_SERVICE) private readonly customerService: ICustomerService
   ) {
     super();
   }
@@ -135,37 +135,15 @@ export class CustomermanagementComponent
 
     return new Date(start) <= new Date(end) ? null : { dateOrderInvalid: true };
   }
-  // validateAndReset(field: 'birthDateStart' | 'birthDateEnd') {
-  //   const start = this.searchForm.get('birthDateStart')?.value;
-  //   const end = this.searchForm.get('birthDateEnd')?.value;
 
-  //   // Chỉ validate khi cả 2 trường có giá trị
-  //   if (!start || !end) return;
-
-  //   if (new Date(start) > new Date(end)) {
-  //     // Hiển thị thông báo lỗi trong 3s
-  //     // this.showError = true;
-  //     // clearTimeout(this.errorTimeout);
-  //     // this.errorTimeout = setTimeout(() => (this.showError = false), 3000);
-
-  //     // Reset cả 2 trường
-  //     // this.searchForm.patchValue({
-  //     //   startDate: null,
-  //     //   endDate: null
-  //     // });
-
-  //     // Hoặc chỉ reset trường sai:
-  //     this.searchForm.get(field)?.reset();
-  //   }
-  // }
   protected override searchData(): void {
-    this.userService.search(this.filter).subscribe((res) => {
+    this.customerService.search(this.filter).subscribe((res) => {
       this.data = res;
     });
   }
 
   public delete(id: string): void {
-    this.userService.delete(id).subscribe((data) => {
+    this.customerService.delete(id).subscribe((data) => {
       // Neu xoa duoc thi goi lai ham getData de load lai du lieu
       if (data) {
         this.searchData();
