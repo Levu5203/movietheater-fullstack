@@ -11,7 +11,6 @@ using MovieTheater.Business.ViewModels.Ticket;
 using MovieTheater.Business.ViewModels.Users;
 using MovieTheater.Models.Common;
 using MovieTheater.Business.ViewModels.Promotion;
-using MovieTheater.Models.Common;
 using MovieTheater.Models.Security;
 
 namespace MovieTheater.Business.Mappings;

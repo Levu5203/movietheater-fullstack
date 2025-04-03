@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Business.Handlers.CinemaRoom;
 using MovieTheater.Business.Handlers.Seat;
 using MovieTheater.Business.ViewModels.Room;
+using MovieTheater.Business.ViewModels.Seat;
 using MovieTheater.Core;
 
 namespace MovieTheater.WebAPI.Controllers

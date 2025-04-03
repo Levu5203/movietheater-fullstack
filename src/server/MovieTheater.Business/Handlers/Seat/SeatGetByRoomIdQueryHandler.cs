@@ -1,7 +1,7 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using MovieTheater.Business.ViewModels.Room;
+using MovieTheater.Business.ViewModels.Seat;
 using MovieTheater.Data.UnitOfWorks;
 
 namespace MovieTheater.Business.Handlers.Seat

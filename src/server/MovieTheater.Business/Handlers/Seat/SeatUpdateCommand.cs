@@ -1,5 +1,4 @@
-// Business/Seats/Commands/UpdateSeatTypeCommand.cs
-using MovieTheater.Business.ViewModels.Room;
+using MovieTheater.Business.ViewModels.Seat;
 using MovieTheater.Models.Common;
 
 namespace MovieTheater.Business.Handlers.Seat
