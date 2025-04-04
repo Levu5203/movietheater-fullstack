@@ -169,10 +169,9 @@ public static class DbInitializer
                         SeatColumns = room.SeatColumns,
                         CreatedAt = DateTime.Now,
                     });
+                    GenerateSeatsForRoom(context, room);
                 }
                 context.SaveChanges();
-
-                GenerateSeatsForRoom(context, room);
             }
         }
     }
@@ -421,16 +420,16 @@ public static class DbInitializer
 
     private static Guid GetSeatId(MovieTheaterDbContext context, Guid cinemaRoomId, char row, int column)
     {
-        var seat = context.Seats.FirstOrDefault(s => 
-            s.CinemaRoomId == cinemaRoomId && 
-            s.Row == row && 
+        var seat = context.Seats.FirstOrDefault(s =>
+            s.CinemaRoomId == cinemaRoomId &&
+            s.Row == row &&
             s.Column == column);
-            
+
         if (seat == null)
         {
             throw new Exception($"Seat not found at row {row}, column {column} in room {cinemaRoomId}");
         }
-        
+
         return seat.Id;
     }
 
