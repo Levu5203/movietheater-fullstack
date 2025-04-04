@@ -19,7 +19,6 @@ import { EmployeeDetailComponent } from '../employee-detail/employee-detail.comp
 import { EmployeeAddeditComponent } from '../employee-addedit/employee-addedit.component';
 import { CommonModule } from '@angular/common';
 import {
-  AbstractControl,
   FormControl,
   FormGroup,
   FormsModule,
@@ -65,15 +64,12 @@ export class EmployeemanagementComponent
   public faAnglesRight: IconDefinition = faAnglesRight;
   //#endregion
 
-  currentView: 'list' | 'detail' | 'add' | 'edit' = 'list';
-
   public override columns: TableColumn[] = [
     { name: 'Username', value: 'username' },
     { name: 'Full Name', value: 'displayName' },
-    { name: 'Date of birth', value: 'dateOfBirth', type: 'date' },
+    { name: 'Year of birth', value: 'dateOfBirth', type: 'year' },
     { name: 'Gender', value: 'gender' },
     { name: 'Email', value: 'email' },
-    { name: 'Identity Card', value: 'identityCard' },
     { name: 'Phone Number', value: 'phoneNumber' },
     { name: 'Address', value: 'address' },
     { name: 'Register date', value: 'createdAt', type: 'date' },
@@ -84,60 +80,10 @@ export class EmployeemanagementComponent
     super();
   }
   protected override createForm(): void {
-    this.searchForm = new FormGroup(
-      {
-        keyword: new FormControl(''),
-        gender: new FormControl(''),
-        birthDateStart: new FormControl(null),
-        birthDateEnd: new FormControl(null),
-      },
-      { validators: [this.crossFieldValidator] }
-    );
-  }
-  syncDateValidation(changedField: 'start' | 'end') {
-    const startCtrl = this.searchForm.get('birthDateStart');
-    const endCtrl = this.searchForm.get('birthDateEnd');
-
-    if (changedField === 'start') {
-      // Khi birthDateStart thay đổi
-      if (startCtrl?.value && endCtrl?.value) {
-        this.validateDateOrder(startCtrl, endCtrl);
-      }
-      endCtrl?.updateValueAndValidity(); // Cập nhật validation birthDateEnd
-    } else {
-      // Khi birthDateEnd thay đổi
-      if (startCtrl?.value && endCtrl?.value) {
-        this.validateDateOrder(startCtrl, endCtrl);
-      }
-      startCtrl?.updateValueAndValidity(); // Cập nhật validation birthDateStart
-    }
-  }
-
-  // Kiểm tra thứ tự ngày
-  private validateDateOrder(
-    startCtrl: AbstractControl,
-    endCtrl: AbstractControl
-  ) {
-    const birthDateStart = new Date(startCtrl.value);
-    const birthDateEnd = new Date(endCtrl.value);
-
-    if (birthDateStart > birthDateEnd) {
-      startCtrl.setErrors({ invalidRange: true });
-      endCtrl.setErrors({ invalidRange: true });
-    } else {
-      startCtrl.setErrors(null);
-      endCtrl.setErrors(null);
-    }
-  }
-
-  // Cross-field validator
-  crossFieldValidator(control: AbstractControl) {
-    const start = control.get('birthDateStart')?.value;
-    const end = control.get('birthDateEnd')?.value;
-
-    if (!start || !end) return null;
-
-    return new Date(start) <= new Date(end) ? null : { dateOrderInvalid: true };
+    this.searchForm = new FormGroup({
+      keyword: new FormControl(''),
+      gender: new FormControl(''),
+    });
   }
 
   protected override searchData(): void {
@@ -182,10 +128,5 @@ export class EmployeemanagementComponent
 
       // Scroll into view
     }, 150);
-  }
-  public isDropdownOpen: boolean = false;
-
-  public toggleDropdown(): void {
-    this.isDropdownOpen = !this.isDropdownOpen;
   }
 }

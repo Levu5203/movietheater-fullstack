@@ -31,7 +31,6 @@
                   title="Detail"
                   type="button"
                   (click)="onView.emit(item.id)"
-                  *ngIf="editable"
                 >
                   <fa-icon
                     [icon]="faInfoCircle"
@@ -51,7 +50,7 @@
                   ></fa-icon>
                 </button>
                 <button
-                  class="border-0 flex items-center justify-center w-8 h-8"
+                  class="border-0"
                   title="Delete"
                   type="button"
                   (click)="openConfirmModal(item.id)"
