@@ -7,7 +7,6 @@ import {
 } from '../constants/injection.constant';
 import { CustomerService } from './customer/customer.service';
 import { EmployeeService } from './employee/employee.service';
-import { PromotionService } from './promotion/promotion-service';
 
 @NgModule({
   declarations: [],
