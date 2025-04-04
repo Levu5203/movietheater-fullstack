@@ -8,8 +8,14 @@ export class CustomFormatPipe implements PipeTransform {
     if (!value) return;
 
     switch (type) {
+      case 'year':
+        return new Intl.DateTimeFormat('en-US', { year: 'numeric' }).format(
+          new Date(value)
+        );
       case 'date':
-        return new Intl.DateTimeFormat('en-US',{ dateStyle: 'medium' }).format(new Date(value));
+        return new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(
+          new Date(value)
+        );
       case 'datetime':
         return new Intl.DateTimeFormat('en-US', {
           dateStyle: 'short',

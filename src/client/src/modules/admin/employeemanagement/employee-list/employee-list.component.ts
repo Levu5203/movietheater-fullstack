@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
   FontAwesomeModule,
   IconDefinition,
@@ -18,8 +18,19 @@ import {
 import { EmployeeDetailComponent } from '../employee-detail/employee-detail.component';
 import { EmployeeAddeditComponent } from '../employee-addedit/employee-addedit.component';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { EmployeeManagementService } from '../employeemanagement.service';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { MasterDataListComponent } from '../../../../core/components/master-data/master-data.component';
+import { EMPLOYEE_SERVICE } from '../../../../constants/injection.constant';
+import { IEmployeeService } from '../../../../services/employee/employee-service.interface';
+import { TableColumn } from '../../../../core/models/table-column.model';
+import { TableComponent } from '../../../../core/components/table/table.component';
+import { ServicesModule } from '../../../../services/services.module';
+import { EmployeeModel } from '../../../../models/user/employee.model';
 
 @Component({
   selector: 'app-employeemanagement',
@@ -28,12 +39,18 @@ import { EmployeeManagementService } from '../employeemanagement.service';
     EmployeeDetailComponent,
     EmployeeAddeditComponent,
     CommonModule,
-    FormsModule
+    ReactiveFormsModule,
+    FormsModule,
+    TableComponent,
+    ServicesModule,
   ],
   templateUrl: './employee-list.component.html',
   styleUrl: './employee-list.component.css',
 })
-export class EmployeemanagementComponent implements OnInit {
+export class EmployeemanagementComponent
+  extends MasterDataListComponent<EmployeeModel>
+  implements OnInit
+{
   //#region Font Awesome Icons
   public faArrowLeft: IconDefinition = faArrowLeft;
   public faRotateLeft: IconDefinition = faRotateLeft;
@@ -47,36 +64,69 @@ export class EmployeemanagementComponent implements OnInit {
   public faAnglesRight: IconDefinition = faAnglesRight;
   //#endregion
 
-  currentView: 'list' | 'detail' | 'add' | 'edit' = 'list';
-
-  constructor(public employeeManagementService: EmployeeManagementService) { }
-
-  ngOnInit(): void {
-    this.employeeManagementService.currentView$.subscribe((view) => {
-      this.currentView = view;
+  public override columns: TableColumn[] = [
+    { name: 'Username', value: 'username' },
+    { name: 'Full Name', value: 'displayName' },
+    { name: 'Year of birth', value: 'dateOfBirth', type: 'year' },
+    { name: 'Gender', value: 'gender' },
+    { name: 'Email', value: 'email' },
+    { name: 'Phone Number', value: 'phoneNumber' },
+    { name: 'Address', value: 'address' },
+    { name: 'Register date', value: 'createdAt', type: 'date' },
+  ];
+  constructor(
+    @Inject(EMPLOYEE_SERVICE) private readonly employeeService: IEmployeeService
+  ) {
+    super();
+  }
+  protected override createForm(): void {
+    this.searchForm = new FormGroup({
+      keyword: new FormControl(''),
+      gender: new FormControl(''),
     });
   }
 
-  public isDropdownOpen: boolean = false;
-  public currentPage: number = 1;
-  public totalPages: number = 10;
-
-  public toggleDropdown(): void {
-    this.isDropdownOpen = !this.isDropdownOpen;
+  protected override searchData(): void {
+    this.employeeService.search(this.filter).subscribe((res) => {
+      this.data = res;
+    });
   }
 
-  onViewDetail(employee: any): void {
-    this.employeeManagementService.goToDetail(employee);
+  public delete(id: string): void {
+    this.employeeService.delete(id).subscribe((data) => {
+      // Neu xoa duoc thi goi lai ham getData de load lai du lieu
+      if (data) {
+        this.searchData();
+      }
+    });
+  }
+  public edit(id: string): void {
+    this.isShowDetail = false;
+    setTimeout(() => {
+      this.selectedItem = this.data.items.find((x) => x.id === id);
+      this.isShowForm = true;
+
+      // Scroll into view
+    }, 150);
   }
 
-  onAdd(): void {
-    this.employeeManagementService.goToAdd();
+  public create(): void {
+    this.isShowDetail = false;
+    setTimeout(() => {
+      this.selectedItem = null;
+      this.isShowForm = true;
+
+      // Scroll into view
+    }, 150);
   }
 
-  onEdit(employee: any): void {
-    this.employeeManagementService.goToEdit(employee);
-  }
-  onDelete(employee: any): void {
-    this.employeeManagementService.goToList();
+  public view(id: string): void {
+    this.isShowForm = false;
+    setTimeout(() => {
+      this.selectedItem = this.data.items.find((x) => x.id === id);
+      this.isShowDetail = true;
+
+      // Scroll into view
+    }, 150);
   }
 }

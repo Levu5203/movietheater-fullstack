@@ -1,87 +1,233 @@
 <section class="">
-    <div class="bg-white rounded-lg shadow p-6">
-        <h2 *ngIf="employee" class="text-xl font-bold mb-6">Edit Employee</h2>
-        <h2 *ngIf="!employee" class="text-xl font-bold mb-6">Add Employee</h2>
-        <form>
-            <div class="flex flex-col md:grid md:grid-cols-2 gap-2">
-                <div class="flex items-center md:mb-6">
-                    <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mr-4">
-                        <fa-icon [icon]="faCamera" class="text-gray-500 text-3xl"></fa-icon>
-                    </div>
-                    <button type="button" class="text-blue-500 hover:underline cursor-pointer">Choose image</button>
-                </div>
-                <div class="flex items-center">
-                    <div class="flex-1 items-center md:mb-6">
-                        <label class="text-gray-500">Gender</label>
-                        <div class="flex items-center mt-2">
-                            <label class="mr-8 flex items-center hover:underline cursor-pointer">
-                                <input type="radio" name="filterGender" value="male" class="mr-1" checked>
-                                Male
-                            </label>
-                            <label class="flex items-center hover:underline cursor-pointer">
-                                <input type="radio" name="filterGender" value="female" class="mr-1">
-                                Female
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="account flex flex-col gap-2">
-                    <div>
-                        <label class="text-gray-500">Full Name</label>
-                        <input type="text" class="w-full px-4 py-2 border border-gray-500 hover:bg-gray-100 rounded"
-                            placeholder="Enter full name" value="Le Quoc Vu">
-                    </div>
-                    <div>
-                        <label class="text-gray-500">Account</label>
-                        <input type="text" class="w-full px-4 py-2 border border-gray-500 hover:bg-gray-100 rounded"
-                            placeholder="Enter account" value="nhanvien01">
-                    </div>
-                    <div>
-                        <label class="text-gray-500">Password</label>
-                        <input type="password" class="w-full px-4 py-2 border border-gray-500 hover:bg-gray-100 rounded"
-                            placeholder="Enter password" value="********">
-                    </div>
-                    <div>
-                        <label class="text-gray-500">Confirm Password</label>
-                        <input type="password" class="w-full px-4 py-2 border border-gray-500 hover:bg-gray-100 rounded"
-                            placeholder="Confirm password" value="********">
-                    </div>
-                </div>
-                <div class="personal-info flex flex-col gap-2">
+  <div class="bg-white rounded-lg shadow p-6">
+    <h2 class="text-xl font-bold mb-6">
+      {{ selectedItem ? "Edit" : "Create" }} Employee
+    </h2>
+    <form [formGroup]="form">
+      <div class="flex flex-col md:grid md:grid-cols-2 gap-4">
+        <div class="flex items-center md:mb-6">
+          <div
+            class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mr-4"
+          >
+            <fa-icon [icon]="faCamera" class="text-gray-500 text-3xl"></fa-icon>
+          </div>
+          <button
+            type="button"
+            class="text-blue-500 hover:underline cursor-pointer"
+          >
+            Choose image
+          </button>
+        </div>
+       
+        <div>
+          <label for="gender" class="block mb-2"
+            >Gender<span class="text-red-500 ml-1">*</span></label
+          >
+          <div class="flex gap-4 py-2">
+            <label class="flex items-center">
+              <input
+                type="radio"
+                formControlName="gender"
+                value="Male"
+                class="mr-2"
+                checked
+              />
+              Male
+            </label>
+            <label class="flex items-center">
+              <input
+                type="radio"
+                formControlName="gender"
+                value="Female"
+                class="mr-2"
+              />
+              Female
+            </label>
+          </div>
+        </div>
+        <div>
+          <label for="firstName" class="block mb-2"
+            >First Name<span class="text-red-500 ml-1">*</span></label
+          >
+          <input
+            type="text"
+            formControlName="firstName"
+            class="w-full px-4 py-2 border border-gray-500 hover:bg-gray-100 rounded"
+            placeholder="Enter first name"
+            required
+            [ngClass]="{
+              'border-red-500 bg-red-100 text-red-500':
+                form.get('firstName')?.invalid && form.get('firstName')?.touched
+            }"
+          />
+          <span
+            *ngIf="
+              form.get('firstName')?.invalid && form.get('firstName')?.touched
+            "
+            class="text-red-500 text-sm"
+          >
+            First name is required with 1-50 characters.
+          </span>
+        </div>
+        <div>
+          <label for="lastName" class="block mb-2"
+            >Last Name<span class="text-red-500 ml-1">*</span></label
+          >
+          <input
+            type="text"
+            formControlName="lastName"
+            class="w-full px-4 py-2 border border-gray-500 hover:bg-gray-100 rounded"
+            placeholder="Enter first name"
+            required
+            [ngClass]="{
+              'border-red-500 bg-red-100 text-red-500':
+                form.get('lastName')?.invalid && form.get('lastName')?.touched
+            }"
+          />
+          <span
+            *ngIf="
+              form.get('lastName')?.invalid && form.get('lastName')?.touched
+            "
+            class="text-red-500 text-sm"
+          >
+            Last name is required with 1-50 characters.
+          </span>
+        </div>
+        <div>
+          <label for="username" class="block mb-2"
+            >Username<span class="text-red-500 ml-1">*</span></label
+          >
+          <input
+            type="text"
+            formControlName="username"
+            class="w-full px-4 py-2 border border-gray-500 hover:bg-gray-100 rounded disabled:cursor-not-allowed"
+            placeholder="Enter first name"
+            required
+            [ngClass]="{
+              'border-red-500 bg-red-100 text-red-500':
+                form.get('username')?.invalid && form.get('username')?.touched
+            }"
+          />
+          <span
+            *ngIf="
+              form.get('username')?.invalid && form.get('username')?.touched
+            "
+            class="text-red-500 text-sm"
+          >
+            First name is required with 1-50 characters.
+          </span>
+        </div>
+        <div>
+          <label for="email" class="block mb-2"
+            >Email<span class="text-red-500 ml-1">*</span></label
+          >
+          <input
+            type="email"
+            formControlName="email"
+            class="w-full px-4 py-2 border border-gray-500 hover:bg-gray-100 rounded"
+            placeholder="Enter email"
+            required
+            [ngClass]="{
+              'border-red-500 bg-red-100 text-red-500':
+                form.get('email')?.invalid && form.get('email')?.touched
+            }"
+          />
+          <span
+            *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
+            class="text-red-500 text-sm"
+          >
+            Email is required with 3-50 characters
+          </span>
+        </div>
 
-                    <div>
-                        <label class="text-gray-500">Date of Birth</label>
-                        <input type="date" class="w-full px-4 py-2 border border-gray-500 hover:bg-gray-100 rounded"
-                            title="Enter date of birth" value="2000-01-01">
-                    </div>
-                    <div>
-                        <label class="text-gray-500">Identity Card</label>
-                        <input type="text" class="w-full px-4 py-2 border border-gray-500 hover:bg-gray-100 rounded"
-                            placeholder="Enter identity card number" value="001122334455">
-                    </div>
-                    <div>
-                        <label class="text-gray-500">Email</label>
-                        <input type="email" class="w-full px-4 py-2 border border-gray-500 hover:bg-gray-100 rounded"
-                            placeholder="Enter email" value="vulq@domain.com">
-                    </div>
-                    <div>
-                        <label class="text-gray-500">Phone Number</label>
-                        <input type="text" class="w-full px-4 py-2 border border-gray-500 hover:bg-gray-100 rounded"
-                            placeholder="Enter phone number" value="0987654321">
-                    </div>
-                </div>
-                <div class="col-span-2">
-                    <label class="text-gray-500 col-span-2">Address</label>
-                    <input type="text" class="w-full px-4 py-2 border border-gray-500 hover:bg-gray-100 rounded"
-                        placeholder="Enter address" value="Duy Tan, Cau Giay, Ha Noi">
-                </div>
-            </div>
-            <div class="mt-6 flex justify-end">
-                <button type="button" class="text-black px-4 py-2 rounded mr-2 hover:underline cursor-pointer"
-                    (click)="goBack()">Cancel</button>
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                    (click)="saveChanges()">Save</button>
-            </div>
-        </form>
-    </div>
+        <div>
+          <label for="dateOfBirth" class="block mb-2">Date of Birth</label>
+          <input
+            title="Date of Birth"
+            formControlName="dateOfBirth"
+            type="date"
+            class="w-full px-4 py-2 border border-gray-500 hover:bg-gray-100 rounded"
+          />
+        </div>
+
+        <div>
+          <label for="identityCard" class="block mb-2"
+            >Identity Card<span class="text-red-500 ml-1">*</span></label
+          >
+          <input
+            type="text"
+            formControlName="identityCard"
+            class="w-full px-4 py-2 border border-gray-500 hover:bg-gray-100 rounded"
+            placeholder="Enter identity card number"
+            required
+            [ngClass]="{
+              'border-red-500 bg-red-100 text-red-500':
+                form.get('identityCard')?.invalid &&
+                form.get('identityCard')?.touched
+            }"
+          />
+          <span
+            *ngIf="
+              form.get('identityCard')?.invalid &&
+              form.get('identityCard')?.touched
+            "
+            class="text-red-500 text-sm"
+          >
+            Enter a valid identity card (10-18 digits).
+          </span>
+        </div>
+
+        <div>
+          <label for="phoneNumber" class="block mb-2">Phone Number</label>
+          <input
+            type="tel"
+            formControlName="phoneNumber"
+            class="w-full px-4 py-2 border border-gray-500 hover:bg-gray-100 rounded"
+            placeholder="Enter phone number"
+            [ngClass]="{
+              'border-red-500 bg-red-100 text-red-500':
+                form.get('phoneNumber')?.invalid &&
+                form.get('phoneNumber')?.touched &&
+                form.get('phoneNumber')?.value?.trim() !== ''
+            }"
+          />
+          <span
+            *ngIf="
+              form.get('phoneNumber')?.invalid &&
+              form.get('phoneNumber')?.touched &&
+              form.get('phoneNumber')?.value?.trim() !== ''
+            "
+            class="text-red-500 text-sm"
+          >
+            Enter a valid phone number (10-15 digits).
+          </span>
+        </div>
+        <div>
+          <label for="address" class="block mb-2">Address</label>
+          <input
+            type="text"
+            formControlName="address"
+            class="w-full px-4 py-2 border border-gray-500 hover:bg-gray-100 rounded"
+            placeholder="Enter Address"
+          />
+        </div>
+      </div>
+      <div class="mt-6 flex justify-end">
+        <button
+          type="button"
+          class="text-black px-4 py-2 rounded mr-2 hover:underline cursor-pointer"
+          (click)="onClose()"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          (click)="onSubmit()"
+        >
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
 </section>

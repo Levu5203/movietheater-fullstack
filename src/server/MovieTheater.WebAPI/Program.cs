@@ -4,10 +4,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using MovieTheater.Business.Mappings;
 using MovieTheater.Business.Services;
 using MovieTheater.Business.ViewModels.Auth;
 using MovieTheater.Data;
@@ -162,19 +160,11 @@ builder.Services.AddCors(options =>
     });
 });
 
-
-// // Register MediatR
-// builder.Services.AddMediatR(cfg =>
-//     cfg.RegisterServicesFromAssembly(typeof(LoginRequestCommand).Assembly));
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
 });
 
-
-
-// Add AutoMapper
-// builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
@@ -250,14 +240,7 @@ if (app.Environment.IsDevelopment())
     }
 }
 
-app.UseStaticFiles(
-//     new StaticFileOptions
-// {
-//     FileProvider = new PhysicalFileProvider(
-//         Path.Combine(Directory.GetCurrentDirectory(), "uploads")),
-//     RequestPath = "/uploads"
-// }
-);
+app.UseStaticFiles();
 
 app.UseCors("AllowAnyOrigin");
 

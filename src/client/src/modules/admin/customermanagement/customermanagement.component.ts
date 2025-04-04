@@ -25,10 +25,11 @@ import {
 import { UserModel } from '../../../models/user/user.model';
 import { MasterDataListComponent } from '../../../core/components/master-data/master-data.component';
 import { TableColumn } from '../../../core/models/table-column.model';
-import { USER_SERVICE } from '../../../constants/injection.constant';
-import { IUserService } from '../../../services/user/user-service.interface';
+import { CUSTOMER_SERVICE } from '../../../constants/injection.constant';
+import { ICustomerService } from '../../../services/customer/customer-service.interface';
 import { TableComponent } from '../../../core/components/table/table.component';
 import { ServicesModule } from '../../../services/services.module';
+import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
 
 @Component({
   selector: 'app-customermanagement',
@@ -39,6 +40,7 @@ import { ServicesModule } from '../../../services/services.module';
     ReactiveFormsModule,
     ServicesModule,
     TableComponent,
+    CustomerDetailComponent,
   ],
   templateUrl: './customermanagement.component.html',
   styleUrl: './customermanagement.component.css',
@@ -59,117 +61,48 @@ export class CustomermanagementComponent
   public faAnglesRight: IconDefinition = faAnglesRight;
   //#endregion
 
-  public isDropdownOpen: boolean = false;
-  public toggleDropdown(): void {
-    this.isDropdownOpen = !this.isDropdownOpen;
-  }
-
   public override columns: TableColumn[] = [
     { name: 'Username', value: 'username' },
     { name: 'Full Name', value: 'displayName' },
     { name: 'Gender', value: 'gender' },
-    { name: 'Date of birth', value: 'dateOfBirth', type: 'date' },
+    { name: 'Year of birth', value: 'dateOfBirth', type: 'year' },
     { name: 'Email', value: 'email' },
     { name: 'Phone Number', value: 'phoneNumber' },
   ];
 
   constructor(
-    @Inject(USER_SERVICE) private readonly userService: IUserService
+    @Inject(CUSTOMER_SERVICE) private readonly customerService: ICustomerService
   ) {
     super();
   }
 
   protected override createForm(): void {
-    this.searchForm = new FormGroup(
-      {
-        keyword: new FormControl(''),
-        gender: new FormControl(''),
-        birthDateStart: new FormControl(null),
-        birthDateEnd: new FormControl(null),
-      },
-      { validators: [this.crossFieldValidator] }
-    );
-  }
-  syncDateValidation(changedField: 'start' | 'end') {
-    const startCtrl = this.searchForm.get('birthDateStart');
-    const endCtrl = this.searchForm.get('birthDateEnd');
-
-    if (changedField === 'start') {
-      // Khi birthDateStart thay đổi
-      if (startCtrl?.value && endCtrl?.value) {
-        this.validateDateOrder(startCtrl, endCtrl);
-      }
-      endCtrl?.updateValueAndValidity(); // Cập nhật validation birthDateEnd
-    } else {
-      // Khi birthDateEnd thay đổi
-      if (startCtrl?.value && endCtrl?.value) {
-        this.validateDateOrder(startCtrl, endCtrl);
-      }
-      startCtrl?.updateValueAndValidity(); // Cập nhật validation birthDateStart
-    }
+    this.searchForm = new FormGroup({
+      keyword: new FormControl(''),
+      gender: new FormControl(''),
+    });
   }
 
-  // Kiểm tra thứ tự ngày
-  private validateDateOrder(
-    startCtrl: AbstractControl,
-    endCtrl: AbstractControl
-  ) {
-    const birthDateStart = new Date(startCtrl.value);
-    const birthDateEnd = new Date(endCtrl.value);
-
-    if (birthDateStart > birthDateEnd) {
-      startCtrl.setErrors({ invalidRange: true });
-      endCtrl.setErrors({ invalidRange: true });
-    } else {
-      startCtrl.setErrors(null);
-      endCtrl.setErrors(null);
-    }
-  }
-
-  // Cross-field validator
-  crossFieldValidator(control: AbstractControl) {
-    const start = control.get('birthDateStart')?.value;
-    const end = control.get('birthDateEnd')?.value;
-
-    if (!start || !end) return null;
-
-    return new Date(start) <= new Date(end) ? null : { dateOrderInvalid: true };
-  }
-  // validateAndReset(field: 'birthDateStart' | 'birthDateEnd') {
-  //   const start = this.searchForm.get('birthDateStart')?.value;
-  //   const end = this.searchForm.get('birthDateEnd')?.value;
-
-  //   // Chỉ validate khi cả 2 trường có giá trị
-  //   if (!start || !end) return;
-
-  //   if (new Date(start) > new Date(end)) {
-  //     // Hiển thị thông báo lỗi trong 3s
-  //     // this.showError = true;
-  //     // clearTimeout(this.errorTimeout);
-  //     // this.errorTimeout = setTimeout(() => (this.showError = false), 3000);
-
-  //     // Reset cả 2 trường
-  //     // this.searchForm.patchValue({
-  //     //   startDate: null,
-  //     //   endDate: null
-  //     // });
-
-  //     // Hoặc chỉ reset trường sai:
-  //     this.searchForm.get(field)?.reset();
-  //   }
-  // }
   protected override searchData(): void {
-    this.userService.search(this.filter).subscribe((res) => {
+    this.customerService.search(this.filter).subscribe((res) => {
       this.data = res;
     });
   }
 
   public delete(id: string): void {
-    this.userService.delete(id).subscribe((data) => {
+    this.customerService.delete(id).subscribe((data) => {
       // Neu xoa duoc thi goi lai ham getData de load lai du lieu
       if (data) {
         this.searchData();
       }
     });
+  }
+  public view(id: string): void {
+    setTimeout(() => {
+      this.selectedItem = this.data.items.find((x) => x.id === id);
+      this.isShowDetail = true;
+
+      // Scroll into view
+    }, 150);
   }
 }
