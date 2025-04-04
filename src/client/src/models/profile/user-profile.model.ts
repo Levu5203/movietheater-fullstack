@@ -1,5 +1,5 @@
 export interface UserProfileViewModel {
-  id: string;
+  readonly id: string;
   firstName: string;
   lastName: string;
   address?: string;
@@ -7,7 +7,7 @@ export interface UserProfileViewModel {
   gender: string;
   identityCard: string;
   avatar?: string;
-  email: string;
+  readonly email: string;
   phoneNumber: string;
-  username: string;
+  readonly username: string;
 }
