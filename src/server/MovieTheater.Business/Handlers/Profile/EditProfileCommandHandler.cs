@@ -31,7 +31,6 @@ public class EditProfileCommandHandle : BaseHandler, IRequestHandler<EditProfile
             user.IdentityCard = request.IdentityCard;
             user.Avatar = request.Avatar;
             user.PhoneNumber = request.PhoneNumber;
-            user.Email = request.Email;
             _unitOfWork.UserRepository.Update(user);
             await _unitOfWork.SaveChangesAsync();
             await _unitOfWork.CommitTransactionAsync();

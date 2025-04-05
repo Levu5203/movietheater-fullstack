@@ -45,7 +45,8 @@ public class CustomerSearchQueryHandler :
                 x.FirstName.ToLower().Contains(keywordLower) ||
                 x.LastName.ToLower().Contains(keywordLower) ||
                 x.UserName!.ToLower().Contains(keywordLower) ||
-                x.Email!.ToLower().Contains(keywordLower)
+                x.Email!.ToLower().Contains(keywordLower) ||
+                x.PhoneNumber!.Contains(keywordLower)
             );
         }
 
@@ -53,17 +54,6 @@ public class CustomerSearchQueryHandler :
         if (!string.IsNullOrEmpty(request.Gender))
         {
             query = query.Where(x => x.Gender == request.Gender);
-        }
-
-        // Filter by birthdate range
-        if (request.BirthdateStart.HasValue)
-        {
-            query = query.Where(u => u.DateOfBirth >= request.BirthdateStart.Value);
-        }
-
-        if (request.BirthdateEnd.HasValue)
-        {
-            query = query.Where(u => u.DateOfBirth <= request.BirthdateEnd.Value);
         }
 
         // Count total items

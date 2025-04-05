@@ -23,10 +23,10 @@ import { debounceTime } from 'rxjs';
 })
 export class EditProfileComponent implements OnInit {
   public faCalendar: IconDefinition = faCalendar;
-  
+
   currentUser!: UserProfileViewModel | null;
   form: FormGroup;
-  
+
   public successMessage = '';
   error: string | null = null;
   public errorMessage: string = '';
@@ -56,15 +56,8 @@ export class EditProfileComponent implements OnInit {
           Validators.pattern('^[A-Za-z]+$'),
         ],
       ],
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(50),
-          Validators.email,
-        ],
-      ],
+      email: [],
+      username: [],
       dateOfBirth: [null],
       address: ['', [Validators.maxLength(255)]],
       gender: ['Male', Validators.required],
@@ -118,6 +111,8 @@ export class EditProfileComponent implements OnInit {
           phoneNumber: this.currentUser.phoneNumber,
           address: this.currentUser.address ?? '',
         });
+        this.form.get('username')?.disable();  // Disable the 'username' field
+        this.form.get('email')?.disable();  // Disable the 'email' field
       },
       error: (error) => {
         this.error = 'Failed to load profile information.';
@@ -147,7 +142,6 @@ export class EditProfileComponent implements OnInit {
       dateOfBirth: this.form.value.dateOfBirth,
       gender: this.form.value.gender,
       identityCard: this.form.value.identityCard,
-      email: this.form.value.email,
       phoneNumber: this.form.value.phoneNumber,
       address: this.form.value.address,
     };
@@ -155,6 +149,8 @@ export class EditProfileComponent implements OnInit {
     this.profileService.updateProfile(updatedProfile).subscribe({
       next: (profile) => {
         this.successMessage = 'Profile updated successfully!';
+        this.showErrorMessage = false;
+
       },
       error: (error) => {
         this.showErrorMessage = true;
@@ -163,7 +159,7 @@ export class EditProfileComponent implements OnInit {
     });
   }
 
-  closeModal(){
+  closeModal() {
     this.successMessage = '';
   }
 }
