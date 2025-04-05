@@ -27,7 +27,11 @@
 
     <div class="">
       <button
-        (click)="toggleUserDropdown()"
+        type="button"
+        [class.opacity-50]="!isPermitted()"
+        [class.cursor-not-allowed]="!isPermitted()"
+        [title]="!isPermitted() ? 'No permission' : ''"
+        (click)="isPermitted() && toggleUserDropdown()"
         class="flex items-center justify-between p-1 pl-2 m-2 rounded-xl hover:bg-gray-400 hover:text-black"
       >
         <div class="flex items-center space-x-2">
@@ -111,6 +115,9 @@
     </div>
 
     <a
+      [class.opacity-50]="!isPermitted()"
+      [class.cursor-not-allowed]="!isPermitted()"
+      [title]="!isPermitted() ? 'No permission' : ''"
       routerLink="/admin/moviemanagement"
       [ngClass]="{
         active: isActive('/admin/moviemanagement'),
@@ -126,7 +133,10 @@
     </a>
 
     <a
-      routerLink="/admin/rooms"
+      [class.opacity-50]="!isPermitted()"
+      [class.cursor-not-allowed]="!isPermitted()"
+      [title]="!isPermitted() ? 'No permission' : ''"
+      routerLink="/admin/roommanagement"
       [ngClass]="{
         active: isActive('/admin/rooms'),
         'justify-center': !isShowSidebar
@@ -141,6 +151,9 @@
     </a>
 
     <a
+      [class.opacity-50]="!isPermitted()"
+      [class.cursor-not-allowed]="!isPermitted()"
+      [title]="!isPermitted() ? 'No permission' : ''"
       routerLink="/admin/promotionmanagement"
       [ngClass]="{
         active: isActive('/admin/promotionmanagement'),
