@@ -37,6 +37,9 @@ export class SidebarComponent {
   public isActive(route: string): boolean {
     return this.router.url === route; // Kiểm tra trang hiện tại
   }
+  public isPermitted(): boolean {
+    return this.authService.hasAnyRole(['Admin']);
+  }
 
   //#region Font Awesome Icons
   public faDashboard: IconDefinition = faDashboard;
@@ -55,6 +58,8 @@ export class SidebarComponent {
   ngOnInit(): void {
     this.checkScreenSize(); // Kiểm tra kích thước màn hình khi component khởi tạo
     this.restoreDropdownState(); // Khôi phục trạng thái dropdown từ localStorage
+    this.userRoles =
+      this.authService.getUserInformationFromAccessToken()?.roles || [];
   }
 
   private restoreDropdownState() {
@@ -102,4 +107,5 @@ export class SidebarComponent {
   public isShowSidebar: boolean = true;
   public isUserDropdownOpen: boolean = false;
   public isTicketDropdownOpen: boolean = false;
+  public userRoles: string[] = [];
 }
