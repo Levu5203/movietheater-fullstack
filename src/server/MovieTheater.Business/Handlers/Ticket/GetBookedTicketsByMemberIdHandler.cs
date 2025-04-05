@@ -25,15 +25,21 @@ public class GetBookedTicketsByMemberIdHandler : IRequestHandler<GetBookedTicket
     {
         var ticketsQuery = _unitOfWork.TicketRepository
             .GetQuery(t => t.Invoice.UserId == request.MemberId)
-            .Include(t => t.Invoice.ShowTime.Movie);
+            .Include(t => t.Invoice.ShowTime.Movie)
+            .Include(t => t.Invoice.ShowTime.CinemaRoom)
+            .Include(t => t.Invoice.ShowTime.ShowTimeSlot);
 
         var tickets = await ticketsQuery.ToListAsync(cancellationToken);
 
         return tickets.Select(t => new BookedTicketViewModel
         {
             MovieName = t.Invoice.ShowTime.Movie.Name,
+            CinemaRoomName = t.Invoice.ShowTime.CinemaRoom.Name,
+            ShowDate = t.Invoice.ShowTime.ShowDate.ToDateTime(TimeOnly.MinValue),
+            ShowTime = t.Invoice.ShowTime.ShowTimeSlot.Time,
+            SeatPosition = t.Seat.Row + t.Seat.Column.ToString(),
             BookingDate = t.BookingDate,
-            TotalMoney = t.Invoice.TotalMoney,
+            Price = t.Price,
             Status = t.Status
         }).ToList();
     }

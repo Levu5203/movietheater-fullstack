@@ -5,20 +5,21 @@ using MovieTheater.Models.Security;
 namespace MovieTheater.Models.Common;
 
 [Table("Invoices", Schema = "Common")]
-public class Invoice : MasterDataBaseEntity, IMasterDataBaseEntity
+public class Invoice : MasterDataBaseEntity
 {
     [Required(ErrorMessage = "Total money is required")]
-    public required double TotalMoney { get; set; }
+    public required decimal TotalMoney { get; set; }
 
     [Required(ErrorMessage = "Added Score is required")]
     public required int AddedScore { get; set; }
 
+    public bool TicketIssued { get; set; } = false;
+
     [Required(ErrorMessage = "UserId is required")]
-    [ForeignKey(nameof(UserId))]
     public required Guid UserId { get; set; }
 
-    [Required(ErrorMessage = "User is required")]
-    public virtual required User User { get; set; }
+    [ForeignKey(nameof(UserId))]
+    public virtual User? User { get; set; }
 
     [Required(ErrorMessage = "ShowTimeId is required")]
     public required Guid ShowTimeId { get; set; }
@@ -26,17 +27,19 @@ public class Invoice : MasterDataBaseEntity, IMasterDataBaseEntity
     [ForeignKey(nameof(ShowTimeId))]
     public virtual ShowTime? ShowTime { get; set; }
 
-    public virtual ICollection<Ticket>? Tickets { get; set; } =[];
+    [Required(ErrorMessage = "CinemaRoomId is required")]
+    public required Guid CinemaRoomId { get; set; }
 
-    public virtual ICollection<HistoryScore> HistoryScores { get; set; } = [];
-    //status: 1: pending, 2: paid, 3: canceled
-    [EnumDataType(typeof(InvoiceStatus), ErrorMessage = "Invalid Invoice Status")]
-    public InvoiceStatus Status { get; set; }
-}
+    [ForeignKey(nameof(CinemaRoomId))]
+    public virtual CinemaRoom? CinemaRoom { get; set; }
 
-public enum InvoiceStatus
-{
-    Pending = 1,
-    Paid = 2,
-    Canceled = 3
+    [Required(ErrorMessage = "MovieId is required")]
+    public required Guid MovieId { get; set; }
+
+    [ForeignKey(nameof(MovieId))]
+    public virtual Movie? Movie { get; set; }
+
+    public virtual ICollection<Ticket> Tickets { get; set; } = [];
+
+    public virtual ICollection<HistoryScore> HistoryScores { get; set; } = new HashSet<HistoryScore>();
 }
