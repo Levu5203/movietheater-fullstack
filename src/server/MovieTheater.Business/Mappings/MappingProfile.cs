@@ -63,12 +63,11 @@ public class MappingProfile : Profile
         CreateMap<SeatReverveCommand, Seat>();
 
         CreateMap<Ticket, TicketViewModel>()
-            .ForMember(dest => dest.TicketId, opt => opt.MapFrom(src => src.Id))
-            .ForMember(dest => dest.Seat, opt => opt.MapFrom(src => src.Seat))
-            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status));
-
-        CreateMap<TicketViewModel, Ticket>()
-            .ForMember(dest => dest.Seat, opt => opt.MapFrom(src => src.Seat));
+            .ForMember(dest => dest.RoomName, opt => opt.MapFrom(src => src.CinemaRoom.Name))
+            .ForMember(dest => dest.MovieName, opt => opt.MapFrom(src => src.Movie.Name))
+            .ForMember(dest => dest.ShowDate, opt => opt.MapFrom(src => src.ShowTime.ShowDate))
+            .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.ShowTime.ShowTimeSlot.Time.ToString(@"hh\:mm")))
+            .ReverseMap();
 
         CreateMap<Invoice, InvoicePreviewViewModel>()
             .ForMember(dest => dest.TotalMoney, opt => opt.MapFrom(src => src.TotalMoney))
@@ -78,6 +77,13 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.MovieName, opt => opt.MapFrom(src => src.ShowTime.Movie.Name))
             .ForMember(dest => dest.ShowDate, opt => opt.MapFrom(src => src.ShowTime.ShowDate))
             .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.ShowTime.ShowTimeSlot.Time.ToString(@"hh\:mm\:ss")));
+
+        CreateMap<Invoice, InvoiceViewModel>()
+            .ForMember(dest => dest.RoomName, opt => opt.MapFrom(src => src.CinemaRoom.Name))
+            .ForMember(dest => dest.MovieName, opt => opt.MapFrom(src => src.Movie.Name))
+            .ForMember(dest => dest.ShowDate, opt => opt.MapFrom(src => src.ShowTime.ShowDate))
+            .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.ShowTime.ShowTimeSlot.Time.ToString(@"hh\:mm")))
+            .ReverseMap();
 
         CreateMap<Promotion, PromotionViewModel>();
         CreateMap<CinemaRoom,CinemaRoomViewModel>();

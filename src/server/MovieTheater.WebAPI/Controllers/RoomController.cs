@@ -13,7 +13,7 @@ namespace MovieTheater.WebAPI.Controllers
     [Route("api/v{version:apiVersion}/rooms")]
     [ApiController]
     [ApiVersion("1.0")]
-    // [Authorize]
+    [Authorize]
     public class RoomController(IMediator mediator) : ControllerBase
     {
 
@@ -24,7 +24,7 @@ namespace MovieTheater.WebAPI.Controllers
         /// </summary>
         /// <returns>List of rooms</returns>
         [HttpGet]
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(IEnumerable<CinemaRoomViewModel>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllRoomAsync()
         {
@@ -38,7 +38,7 @@ namespace MovieTheater.WebAPI.Controllers
         /// </summary>
         /// <returns>List of rooms match to keyword and filters</returns>
         [HttpPost("search")]
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(PaginatedResult<CinemaRoomViewModel>), StatusCodes.Status200OK)]
         public async Task<IActionResult> SearchCustomerAsync([FromBody] CinemaRoomSearchQuery query)
         {
@@ -52,7 +52,7 @@ namespace MovieTheater.WebAPI.Controllers
         /// <param name="roomId">Room Id</param>
         /// <returns>Room view model</returns>
         [HttpGet("{roomId}")]
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(IEnumerable<SeatViewModel>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetRoomByIdAsync(Guid roomId)
         {
@@ -67,7 +67,7 @@ namespace MovieTheater.WebAPI.Controllers
         /// <param name="roomId">Room Id</param>
         /// <returns>List of seats in the room</returns>
         [HttpGet("{roomId}/seats")]
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(IEnumerable<SeatViewModel>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetSeatsByRoomAsync(Guid roomId)
         {
@@ -82,7 +82,7 @@ namespace MovieTheater.WebAPI.Controllers
         /// <param name="command">List of seats to update</param>
         /// <returns>Status</returns>
         [HttpPut("{roomId}/update-seats")]
-        // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> UpdateSeatsAsync([FromBody] MultipleSeatsUpdateCommand command)
         {

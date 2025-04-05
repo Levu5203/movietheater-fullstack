@@ -1,24 +1,23 @@
-using System;
 using MovieTheater.Business.ViewModels.Seat;
 using MovieTheater.Business.ViewModels.Showtime;
 using MovieTheater.Business.ViewModels.Movie;
+using MovieTheater.Business.ViewModels.Promotion;
 using MovieTheater.Models.Common;
+using MovieTheater.Business.ViewModels.Room;
 
 namespace MovieTheater.Business.ViewModels.Ticket;
 
-public class TicketViewModel
+public class TicketViewModel : MasterBaseViewModel
 {
-    public Guid TicketId { get; set; }
     public decimal Price { get; set; }
     public DateTime BookingDate { get; set; }
-    public TicketStatus Status { get; set; }
-    public Guid SeatId { get; set; }
+    public required TicketStatus Status { get; set; }
     public SeatViewModel? Seat { get; set; }
-    public Guid CinemaRoomId { get; set; }
-    public Guid ShowTimeId { get; set; }
-    public ShowtimeViewModel? ShowTime { get; set; }
-    public Guid MovieId { get; set; }
-    public MovieViewModel? Movie { get; set; }
+    public required string RoomName { get; set; }
+    public required string MovieName { get; set; }
     public Guid InvoiceId { get; set; }
     public Guid? PromotionId { get; set; }
+    public PromotionViewModel? Promotion { get; set; }
+    public required DateOnly ShowDate { get; set; }
+    public required TimeSpan StartTime { get; set; }
 }
