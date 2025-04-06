@@ -213,7 +213,7 @@ public static class DbInitializer
             {
                 context.Genres.Add(new Genre
                 {
-                    GenreId = genre.GenreId,
+                    Id = genre.Id,
                     Type = genre.Type
                 });
             }
@@ -239,6 +239,7 @@ public static class DbInitializer
                     PosterUrl = movie.PosterUrl,
                     Status = movie.Status,
                     ReleasedDate = movie.ReleasedDate,
+                    EndDate = movie.EndDate,
                     Actors = movie.Actors,
                     Director = movie.Director,
                     CreatedAt = DateTime.Now,

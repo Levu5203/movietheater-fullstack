@@ -33,6 +33,10 @@ public interface IUnitOfWork : IDisposable
 
     IRepository<RefreshToken> RefreshTokenRepository { get; }
 
+    IRepository<Genre> GenreRepository { get; }
+
+    IRepository<MovieGenre> MovieGenreRepository { get; }
+
     #endregion
 
     #region Repositories

@@ -2,6 +2,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Business.Handlers.Movie;
 using MovieTheater.Business.ViewModels.Movie;
+using MovieTheater.Commands;
+using MovieTheater.ViewModels;
 
 namespace MovieTheater.WebAPI.Controllers
 {
@@ -37,6 +39,25 @@ namespace MovieTheater.WebAPI.Controllers
             var query = new MovieGetByIdQuery { Id = id };
             var result = await _mediator.Send(query);
             return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromForm] CreateMovieCommand command)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var movieId = await _mediator.Send(command);
+                return Ok(new { Id = movieId, Message = "Movie created successfully" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
     }
