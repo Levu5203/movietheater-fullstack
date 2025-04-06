@@ -13,7 +13,7 @@ namespace MovieTheater.WebAPI.Controllers
     [Route("api/v{version:apiVersion}/rooms")]
     [ApiController]
     [ApiVersion("1.0")]
-    [Authorize]
+    // [Authorize]
     public class RoomController(IMediator mediator) : ControllerBase
     {
 
@@ -38,9 +38,9 @@ namespace MovieTheater.WebAPI.Controllers
         /// </summary>
         /// <returns>List of rooms match to keyword and filters</returns>
         [HttpPost("search")]
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(PaginatedResult<CinemaRoomViewModel>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> SearchCustomerAsync([FromBody] CinemaRoomSearchQuery query)
+        public async Task<IActionResult> SearchRoomAsync([FromBody] CinemaRoomSearchQuery query)
         {
             var result = await _mediator.Send(query);
             return Ok(result);

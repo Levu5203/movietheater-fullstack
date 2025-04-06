@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Business.Handlers.Invoice;
 using MovieTheater.Business.ViewModels.Invoice;
+using MovieTheater.Core;
 
 namespace MovieTheater.WebAPI.Controllers
 {
@@ -18,6 +19,14 @@ namespace MovieTheater.WebAPI.Controllers
         public async Task<IActionResult> GetAllInvoice()
         {
             var query = new InvoiceGetAllQuery { };
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+
+        [HttpPost("search")]
+        [ProducesResponseType(typeof(PaginatedResult<InvoiceViewModel>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> SearchInvoiceAsync([FromBody] InvoiceSearchQuery query)
+        {
             var result = await _mediator.Send(query);
             return Ok(result);
         }

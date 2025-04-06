@@ -2,7 +2,7 @@ using MovieTheater.Business.ViewModels.Invoice;
 
 namespace MovieTheater.Business.Handlers.Invoice;
 
-public class InvoiceGetByIdQuery:BaseGetByIdQuery<InvoiceViewModel>
+public class InvoiceGetByIdQuery : MasterBaseGetByIdQuery<InvoiceViewModel>
 {
 
 }

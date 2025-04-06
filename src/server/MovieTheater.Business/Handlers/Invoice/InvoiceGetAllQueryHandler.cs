@@ -22,8 +22,6 @@ public class InvoiceGetAllQueryHandler : BaseHandler, IRequestHandler<InvoiceGet
             .Include(i => i.Movie)
             .Include(i => i.Tickets)
                 .ThenInclude(t => t.Seat)
-            .Include(i => i.Tickets)
-                .ThenInclude(t => t.Promotion)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
 
