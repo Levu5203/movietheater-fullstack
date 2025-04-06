@@ -12,7 +12,7 @@ namespace MovieTheater.WebAPI.Controllers
     /// Authen API Controller 
     /// </summary>
     /// <param name="mediator"></param>
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
     [ApiExplorerSettings(GroupName = "v1")]

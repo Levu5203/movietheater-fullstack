@@ -4,11 +4,15 @@ import { ProfileService } from './profile.service';
 import {
   CUSTOMER_SERVICE,
   EMPLOYEE_SERVICE,
+  MOVIE_SERVICE,
   ROOM_SERVICE,
+  SHOWTIME_SERVICE,
 } from '../constants/injection.constant';
 import { CustomerService } from './customer/customer.service';
 import { EmployeeService } from './employee/employee.service';
 import { RoomService } from './room/room.service';
+import { ShowtimeServiceService } from './showtime/showtime-service.service';
+import { MovieServiceService } from './movie/movie-service.service';
 
 @NgModule({
   declarations: [],
@@ -29,6 +33,14 @@ import { RoomService } from './room/room.service';
     {
       provide: ROOM_SERVICE,
       useClass: RoomService,
+    },
+    {
+      provide: SHOWTIME_SERVICE,
+      useClass: ShowtimeServiceService,
+    },
+    {
+      provide: MOVIE_SERVICE,
+      useClass: MovieServiceService,
     }
   ],
 })
