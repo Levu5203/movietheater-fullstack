@@ -60,5 +60,16 @@ namespace MovieTheater.WebAPI.Controllers
             }
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMovie(Guid id)
+        {
+            var result = await _mediator.Send(new DeleteMovieCommand(id));
+
+            if (!result)
+                return NotFound("Movie not found.");
+
+            return Ok(new { message = "Movie deleted successfully" });
+        }
+
     }
 }
