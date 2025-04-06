@@ -4,7 +4,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faAngleLeft,
   faAngleRight,
-  faArrowLeft,
   faInfoCircle,
   IconDefinition,
   faFilter,
@@ -115,7 +114,7 @@ export class RoommanagementComponent
       // Lấy danh sách ghế của phòng
       this.roomService.loadRoomSeats(roomId).subscribe((seats) => {
         this.selectedRoom = { ...room };
-        this.selectedRoom!.seats = seats; // Thêm danh sách ghế vào phòng
+        this.selectedRoom.seats = seats; // Thêm danh sách ghế vào phòng
         this.isShowDetail = true;
       });
     });
