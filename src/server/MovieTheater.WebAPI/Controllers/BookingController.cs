@@ -40,7 +40,7 @@ namespace MovieTheater.WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpPut("{id}/update")]
+        [HttpPut("{id}")]
         [ProducesResponseType(typeof(InvoiceViewModel), StatusCodes.Status200OK)]
         public async Task<IActionResult> IssueTickets(Guid id)
         {

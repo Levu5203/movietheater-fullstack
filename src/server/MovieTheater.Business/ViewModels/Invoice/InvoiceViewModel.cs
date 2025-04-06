@@ -4,7 +4,9 @@ namespace MovieTheater.Business.ViewModels.Invoice;
 
 public class InvoiceViewModel : MasterBaseViewModel
 {
-    public Guid UserId { get; set; }
+    public required string UserFullName { get; set; }
+    public required string UserEmail { get; set; }
+    public required string UserPhoneNumber { get; set; }
     public double TotalMoney { get; set; }
     public int AddedScore { get; set; }
     public required string RoomName { get; set; }
