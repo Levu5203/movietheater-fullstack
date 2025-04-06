@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   FontAwesomeModule,
@@ -25,6 +25,7 @@ import { ConfirmModalComponent } from '../../../modules/shared/common/confirm-mo
 
 @Component({
   selector: 'app-table',
+  standalone: true,
   imports: [
     CommonModule,
     FontAwesomeModule,
@@ -48,7 +49,6 @@ export class TableComponent {
   public faAnglesLeft: IconDefinition = faAnglesLeft;
   public faAngleRight: IconDefinition = faAngleRight;
   public faAnglesRight: IconDefinition = faAnglesRight;
-
   //#endregion
 
   @Input() columns: TableColumn[] = [];
@@ -63,18 +63,11 @@ export class TableComponent {
   @Input() public data!: PaginatedResult<any>;
 
   @Output() public onView: EventEmitter<string> = new EventEmitter<string>();
-
   @Output() public onEdit: EventEmitter<string> = new EventEmitter<string>();
-
   @Output() public onDelete: EventEmitter<string> = new EventEmitter<string>();
-
   @Output() public onInfo: EventEmitter<string> = new EventEmitter<string>();
-
-  @Output() public onPageSizeChange: EventEmitter<any> =
-    new EventEmitter<any>();
-
-  @Output() public onPageChange: EventEmitter<number> =
-    new EventEmitter<number>();
+  @Output() public onPageSizeChange: EventEmitter<any> = new EventEmitter<any>();
+  @Output() public onPageChange: EventEmitter<number> = new EventEmitter<number>();
 
   public showConfirmModal: boolean = false;
   public confirmMessage: string = '';
