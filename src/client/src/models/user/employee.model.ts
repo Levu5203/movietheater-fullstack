@@ -10,5 +10,4 @@ export class EmployeeModel extends MasterBaseModel {
   public email!: string;
   public dateOfBirth!: Date;
   public identityCard!: string;
-  public address!: string;
 }

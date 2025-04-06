@@ -71,7 +71,7 @@ export class EmployeemanagementComponent
     { name: 'Gender', value: 'gender' },
     { name: 'Email', value: 'email' },
     { name: 'Phone Number', value: 'phoneNumber' },
-    { name: 'Address', value: 'address' },
+    { name: 'Status', value: 'isActive', type: 'active' },
     { name: 'Register date', value: 'createdAt', type: 'date' },
   ];
   constructor(
@@ -128,5 +128,14 @@ export class EmployeemanagementComponent
 
       // Scroll into view
     }, 150);
+  }
+
+  public updateStatus(id: string): void {
+    this.employeeService.updateStatus(id).subscribe((data) => {
+      // Neu xoa duoc thi goi lai ham getData de load lai du lieu
+      if (data) {
+        this.searchData();
+      }
+    });
   }
 }

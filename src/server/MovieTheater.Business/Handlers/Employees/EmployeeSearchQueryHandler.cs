@@ -28,7 +28,7 @@ public class EmployeeSearchQueryHandler :
         var EmployeeList = await _userManager.GetUsersInRoleAsync("Employee");
         var userIdList = EmployeeList.Select(u => u.Id).ToList();
 
-        var query = _unitOfWork.UserRepository.GetQuery()
+        var query = _unitOfWork.UserRepository.GetQuery(request.IncludeInactive!.Value)
             .Where(u => userIdList.Contains(u.Id));
 
         // Filter by inactive status
@@ -46,7 +46,7 @@ public class EmployeeSearchQueryHandler :
                 x.LastName.ToLower().Contains(keywordLower) ||
                 x.UserName!.ToLower().Contains(keywordLower) ||
                 x.Email!.ToLower().Contains(keywordLower) ||
-                x.PhoneNumber!.Contains(keywordLower) 
+                x.PhoneNumber!.Contains(keywordLower)
             );
         }
 
