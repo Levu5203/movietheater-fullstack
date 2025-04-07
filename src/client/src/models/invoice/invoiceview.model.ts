@@ -1,14 +1,17 @@
 import { MasterBaseModel } from "../../core/models/master-base.model";
-import { TicketviewModel } from "../ticket/ticketview.model";
+import { TicketViewModel } from "../ticket/ticketview.model";
 
-export class InvoiceviewModel extends MasterBaseModel{
+export class InvoiceViewModel extends MasterBaseModel{
     public userId!: string;
+    public userFullName!: string;
+    public userEmail!: string;
+    public userPhoneNumber!: string;
     public totalMoney!: number;
     public addedScore!: number;
-    public tickets!: TicketviewModel[];
+    public tickets!: TicketViewModel[];
     public roomName!: string;
     public movieName!: string;
     public showDate!: Date;
-    public startTime!: Date;
-
+    public startTime!: string;
+    public ticketIssued!: boolean;
 }

@@ -7,7 +7,7 @@ import { CinemaRoomViewModel } from '../../../models/room/room.model';
 import { SeatViewModel } from '../../../models/seat/seat.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { InvoiceviewModel } from '../../../models/invoice/invoiceview.model';
+import { InvoiceViewModel } from '../../../models/invoice/invoiceview.model';
 
 @Component({
   selector: 'app-seatshowtime',
@@ -112,8 +112,8 @@ export class SeatshowtimeComponent implements OnInit{
       });
     });
   }
-  reserveSeats(showTimeId: string, seatIds: string[]): Observable<InvoiceviewModel> {
-    return this.http.post<InvoiceviewModel>(`http://localhost:5063/api/Seat/reserve`, {
+  reserveSeats(showTimeId: string, seatIds: string[]): Observable<InvoiceViewModel> {
+    return this.http.post<InvoiceViewModel>(`http://localhost:5063/api/Seat/reserve`, {
       showTimeId,
       seatIds,
     });

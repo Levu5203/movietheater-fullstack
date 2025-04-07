@@ -25,6 +25,12 @@ export class CustomFormatPipe implements PipeTransform {
         return new Intl.DateTimeFormat('en-US', { timeStyle: 'short' }).format(
           new Date(value)
         );
+      case 'timeShort':
+        return new Intl.DateTimeFormat('en-US', {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false,
+        }).format(new Date(value));
       case 'currency':
         return new Intl.NumberFormat('vi-VN', {
           style: 'currency',

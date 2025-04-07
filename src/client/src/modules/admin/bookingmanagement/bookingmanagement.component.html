@@ -1,0 +1,36 @@
+<section *ngIf="!isShowDetail">
+  <div class="bg-white rounded-lg shadow min-w-[600px] overflow-x-auto">
+    <h2 class="text-xl font-bold p-4">Booking Management</h2>
+
+    <form [formGroup]="searchForm" class="px-4">
+      <div class="flex justify-between items-center">
+        <div class="flex flex-row gap-4">
+          <div class="flex items-center gap-2 mb-4 bg-gray-200 rounded-3xl px-2">
+            <input type="text" placeholder="Enter keyword" formControlName="keyword"
+              class="flex-1 bg-transparent outline-none p-2 rounded-3xl w-[240px]" />
+            
+            <select title="Ticket Status" formControlName="ticketIssued"
+              class="px-3 py-2 border-l border-slate-400 bg-transparent text-gray-700 focus:outline-none cursor-pointer">
+              <option [ngValue]="null" selected>All</option>
+              <option [ngValue]="true">Issued</option>
+              <option [ngValue]="false">Not Issued</option>
+            </select>
+          </div>
+    
+          <!-- Change to submit button -->
+          <button type="submit" (click)="onSubmit()"
+            class="p-2 w-10 h-10 text-gray-700 rounded-xl hover:bg-gray-300 cursor-pointer disabled:cursor-not-allowed"
+            [disabled]="searchForm.invalid">
+            <fa-icon [icon]="faSearch" class="w-6 h-6"></fa-icon>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <app-table [isShowNumber]="true" [infoable]="false" [editable]="false" [deletable]="false" [lockable]="false"
+      (onView)="view($event)" [columns]="columns" [data]="data" [currentPage]="currentPage"
+      (onPageChange)="onPageChange($event)"></app-table>
+  </div>
+</section>
+
+<app-booking-detail *ngIf="isShowDetail" [selectedItem]="selectedItem" (close)="onCloseDetail()"></app-booking-detail>

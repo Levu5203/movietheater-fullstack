@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: 'showtime', component: ShowtimeComponent },
   { path: 'ticketprice', component: TicketpriceComponent },
   { path: 'seatshowtime', component: SeatshowtimeComponent },
-  { path: 'booking', component: BookingComponent },
+  { path: 'bookingmanagement', component: BookingComponent },
   { path: 'moviedetail', component: MoviedetailComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
