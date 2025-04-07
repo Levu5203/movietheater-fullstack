@@ -26,7 +26,7 @@ public class InvoiceSearchQueryHandler : BaseHandler, IRequestHandler<InvoiceSea
             var keywordLower = request.Keyword.ToLower();
 
             query = query.Where(x =>
-                x.User.DisplayName.ToLower().Contains(keywordLower) || x.User.PhoneNumber.ToLower().Contains(keywordLower) || x.Movie.Name.ToLower().Contains(keywordLower)
+                x.User.FirstName.ToLower().Contains(keywordLower) || x.User.LastName.ToLower().Contains(keywordLower) || x.User.Email.ToLower().Contains(keywordLower) || x.User.PhoneNumber.ToLower().Contains(keywordLower) || x.Movie.Name.ToLower().Contains(keywordLower)
             );
         }
 

@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Business.Handlers.Invoice;
 using MovieTheater.Business.ViewModels.Invoice;
@@ -12,6 +13,8 @@ namespace MovieTheater.WebAPI.Controllers
     [Route("api/v{version:apiVersion}/bookings")]
     [ApiController]
     [ApiVersion("1.0")]
+    [Authorize(Roles = "Admin, Employee")]
+
     public class BookingController(IMediator mediator) : ControllerBase
     {
         private readonly IMediator _mediator = mediator;
