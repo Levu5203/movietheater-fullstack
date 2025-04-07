@@ -14,4 +14,5 @@ public class InvoiceViewModel : MasterBaseViewModel
     public required DateOnly ShowDate { get; set; }
     public required TimeSpan StartTime { get; set; }
     public required List<TicketViewModel> Tickets { get; set; }
+    public required bool TicketIssued { get; set; }
 }

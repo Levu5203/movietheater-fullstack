@@ -79,7 +79,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.ShowTime.ShowTimeSlot.Time.ToString(@"hh\:mm\:ss")));
 
         CreateMap<Invoice, InvoiceViewModel>()
-            .ForMember(dest => dest.UserFullName, opt => opt.MapFrom(src => src.User.FirstName+src.User.LastName))
+            .ForMember(dest => dest.UserFullName, opt => opt.MapFrom(src => src.User.FirstName + " " + src.User.LastName))
             .ForMember(dest => dest.UserEmail, opt => opt.MapFrom(src => src.User.Email))
             .ForMember(dest => dest.UserPhoneNumber, opt => opt.MapFrom(src => src.User.PhoneNumber))
             .ForMember(dest => dest.RoomName, opt => opt.MapFrom(src => src.CinemaRoom.Name))
