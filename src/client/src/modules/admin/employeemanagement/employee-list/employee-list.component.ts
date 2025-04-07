@@ -83,6 +83,7 @@ export class EmployeemanagementComponent
     this.searchForm = new FormGroup({
       keyword: new FormControl(''),
       gender: new FormControl(''),
+      isActive: new FormControl(null),
     });
   }
 

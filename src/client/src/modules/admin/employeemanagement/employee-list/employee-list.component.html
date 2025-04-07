@@ -14,7 +14,7 @@
               formControlName="keyword"
               class="flex-1 bg-transparent outline-none p-2 rounded-3xl w-[240px]"
             />
-
+            
             <!-- Gender Select Dropdown -->
             <select
               title="Gender"
@@ -25,6 +25,16 @@
               <option value="" selected>All</option>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
+            </select>
+            <select
+              title="Is Active"
+              formControlName="isActive"
+              id="isActive"
+              class="px-3 py-2 border-l border-slate-400 bg-transparent text-gray-700 focus:outline-none cursor-pointer"
+            >
+              <option [ngValue]="null" selected>All</option>
+              <option [ngValue]="true">Active</option>
+              <option [ngValue]="false">Inactive</option>
             </select>
           </div>
           <!-- Search Button -->

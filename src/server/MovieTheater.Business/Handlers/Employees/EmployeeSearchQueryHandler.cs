@@ -56,6 +56,10 @@ public class EmployeeSearchQueryHandler :
             query = query.Where(x => x.Gender == request.Gender);
         }
 
+        if (request.IsActive.HasValue)
+        {
+            query = query.Where(u => u.IsActive == request.IsActive.Value);
+        }
         // Count total items
         int total = await query.CountAsync(cancellationToken);
 
