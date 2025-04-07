@@ -54,6 +54,12 @@
             {{ selectedItem?.phoneNumber ?? "----------" }}
           </p>
         </div>
+        <div class="col-span-2">
+          <p class="text-sm pt-2 text-gray-500">Status</p>
+          <p class="font-semibold">
+            {{ selectedItem?.isActive ? "Active" : "Inactive" }}
+          </p>
+        </div>
       </div>
     </div>
   </div>

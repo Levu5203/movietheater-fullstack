@@ -8,7 +8,7 @@ using MovieTheater.Core.Extensions;
 using MovieTheater.Data.UnitOfWorks;
 using MovieTheater.Models.Security;
 
-namespace MovieTheater.Business.Handlers.Users;
+namespace MovieTheater.Business.Handlers.Customers;
 
 public class CustomerSearchQueryHandler :
     BaseHandler,
@@ -28,7 +28,7 @@ public class CustomerSearchQueryHandler :
         var customerList = await _userManager.GetUsersInRoleAsync("Customer");
         var userIdList = customerList.Select(u => u.Id).ToList();
 
-        var query = _unitOfWork.UserRepository.GetQuery()
+        var query = _unitOfWork.UserRepository.GetQuery(request.IncludeInactive!.Value)
             .Where(u => userIdList.Contains(u.Id));
 
         // Filter by inactive status
@@ -54,6 +54,11 @@ public class CustomerSearchQueryHandler :
         if (!string.IsNullOrEmpty(request.Gender))
         {
             query = query.Where(x => x.Gender == request.Gender);
+        }
+
+        if (request.IsActive.HasValue)
+        {
+            query = query.Where(u => u.IsActive == request.IsActive.Value);
         }
 
         // Count total items
