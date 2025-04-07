@@ -26,6 +26,16 @@
               <option value="Male">Male</option>
               <option value="Female">Female</option>
             </select>
+            <select
+              title="Is Active"
+              formControlName="isActive"
+              id="isActive"
+              class="px-3 py-2 border-l border-slate-400 bg-transparent text-gray-700 focus:outline-none cursor-pointer"
+            >
+              <option [ngValue]="null" selected>All</option>
+              <option [ngValue]="true">Active</option>
+              <option [ngValue]="false">Inactive</option>
+            </select>
           </div>
           <!-- Search Button -->
           <button
@@ -48,6 +58,7 @@
       [currentPage]="currentPage"
       (onView)="view($event)"
       (onDelete)="delete($event)"
+      (onUpdateStatus)="updateStatus($event)"
       (onPageChange)="onPageChange($event)"
     >
     </app-table>
