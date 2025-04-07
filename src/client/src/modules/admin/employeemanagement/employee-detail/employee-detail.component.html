@@ -31,12 +31,22 @@
         <div>
           <p class="text-sm pt-2 text-gray-500">Date of Birth</p>
           <p class="font-semibold">
-            {{ selectedItem?.dateOfBirth | date : "mediumDate" }}
+            {{
+              selectedItem?.dateOfBirth
+                ? (selectedItem?.dateOfBirth | date : "mediumDate")
+                : "----------"
+            }}
           </p>
         </div>
         <div>
           <p class="text-sm pt-2 text-gray-500">Gender</p>
           <p class="font-semibold">{{ selectedItem?.gender }}</p>
+        </div>
+        <div class="col-span-2">
+          <p class="text-sm pt-2 text-gray-500">Address</p>
+          <p class="font-semibold">
+            {{ selectedItem?.address || "----------" }}
+          </p>
         </div>
       </div>
       <div class="flex flex-col gap-2">
@@ -50,12 +60,16 @@
         </div>
         <div>
           <p class="text-sm pt-2 text-gray-500">Phone Number</p>
-          <p class="font-semibold">{{ selectedItem?.phoneNumber }}</p>
+          <p class="font-semibold">
+            {{ selectedItem?.phoneNumber ?? "----------" }}
+          </p>
         </div>
-      </div>
-      <div class="col-span-2">
-        <p class="text-sm pt-2 text-gray-500">Address</p>
-        <p class="font-semibold">{{ selectedItem?.address }}</p>
+        <div class="col-span-2">
+          <p class="text-sm pt-2 text-gray-500">Status</p>
+          <p class="font-semibold">
+            {{ selectedItem?.isActive ? "Active" : "Inactive" }}
+          </p>
+        </div>
       </div>
     </div>
   </div>

@@ -13,7 +13,6 @@ import { TicketlistComponent } from './ticketlist/ticketlist.component';
 import { TicketconfirmComponent } from './ticketconfirm/ticketconfirm.component';
 import { AddmovieComponent } from './addmovie/addmovie.component';
 import { AddpromotionComponent } from './addpromotion/addpromotion.component';
-import { UpdatemovieComponent } from './updatemovie/updatemovie.component';
 import { UpdatepromotionComponent } from './updatepromotion/updatepromotion.component';
 
 const routes: Routes = [

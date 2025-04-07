@@ -109,4 +109,20 @@ public class EmployeesController(IMediator mediator) : ControllerBase
         return Ok(result);
     }
 
+    /// <summary>
+    /// Updates a employee status
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns>User information</returns>
+    [HttpPut("update-status/{id}")]
+    [Authorize(Roles = "Admin")]
+    [ProducesResponseType(typeof(EmployeeViewModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UpdateStatusAsync(Guid id)
+    {
+        var command = new EmployeeUpdateStatusCommand { Id = id };
+
+        var result = await _mediator.Send(command);
+        return Ok(result);
+    }
 }

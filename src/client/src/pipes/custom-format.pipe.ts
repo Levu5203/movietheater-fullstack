@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class CustomFormatPipe implements PipeTransform {
   transform(value: any, type: string): any {
-    if (!value) return;
+    if (!value && value !== false) return;
 
     switch (type) {
       case 'year':
@@ -38,6 +38,8 @@ export class CustomFormatPipe implements PipeTransform {
         return value.toUpperCase();
       case 'lowercase':
         return value.toLowerCase();
+      case 'active':
+        return value ? 'Active' : 'Inactive';
       default:
         return value;
     }

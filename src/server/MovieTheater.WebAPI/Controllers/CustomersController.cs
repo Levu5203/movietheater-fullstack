@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MovieTheater.Business.Handlers.Customers;
 using MovieTheater.Business.Handlers.Users;
 using MovieTheater.Business.ViewModels.Users;
 using MovieTheater.Core;
@@ -59,4 +59,20 @@ public class CustomersController(IMediator mediator) : ControllerBase
         return Ok(result);
     }
 
+    /// <summary>
+    /// Updates a customer status
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns>User information</returns>
+    [HttpPut("update-status/{id}")]
+    [Authorize(Roles = "Admin")]
+    [ProducesResponseType(typeof(UserViewModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UpdateStatusAsync(Guid id)
+    {
+        var command = new CustomerUpdateStatusCommand { Id = id };
+
+        var result = await _mediator.Send(command);
+        return Ok(result);
+    }
 }

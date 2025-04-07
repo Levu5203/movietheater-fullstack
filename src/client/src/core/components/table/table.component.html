@@ -2,7 +2,7 @@
 <div class="card bg-white m-4 rounded-md shadow-md">
   <!-- List Items -->
   <div class="card-body">
-    <table class="w-full text-sm border-b border-gray-300 table-fixed">
+    <table class="w-full text-sm border-b border-gray-300">
       <thead class="bg-blue-100 border-t border-gray-300">
         <tr class="*:p-2 *:border *:border-gray-200 *:text-center">
           <th *ngIf="isShowNumber" class="text-center w-12">No</th>
@@ -10,7 +10,7 @@
             {{ item.name }}
           </th>
           <th
-            *ngIf="infoable || editable || deletable"
+            *ngIf="infoable || editable || lockable || deletable"
             class="text-center w-28"
           >
             Actions
@@ -56,11 +56,29 @@
                   ></fa-icon>
                 </button>
                 <button
+                  class="border-0"
+                  title="Update status"
+                  type="button"
+                  *ngIf="lockable"
+                  (click)="openConfirmModal(item.id)"
+                >
+                  <fa-icon
+                    *ngIf="item.isActive"
+                    [icon]="faLock"
+                    class="text-red-500 hover:text-red-700"
+                  ></fa-icon>
+                  <fa-icon
+                    *ngIf="!item.isActive"
+                    [icon]="faLockOpen"
+                    class="text-blue-500 hover:text-blue-700"
+                  ></fa-icon>
+                </button>
+                <button
                   *ngIf="deletable"
                   class="border-0"
                   title="Delete"
                   type="button"
-                  (click)="openConfirmModal(item.id)"
+                  (click)="openConfirmDeleteModal(item.id)"
                 >
                   <fa-icon
                     [icon]="faTrash"
@@ -138,8 +156,17 @@
 </div>
 
 <app-confirm-modal
+  *ngIf="showConfirmDeleteModal"
+  [confirmMessage]="confirmMessage"
+  [confirmAction]="confirmAction"
+  (onConfirm)="confirmDelete()"
+  (onCancel)="closeConfirmModal()"
+></app-confirm-modal>
+
+<app-confirm-modal
   *ngIf="showConfirmModal"
   [confirmMessage]="confirmMessage"
-  (onConfirm)="confirmDelete()"
+  [confirmAction]="confirmAction"
+  (onConfirm)="confirmUpdateStatus()"
   (onCancel)="closeConfirmModal()"
 ></app-confirm-modal>
