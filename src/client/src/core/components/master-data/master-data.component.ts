@@ -35,7 +35,13 @@ export class MasterDataListComponent<T> {
 
   public searchForm!: FormGroup;
 
-  public data!: PaginatedResult<T>;
+  public data: PaginatedResult<T> = {
+    pageNumber: 1,
+    pageSize: 10,
+    totalCount: 0,
+    totalPages: 0,
+    items: [],
+  };
 
   public columns: TableColumn[] = [
     { name: 'Name', value: 'name' },

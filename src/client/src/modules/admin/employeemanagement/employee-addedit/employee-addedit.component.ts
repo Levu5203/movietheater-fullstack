@@ -78,7 +78,7 @@ export class EmployeeAddeditComponent implements OnInit {
       ]),
       dateOfBirth: new FormControl(null),
       gender: new FormControl('Male', [Validators.required]),
-      email: new FormControl('', [
+      email: new FormControl({ value: '', disabled: !!this.selectedItem }, [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(50),
