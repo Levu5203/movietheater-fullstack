@@ -28,6 +28,7 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, Gui
         // Create movie
         var movie = new Movie
         {
+            Id = Guid.NewGuid(),
             Name = request.Name,
             Duration = request.Duration,
             Origin = request.Origin,
@@ -39,8 +40,7 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, Gui
             ReleasedDate = request.ReleasedDate,
             EndDate = request.EndDate,
             PosterUrl = posterUrl,
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
+            CreatedAt = DateTime.UtcNow
         };
 
         // Add movie using the generic repository

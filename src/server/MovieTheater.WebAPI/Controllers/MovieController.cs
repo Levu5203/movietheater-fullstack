@@ -71,5 +71,24 @@ namespace MovieTheater.WebAPI.Controllers
             return Ok(new { message = "Movie deleted successfully" });
         }
 
+        [HttpPut("{id}")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> UpdateMovie(Guid id, [FromForm] UpdateMovieQuery command)
+        {
+            if (id != command.Id)
+            {
+                return BadRequest("Movie ID mismatch.");
+            }
+
+            var result = await _mediator.Send(command);
+            if (!result)
+            {
+                System.Console.WriteLine(result);
+                return NotFound("Movie not found.");
+            }
+
+            return Ok(new { message = "Movie updated successfully" });
+        }
+
     }
 }

@@ -17,7 +17,7 @@
 3. Run MovieTheater.API
 
     ```bash
-    dotnet run --project MovieTheater.API
+    dotnet run --project MovieTheater.WebAPI
     ```
 
 4. Dotnet Watch

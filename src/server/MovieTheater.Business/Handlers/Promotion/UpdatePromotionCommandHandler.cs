@@ -25,8 +25,8 @@ namespace MovieTheater.Business.Handlers.Promotion;
             }
 
             // Cập nhật thông tin
-            promotion.PromotionTitle = request.PromotionTitle;
-            promotion.Description = request.Description;
+            promotion.PromotionTitle = request.PromotionTitle ?? string.Empty;
+            promotion.Description = request.Description ?? string.Empty;
             promotion.Discount = request.Discount;
             promotion.StartDate = request.StartDate;
             promotion.EndDate = request.EndDate;
