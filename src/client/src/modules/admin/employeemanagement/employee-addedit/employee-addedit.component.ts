@@ -63,13 +63,13 @@ export class EmployeeAddeditComponent implements OnInit {
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(50),
-        Validators.pattern('^[A-Za-z]+$'),
+        Validators.pattern('^[A-Za-z ]+$'),
       ]),
       lastName: new FormControl('', [
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(50),
-        Validators.pattern('^[A-Za-z]+$'),
+        Validators.pattern('^[A-Za-z ]+$'),
       ]),
       username: new FormControl({ value: '', disabled: !!this.selectedItem }, [
         Validators.required,
@@ -124,7 +124,7 @@ export class EmployeeAddeditComponent implements OnInit {
       return;
     }
 
-    const data: EmployeeModel = this.form.value;
+    const data: EmployeeModel = this.form.getRawValue();
 
     // Call API
     if (this.selectedItem) {
