@@ -23,7 +23,7 @@ export class MasterDataService<T> implements IMasterDataService<T> {
     return this.http.post<PaginatedResult<T>>(this.baseUrl + '/search', filter);
   }
 
-  getById(id: number): Observable<T> {
+  getById(id: string): Observable<T> {
     return this.http.get<T>(`${this.baseUrl}/${id}`);
   }
 

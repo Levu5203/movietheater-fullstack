@@ -73,7 +73,6 @@ export class TableComponent {
   @Output() public onDelete: EventEmitter<string> = new EventEmitter<string>();
   @Output() public onUpdateStatus: EventEmitter<string> =
     new EventEmitter<string>();
-  @Output() public onInfo: EventEmitter<string> = new EventEmitter<string>();
   @Output() public onPageSizeChange: EventEmitter<any> =
     new EventEmitter<any>();
   @Output() public onPageChange: EventEmitter<number> =

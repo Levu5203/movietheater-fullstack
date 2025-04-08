@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProfileService } from './profile.service';
 import {
+  BOOKING_SERVICE,
   CUSTOMER_SERVICE,
   EMPLOYEE_SERVICE,
   MOVIE_SERVICE,
@@ -13,6 +14,7 @@ import { EmployeeService } from './employee/employee.service';
 import { RoomService } from './room/room.service';
 import { ShowtimeServiceService } from './showtime/showtime-service.service';
 import { MovieServiceService } from './movie/movie-service.service';
+import { BookingService } from './booking/booking.service';
 
 @NgModule({
   declarations: [],
@@ -41,6 +43,10 @@ import { MovieServiceService } from './movie/movie-service.service';
     {
       provide: MOVIE_SERVICE,
       useClass: MovieServiceService,
+    },
+    {
+      provide: BOOKING_SERVICE,
+      useClass: BookingService,
     }
   ],
 })
