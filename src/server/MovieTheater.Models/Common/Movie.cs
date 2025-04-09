@@ -37,6 +37,10 @@ public class Movie : MasterDataBaseEntity, IMasterDataBaseEntity
 
     [Required(ErrorMessage = "ReleasedDate is required")]
     public required DateOnly ReleasedDate { get; set; }
+
+    [Required(ErrorMessage = "EndDateDate is required")]
+    public required DateOnly EndDate { get; set; }
+
     [Required(ErrorMessage = "Director is required")]
     [StringLength(255, ErrorMessage = "Director can't be longer than 255 characters")]
     public required string Director {get; set;}

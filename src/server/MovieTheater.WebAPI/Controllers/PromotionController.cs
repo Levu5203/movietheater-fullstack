@@ -61,5 +61,16 @@ namespace MovieTheater.WebAPI.Controllers
 
             return Ok(result);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePromotion(Guid id)
+        {
+            var result = await _mediator.Send(new DeletePromotionCommand(id));
+
+            if (!result)
+                return NotFound("Promotion not found.");
+
+            return Ok(new { message = "Promotion deleted successfully" });
+        }
     }
 }

@@ -1,0 +1,81 @@
+<section class="bg-white rounded-lg shadow py-6 px-10 w-full">
+    <!-- Back Button -->
+    <div class="flex flex-row items-center mb-6">
+        <button type="button" (click)="onClose()"
+            class="text-black aspect-square p-2 rounded mr-2 hover:bg-gray-200 cursor-pointer" title="Back">
+            <fa-icon [icon]="faArrowLeft" class="text-gray-500 text-xl"></fa-icon>
+        </button>
+        <h2 class="text-xl font-bold">Booking Information</h2>
+    </div>
+    <!-- Booking Details -->
+    <div class="flex flex-col mb-6">
+        <h3 class="text-lg font-semibold">Booking Details</h3>
+        <div class="flex flex-col md:grid md:grid-cols-2 gap-2">
+            <div>
+                <p class="text-sm text-gray-500">Movie Name</p>
+                <p class="font-semibold">{{ selectedItem?.movieName }}</p>
+            </div>
+            <div>
+                <p class="text-sm text-gray-500">Showtime</p>
+                <p class="font-semibold">{{ formatDate(selectedItem?.showDate) }} - {{
+                    formatTime(selectedItem?.startTime) }}</p>
+            </div>
+            <div>
+                <p class="text-sm text-gray-500">Type</p>
+                <p class="font-semibold">{{ selectedItem?.ticketIssued ? '3D' : '2D' }}</p>
+            </div>
+            <div>
+                <p class="text-sm text-gray-500">Seats</p>
+                <p class="font-semibold">
+                    <span *ngFor="let ticket of selectedItem?.tickets; let last = last">
+                        <span>
+                            {{ ticket.seat?.row}}{{ticket.seat?.column}}
+                        </span>
+                        <span *ngIf="!last">, </span>
+                    </span>
+                </p>
+            </div>
+            <div>
+                <p class="text-sm text-gray-500">Room</p>
+                <p class="font-semibold">{{ selectedItem?.roomName }}</p>
+            </div>
+            <div>
+                <p class="text-sm text-gray-500">Booking Time</p>
+                <p class="font-semibold">{{ formatDate(selectedItem?.createdAt) }}</p>
+            </div>
+            <div>
+                <p class="text-sm text-gray-500">Total Money</p>
+                <p class="font-semibold">{{ selectedItem?.totalMoney }}</p>
+            </div>
+        </div>
+    </div>
+    <!-- Customer Information -->
+    <div class="flex flex-col mb-6">
+        <h3 class="text-lg font-semibold">Customer Information</h3>
+        <div class="flex flex-col md:grid md:grid-cols-2 gap-2">
+            <div>
+                <p class="text-sm pt-2 text-gray-500">Full Name</p>
+                <p class="font-semibold">{{ selectedItem?.userFullName }}</p>
+            </div>
+            <div>
+                <p class="text-sm pt-2 text-gray-500">Email</p>
+                <p class="font-semibold">{{ selectedItem?.userEmail }}</p>
+            </div>
+            <div>
+                <p class="text-sm pt-2 text-gray-500">Phone Number</p>
+                <p class="font-semibold">{{ selectedItem?.userPhoneNumber ?? '--------------' }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!selectedItem?.ticketIssued" class="mt-6 flex justify-end">
+        <button
+          type="submit"
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:cursor-not-allowed"
+          (click)="onGetTicket()"
+        >
+          Get Ticket
+        </button>
+      </div>
+
+</section>

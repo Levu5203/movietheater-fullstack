@@ -1,18 +1,32 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ForgotpasswordComponent } from './forgotpassword.component';
+import { ForgotPasswordComponent } from './forgotpassword.component';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MockAuthService } from '../../../../testing/mock-service';
+import { AUTH_SERVICE } from '../../../constants/injection.constant';
 
 describe('ForgotpasswordComponent', () => {
-  let component: ForgotpasswordComponent;
-  let fixture: ComponentFixture<ForgotpasswordComponent>;
+  let component: ForgotPasswordComponent;
+  let fixture: ComponentFixture<ForgotPasswordComponent>;
+
+  let mockAuthService: MockAuthService;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ForgotpasswordComponent]
-    })
-    .compileComponents();
+    mockAuthService = new MockAuthService();
 
-    fixture = TestBed.createComponent(ForgotpasswordComponent);
+    await TestBed.configureTestingModule({
+      imports: [
+        ForgotPasswordComponent,
+        ReactiveFormsModule,
+        CommonModule,
+        FontAwesomeModule,
+      ],
+      providers: [{ provide: AUTH_SERVICE, useValue: mockAuthService }],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(ForgotPasswordComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -19,5 +19,5 @@ public class MovieViewModel : MasterBaseViewModel
     public required List<ShowtimeViewModel> Showtimes { get; set; } = [];
 
     public required List<string> Genres { get; set; } = [];
-    public required List<String> CinemaRooms { get; set; } = [];
+    public required List<string> CinemaRooms { get; set; } = [];
 }

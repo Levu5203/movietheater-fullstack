@@ -72,7 +72,6 @@ export class RoommanagementComponent
 
   constructor(
     @Inject(ROOM_SERVICE) private readonly roomService: IRoomService,
-    @Inject(MODAL_SERVICE) private readonly modalService: ModalService
   ) {
     super();
     this.isShowDetail = false;

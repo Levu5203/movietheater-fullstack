@@ -65,27 +65,46 @@ export class BookedTicketsComponent implements OnInit {
 
   loadBookedTickets() {
     const token = localStorage.getItem('accessToken');
-
+  
     if (!token) {
       console.error('Không tìm thấy token! Hãy đăng nhập lại.');
       return;
     }
-
+  
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
-
+  
     this.http.get<any[]>('http://localhost:5063/api/Ticket/booked', { headers })
       .subscribe(
         (data) => {
-          this.bookedTickets = data;
+          this.bookedTickets = data.map(ticket => ({
+            ...ticket,
+            status: this.mapStatusToString(ticket.status)
+          }));
           console.log('Danh sách vé đã đặt:', this.bookedTickets);
         },
         (error) => {
           console.error('Lỗi khi lấy danh sách vé đã đặt:', error);
         }
       );
+  }
+  
+
+  mapStatusToString(status: number): string {
+    switch (status) {
+      case 1:
+        return 'WaitForPayment';
+      case 2:
+        return 'AlreadyPaid';
+      case 3:
+        return 'Cancelled';
+      case 4:
+        return 'Used';
+      default:
+        return 'Unknown';
+    }
   }
 
   //Pagination 
@@ -112,7 +131,7 @@ export class BookedTicketsComponent implements OnInit {
     const filterData = this.filterForm.value;
     const fromDate = filterData.fromDate ? new Date(filterData.fromDate) : null;
     const toDate = filterData.toDate ? new Date(filterData.toDate) : null;
-    const status = filterData.status ? filterData.status.toLowerCase() : '';
+    const status = filterData.status ? filterData.status : '';
   
     return this.bookedTickets.filter(ticket => {
       const bookingDate = new Date(ticket.bookingDate); // Chuyển đổi ngày đặt vé sang kiểu Date
@@ -128,7 +147,7 @@ export class BookedTicketsComponent implements OnInit {
       }
   
       // Kiểm tra trạng thái
-      if (status && ticket.status.toLowerCase() !== status) {
+      if (status && ticket.status !== status) {
         return false;
       }
   

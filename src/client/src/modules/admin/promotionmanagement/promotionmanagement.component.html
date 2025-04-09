@@ -6,7 +6,12 @@
           <button class="mr-2 p-2 w-10 h-10 rounded-xl shadow-md hover:bg-gray-100 cursor-pointer">
               <fa-icon [icon]="faArrowLeft" class="w-6 h-6"></fa-icon>
           </button>
-          <input type="text" placeholder="Search" class="flex-1 px-4 py-2 rounded-3xl bg-gray-200 hover:bg-gray-300 cursor-pointer">
+          <input
+           type="text" placeholder="Search" class="flex-1 px-4 py-2 rounded-3xl bg-gray-200 hover:bg-gray-300 cursor-pointer"
+           [(ngModel)]="searchKeyword"
+           [ngModelOptions]="{standalone: true}"
+           (input)="updateSearchResults()"
+           />
           <button id="filterButton"
               class="ml-2 p-2 w-10 h-10 text-gray-700 rounded-xl hover:bg-gray-100 cursor-pointer"
               [ngClass]="isDropdownOpen ? 'bg-gray-100 shadow-inner shadow-gray-300' : ''" (click)="toggleDropdown()">
@@ -62,8 +67,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let promotion of promotions, let i = index" class="hover:bg-gray-50 border-b border-[#E8F1FD]">
-            <td class="px-4 py-2">{{ i + 1 }}</td>
+          <tr *ngFor="let promotion of displayedPromotions, let i = index" class="hover:bg-gray-50 border-b border-[#E8F1FD]">
+            <td class="px-4 py-2">{{ (currentPage - 1) * itemsPerPage + i + 1  }}</td>
             <td class="px-4 py-2">{{ promotion.promotionTitle }}</td>
             <td class="px-4 py-2">{{ promotion.startDate }}</td>
             <td class="px-4 py-2">{{ promotion.endDate }}</td>
@@ -76,8 +81,8 @@
                     <fa-icon [icon]="faEdit" class="text-gray-500"></fa-icon>
                   </a>
                 </button>
-                <button class="text-red-500 hover:text-red-700">
-                  <a href="">
+                <button (click)="deletePromotion(promotion.id)" class="text-red-500 hover:text-red-700">
+                  <a>
                     <fa-icon [icon]="faTrash" class="text-gray-500"></fa-icon>
                   </a>
                 </button>
@@ -90,9 +95,9 @@
     
       <!-- Mobile View -->
       <div class="md:hidden">
-        <div *ngFor="let promotion of promotions, let i = index" class="flex justify-between border-b border-[#E8F1FD] p-4 bg-white items-center">
+        <div *ngFor="let promotion of displayedPromotions, let i = index" class="flex justify-between border-b border-[#E8F1FD] p-4 bg-white items-center">
           <div>
-            <p class="font-bold"># {{ i + 1 }}</p>
+            <p class="font-bold"># {{ (currentPage - 1) * itemsPerPage + i + 1  }}</p>
             <p><span class="font-semibold">Title:</span> {{ promotion.promotionTitle }}</p>
             <p><span class="font-semibold">Start Time:</span> {{ promotion.startDate }}</p>
             <p><span class="font-semibold">End Time:</span> {{ promotion.endDate }} min</p>
@@ -115,32 +120,38 @@
         </div>
       </div>
     </div>
+    <!-- paging -->
+    <div class="flex justify-center items-center py-4 px-10 text-sm">
+      <button (click)="firstPage()"
+          class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer"
+          [disabled]="currentPage === 1">
+          <fa-icon [icon]="faAnglesLeft"></fa-icon>
+      </button>
+      <button (click)="prevPage()"
+          class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer"
+          [disabled]="currentPage === 1">
+          <fa-icon [icon]="faAngleLeft"></fa-icon>
+      </button>
     
-
-      <div class="flex justify-center items-center py-4 px-10 text-sm">
-        <button
-            class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer">
-            <fa-icon [icon]="faAnglesLeft" class=""></fa-icon>
-        </button>
-        <button
-            class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer">
-            <fa-icon [icon]="faAngleLeft" class=""></fa-icon>
-        </button>
-        <div class="flex items-center mx-4">
-            <span>Page</span>
-            <input type="number" [(ngModel)]="currentPage" class="w-12 mx-2 text-center border rounded" min="1"
-                [max]="totalPages">
-            <span>/ {{totalPages}}</span>
-        </div>
-        <button
-            class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer">
-            <fa-icon [icon]="faAngleRight" class=""></fa-icon>
-        </button>
-        <button
-            class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer">
-            <fa-icon [icon]="faAnglesRight" class=""></fa-icon>
-        </button>
+      <div class="flex items-center mx-4">
+          <span>Page</span>
+          <input type="number" [(ngModel)]="currentPage" (change)="goToPage(currentPage)"
+              class="w-12 mx-2 text-center border rounded" min="1" [max]="totalPages">
+          <span>/ {{ totalPages }}</span>
       </div>
+    
+      <button (click)="nextPage()"
+          class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer"
+          [disabled]="currentPage === totalPages">
+          <fa-icon [icon]="faAngleRight"></fa-icon>
+      </button>
+      <button (click)="lastPage()"
+          class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer"
+          [disabled]="currentPage === totalPages">
+          <fa-icon [icon]="faAnglesRight"></fa-icon>
+      </button>
+    </div>
+    
       
   </div>
   

@@ -1,13 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using MovieTheater.Models.Security;
 
 namespace MovieTheater.Models.Common;
 
 [Table("Genres", Schema = "Common")]
-public class Genre
+public class Genre : MasterDataBaseEntity, IMasterDataBaseEntity
 {
-    [Required(ErrorMessage = "GenreId is required")]
-    public required Guid GenreId { get; set; }
 
     [EnumDataType(typeof(GenreType), ErrorMessage = "Invalid Type")]
     [StringLength(50, ErrorMessage = "Genre Type can't be longer than 50 characters")]

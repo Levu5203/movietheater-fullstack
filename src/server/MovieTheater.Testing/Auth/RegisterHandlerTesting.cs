@@ -2,6 +2,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Moq;
 using MovieTheater.Business.Handlers.Auth;
 using MovieTheater.Business.Services;
@@ -12,7 +14,7 @@ using MovieTheater.Data.UnitOfWorks;
 using MovieTheater.Models.Security;
 using static MovieTheater.Core.Constants.CoreConstants.RoleConstants;
 
-namespace MovieTheater.Testing.Handlers.Auth;
+namespace MovieTheater.Testing.Auth;
 
 [TestFixture]
 public class RegisterRequestCommandHandlerTests
@@ -48,13 +50,22 @@ public class RegisterRequestCommandHandlerTests
         store.As<IUserRoleStore<User>>();
 
         _userManagerMock = new Mock<UserManager<User>>(
-            store.Object, null, null, null, null, null, null, null, null);
+            store.Object,
+            Mock.Of<IOptions<IdentityOptions>>(),
+            new PasswordHasher<User>(),
+            new List<IUserValidator<User>> { new UserValidator<User>() },
+            new List<IPasswordValidator<User>> { new PasswordValidator<User>() },
+            Mock.Of<ILookupNormalizer>(),
+            new IdentityErrorDescriber(),
+            Mock.Of<IServiceProvider>(),
+            Mock.Of<ILogger<UserManager<User>>>()
+        );
 
         // Setup default mock behaviors
         _userManagerMock.Setup(x => x.FindByNameAsync(It.IsAny<string>()))
-            .ReturnsAsync((User)null);
+            .ReturnsAsync((User?)null);
         _userManagerMock.Setup(x => x.FindByEmailAsync(It.IsAny<string>()))
-            .ReturnsAsync((User)null);
+            .ReturnsAsync((User?)null);
         _userManagerMock.Setup(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<string>()))
             .ReturnsAsync(IdentityResult.Success);
         _userManagerMock.Setup(x => x.AddToRoleAsync(It.IsAny<User>(), Customer))
