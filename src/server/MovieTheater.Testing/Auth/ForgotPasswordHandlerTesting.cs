@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Moq;
 using MovieTheater.Business.Handlers.Auth;
 using MovieTheater.Business.Services;
 using MovieTheater.Models.Security;
 
-namespace MovieTheater.Testing.Handlers.Auth;
+namespace MovieTheater.Testing.Auth;
 
 [TestFixture]
 public class ForgotPasswordCommandHandlerTests
@@ -23,7 +25,16 @@ public class ForgotPasswordCommandHandlerTests
         var store = new Mock<IUserStore<User>>();
         store.As<IUserEmailStore<User>>();
         _userManagerMock = new Mock<UserManager<User>>(
-            store.Object, null, null, null, null, null, null, null, null);
+            store.Object,
+            new Mock<IOptions<IdentityOptions>>().Object,
+            new Mock<IPasswordHasher<User>>().Object,
+            new List<IUserValidator<User>>().AsReadOnly(),
+            new List<IPasswordValidator<User>>().AsReadOnly(),
+            new Mock<ILookupNormalizer>().Object,
+            new Mock<IdentityErrorDescriber>().Object,
+            new Mock<IServiceProvider>().Object,
+            new Mock<ILogger<UserManager<User>>>().Object
+        );
 
         // Setup test user
         _testUser = new User
@@ -34,7 +45,7 @@ public class ForgotPasswordCommandHandlerTests
             EmailConfirmed = true,
             FirstName = "testuser",
             LastName = "testuser",
-            PasswordHash = new PasswordHasher<User>().HashPassword(null, "testpassword"),
+            PasswordHash = new PasswordHasher<User>().HashPassword(_testUser, "testpassword"),
             IsActive = true,
             IsDeleted = false,
             Gender = "male",
@@ -92,7 +103,7 @@ public class ForgotPasswordCommandHandlerTests
     {
         // Arrange
         _userManagerMock.Setup(x => x.FindByEmailAsync("nonexistent@example.com"))
-            .ReturnsAsync((User)null);
+            .ReturnsAsync((User?)null);
 
         var command = new ForgotPasswordCommand { Email = "nonexistent@example.com" };
 
