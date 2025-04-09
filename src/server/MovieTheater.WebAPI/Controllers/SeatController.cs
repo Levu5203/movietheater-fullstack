@@ -2,6 +2,7 @@ using System;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Business.Handlers.Seat;
+using MovieTheater.Business.ViewModels.Invoice;
 using MovieTheater.Business.ViewModels.Ticket;
 
 namespace MovieTheater.WebAPI.Controllers
@@ -20,7 +21,7 @@ namespace MovieTheater.WebAPI.Controllers
         private readonly IMediator _mediator = mediator;
 
         [HttpPost("reserve")]
-        [ProducesResponseType(typeof(IEnumerable<TicketViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(InvoicePreviewViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> ReserveAsync([FromBody] SeatReverveCommand command)
         {

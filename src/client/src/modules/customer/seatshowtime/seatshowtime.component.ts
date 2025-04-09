@@ -8,6 +8,7 @@ import { SeatViewModel } from '../../../models/seat/seat.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { InvoiceviewModel } from '../../../models/invoice/invoiceview.model';
+import { MovieviewModel } from '../../../models/movie/movieview.model';
 
 @Component({
   selector: 'app-seatshowtime',
@@ -17,6 +18,8 @@ import { InvoiceviewModel } from '../../../models/invoice/invoiceview.model';
 })
 export class SeatshowtimeComponent implements OnInit{
   showtimeId!: string;
+  movieId!: string;
+  movie!: MovieviewModel;
   showtime!: ShowtimeviewModel;
   room!: CinemaRoomViewModel;
   seats: SeatViewModel[] = [];
@@ -27,11 +30,9 @@ export class SeatshowtimeComponent implements OnInit{
     this.route.paramMap.subscribe((params) => {
       this.showtimeId = params.get('id') || '';
       if (this.showtimeId) {
-        console.log(this.showtimeId);
         this.getRoomAndSeats();
       }
     });
-
     this.route.queryParams.subscribe((params) => {
       if (params['id']) {
         this.showtimeId = params['id'];
@@ -74,19 +75,20 @@ export class SeatshowtimeComponent implements OnInit{
       )
       .subscribe((response: ShowtimeviewModel) => {
         this.showtime = response;
-        console.log('Seats data:', this.seats);
+        console.log('showtime data:', this.showtime.movieId);
+        this.getMovieDetail();
       });
   }
   // Chọn hoặc bỏ chọn ghế
   toggleSeatSelection(seat: SeatViewModel) {
-    // if (seat.seatStatus === 1) return;
+    if (seat.seatStatus !== 1) return;
     seat.isActive = !seat.isActive;
     console.log(`Seat ${seat.row}${seat.column} selected:`, seat.isActive);
     this.selectedSeats = this.getSelectedSeats();
   }
   // Lấy danh sách ghế đã chọn để tạo invoice
   getSelectedSeats() {
-    return this.seats.filter((seat) => seat.isActive);
+    return this.seats.filter((seat) => seat.isActive === false);
   }
   confirmSeats() {
     this.selectedSeats = this.getSelectedSeats();
@@ -113,10 +115,30 @@ export class SeatshowtimeComponent implements OnInit{
     });
   }
   reserveSeats(showTimeId: string, seatIds: string[]): Observable<InvoiceviewModel> {
-    return this.http.post<InvoiceviewModel>(`http://localhost:5063/api/Seat/reserve`, {
+    return this.http.post<InvoiceviewModel>(`http://localhost:5063/api/v1/Seat/reserve`, {
       showTimeId,
       seatIds,
     });
+  }
+  //getmoviedetail
+  private getMovieDetail() {
+    this.movieId = this.showtime.movieId;
+    this.http.get<MovieviewModel>(
+      `http://localhost:5063/api/v1/Movie/${this.movieId}`
+    ).subscribe((response: MovieviewModel) => {
+      this.movie = response;
+      console.log('Movie data:', this.showtime.movieId);
+    });
+  }
+  
+  groupSeatsByRow(): { [key: string]: SeatViewModel[] } {
+    return this.seats.reduce((acc, seat) => {
+      if (!acc[seat.row]) {
+        acc[seat.row] = [];
+      }
+      acc[seat.row].push(seat);
+      return acc;
+    }, {} as { [key: string]: SeatViewModel[] });
   }
 
 }

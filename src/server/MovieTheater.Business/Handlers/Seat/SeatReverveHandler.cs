@@ -1,7 +1,7 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using MovieTheater.Business.ViewModels.Ticket;
+using MovieTheater.Business.ViewModels.Invoice;
 using MovieTheater.Core.Exceptions;
 using MovieTheater.Data.Repositories;
 using MovieTheater.Data.UnitOfWorks;
@@ -10,10 +10,10 @@ using MovieTheater.Models.Common;
 namespace MovieTheater.Business.Handlers.Seat;
 
 public class SeatReverveHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserIdentity userIdentity) : BaseHandler(unitOfWork, mapper),
-                                IRequestHandler<SeatReverveCommand, IEnumerable<TicketViewModel>>
+                                IRequestHandler<SeatReverveCommand, InvoicePreviewViewModel>
 {
     private readonly IUserIdentity currentUser = userIdentity;
-    public async Task<IEnumerable<TicketViewModel>> Handle(SeatReverveCommand request, CancellationToken cancellationToken)
+    public async Task<InvoicePreviewViewModel> Handle(SeatReverveCommand request, CancellationToken cancellationToken)
     {
         using var transaction = await unitOfWork.BeginTransactionAsync();
         try
@@ -38,6 +38,7 @@ public class SeatReverveHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserIde
                 AddedScore = 0,
                 User = await _unitOfWork.UserRepository.GetByIdAsync(currentUser.UserId),
                 ShowTimeId = showtime.Id,
+                // InvoiceStatus = InvoiceStatus.Pending
             };
             //set seats to pendding
             foreach (var seat in seats)
@@ -52,7 +53,7 @@ public class SeatReverveHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserIde
                 Id = Guid.NewGuid(),
                 SeatId = seat.Id,
                 Price = 50000,
-                Status = TicketStatus.Paid,
+                Status = TicketStatus.Pending,
                 BookingDate = DateTime.Now,
                 InvoiceId = invoice.Id,
                 ShowTimeId = showtime.Id,
@@ -68,7 +69,7 @@ public class SeatReverveHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserIde
             _unitOfWork.InvoiceRepository.Add(invoice);
             await unitOfWork.SaveChangesAsync();
             await transaction.CommitAsync();
-            return _mapper.Map<IEnumerable<TicketViewModel>>(tickets);
+            return _mapper.Map<InvoicePreviewViewModel>(invoice);
         }
         catch (Exception e)
         {

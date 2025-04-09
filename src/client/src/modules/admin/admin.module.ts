@@ -14,6 +14,7 @@ import { TicketconfirmComponent } from './ticketconfirm/ticketconfirm.component'
 import { AddmovieComponent } from './addmovie/addmovie.component';
 import { AddpromotionComponent } from './addpromotion/addpromotion.component';
 import { UpdatepromotionComponent } from './updatepromotion/updatepromotion.component';
+import { TiketsellingSelectseatComponent } from './ticketselling/tiketselling-selectseat/tiketselling-selectseat.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -30,6 +31,8 @@ const routes: Routes = [
   { path: 'addpromotion', component: AddpromotionComponent },
   { path: 'updatepromotion/:id', component: UpdatepromotionComponent },
   { path: 'updatepromotion', component: UpdatepromotionComponent },
+  { path: 'ticketselling-selectseat', component: TiketsellingSelectseatComponent },
+
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
