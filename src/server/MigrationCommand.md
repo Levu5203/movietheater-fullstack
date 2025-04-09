@@ -4,7 +4,7 @@
 
 ### Add a migration
 ```bash
-dotnet ef migrations add AddGenreColumnsAndMovieEnddate --project MovieTheater.Data --startup-project MovieTheater.WebAPI --context MovieTheaterDbContext --output-dir Migrations
+dotnet ef migrations add UpdateTicketInvoiceModels --project MovieTheater.Data --startup-project MovieTheater.WebAPI --context MovieTheaterDbContext --output-dir Migrations
 dotnet ef migrations add [MigrationName] --project MovieTheater.Data --startup-project MovieTheater.API --context StorageDbContext --output-dir Migrations/Storage
 ```
 
@@ -21,7 +21,7 @@ dotnet ef database update AddStatusInvoice --project MovieTheater.Data --startup
 
 ### Drop the database
 ```bash
-dotnet ef database drop --project MovieTheater.WebAPI --startup-project MovieTheater.WebAPI --context MovieTheaterDbContext
+dotnet ef database drop --project MovieTheater.Data --startup-project MovieTheater.WebAPI --context MovieTheaterDbContext
 dotnet ef database drop --project MovieTheater.Data --startup-project MovieTheater.WebAPI --context StorageDbContext
 ```
 

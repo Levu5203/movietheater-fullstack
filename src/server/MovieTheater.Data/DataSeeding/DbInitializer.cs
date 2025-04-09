@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using MovieTheater.Models.Common;
 using MovieTheater.Models.Security;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace MovieTheater.Data.DataSeeding;
 
@@ -11,7 +12,7 @@ public static class DbInitializer
     public static void Seed(MovieTheaterDbContext context, UserManager<User> userManager, RoleManager<Role> roleManager,
         string rolesJsonPath, string usersJsonPath, string roomsJsonPath, string genreJsonPath, string moviesJsonPath,
         string showTimeSlotsJsonPath, string showTimeJsonPath, string invoicesJsonPath, string historyScoresJsonPath,
-        string promotionsJsonPath, string ticketsJsonPath)
+        string promotionsJsonPath)
     {
         context.Database.EnsureCreated();
 
@@ -45,12 +46,10 @@ public static class DbInitializer
         string jsonPromotions = File.ReadAllText(promotionsJsonPath);
         var promotions = JsonConvert.DeserializeObject<List<Promotion>>(jsonPromotions);
 
-        string jsonTickets = File.ReadAllText(ticketsJsonPath);
-        var tickets = JsonConvert.DeserializeObject<List<TicketJsonViewModel>>(jsonTickets);
 
         if (roles == null || users == null || rooms == null || genres == null || movies == null ||
             showTimeSlots == null || showTimes == null || invoices == null || historyScores == null ||
-            promotions == null || tickets == null)
+            promotions == null)
         {
             return;
         }
@@ -64,7 +63,7 @@ public static class DbInitializer
         SeedInvoices(context, invoices);
         SeedHistoryScores(context, historyScores);
         SeedPromotions(context, promotions);
-        SeedTickets(context, tickets);
+        SeedTickets(context);
 
         context.SaveChanges();
     }
@@ -170,10 +169,9 @@ public static class DbInitializer
                         SeatColumns = room.SeatColumns,
                         CreatedAt = DateTime.Now,
                     });
+                    GenerateSeatsForRoom(context, room);
                 }
                 context.SaveChanges();
-
-                GenerateSeatsForRoom(context, room);
             }
         }
     }
@@ -342,6 +340,9 @@ public static class DbInitializer
             {
                 var user = context.Users.Find(invoice.UserId);
                 var showTime = context.ShowTimes.Find(invoice.ShowTimeId);
+                var cinemaRoom = context.CinemaRooms.Find(invoice.CinemaRoomId);
+                var movie = context.Movies.Find(invoice.MovieId);
+
 
                 if (user == null || showTime == null)
                 {
@@ -358,6 +359,10 @@ public static class DbInitializer
                     User = user,
                     ShowTimeId = invoice.ShowTimeId,
                     ShowTime = showTime,
+                    CinemaRoomId = invoice.CinemaRoomId,
+                    CinemaRoom = cinemaRoom,
+                    MovieId = invoice.MovieId,
+                    Movie = movie,
                     CreatedAt = invoice.CreatedAt,
                     CreatedById = invoice.CreatedById,
                     IsActive = invoice.IsActive,
@@ -416,68 +421,67 @@ public static class DbInitializer
 
     private static Guid GetSeatId(MovieTheaterDbContext context, Guid cinemaRoomId, char row, int column)
     {
-        var seat = context.Seats.FirstOrDefault(s => 
-            s.CinemaRoomId == cinemaRoomId && 
-            s.Row == row && 
+        var seat = context.Seats.FirstOrDefault(s =>
+            s.CinemaRoomId == cinemaRoomId &&
+            s.Row == row &&
             s.Column == column);
-            
+
         if (seat == null)
         {
             throw new Exception($"Seat not found at row {row}, column {column} in room {cinemaRoomId}");
         }
-        
+
         return seat.Id;
     }
 
-    private static void SeedTickets(MovieTheaterDbContext context, List<TicketJsonViewModel> tickets)
+    private static void SeedTickets(MovieTheaterDbContext context)
     {
-        foreach (var ticket in tickets)
+        var invoices = context.Invoices
+            .Where(i => i.Tickets.Count == 0)
+            .Include(i => i.ShowTime)
+            .Include(i => i.CinemaRoom)
+            .Include(i => i.Movie)
+            .ToList();
+
+        var random = new Random();
+
+        foreach (var invoice in invoices)
         {
-            if (!ExistsInDb<Ticket>(context, x => x.Id == ticket.Id))
+            var seats = context.Seats
+                .Where(s => s.CinemaRoomId == invoice.CinemaRoomId)
+                .ToList();
+
+            int numberOfTickets = random.Next(1, 4);
+
+            var selectedSeats = seats.OrderBy(x => random.Next()).Take(numberOfTickets).ToList();
+
+            // Tạo vé cho mỗi ghế đã chọn
+            foreach (var seat in selectedSeats)
             {
-                var invoice = context.Invoices.Find(ticket.InvoiceId);
-                var promotion = context.Promotions.Find(ticket.PromotionId);
-
-                if (invoice == null || promotion == null)
+                var ticket = new Ticket
                 {
-                    Console.WriteLine($"Warning: Invoice or Promotion not found for Ticket {ticket.Id}");
-                    continue;
-                }
+                    Id = Guid.NewGuid(),
+                    Price = 100000, // Giá vé mặc định
+                    BookingDate = DateTime.Now,
+                    Status = TicketStatus.Paid,
+                    InvoiceId = invoice.Id,
+                    SeatId = seat.Id,
+                    Seat = seat,
+                    CinemaRoomId = invoice.CinemaRoomId,
+                    CinemaRoom = invoice.CinemaRoom,
+                    ShowTimeId = invoice.ShowTimeId,
+                    ShowTime = invoice.ShowTime,
+                    MovieId = invoice.MovieId,
+                    Movie = invoice.Movie,
+                    CreatedAt = DateTime.Now,
+                    IsActive = true,
+                    IsDeleted = false
+                };
 
-                // Kiểm tra xem phòng chiếu có khớp với invoice không
-                var showTime = context.ShowTimes.Find(invoice.ShowTimeId);
-                if (showTime == null || showTime.CinemaRoomId != ticket.CinemaRoomId)
-                {
-                    Console.WriteLine($"Warning: CinemaRoomId mismatch for Ticket {ticket.Id}. Expected: {showTime?.CinemaRoomId}, Got: {ticket.CinemaRoomId}");
-                    continue;
-                }
-
-                try
-                {
-                    // Lấy ID của ghế dựa trên vị trí và phòng chiếu
-                    var seatId = GetSeatId(context, ticket.CinemaRoomId, ticket.Row, ticket.Column);
-
-                    context.Tickets.Add(new Ticket
-                    {
-                        Id = ticket.Id,
-                        Price = ticket.Price,
-                        BookingDate = ticket.BookingDate,
-                        Status = TicketStatus.AlreadyPaid,
-                        InvoiceId = ticket.InvoiceId,
-                        SeatId = seatId,
-                        PromotionId = ticket.PromotionId,
-                        CreatedAt = ticket.CreatedAt,
-                        IsActive = ticket.IsActive,
-                        IsDeleted = ticket.IsDeleted
-                    });
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Warning: {ex.Message} for Ticket {ticket.Id}");
-                    continue;
-                }
+                context.Tickets.Add(ticket);
             }
         }
+
         context.SaveChanges();
     }
 

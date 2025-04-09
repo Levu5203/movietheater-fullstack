@@ -15,6 +15,8 @@ public class CinemaRoom : MasterDataBaseEntity, IMasterDataBaseEntity
 
     [Required(ErrorMessage = "SeatColumns is required")]
     public int SeatColumns { get; set; }    
+
+    public int Capacity => SeatColumns*SeatRows;
     public virtual ICollection<Seat> Seats { get; set; } = [];
     public virtual ICollection<ShowTime> ShowTimes { get; set; } = [];
 }

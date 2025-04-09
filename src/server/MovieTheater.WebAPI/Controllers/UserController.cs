@@ -3,12 +3,12 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Business.Handlers.Profile;
-using MovieTheater.Business.Handlers.Users;
-using MovieTheater.Business.ViewModels.Users;
-using MovieTheater.Core;
 
 namespace MovieTheater.WebAPI.Controllers;
 
+/// <summary>
+/// Controller for managing user-related operations.
+/// </summary>
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiController]
 [ApiVersion("1.0")]
@@ -17,10 +17,13 @@ public class UserController(IMediator mediator) : ControllerBase
 {
     private readonly IMediator _mediator = mediator;
 
+    /// <summary>
+    /// Retrieves the profile information of the currently logged-in user.
+    /// </summary>
+    /// <returns>The user profile data if found; otherwise, appropriate error response.</returns>
     [HttpGet]
     public async Task<IActionResult> GetProfile()
     {
-        // Lấy Id từ token
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
         if (userId == null || !Guid.TryParse(userId, out var userGuid))
@@ -30,9 +33,7 @@ public class UserController(IMediator mediator) : ControllerBase
 
         try
         {
-            // Tạo query để lấy profile
-            var query = new GetProfileByIdQuery { Id = userGuid };
-
+            var query = new ProfileGetByIdQuery { Id = userGuid };
             var result = await _mediator.Send(query);
 
             if (result == null)
@@ -48,10 +49,14 @@ public class UserController(IMediator mediator) : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Updates the profile information of the currently logged-in user.
+    /// </summary>
+    /// <param name="command">The profile data to be updated.</param>
+    /// <returns>Updated user profile information or error response.</returns>
     [HttpPut("edit")]
     public async Task<IActionResult> EditProfile([FromBody] EditProfileCommand command)
     {
-        // Lấy Id từ token
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
         if (userId == null || !Guid.TryParse(userId, out var userGuid))
@@ -59,7 +64,6 @@ public class UserController(IMediator mediator) : ControllerBase
             return BadRequest("UserId not found or invalid.");
         }
 
-        // Gán id vào command
         command.Id = userGuid;
 
         try
@@ -73,10 +77,14 @@ public class UserController(IMediator mediator) : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Changes the password of the currently logged-in user.
+    /// </summary>
+    /// <param name="command">The password change request including current and new passwords.</param>
+    /// <returns>Result of password change operation.</returns>
     [HttpPost("change-password")]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommand command)
     {
-        // Lấy Id từ token
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
         if (userId == null || !Guid.TryParse(userId, out _))
@@ -88,7 +96,9 @@ public class UserController(IMediator mediator) : ControllerBase
         {
             return BadRequest(new { message = "New password must be different from current password!" });
         }
+
         var result = await _mediator.Send(command);
+
         if (!result)
         {
             return BadRequest(new
@@ -99,6 +109,4 @@ public class UserController(IMediator mediator) : ControllerBase
 
         return Ok(new { message = "Password has been changed successfully." });
     }
-
 }
-

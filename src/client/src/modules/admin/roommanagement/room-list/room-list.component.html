@@ -1,214 +1,132 @@
-<section *ngIf="currentView === 'list'">
-    <div class="bg-white rounded-lg shadow w-full overflow-x-auto">
-        <h2 class="text-xl font-bold p-6">Room Management</h2>
-        <div class="flex justify-between items-center px-6">
-            <div class="flex items-center mb-4">
-                <button class="mr-2 p-2 w-10 h-10 rounded-xl shadow-md hover:bg-gray-100 cursor-pointer">
-                    <fa-icon [icon]="faArrowLeft" class="w-6 h-6"></fa-icon>
-                </button>
-                <input type="text" placeholder="Search"
-                    class="flex-1 px-4 py-2 rounded-3xl bg-gray-200 hover:bg-gray-300 cursor-pointer">
-                <button id="filterButton"
-                    class="ml-2 p-2 w-10 h-10 text-gray-700 rounded-xl hover:bg-gray-100 cursor-pointer"
-                    [ngClass]="isDropdownOpen ? 'bg-gray-100 shadow-inner shadow-gray-300' : ''"
-                    (click)="toggleDropdown()">
-                    <fa-icon [icon]="faFilter" class="fas fa-filter w-6 h-6"></fa-icon>
-                </button>
-            </div>
-        </div>
-        <!-- Filter Dropdown -->
-        <div id="filterDropdown" *ngIf="isDropdownOpen"
-            class="bg-gray-100 mx-4 px-8 py-4 border border-gray-300 rounded-lg shadow-md">
-            <div class="flex justify-between items-center border-b border-gray-300 mb-4">
-                <h3 class="text-lg font-bold mb-4">Filter Options</h3>
-                <button type="button" class="hover:underline cursor-pointer" id="resetFilter">
-                    <fa-icon [icon]="faRotateLeft" class="mr-2"></fa-icon>
-                    <span>Reset Filter</span>
-                </button>
-            </div>
-            <form>
-                <div class="grid grid-cols-3 gap-4">
-                    <div class="mb-4">
-                        <label class="text-gray-500 block">Seat Capacity</label>
-                        <div class="flex items-center space-x-2">
-                            <input type="number"
-                                class="border rounded px-2 py-1 hover:bg-gray-100 cursor-pointer w-full"
-                                placeholder="Min">
-                            <input type="number"
-                                class="border rounded px-2 py-1 hover:bg-gray-100 cursor-pointer w-full"
-                                placeholder="Max">
-                        </div>
-                    </div>
-                </div>
-                <div class="flex justify-end">
-                    <button type="button"
-                        class="text-black px-4 py-2 rounded mr-2 hover:bg-gray-100 hover:underline cursor-pointer"
-                        (click)="toggleDropdown()">Cancel</button>
-                    <button type="submit"
-                        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">Apply</button>
-                </div>
-            </form>
-        </div>
-        <div class="overflow-x-auto mt-4">
-            <table class="w-full text-left text-sm border-b border-gray-300">
-                <thead class="bg-blue-100 border-t border-gray-300">
-                    <tr>
-                        <th class="py-2 px-4">#</th>
-                        <th class="py-2 px-4">Cinema room ID</th>
-                        <th class="py-2 px-4">Cinema room</th>
-                        <th class="py-2 px-4">Seat capacity</th>
-                        <th class="py-2 px-4">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="border-t border-gray-300 hover:bg-gray-100">
-                        <td class="py-2 px-4">1</td>
-                        <td class="py-2 px-4">001</td>
-                        <td class="py-2 px-4">Cinema Room 01</td>
-                        <td class="py-2 px-4">48</td>
-                        <td class="py-2 px-4">
-                            <button (click)="onViewDetail(1)">
-                                <fa-icon [icon]="faInfoCircle"
-                                    class=" text-gray-500 w-6 h-6 hover:text-blue-500 cursor-pointer"></fa-icon>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="border-t border-gray-300 hover:bg-gray-100">
-                        <td class="py-2 px-4">2</td>
-                        <td class="py-2 px-4">002</td>
-                        <td class="py-2 px-4">Cinema Room 02</td>
-                        <td class="py-2 px-4">48</td>
-                        <td class="py-2 px-4">
-                            <button (click)="onViewDetail(2)">
-                                <fa-icon [icon]="faInfoCircle"
-                                    class=" text-gray-500 w-6 h-6 hover:text-blue-500 cursor-pointer"></fa-icon>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="border-t border-gray-300 hover:bg-gray-100">
-                        <td class="py-2 px-4">3</td>
-                        <td class="py-2 px-4">003</td>
-                        <td class="py-2 px-4">Cinema Room 03</td>
-                        <td class="py-2 px-4">48</td>
-                        <td class="py-2 px-4">
-                            <button (click)="onViewDetail(3)">
-                                <fa-icon [icon]="faInfoCircle"
-                                    class=" text-gray-500 w-6 h-6 hover:text-blue-500 cursor-pointer"></fa-icon>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="border-t border-gray-300 hover:bg-gray-100">
-                        <td class="py-2 px-4">4</td>
-                        <td class="py-2 px-4">004</td>
-                        <td class="py-2 px-4">Cinema Room 04</td>
-                        <td class="py-2 px-4">48</td>
-                        <td class="py-2 px-4">
-                            <button (click)="onViewDetail(4)">
-                                <fa-icon [icon]="faInfoCircle"
-                                    class=" text-gray-500 w-6 h-6 hover:text-blue-500 cursor-pointer"></fa-icon>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="border-t border-gray-300 hover:bg-gray-100">
-                        <td class="py-2 px-4">5</td>
-                        <td class="py-2 px-4">005</td>
-                        <td class="py-2 px-4">Cinema Room 05</td>
-                        <td class="py-2 px-4">48</td>
-                        <td class="py-2 px-4">
-                            <button (click)="onViewDetail(5)">
-                                <fa-icon [icon]="faInfoCircle"
-                                    class=" text-gray-500 w-6 h-6 hover:text-blue-500 cursor-pointer"></fa-icon>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="border-t border-gray-300 hover:bg-gray-100">
-                        <td class="py-2 px-4">6</td>
-                        <td class="py-2 px-4">006</td>
-                        <td class="py-2 px-4">Cinema Room 06</td>
-                        <td class="py-2 px-4">48</td>
-                        <td class="py-2 px-4">
-                            <button (click)="onViewDetail(6)">
-                                <fa-icon [icon]="faInfoCircle"
-                                    class=" text-gray-500 w-6 h-6 hover:text-blue-500 cursor-pointer"></fa-icon>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="border-t border-gray-300 hover:bg-gray-100">
-                        <td class="py-2 px-4">7</td>
-                        <td class="py-2 px-4">007</td>
-                        <td class="py-2 px-4">Cinema Room 07</td>
-                        <td class="py-2 px-4">48</td>
-                        <td class="py-2 px-4">
-                            <button (click)="onViewDetail(7)">
-                                <fa-icon [icon]="faInfoCircle"
-                                    class=" text-gray-500 w-6 h-6 hover:text-blue-500 cursor-pointer"></fa-icon>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="border-t border-gray-300 hover:bg-gray-100">
-                        <td class="py-2 px-4">8</td>
-                        <td class="py-2 px-4">008</td>
-                        <td class="py-2 px-4">Cinema Room 08</td>
-                        <td class="py-2 px-4">48</td>
-                        <td class="py-2 px-4">
-                            <button (click)="onViewDetail(8)">
-                                <fa-icon [icon]="faInfoCircle"
-                                    class=" text-gray-500 w-6 h-6 hover:text-blue-500 cursor-pointer"></fa-icon>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="border-t border-gray-300 hover:bg-gray-100">
-                        <td class="py-2 px-4">9</td>
-                        <td class="py-2 px-4">009</td>
-                        <td class="py-2 px-4">Cinema Room 09</td>
-                        <td class="py-2 px-4">48</td>
-                        <td class="py-2 px-4">
-                            <button (click)="onViewDetail(9)">
-                                <fa-icon [icon]="faInfoCircle"
-                                    class=" text-gray-500 w-6 h-6 hover:text-blue-500 cursor-pointer"></fa-icon>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="border-t border-gray-300 hover:bg-gray-100">
-                        <td class="py-2 px-4">10</td>
-                        <td class="py-2 px-4">010</td>
-                        <td class="py-2 px-4">Cinema Room 10</td>
-                        <td class="py-2 px-4">48</td>
-                        <td class="py-2 px-4">
-                            <button (click)="onViewDetail(10)">
-                                <fa-icon [icon]="faInfoCircle"
-                                    class=" text-gray-500 w-6 h-6 hover:text-blue-500 cursor-pointer"></fa-icon>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="pagination flex justify-center items-center py-4 px-10 text-sm">
-            <button
-                class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer">
-                <fa-icon [icon]="faAnglesLeft" class=""></fa-icon>
-            </button>
-            <button
-                class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer">
-                <fa-icon [icon]="faAngleLeft" class=""></fa-icon>
-            </button>
-            <div class="flex items-center mx-4">
-                <span>Page</span>
-                <input type="number" [(ngModel)]="currentPage" class="w-12 mx-2 text-center border rounded" min="1"
-                    [max]="totalPages">
-                <span>/ {{totalPages}}</span>
-            </div>
-            <button
-                class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer">
-                <fa-icon [icon]="faAngleRight" class=""></fa-icon>
-            </button>
-            <button
-                class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer">
-                <fa-icon [icon]="faAnglesRight" class=""></fa-icon>
-            </button>
-        </div>
-    </div>
-</section>
+<section class="">
+  <div
+    class="bg-white rounded-lg shadow w-full overflow-x-auto"
+    *ngIf="!isShowDetail"
+  >
+    <h2 class="text-xl font-bold p-4">Room Management</h2>
+    <form [formGroup]="searchForm" class="px-4">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center mb-4">
+          <input
+            type="text"
+            placeholder="Enter room name"
+            formControlName="keyword"
+            class="w-full min-w-[250px] px-4 py-2 rounded-3xl bg-gray-200 hover:bg-gray-300 cursor-pointer"
+          />
 
-<app-room-detail *ngIf="currentView === 'detail'"></app-room-detail>
+          <button
+            title="Search"
+            type="submit"
+            (click)="onSubmit()"
+            class="mx-2 p-2 w-10 h-10 text-gray-700 rounded-xl hover:bg-gray-100 cursor-pointer disabled:cursor-not-allowed"
+            [disabled]="searchForm.invalid"
+          >
+            <fa-icon [icon]="faSearch" class="w-6 h-6"></fa-icon>
+          </button>
+
+          <button
+            title="filter"
+            type="button"
+            id="filterButton"
+            class="p-2 w-10 h-10 text-gray-700 rounded-xl hover:bg-gray-100 cursor-pointer"
+            [ngClass]="
+              isDropdownOpen ? 'bg-gray-100 shadow-inner shadow-gray-300' : ''
+            "
+            (click)="toggleDropdown()"
+          >
+            <fa-icon [icon]="faFilter" class="fas fa-filter w-6 h-6"></fa-icon>
+          </button>
+        </div>
+      </div>
+      <!-- Filter Dropdown -->
+      <div
+        id="filterDropdown"
+        *ngIf="isDropdownOpen"
+        class="bg-gray-100 px-8 py-4 border border-gray-300 rounded-lg shadow-md w-full"
+      >
+        <div
+          class="flex justify-between items-center border-b border-gray-300 mb-4"
+        >
+          <h3 class="text-lg font-bold mb-4">Filter Options</h3>
+        </div>
+        <div class="grid grid-cols-3 gap-4">
+          <div class="flex flex-row space-x-2 mb-4">
+            <div class="flex flex-col space-x-2">
+              <label for="capacity" class="text-gray-500 block"
+                >Min Capacity</label
+              >
+              <input
+                type="number"
+                formControlName="minCapacity"
+                [max]="searchForm.get('maxCapacity')?.value"
+                (change)="syncValidation('min')"
+                class="w-full border rounded px-2 py-1 hover:bg-gray-100 cursor-pointer"
+                placeholder="Min Capacity"
+              />
+              <div
+                *ngIf="searchForm.get('minCapacity')?.hasError('invalidRange')"
+                class="text-red-500 text-xs italic"
+              >
+                Min capacity must be less than or equal to max capacity
+              </div>
+            </div>
+            <div class="flex flex-col space-x-2">
+              <label for="capacity" class="text-gray-500 block"
+                >Max Capacity</label
+              >
+              <input
+                type="number"
+                formControlName="maxCapacity"
+                [min]="searchForm.get('minCapacity')?.value"
+                (change)="syncValidation('max')"
+                class="w-full border rounded px-2 py-1 hover:bg-gray-100 cursor-pointer"
+                placeholder="Max Capacity"
+              />
+              <div
+                *ngIf="searchForm.get('maxCapacity')?.hasError('invalidRange')"
+                class="text-red-500 text-xs italic"
+              >
+                Max capacity must be greater than or equal to min capacity
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-end">
+          <button
+            type="button"
+            class="text-black px-4 py-2 rounded mr-2 hover:bg-gray-100 hover:underline cursor-pointer"
+            (click)="toggleDropdown()"
+          >
+            Cancel
+          </button>
+          <button
+            type="reset"
+            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer"
+          >
+            Reset
+          </button>
+        </div>
+      </div>
+    </form>
+    <app-table
+      class="text-center"
+      [isShowNumber]="true"
+      [deletable]="false"
+      [infoable]="false"
+      [lockable]="false"
+      [columns]="columns"
+      [data]="data"
+      [currentPage]="currentPage"
+      (onPageChange)="onPageChange($event)"
+      (onEdit)="viewRoomDetails($event)"
+    >
+    </app-table>
+  </div>
+
+  <app-room-detail
+    *ngIf="isShowDetail"
+    [room]="selectedRoom"
+    (onClose)="onCloseDetail()"
+  ></app-room-detail>
+</section>

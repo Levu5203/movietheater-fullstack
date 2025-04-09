@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, Inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import {
   FontAwesomeModule,
   IconDefinition,
@@ -24,18 +24,22 @@ import { IAuthService } from '../../../../services/auth/auth-service.interface';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [FontAwesomeModule, CommonModule],
+  standalone: true,
+  imports: [FontAwesomeModule, CommonModule, RouterModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
   constructor(
-    private router: Router,
+    private readonly router: Router,
     @Inject(AUTH_SERVICE) private authService: IAuthService
   ) {}
 
   public isActive(route: string): boolean {
     return this.router.url === route; // Kiểm tra trang hiện tại
+  }
+  public isPermitted(): boolean {
+    return this.authService.hasAnyRole(['Admin']);
   }
 
   //#region Font Awesome Icons
@@ -55,6 +59,8 @@ export class SidebarComponent {
   ngOnInit(): void {
     this.checkScreenSize(); // Kiểm tra kích thước màn hình khi component khởi tạo
     this.restoreDropdownState(); // Khôi phục trạng thái dropdown từ localStorage
+    this.userRoles =
+      this.authService.getUserInformationFromAccessToken()?.roles || [];
   }
 
   private restoreDropdownState() {
@@ -72,7 +78,7 @@ export class SidebarComponent {
 
   private checkScreenSize() {
     if (window.innerWidth < 768) {
-      this.isShowSidebar = false; // Tự động thu nhỏ khi màn hình nhỏ hơn 1024px
+      this.isShowSidebar = false; // Tự động thu nhỏ khi màn hình nhỏ hơn 768px
     } else {
       this.isShowSidebar = true;
     }
@@ -102,4 +108,5 @@ export class SidebarComponent {
   public isShowSidebar: boolean = true;
   public isUserDropdownOpen: boolean = false;
   public isTicketDropdownOpen: boolean = false;
+  public userRoles: string[] = [];
 }

@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class CustomFormatPipe implements PipeTransform {
   transform(value: any, type: string): any {
-    if (!value) return;
+    if (!value && value !== false) return;
 
     switch (type) {
       case 'year':
@@ -25,6 +25,12 @@ export class CustomFormatPipe implements PipeTransform {
         return new Intl.DateTimeFormat('en-US', { timeStyle: 'short' }).format(
           new Date(value)
         );
+      case 'timeShort':
+        return new Intl.DateTimeFormat('en-US', {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false,
+        }).format(new Date(value));
       case 'currency':
         return new Intl.NumberFormat('vi-VN', {
           style: 'currency',
@@ -38,6 +44,8 @@ export class CustomFormatPipe implements PipeTransform {
         return value.toUpperCase();
       case 'lowercase':
         return value.toLowerCase();
+      case 'active':
+        return value ? 'Active' : 'Inactive';
       default:
         return value;
     }

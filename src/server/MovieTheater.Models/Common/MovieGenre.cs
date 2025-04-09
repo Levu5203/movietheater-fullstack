@@ -9,7 +9,6 @@ public class MovieGenre : BaseEntity
 
     [ForeignKey(nameof(MovieId))]
     public Movie? Movie { get; set; }
-
     public Guid GenreId { get; set; } 
 
     [ForeignKey(nameof(GenreId))]

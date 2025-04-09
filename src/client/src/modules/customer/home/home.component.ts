@@ -1,15 +1,27 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FontAwesomeModule, IconDefinition } from '@fortawesome/angular-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { MOVIE_SERVICE } from '../../../constants/injection.constant';
+import { IMovieServiceInterface } from '../../../services/movie/movie-service.interface';
+import { MovieviewModel } from '../../../models/movie/movieview.model';
+import { ServicesModule } from '../../../services/services.module';
+import { MasterDataListComponent } from '../../../core/components/master-data/master-data.component';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, FontAwesomeModule],
+  imports: [CommonModule, FontAwesomeModule, ServicesModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent extends MasterDataListComponent<MovieviewModel>  implements OnInit{
+  public movies: MovieviewModel[] = [];
+  constructor(
+    @Inject(MOVIE_SERVICE) private readonly movieService: IMovieServiceInterface,
+  ) {
+    super();
+  }
+
   images = [
     '../assets/film1.jpg',
     '../assets/film2.jpg',
@@ -17,16 +29,7 @@ export class HomeComponent {
     '../assets/film4.jpg',
     '../assets/film5.jpg'
   ];
-
-  movies = [
-    { title: 'Movie Title 1', image: '../assets/anhkhongdau.png' },
-    { title: 'Movie Title 2', image: '../assets/anhkhongdau.png' },
-    { title: 'Movie Title 3', image: '../assets/anhkhongdau.png' },
-    { title: 'Movie Title 4', image: '../assets/macarong.png' },
-    { title: 'Movie Title 5', image: '../assets/macarong.png' },
-    { title: 'Movie Title 6', image: '../assets/macarong.png' }
-  ];
-
+  
   promotions1 = [
     '../assets/km1.png',
     '../assets/km2.png',
@@ -46,9 +49,18 @@ export class HomeComponent {
   currentIndex = 0;
   interval: any;
 
-  constructor() {
+  override ngOnInit() {
+    this.getAll();
     this.startSlideshow();
+
   }
+  getAll(): void {
+    this.movieService.getAll().subscribe((res) => {
+      this.movies = res.filter(movie => movie.showtimes && movie.showtimes.length > 0);
+    });
+  
+  }
+
 
   startSlideshow() {
     this.interval = setInterval(() => {

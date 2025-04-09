@@ -18,7 +18,7 @@
             Choose image
           </button>
         </div>
-       
+
         <div>
           <label for="gender" class="block mb-2"
             >Gender<span class="text-red-500 ml-1">*</span></label
@@ -114,7 +114,7 @@
             "
             class="text-red-500 text-sm"
           >
-            First name is required with 1-50 characters.
+            Username is required with 5-50 characters.
           </span>
         </div>
         <div>
@@ -124,7 +124,7 @@
           <input
             type="email"
             formControlName="email"
-            class="w-full px-4 py-2 border border-gray-500 hover:bg-gray-100 rounded"
+            class="w-full px-4 py-2 border border-gray-500 hover:bg-gray-100 rounded disabled:cursor-not-allowed"
             placeholder="Enter email"
             required
             [ngClass]="{
@@ -222,8 +222,9 @@
         </button>
         <button
           type="submit"
-          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer disabled:cursor-not-allowed"
           (click)="onSubmit()"
+          [disabled]="form.pristine || form.invalid"
         >
           Save
         </button>

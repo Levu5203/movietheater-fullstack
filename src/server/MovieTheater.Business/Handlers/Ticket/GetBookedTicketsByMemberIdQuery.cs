@@ -1,5 +1,3 @@
-using System;
-using MediatR;
 using MovieTheater.Business.ViewModels.Ticket;
 
 namespace MovieTheater.Business.Handlers.Ticket;
@@ -13,5 +11,3 @@ public class GetBookedTicketsByMemberIdQuery : BaseGetByIdQuery<List<BookedTicke
         MemberId = memberId;
     }
 }
-
-

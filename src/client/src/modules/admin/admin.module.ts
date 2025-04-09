@@ -9,11 +9,10 @@ import { RoommanagementComponent } from './roommanagement/room-list/room-list.co
 import { SettingComponent } from './setting/setting.component';
 import { RouterModule, Routes } from '@angular/router';
 import { TicketsellingComponent } from './ticketselling/ticketselling.component';
-import { TicketlistComponent } from './ticketlist/ticketlist.component';
+import { BookingManagementComponent } from './bookingmanagement/bookingmanagement.component';
 import { TicketconfirmComponent } from './ticketconfirm/ticketconfirm.component';
 import { AddmovieComponent } from './addmovie/addmovie.component';
 import { AddpromotionComponent } from './addpromotion/addpromotion.component';
-import { UpdatemovieComponent } from './updatemovie/updatemovie.component';
 import { UpdatepromotionComponent } from './updatepromotion/updatepromotion.component';
 
 const routes: Routes = [
@@ -22,9 +21,9 @@ const routes: Routes = [
   { path: 'employeemanagement', component: EmployeemanagementComponent },
   { path: 'moviemanagement', component: MoviemanagementComponent },
   { path: 'promotionmanagement', component: PromotionmanagementComponent },
-  { path: 'roommanagement', component: RoommanagementComponent },
+  { path: 'rooms', component: RoommanagementComponent },
   { path: 'ticketselling', component: TicketsellingComponent },
-  { path: 'ticketlist', component: TicketlistComponent },
+  { path: 'bookingmanagement', component: BookingManagementComponent },
   { path: 'setting', component: SettingComponent },
   { path: 'ticketconfirm', component: TicketconfirmComponent },
   { path: 'addmovie', component: AddmovieComponent },

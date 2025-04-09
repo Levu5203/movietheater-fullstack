@@ -16,7 +16,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { CommonModule } from '@angular/common';
 import {
-  AbstractControl,
   FormControl,
   FormGroup,
   FormsModule,
@@ -68,6 +67,7 @@ export class CustomermanagementComponent
     { name: 'Year of birth', value: 'dateOfBirth', type: 'year' },
     { name: 'Email', value: 'email' },
     { name: 'Phone Number', value: 'phoneNumber' },
+    { name: 'Status', value: 'isActive', type: 'active' },
   ];
 
   constructor(
@@ -80,6 +80,10 @@ export class CustomermanagementComponent
     this.searchForm = new FormGroup({
       keyword: new FormControl(''),
       gender: new FormControl(''),
+      isActive: new FormControl(null),
+    });
+    this.searchForm.valueChanges.subscribe(() => {
+      this.onSubmit();
     });
   }
 
@@ -104,5 +108,13 @@ export class CustomermanagementComponent
 
       // Scroll into view
     }, 150);
+  }
+  public updateStatus(id: string): void {
+    this.customerService.updateStatus(id).subscribe((data) => {
+      // Neu update status duoc thi goi lai ham getData de load lai du lieu
+      if (data) {
+        this.searchData();
+      }
+    });
   }
 }

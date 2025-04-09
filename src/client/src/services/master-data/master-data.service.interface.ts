@@ -6,7 +6,7 @@ export interface IMasterDataService<T> {
 
   search(filter: any): Observable<PaginatedResult<T>>;
 
-  getById(id: number): Observable<T>;
+  getById(id: string): Observable<T>;
 
   create(data: T): Observable<T>;
 
