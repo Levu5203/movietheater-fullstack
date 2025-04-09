@@ -1,18 +1,31 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ResetpasswordComponent } from './resetpassword.component';
+import { ResetPasswordComponent } from './resetpassword.component';
+import { MockAuthService } from '../../../../testing/mock-service';
+import { AUTH_SERVICE } from '../../../constants/injection.constant';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-describe('ResetpasswordComponent', () => {
-  let component: ResetpasswordComponent;
-  let fixture: ComponentFixture<ResetpasswordComponent>;
+describe('ResetPasswordComponent', () => {
+  let component: ResetPasswordComponent;
+  let fixture: ComponentFixture<ResetPasswordComponent>;
+  let mockAuthService: MockAuthService;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ResetpasswordComponent]
-    })
-    .compileComponents();
+    mockAuthService = new MockAuthService();
 
-    fixture = TestBed.createComponent(ResetpasswordComponent);
+    await TestBed.configureTestingModule({
+      imports: [
+        ResetPasswordComponent,
+        ReactiveFormsModule,
+        CommonModule,
+        FontAwesomeModule,
+      ],
+      providers: [{ provide: AUTH_SERVICE, useValue: mockAuthService }],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(ResetPasswordComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
