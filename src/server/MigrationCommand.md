@@ -16,7 +16,7 @@ dotnet ef database update --project MovieTheater.Data --startup-project MovieThe
 
 ### Roll Back a migration
 ```bash
-dotnet ef database update InitialCommonAndSecuritySchemaAndConfig --project MovieTheater.Data --startup-project MovieTheater.WebAPI --context MovieTheaterDbContext
+dotnet ef database update AddStatusInvoice --project MovieTheater.Data --startup-project MovieTheater.WebAPI --context MovieTheaterDbContext
 ```
 
 ### Drop the database
@@ -27,7 +27,7 @@ dotnet ef database drop --project MovieTheater.Data --startup-project MovieTheat
 
 ### Remove a migration
 ```bash
-dotnet ef migrations remove --project MovieTheater.Data --startup-project MovieTheater.API --context MovieTheaterDbContext
+dotnet ef migrations remove --project MovieTheater.Data --startup-project MovieTheater.WebAPI --context MovieTheaterDbContext
 dotnet ef migrations remove --project MovieTheater.Data --startup-project MovieTheater.API --context StorageDbContext
 ```
 

@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using MovieTheater.Data.Repositories;
 using MovieTheater.Models;
@@ -63,6 +64,12 @@ public class UnitOfWork : IUnitOfWork
 
     public IRepository<RefreshToken> RefreshTokenRepository => _refreshTokenRepository ??= new Repository<RefreshToken>(_context, _currentUser);
 
+    private IRepository<Genre>? _genreRepository;
+    public IRepository<Genre> GenreRepository => _genreRepository ??= new Repository<Genre>(_context, _currentUser);
+
+    private IRepository<MovieGenre>? _movieGenreRepository;
+    public IRepository<MovieGenre> MovieGenreRepository => _movieGenreRepository ??= new Repository<MovieGenre>(_context, _currentUser);
+
     public IRepository<T> Repository<T>() where T : BaseEntity, IBaseEntity
     {
         return new Repository<T>(_context, _currentUser);
@@ -100,6 +107,11 @@ public class UnitOfWork : IUnitOfWork
     public async Task<int> SaveChangesAsync()
     {
         return await _context.SaveChangesAsync();
+    }
+
+    public async Task<Genre?> FindByNameAsync(string genreName)
+    {
+        return await _context.Genres.FirstOrDefaultAsync(g => g.Type.ToString().Equals(genreName, StringComparison.OrdinalIgnoreCase));
     }
 
     public async Task<IDbContextTransaction> BeginTransactionAsync()

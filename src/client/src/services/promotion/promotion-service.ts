@@ -35,4 +35,8 @@ export class PromotionService {
   updatePromotion(id: string, promotion: FormData): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${id}`, promotion);
   }
+
+  deletePromotion(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  }
 }
