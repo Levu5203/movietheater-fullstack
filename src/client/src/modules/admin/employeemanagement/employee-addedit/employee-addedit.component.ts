@@ -1,10 +1,12 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
   Inject,
   Input,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import {
   FontAwesomeModule,
@@ -38,6 +40,34 @@ export class EmployeeAddeditComponent implements OnInit {
   public errorMessage: string = '';
   public showErrorMessage: boolean = false;
 
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  initialAvatarUrl: string | null = null;
+  previewUrl: string | ArrayBuffer | null = null;
+  selectedFile: File | null = null;
+  avatarChanged = false;
+
+  avatarToDisplay(): string | ArrayBuffer | null {
+    return this.previewUrl || this.initialAvatarUrl;
+  }
+
+  triggerFileInput() {
+    this.fileInput.nativeElement.click();
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.selectedFile = file;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.previewUrl = reader.result;
+      };
+      reader.readAsDataURL(file);
+      this.avatarChanged = true;
+    }
+  }
   @Input() public selectedItem!: EmployeeModel | undefined | null;
   @Output() close = new EventEmitter<void>();
   @Output() dataChanged = new EventEmitter<void>();
@@ -55,6 +85,12 @@ export class EmployeeAddeditComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     this.updateForm();
+    if (this.selectedItem) {
+      this.initialAvatarUrl =
+        typeof this.selectedItem.avatar === 'string'
+          ? this.selectedItem.avatar
+          : null;
+    }
   }
 
   public createForm() {
@@ -126,6 +162,24 @@ export class EmployeeAddeditComponent implements OnInit {
 
     const data: EmployeeModel = this.form.getRawValue();
 
+    const formData = new FormData();
+    formData.append('firstName', data.firstName);
+    formData.append('lastName', data.lastName);
+    formData.append('email', data.email);
+    formData.append('username', data.username);
+    formData.append('gender', data.gender);
+    formData.append('identityCard', data.identityCard);
+    formData.append('address', data.address ?? '');
+    formData.append('phoneNumber', data.phoneNumber ?? '');
+    formData.append(
+      'dateOfBirth',
+      data.dateOfBirth ? data.dateOfBirth.toLocaleString() : ''
+    );
+
+    if (this.selectedFile) {
+      formData.append('avatar', this.selectedFile);
+    }
+
     // Call API
     if (this.selectedItem) {
       // Update
@@ -133,7 +187,7 @@ export class EmployeeAddeditComponent implements OnInit {
       Object.assign(data, { id: this.selectedItem.id });
 
       this.employeeService
-        .update(this.selectedItem.id, data)
+        .updateWithFile(this.selectedItem.id, formData)
         .subscribe((res) => {
           if (res) {
             console.log('Update success');
@@ -146,7 +200,7 @@ export class EmployeeAddeditComponent implements OnInit {
         });
     } else {
       // Create
-      this.employeeService.create(data).subscribe((res) => {
+      this.employeeService.createWithFile(formData).subscribe((res) => {
         if (res) {
           console.log('Create success');
           // Search data again

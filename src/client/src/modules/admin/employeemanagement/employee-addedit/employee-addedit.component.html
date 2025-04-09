@@ -9,14 +9,34 @@
           <div
             class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mr-4"
           >
-            <fa-icon [icon]="faCamera" class="text-gray-500 text-3xl"></fa-icon>
+            <img
+              *ngIf="avatarToDisplay()"
+              [src]="avatarToDisplay()"
+              alt="Avatar"
+              class="w-full h-full rounded-full object-cover"
+            />
+            <fa-icon
+              *ngIf="!avatarToDisplay()"
+              [icon]="faCamera"
+              class="text-gray-500 text-3xl"
+            ></fa-icon>
           </div>
           <button
             type="button"
+            (click)="triggerFileInput()"
             class="text-blue-500 hover:underline cursor-pointer"
           >
             Choose image
           </button>
+
+          <!-- Hidden file input -->
+          <input
+            type="file"
+            accept="image/*"
+            #fileInput
+            hidden
+            (change)="onFileSelected($event)"
+          />
         </div>
 
         <div>
@@ -224,7 +244,7 @@
           type="submit"
           class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer disabled:cursor-not-allowed"
           (click)="onSubmit()"
-          [disabled]="form.pristine || form.invalid"
+          [disabled]="(form.pristine && !avatarChanged) || form.invalid"
         >
           Save
         </button>
