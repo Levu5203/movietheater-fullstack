@@ -85,6 +85,9 @@ export class EmployeemanagementComponent
       gender: new FormControl(''),
       isActive: new FormControl(null),
     });
+    this.searchForm.valueChanges.subscribe(() => {
+      this.onSubmit();
+    });
   }
 
   protected override searchData(): void {

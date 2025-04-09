@@ -9,7 +9,7 @@ import { RoommanagementComponent } from './roommanagement/room-list/room-list.co
 import { SettingComponent } from './setting/setting.component';
 import { RouterModule, Routes } from '@angular/router';
 import { TicketsellingComponent } from './ticketselling/ticketselling.component';
-import { TicketlistComponent } from './ticketlist/ticketlist.component';
+import { BookingManagementComponent } from './bookingmanagement/bookingmanagement.component';
 import { TicketconfirmComponent } from './ticketconfirm/ticketconfirm.component';
 import { AddmovieComponent } from './addmovie/addmovie.component';
 import { AddpromotionComponent } from './addpromotion/addpromotion.component';
@@ -23,7 +23,7 @@ const routes: Routes = [
   { path: 'promotionmanagement', component: PromotionmanagementComponent },
   { path: 'rooms', component: RoommanagementComponent },
   { path: 'ticketselling', component: TicketsellingComponent },
-  { path: 'ticketlist', component: TicketlistComponent },
+  { path: 'bookingmanagement', component: BookingManagementComponent },
   { path: 'setting', component: SettingComponent },
   { path: 'ticketconfirm', component: TicketconfirmComponent },
   { path: 'addmovie', component: AddmovieComponent },

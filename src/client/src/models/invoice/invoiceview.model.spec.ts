@@ -1,7 +1,7 @@
-import { InvoiceviewModel } from './invoiceview.model';
+import { InvoiceViewModel } from './invoiceview.model';
 
 describe('InvoiceviewModel', () => {
   it('should create an instance', () => {
-    expect(new InvoiceviewModel()).toBeTruthy();
+    expect(new InvoiceViewModel()).toBeTruthy();
   });
 });

@@ -1,7 +1,7 @@
-import { TicketviewModel } from './ticketview.model';
+import { TicketViewModel } from './ticketview.model';
 
 describe('TicketviewModel', () => {
   it('should create an instance', () => {
-    expect(new TicketviewModel()).toBeTruthy();
+    expect(new TicketViewModel()).toBeTruthy();
   });
 });

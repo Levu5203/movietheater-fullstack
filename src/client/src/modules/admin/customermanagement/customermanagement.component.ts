@@ -16,7 +16,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { CommonModule } from '@angular/common';
 import {
-  AbstractControl,
   FormControl,
   FormGroup,
   FormsModule,
@@ -82,6 +81,9 @@ export class CustomermanagementComponent
       keyword: new FormControl(''),
       gender: new FormControl(''),
       isActive: new FormControl(null),
+    });
+    this.searchForm.valueChanges.subscribe(() => {
+      this.onSubmit();
     });
   }
 

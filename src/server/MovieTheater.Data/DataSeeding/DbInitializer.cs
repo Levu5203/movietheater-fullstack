@@ -435,7 +435,6 @@ public static class DbInitializer
 
     private static void SeedTickets(MovieTheaterDbContext context)
     {
-        // Lấy tất cả các hóa đơn chưa có vé
         var invoices = context.Invoices
             .Where(i => i.Tickets.Count == 0)
             .Include(i => i.ShowTime)
@@ -447,15 +446,12 @@ public static class DbInitializer
 
         foreach (var invoice in invoices)
         {
-            // Lấy danh sách ghế trong phòng chiếu
             var seats = context.Seats
                 .Where(s => s.CinemaRoomId == invoice.CinemaRoomId)
                 .ToList();
 
-            // Chọn số lượng vé ngẫu nhiên (1 hoặc 2)
             int numberOfTickets = random.Next(1, 4);
 
-            // Chọn ngẫu nhiên số lượng ghế tương ứng
             var selectedSeats = seats.OrderBy(x => random.Next()).Take(numberOfTickets).ToList();
 
             // Tạo vé cho mỗi ghế đã chọn
@@ -469,9 +465,13 @@ public static class DbInitializer
                     Status = TicketStatus.Paid,
                     InvoiceId = invoice.Id,
                     SeatId = seat.Id,
+                    Seat = seat,
                     CinemaRoomId = invoice.CinemaRoomId,
+                    CinemaRoom = invoice.CinemaRoom,
                     ShowTimeId = invoice.ShowTimeId,
+                    ShowTime = invoice.ShowTime,
                     MovieId = invoice.MovieId,
+                    Movie = invoice.Movie,
                     CreatedAt = DateTime.Now,
                     IsActive = true,
                     IsDeleted = false
