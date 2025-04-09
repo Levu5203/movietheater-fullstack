@@ -31,7 +31,7 @@ export class PromotionmanagementComponent implements OnInit {
   }
 
   constructor(private promotionService: PromotionService, private router: Router) {
-    this.updatePagination();
+    
   }
   
   // Call
@@ -44,35 +44,93 @@ export class PromotionmanagementComponent implements OnInit {
   loadPromotions() {
     this.promotionService.getPromotions().subscribe(data => {
       this.promotions = data;
-    });
-  }
-  
-  
-  //Paging
-  currentPage: number = 1;
-  itemsPerPage: number = 7;
-  paginatedPromotions: any[] = [];
-
-
-  updatePagination() {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    this.paginatedPromotions = this.promotions.slice(startIndex, endIndex);
-  }
-
-  goToPage(page: number) {
-    if (page > 0 && page <= this.totalPages) {
-      this.currentPage = page;
+      this.totalPages = Math.ceil(this.promotions.length / this.itemsPerPage);
+      this.currentPage = 1; // Đặt lại trang về 1 khi tải dữ liệu mới
       this.updatePagination();
-    }
-  }
-
-  get totalPages(): number {
-    return Math.ceil(this.promotions.length / this.itemsPerPage);
+    });
   }
 
   // update
   updatePromotion(id: string) {
     this.router.navigate(['admin/updatepromotion', id]);
   }
+
+  //delete
+  deletePromotion(id: string): void {
+    if (confirm('Bạn có chắc chắn muốn xóa promotion này?')) {
+      this.promotionService.deletePromotion(id).subscribe(() => {
+        alert('Promotion đã được xóa thành công!');
+        this.loadPromotions(); // Cập nhật danh sách sau khi xóa
+      });
+    }
+  }
+
+  //paging
+  displayedPromotions: any[] = [];
+
+  currentPage: number = 1;
+  itemsPerPage: number = 3;
+  totalPages: number = 1;
+
+  updatePagination() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.displayedPromotions = this.promotions.slice(startIndex, endIndex);
+  }
+
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updatePagination();
+    }
+  }
+  
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePagination();
+    }
+  }
+  
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePagination();
+    }
+  }
+  
+  firstPage() {
+    this.currentPage = 1;
+    this.updatePagination();
+  }
+  
+  lastPage() {
+    this.currentPage = this.totalPages;
+    this.updatePagination();
+  }
+  
+  //search
+  // search
+searchKeyword: string = '';
+
+updateSearchResults() {
+  if (!this.searchKeyword.trim()) {
+    this.updatePagination(); // Nếu ô tìm kiếm rỗng, hiển thị danh sách phân trang bình thường
+    return;
+  }
+
+  const keyword = this.searchKeyword.toLowerCase();
+
+  // Lọc các promotion theo tiêu chí
+  const filtered = this.promotions.filter(promotion =>
+    promotion.promotionTitle.toLowerCase().includes(keyword) ||
+    promotion.description.toLowerCase().includes(keyword) ||
+    promotion.discount.toString().includes(keyword) // Tìm kiếm discount bằng số
+  );
+
+  this.displayedPromotions = filtered.slice(0, this.itemsPerPage);
+  this.totalPages = Math.ceil(filtered.length / this.itemsPerPage);
+  this.currentPage = 1; // Đưa về trang đầu tiên khi tìm kiếm
+}
+
 }

@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FontAwesomeModule, IconDefinition } from '@fortawesome/angular-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
@@ -30,15 +29,7 @@ export class HomeComponent extends MasterDataListComponent<MovieviewModel>  impl
     '../assets/film4.jpg',
     '../assets/film5.jpg'
   ];
-  // movies = [
-  //   { title: 'Movie Title 1', image: '../assets/anhkhongdau.png' },
-  //   { title: 'Movie Title 2', image: '../assets/anhkhongdau.png' },
-  //   { title: 'Movie Title 3', image: '../assets/anhkhongdau.png' },
-  //   { title: 'Movie Title 4', image: '../assets/macarong.png' },
-  //   { title: 'Movie Title 5', image: '../assets/macarong.png' },
-  //   { title: 'Movie Title 6', image: '../assets/macarong.png' }
-  // ];
-
+  
   promotions1 = [
     '../assets/km1.png',
     '../assets/km2.png',

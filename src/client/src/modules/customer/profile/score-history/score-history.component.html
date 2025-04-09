@@ -1,12 +1,14 @@
 <section class="max-w-6xl mx-2 md:mx-auto py-4 mb-4 text-white">
-  <form>
+  <form [formGroup]="filterForm">
     <div class="flex justify-between items-center mb-4">
       <div class="flex items-center">
         <input
           type="text"
           placeholder="Search"
           class="flex-1 px-4 py-2 rounded bg-[#0B0D13] hover:bg-gray-800 cursor-pointer"
-        />
+          [(ngModel)]="searchKeyword"
+          [ngModelOptions]="{standalone: true}"
+          />
         <button
           title="filter"
           type="button"
@@ -45,9 +47,7 @@
           <label class="text-sm">From Date</label>
           <div class="relative">
             <input
-              id="fromDate"
-              name="fromDate"
-              title="From date"
+              formControlName="fromDate"
               type="date"
               class="w-full mt-1 p-2 bg-[#0B0D13] border border-white rounded appearance-none"
             />
@@ -64,10 +64,7 @@
           <label class="text-sm">To Date</label>
           <div class="relative">
             <input
-              id="toDate
-              name="
-              toDate
-              title="To date"
+              formControlName="toDate"
               type="date"
               class="w-full mt-1 p-2 bg-[#0B0D13] border border-white rounded appearance-none"
             />
@@ -87,7 +84,6 @@
             formControlName="status"
             class="w-full mt-1 p-2.5 border border-white rounded bg-[#0B0D13]"
           >
-            <option value="" class="bg-[#0B0D13] text-white">All</option>
             <option value="ADDED" class="bg-[#0B0D13] text-white">ADDED</option>
             <option value="USED" class="bg-[#0B0D13] text-white">USED</option>
           </select>
@@ -98,93 +94,62 @@
           type="button"
           class="w-full sm:w-auto px-8 border border-white text-white p-2 rounded hover:bg-slate-600 transition cursor-pointer"
           (click)="toggleDropdown()"
+          (click)="resetFilter()"
         >
           Cancel
-        </button>
-
-        <button
-          type="submit"
-          class="w-full sm:w-auto px-8 p-2 bg-[#EF4444] hover:bg-[#E30713] rounded text-white transition cursor-pointer"
-        >
-          Apply
         </button>
       </div>
     </div>
   </form>
 
-  <!-- Table -->
-  <div class="overflow-x-auto">
-    <table class="min-w-[600px] w-full text-sm *:text-center py-4">
-      <thead>
-        <tr
-          class="bg-[#6A1B1B] text-white *:text-center border-b border-slate-400 *:p-4"
-        >
-          <th>No</th>
-          <th>TRANSACTION NAME</th>
-          <th>TRANSACTION DATE</th>
-          <th>TOTAL SCORE</th>
-          <th>STATUS</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="bg-gray-800 border-b border-slate-400 *:py-4">
-          <td>1</td>
-          <td>DOCTOR STRANGE: Phù thủy tối thượng</td>
-          <td>19/03/2025 09:15</td>
-          <td>40</td>
-          <td>ADDED</td>
-        </tr>
-        <tr class="bg-[#6A1B1B] border-b border-slate-400 *:py-4">
-          <td>2</td>
-          <td>CAPTAIN AMERICA: Thế giới mới</td>
-          <td>15/03/2025 16:20</td>
-          <td>135</td>
-          <td>USED</td>
-        </tr>
-        <tr class="bg-gray-800 border-b border-slate-400 *:py-4">
-          <td>3</td>
-          <td>Nụ hôn bạc tỷ</td>
-          <td>18/03/2025 10:23</td>
-          <td>80</td>
-          <td>ADDED</td>
-        </tr>
-        <tr class="bg-[#6A1B1B] border-b border-slate-400 *:py-4">
-          <td>4</td>
-          <td>Nhà gia tiên</td>
-          <td>19/03/2025 08:52</td>
-          <td>150</td>
-          <td>USED</td>
-        </tr>
-        <tr class="bg-gray-800 border-b border-slate-400 *:py-4">
-          <td>5</td>
-          <td>PADDINGTON: Gấu thủ chu du</td>
-          <td>19/03/2025 20:15</td>
-          <td>35</td>
-          <td>ADDED</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <div class="flex flex-col ">
+    <!-- Table -->
+    <div class="overflow-x-auto min-h-100">
+      <table class="min-w-[600px] w-full text-sm *:text-center">
+        <thead>
+          <tr
+            class="bg-[#6A1B1B] text-white *:text-center border-b border-slate-400 *:p-4"
+          >
+            <th>No</th>
+            <th>TRANSACTION NAME</th>
+            <th>TRANSACTION DATE</th>
+            <th>TOTAL SCORE</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let score of searchedAndFilteredScore; let i = index" class="bg-gray-800 border-b border-slate-400 *:py-4">
+            <td class="px-4 py-2">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+            <td class="px-4 py-2">{{ score.movieName }}</td>
+            <td class="px-4 py-2">{{ score.bookingDate }}</td>
+            <td class="px-4 py-2">{{ score.addedScore }}</td>
+            <td class="px-4 py-2">{{ score.status }}</td>
+          </tr>
+        </tbody>  
+      </table>
+    </div>
 
-  <!-- Pagination -->
-  <div class="flex justify-end mt-6 space-x-2 *:cursor-pointer">
-    <button
-      type="button"
-      class="w-8 h-8 rounded bg-[#EF4444] hover:bg-[#E30713] text-white"
-    >
-      1
-    </button>
-    <button
-      type="button"
-      class="w-8 h-8 rounded border border-gray-500 hover:bg-gray-500"
-    >
-      2
-    </button>
-    <button
-      type="button"
-      class="w-8 h-8 rounded border border-gray-500 hover:bg-gray-500"
-    >
-      3
-    </button>
+    <!-- Pagination -->
+    <div class="flex justify-end gap-2 mt-6 items-center">
+      <button
+        (click)="prevPage()"
+        [disabled]="currentPage === 1"
+        class="px-4 py-2 rounded bg-gray-500 hover:bg-gray-600 text-white disabled:opacity-50"
+      >
+        Prev
+      </button>
+
+
+      <span class="text-lg">Page {{ currentPage }} / {{ Math.ceil(historyScore.length / itemsPerPage) }}</span>
+
+
+      <button
+        (click)="nextPage()"
+        [disabled]="currentPage >= Math.ceil(historyScore.length / itemsPerPage)"
+        class="px-4 py-2 rounded bg-gray-500 hover:bg-gray-600 text-white disabled:opacity-50"
+      >
+        Next
+      </button>
+    </div>
   </div>
 </section>

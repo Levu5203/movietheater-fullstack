@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieTheater.Data;
 
@@ -11,9 +12,11 @@ using MovieTheater.Data;
 namespace MovieTheater.Data.Migrations
 {
     [DbContext(typeof(MovieTheaterDbContext))]
-    partial class MovieTheaterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250406190429_AddGenreColumnsAndMovieEnddate")]
+    partial class AddGenreColumnsAndMovieEnddate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -285,9 +288,6 @@ namespace MovieTheater.Data.Migrations
                     b.Property<int>("AddedScore")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("CinemaRoomId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -306,17 +306,14 @@ namespace MovieTheater.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("MovieId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("ShowTimeId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("TicketIssued")
-                        .HasColumnType("bit");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
-                    b.Property<decimal>("TotalMoney")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("TotalMoney")
+                        .HasColumnType("float");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -329,13 +326,9 @@ namespace MovieTheater.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CinemaRoomId");
-
                     b.HasIndex("CreatedById");
 
                     b.HasIndex("DeletedById");
-
-                    b.HasIndex("MovieId");
 
                     b.HasIndex("ShowTimeId");
 
@@ -702,9 +695,6 @@ namespace MovieTheater.Data.Migrations
                     b.Property<DateTime>("BookingDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("CinemaRoomId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -726,19 +716,13 @@ namespace MovieTheater.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("MovieId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<Guid?>("PromotionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("SeatId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ShowTimeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
@@ -752,21 +736,15 @@ namespace MovieTheater.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CinemaRoomId");
-
                     b.HasIndex("CreatedById");
 
                     b.HasIndex("DeletedById");
 
                     b.HasIndex("InvoiceId");
 
-                    b.HasIndex("MovieId");
-
                     b.HasIndex("PromotionId");
 
                     b.HasIndex("SeatId");
-
-                    b.HasIndex("ShowTimeId");
 
                     b.HasIndex("UpdatedById");
 
@@ -1169,12 +1147,6 @@ namespace MovieTheater.Data.Migrations
 
             modelBuilder.Entity("MovieTheater.Models.Common.Invoice", b =>
                 {
-                    b.HasOne("MovieTheater.Models.Common.CinemaRoom", "CinemaRoom")
-                        .WithMany()
-                        .HasForeignKey("CinemaRoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MovieTheater.Models.Security.User", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById");
@@ -1182,12 +1154,6 @@ namespace MovieTheater.Data.Migrations
                     b.HasOne("MovieTheater.Models.Security.User", "DeletedBy")
                         .WithMany()
                         .HasForeignKey("DeletedById");
-
-                    b.HasOne("MovieTheater.Models.Common.Movie", "Movie")
-                        .WithMany()
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.HasOne("MovieTheater.Models.Common.ShowTime", "ShowTime")
                         .WithMany("Invoices")
@@ -1205,13 +1171,9 @@ namespace MovieTheater.Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("CinemaRoom");
-
                     b.Navigation("CreatedBy");
 
                     b.Navigation("DeletedBy");
-
-                    b.Navigation("Movie");
 
                     b.Navigation("ShowTime");
 
@@ -1375,12 +1337,6 @@ namespace MovieTheater.Data.Migrations
 
             modelBuilder.Entity("MovieTheater.Models.Common.Ticket", b =>
                 {
-                    b.HasOne("MovieTheater.Models.Common.CinemaRoom", "CinemaRoom")
-                        .WithMany()
-                        .HasForeignKey("CinemaRoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MovieTheater.Models.Security.User", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById");
@@ -1395,12 +1351,6 @@ namespace MovieTheater.Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("MovieTheater.Models.Common.Movie", "Movie")
-                        .WithMany()
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MovieTheater.Models.Common.Promotion", "Promotion")
                         .WithMany("Tickets")
                         .HasForeignKey("PromotionId")
@@ -1412,17 +1362,9 @@ namespace MovieTheater.Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("MovieTheater.Models.Common.ShowTime", "ShowTime")
-                        .WithMany()
-                        .HasForeignKey("ShowTimeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MovieTheater.Models.Security.User", "UpdatedBy")
                         .WithMany()
                         .HasForeignKey("UpdatedById");
-
-                    b.Navigation("CinemaRoom");
 
                     b.Navigation("CreatedBy");
 
@@ -1430,13 +1372,9 @@ namespace MovieTheater.Data.Migrations
 
                     b.Navigation("Invoice");
 
-                    b.Navigation("Movie");
-
                     b.Navigation("Promotion");
 
                     b.Navigation("Seat");
-
-                    b.Navigation("ShowTime");
 
                     b.Navigation("UpdatedBy");
                 });
