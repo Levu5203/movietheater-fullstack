@@ -1,18 +1,21 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using MovieTheater.Business.Services;
 using MovieTheater.Business.ViewModels.Users;
 using MovieTheater.Data.Repositories;
 using MovieTheater.Data.UnitOfWorks;
 using MovieTheater.Models.Security;
 namespace MovieTheater.Business.Handlers.Employees;
 
-public class EmployeeUpdateCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, UserManager<User> userManager, IUserIdentity currentUser) :
+public class EmployeeUpdateCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, UserManager<User> userManager, IUserIdentity currentUser, IAzureService azureService) :
     BaseHandler(unitOfWork, mapper),
     IRequestHandler<EmployeeUpdateCommand, EmployeeViewModel>
 {
     private readonly UserManager<User> _userManager = userManager;
     private readonly IUserIdentity _currentUser = currentUser;
+
+    private readonly IAzureService _azureService = azureService;
 
     public async Task<EmployeeViewModel> Handle(EmployeeUpdateCommand request, CancellationToken cancellationToken)
     {
@@ -31,6 +34,13 @@ public class EmployeeUpdateCommandHandler(IUnitOfWork unitOfWork, IMapper mapper
         {
             throw new InvalidOperationException("Email is already taken.");
         }
+        if (request.Avatar != null && request.Avatar.Length > 0)
+        {
+            var fileName = $"/{Guid.NewGuid()}_{request.Avatar.FileName}";
+            var avatarUrl = await _azureService.UploadFileAsync(request.Avatar, fileName);
+            user.Avatar = avatarUrl; 
+        }
+
         user.FirstName = request.FirstName;
         user.LastName = request.LastName;
         user.PhoneNumber = request.PhoneNumber ?? null;
@@ -44,7 +54,7 @@ public class EmployeeUpdateCommandHandler(IUnitOfWork unitOfWork, IMapper mapper
         var result = await _userManager.UpdateAsync(user);
         if (!result.Succeeded)
         {
-            throw new Exception("Failed to update employee: " + string.Join(", ", result.Errors.Select(e => e.Description)));
+            throw new InvalidOperationException("Failed to update employee: " + string.Join(", ", result.Errors.Select(e => e.Description)));
         }
 
         return _mapper.Map<EmployeeViewModel>(user);
