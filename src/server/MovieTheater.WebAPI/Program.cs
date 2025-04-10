@@ -98,6 +98,8 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 // Register File Service
 builder.Services.AddScoped<IFileStorageService, FileStorageService>();
 
+builder.Services.AddScoped<IAzureService, AzureService>();
+
 // Register controllers
 builder.Services.AddControllers();
 
