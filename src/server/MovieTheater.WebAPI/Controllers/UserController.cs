@@ -55,7 +55,7 @@ public class UserController(IMediator mediator) : ControllerBase
     /// <param name="command">The profile data to be updated.</param>
     /// <returns>Updated user profile information or error response.</returns>
     [HttpPut("edit")]
-    public async Task<IActionResult> EditProfile([FromBody] EditProfileCommand command)
+    public async Task<IActionResult> EditProfile([FromForm] EditProfileCommand command)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 

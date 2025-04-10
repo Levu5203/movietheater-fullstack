@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using MovieTheater.Business.ViewModels.Profile;
 
 namespace MovieTheater.Business.Handlers.Profile;
@@ -10,6 +11,6 @@ public class EditProfileCommand : BaseUpdateCommand<UserProfileViewModel>
     public DateTime? DateOfBirth { get; set; }
     public required string Gender { get; set; }
     public required string IdentityCard { get; set; }
-    public string? Avatar { get; set; }
+    public IFormFile? Avatar { get; set; }
     public required string PhoneNumber { get; set; }
 }

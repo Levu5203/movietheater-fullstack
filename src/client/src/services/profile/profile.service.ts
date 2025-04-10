@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError } from 'rxjs';
-import { UserProfileViewModel } from '../models/profile/user-profile.model';
+import { UserProfileViewModel } from '../../models/profile/user-profile.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +25,19 @@ export class ProfileService {
 
   updateProfile(
     profileData: Partial<UserProfileViewModel>
+  ): Observable<UserProfileViewModel> {
+    return this.http
+      .put<UserProfileViewModel>(this.updateProfileUrl, profileData)
+      .pipe(
+        catchError((error) => {
+          console.error('Failed to update profile:', error);
+          throw error;
+        })
+      );
+  }
+
+  updateProfileWithFile(
+    profileData: FormData
   ): Observable<UserProfileViewModel> {
     return this.http
       .put<UserProfileViewModel>(this.updateProfileUrl, profileData)
