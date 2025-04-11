@@ -58,6 +58,7 @@ public static class DbInitializer
         SeedCinemaRooms(context, rooms);
         SeedGenres(context, genres);
         SeedMovies(context, movies);
+        SeedMovieGenres(context);
         SeedShowTimeSlots(context, showTimeSlots);
         SeedShowTimes(context, showTimes);
         SeedInvoices(context, invoices);
@@ -246,6 +247,40 @@ public static class DbInitializer
         }
         context.SaveChanges();
     }
+
+        private static void SeedMovieGenres(MovieTheaterDbContext context)
+    {
+        var moviesWithoutGenres = context.Movies
+            .Where(m => !context.MovieGenres.Any(mg => mg.MovieId == m.Id))
+            .ToList();
+
+        var genres = context.Genres.ToList();
+        var random = new Random();
+
+        foreach (var movie in moviesWithoutGenres)
+        {
+            // Chọn ngẫu nhiên 1-3 thể loại cho mỗi phim
+            int numberOfGenres = random.Next(1, 4);
+            var selectedGenres = genres.OrderBy(x => random.Next()).Take(numberOfGenres).ToList();
+
+            foreach (var genre in selectedGenres)
+            {
+                var movieGenre = new MovieGenre
+                {
+                    Id = Guid.NewGuid(),
+                    MovieId = movie.Id,
+                    GenreId = genre.Id,
+                    CreatedAt = DateTime.Now,
+                    IsDeleted = false
+                };
+
+                context.MovieGenres.Add(movieGenre);
+            }
+        }
+
+        context.SaveChanges();
+    }
+
 
     public static void SeedShowTimeSlots(MovieTheaterDbContext context, List<ShowTimeSlot> showTimeSlots)
     {
