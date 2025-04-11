@@ -21,12 +21,16 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import { ModalService } from '../../../../services/modal.service';
-import { ProfileService } from '../../../../services/profile/profile.service';
 import { UserProfileViewModel } from '../../../../models/profile/user-profile.model';
 import { debounceTime } from 'rxjs';
 import { IProfileService } from '../../../../services/profile/profile-service.interface';
-import { PROFILE_SERVICE } from '../../../../constants/injection.constant';
+import {
+  AUTH_SERVICE,
+  PROFILE_SERVICE,
+} from '../../../../constants/injection.constant';
 import { ServicesModule } from '../../../../services/services.module';
+import { IAuthService } from '../../../../services/auth/auth-service.interface';
+import { UserInformation } from '../../../../models/auth/user-information.model';
 
 @Component({
   selector: 'app-edit-profile',
@@ -88,7 +92,8 @@ export class EditProfileComponent implements OnInit {
   constructor(
     private readonly modalService: ModalService,
     private readonly fb: FormBuilder,
-    @Inject(PROFILE_SERVICE) private readonly profileService: IProfileService
+    @Inject(PROFILE_SERVICE) private readonly profileService: IProfileService,
+    @Inject(AUTH_SERVICE) private readonly authService: IAuthService
   ) {}
 
   ngOnInit(): void {
@@ -189,18 +194,6 @@ export class EditProfileComponent implements OnInit {
       return;
     }
 
-    // const updatedProfile: Partial<UserProfileViewModel> = {
-    //   id: this.currentUser?.id,
-    //   avatar: this.currentUser?.avatar,
-    //   firstName: this.form.value.firstName,
-    //   lastName: this.form.value.lastName,
-    //   dateOfBirth: this.form.value.dateOfBirth,
-    //   gender: this.form.value.gender,
-    //   identityCard: this.form.value.identityCard,
-    //   phoneNumber: this.form.value.phoneNumber,
-    //   address: this.form.value.address,
-    // };
-
     const data: UserProfileViewModel = this.form.getRawValue();
 
     const formData = new FormData();
@@ -219,8 +212,6 @@ export class EditProfileComponent implements OnInit {
     );
 
     if (this.selectedFile) {
-      console.log('update with file selected');
-
       formData.append('avatar', this.selectedFile);
     }
 
@@ -228,6 +219,20 @@ export class EditProfileComponent implements OnInit {
       next: () => {
         this.successMessage = 'Profile updated successfully!';
         this.showErrorMessage = false;
+
+        // Update header via AuthService
+        if (!this.currentUser) {
+          this.showErrorMessage = true;
+          this.errorMessage = 'Please log in to continue';
+          return;
+        }
+        const updatedInfo: UserInformation = {
+          id: this.currentUser.id,
+          displayName: `${data.firstName} ${data.lastName}`,
+          avatar: this.previewUrl?.toString() ?? this.initialAvatarUrl ?? '',
+        };
+
+        this.authService.setUserInformation(updatedInfo);
       },
       error: (error) => {
         this.showErrorMessage = true;
