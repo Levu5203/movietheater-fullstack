@@ -4,14 +4,18 @@ import { PipesModule } from '../../../pipes/pipe.module';
 import { CommonModule, DatePipe } from '@angular/common';
 import { CustomFormatPipe } from '../../../pipes/custom-format.pipe';
 import { ShowtimeviewModel } from '../../../models/showtime/showtimeview.model';
+import { FontAwesomeModule, IconDefinition } from '@fortawesome/angular-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-moviedetail',
-  imports: [CommonModule, CustomFormatPipe],
+  imports: [CommonModule, CustomFormatPipe, FontAwesomeModule],
   templateUrl: './moviedetail.component.html',
   styleUrl: './moviedetail.component.css',
 })
 export class MoviedetailComponent implements OnInit {
+  public faArrowLeft: IconDefinition = faArrowLeft;
+
   @Input() public selectedItem!: MovieviewModel | undefined | null;
   @Output() close = new EventEmitter<void>();
 
