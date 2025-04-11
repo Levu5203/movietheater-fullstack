@@ -22,9 +22,9 @@ import { UserInformation } from '../../../../models/auth/user-information.model'
 })
 export class HeaderComponent {
   constructor(
-    private modalService: ModalService,
-    @Inject(AUTH_SERVICE) private authService: IAuthService,
-    private router: Router // Inject Router
+    private readonly modalService: ModalService,
+    @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
+    private readonly router: Router // Inject Router
   ) {
     this.authService.isAuthenticated().subscribe((res) => {
       this.isAuthenticated = res;
@@ -33,6 +33,7 @@ export class HeaderComponent {
     this.authService.getUserInformation().subscribe((res) => {
       if (res) {
         this.currentUser = res;
+        this.hasPermission = this.authService.hasAnyRole(['Admin', 'Employee']);
       }
     });
   }
@@ -48,6 +49,7 @@ export class HeaderComponent {
   public isMobileMenuOpen = false;
   public isAuthenticated: boolean = false;
   public currentUser: UserInformation | null = null;
+  public hasPermission: boolean = false;
 
   // Show form login
   openLogin() {

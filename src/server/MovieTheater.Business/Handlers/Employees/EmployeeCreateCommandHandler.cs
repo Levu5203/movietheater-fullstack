@@ -23,11 +23,11 @@ public class EmployeeCreateCommandHandler(IUnitOfWork unitOfWork, IMapper mapper
         var currUser = await _unitOfWork.UserRepository.GetByIdAsync(_currentUser.UserId) ??
             throw new UnauthorizedAccessException($"User with ID {_currentUser.UserId} not found");
 
-        if (await _userManager.FindByNameAsync(request.Username) == null)
+        if (await _userManager.FindByNameAsync(request.Username) != null)
         {
             throw new InvalidOperationException("Username already existed.");
         }
-        if (await _userManager.FindByEmailAsync(request.Email) == null)
+        if (await _userManager.FindByEmailAsync(request.Email) != null)
         {
             throw new InvalidOperationException("Email already existed.");
         }
