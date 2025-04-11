@@ -42,11 +42,11 @@ public class Invoice : MasterDataBaseEntity
     public virtual ICollection<Ticket> Tickets { get; set; } = [];
 
     public virtual ICollection<HistoryScore> HistoryScores { get; set; } = new HashSet<HistoryScore>();
-    // public InvoiceStatus InvoiceStatus { get; set; }
+    public InvoiceStatus InvoiceStatus { get; set; }
 }
 
-// public enum InvoiceStatus
-// {
-//     Pending = 1,
-//     Paid = 2
-// }
+public enum InvoiceStatus
+{
+    Pending = 1,
+    Paid = 2
+}

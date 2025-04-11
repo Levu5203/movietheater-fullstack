@@ -5,14 +5,14 @@
                 <div class="w-full xl:w-2/3">
                     <div class="p-4 md:p-6 space-y-6 bg-[#1A1D23] rounded-2xl text-sm md:text-base">
                         <h4 class="font-bold">Movie information</h4>
-                        <div><p>Movie</p><p class="font-semibold">{{invoice.movieName}}</p></div>
+                        <div><p>Movie</p><p class="font-semibold">{{invoiceById.movieName}}</p></div>
                         <div class="flex items-center gap-10">
                             <div class="w-1/2">
                                 <p>Show Date</p>
                                 <div class="flex items-center space-x-2">
-                                    <span class="font-bold text-orange-500">{{invoice.startTime}}</span>
+                                    <span class="font-bold text-orange-500">{{invoiceById.startTime}}</span>
                                     <span>-</span>
-                                    <span class="font-semibold"> {{invoice.showDate}}</span>
+                                    <span class="font-semibold"> {{invoiceById.showDate}}</span>
                                 </div>
                             </div>
                             <div>
@@ -27,7 +27,7 @@
                             </div>
                             <div>
                                 <p>Room</p>
-                                <p class="font-semibold">{{invoice.roomName}}</p>
+                                <p class="font-semibold">{{invoiceById.roomName}}</p>
                             </div>
                         </div>
                     </div>
@@ -47,8 +47,8 @@
                                         <td class="relative py-4 pl-4 pr-3 text-sm sm:pl-6">
                                             <div class="font-medium text-white">Seat (J11)</div>
                                         </td>
-                                        <td class="px-3 py-3.5 text-sm">{{invoice.tickets.length}}</td>
-                                        <td class="px-3 py-3.5 text-sm">{{invoice.totalMoney}}đ</td>
+                                        <td class="px-3 py-3.5 text-sm">{{invoiceById.tickets.length}}</td>
+                                        <td class="px-3 py-3.5 text-sm">{{invoiceById.totalMoney}}đ</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -60,9 +60,9 @@
                     <div class="bg-[#1A1D23] h-full rounded-2xl p-4 md:p-6 space-y-5">
                         <h4 class="font-bold">Order information</h4>
                         <div>
-                            <div class="flex items-center justify-between"><p>Payment</p><p class="font-bold">{{invoice.totalMoney}}đ</p></div>
+                            <div class="flex items-center justify-between"><p>Payment</p><p class="font-bold">{{invoiceById.totalMoney}}đ</p></div>
                             <div class="flex items-center justify-between"><p>Fee</p><p class="font-bold">0đ</p></div>
-                            <div class="flex items-center justify-between"><p>Total</p><p class="font-bold">{{invoice.totalMoney}}đ</p></div>
+                            <div class="flex items-center justify-between"><p>Total</p><p class="font-bold">{{invoiceById.totalMoney}}đ</p></div>
                         </div>
                         <div class="space-y-3">
                             <button (click)="payInvoice()" class="inline-flex items-center justify-center rounded-full text-sm font-medium transition-colors 

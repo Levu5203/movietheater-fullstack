@@ -141,12 +141,12 @@
                                         *ngFor="let seat of row.value"
                                         class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 cursor-pointer transition-all duration-300"
                                         [ngClass]="{
-                                            'seat-color-click md:bg-[#252A31] text-white': seat.seatStatus === 1 && !seat.isActive,
-                                            'seat-color-nor text-white': seat.seatStatus !== 2 && seat.isActive && seat.seatType === 1,
-                                            'seat-color-booked cursor-not-allowed text-white': seat.seatStatus === 2
+                                            'seat-color-click text-white': !seat.isBooked && !seat.isActive,
+                                            'seat-color-nor text-white': !seat.isBooked && seat.isActive && seat.seatType === 1,
+                                            'seat-color-booked cursor-not-allowed text-white': seat.isBooked
                                         }"
                                         (click)="toggleSeatSelection(seat)">
-                                        <ng-container *ngIf="seat.seatStatus === 2; else normalSeat">
+                                        <ng-container *ngIf="seat.isBooked; else normalSeat">
                                             <p class="hidden lg:block text-sm lg:text-base">
                                                 X
                                               </p>

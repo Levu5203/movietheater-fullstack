@@ -21,7 +21,7 @@ public class SeatPaymentHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserIde
         {
             var invoice = await unitOfWork.InvoiceRepository.GetByIdAsync(request.InvoiceId);
             if (invoice == null) throw new ResourceNotFoundException("Invoice not found");
-            if (invoice.IsActive == false) throw new InvalidOperationException("Invoice is already paid");
+            if (invoice.InvoiceStatus == InvoiceStatus.Paid) throw new InvalidOperationException("Invoice is already paid");
 
             // Kiểm tra nếu invoice thuộc về người dùng hiện tại
             if (invoice.UserId != currentUser.UserId) throw new UnauthorizedAccessException("You are not authorized to pay this invoice");
@@ -32,16 +32,19 @@ public class SeatPaymentHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserIde
             if (tickets.Count == 0) throw new ResourceNotFoundException("Tickets not found");
 
             // Cập nhật trạng thái ghế thành Booked
-            var seats = await unitOfWork.SeatRepository.GetQuery()
-                .Where(s => tickets.Select(t => t.SeatId).Contains(s.Id))
+            var seatIds = tickets.Select(t => t.SeatId).ToList();
+            var showtimeId = tickets.First().ShowTimeId;
+            // Cập nhật trạng thái ghế tạm thời (bảng SeatShowtime) thành Booked
+            var seatShowtimes = await unitOfWork.SeatShowtimeRepository.GetQuery()
+                .Where(s => seatIds.Contains(s.SeatId) && s.ShowTimeId == showtimeId)
                 .ToListAsync(cancellationToken);
 
-            foreach (var seat in seats)
+            foreach (var seatShowtime in seatShowtimes)
             {
-                seat.seatStatus = SeatStatus.Booked;
-                seat.UpdatedById = currentUser.UserId;
-                seat.UpdatedAt = DateTime.Now;
-                unitOfWork.SeatRepository.Update(seat);
+                seatShowtime.Status = SeatStatus.Booked;
+                seatShowtime.UpdatedById = currentUser.UserId;
+                seatShowtime.UpdatedAt = DateTime.Now;
+                unitOfWork.SeatShowtimeRepository.Update(seatShowtime);
             }
 
             // Cập nhật trạng thái vé thành Paid
@@ -52,7 +55,7 @@ public class SeatPaymentHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserIde
             }
 
             // Cập nhật trạng thái invoice thành Paid
-            invoice.IsActive = false;
+            invoice.InvoiceStatus = InvoiceStatus.Paid;
             invoice.UpdatedById = currentUser.UserId;
             invoice.UpdatedAt = DateTime.Now;
             unitOfWork.InvoiceRepository.Update(invoice);

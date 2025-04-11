@@ -18,7 +18,10 @@ public class SeatReverveHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserIde
         using var transaction = await unitOfWork.BeginTransactionAsync();
         try
         {
-            var showtime = await _unitOfWork.ShowtimeRepository.GetByIdAsync(request.ShowTimeId);
+            var showtime = await _unitOfWork.ShowtimeRepository.GetQuery()
+                        .Include(st => st.CinemaRoom)
+                        .Include(st => st.Movie)
+                        .FirstOrDefaultAsync(st => st.Id == request.ShowTimeId, cancellationToken);//thêm include để cinema với movie không bị null
             if (showtime == null) throw new ResourceNotFoundException("Showtime not found");
             var seats = await _unitOfWork.SeatRepository.GetQuery()
                 .Where(s => request.SeatIds.Contains(s.Id))
@@ -38,15 +41,37 @@ public class SeatReverveHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserIde
                 AddedScore = 0,
                 User = await _unitOfWork.UserRepository.GetByIdAsync(currentUser.UserId),
                 ShowTimeId = showtime.Id,
-                // InvoiceStatus = InvoiceStatus.Pending
+                InvoiceStatus = InvoiceStatus.Pending
             };
-            //set seats to pendding
+            var seatShowTimes = await _unitOfWork.SeatShowtimeRepository.GetQuery()
+                .Where(sst => sst.ShowTimeId == showtime.Id && request.SeatIds.Contains(sst.SeatId))
+                .ToListAsync(cancellationToken);
             foreach (var seat in seats)
             {
-                seat.seatStatus = SeatStatus.Pending;
-                seat.UpdatedById = currentUser.UserId;
-                seat.UpdatedAt = DateTime.Now;
-                _unitOfWork.SeatRepository.Update(seat);
+                var existingSST = seatShowTimes.FirstOrDefault(sst => sst.SeatId == seat.Id);
+
+                if (existingSST != null)
+                {
+                    // Cập nhật trạng thái nếu đã có bản ghi
+                    existingSST.Status = SeatStatus.Pending;
+                    existingSST.UpdatedAt = DateTime.Now;
+                    existingSST.UpdatedById = currentUser.UserId;
+                    _unitOfWork.SeatShowtimeRepository.Update(existingSST);
+                }
+                else
+                {
+                    // Thêm bản ghi mới nếu chưa có
+                    var newSST = new SeatShowTime
+                    {
+                        SeatShowTimeId = Guid.NewGuid(),
+                        SeatId = seat.Id,
+                        ShowTimeId = showtime.Id,
+                        Status = SeatStatus.Pending,
+                        UpdatedAt = DateTime.Now,
+                        UpdatedById = currentUser.UserId
+                    };
+                    _unitOfWork.SeatShowtimeRepository.Add(newSST);
+                }
             }
             var tickets = seats.Select(seat => new Models.Common.Ticket
             {

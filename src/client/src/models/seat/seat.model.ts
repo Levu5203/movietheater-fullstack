@@ -5,4 +5,5 @@ export class SeatViewModel extends MasterBaseModel {
   public column!: number;
   public seatType!: number;
   public seatStatus!: number;
+  public isBooked!: boolean;
 }
