@@ -7,11 +7,11 @@ export class MovieviewModel extends MasterBaseModel{
     public origin!: string;
     public description!: string;
     public director!: string;
-    public actor!: string;
+    public actors!: string;
     public version!: number;
-    public posterUrl!: string;
+    public posterUrl!: File | string | null;
     public status!: number;
-    public releaseDate!: Date;
+    public releasedDate!: Date;
     public showtimes!: ShowtimeviewModel[];
     public genres!: string[];
     public cinemarooms!: string[];
