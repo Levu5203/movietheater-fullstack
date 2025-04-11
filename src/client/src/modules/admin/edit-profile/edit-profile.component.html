@@ -16,6 +16,7 @@
         <p class="text-sm text-gray-300 mb-6">{{ successMessage }}</p>
 
         <button
+          type="button"
           (click)="closeModal()"
           class="bg-[#EF4444] text-white px-6 py-2 rounded-md hover:bg-[#E30713] transition"
         >
@@ -25,31 +26,52 @@
     </div>
   </div>
 
-  <div
+  <form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
     class="flex flex-col md:flex-row max-w-6xl mx-auto mt-10 p-4 space-y-6 md:p-2 md:space-y-0 md:space-x-10"
   >
     <!-- Left Avatar -->
     <div
-      class="flex flex-col items-center space-y-4 pb-4 border-b-1 border-slate-500 md:border-none md:mt-6"
+      class="flex flex-col items-center space-y-4 pb-4 border-b-1 border-slate-500 md:border-none md:mt-6 md: pl-10"
     >
-      <img
-        src="./assets/profile-user.png"
-        alt="Avatar"
-        class="w-32 h-32 rounded-full"
-      />
+      <div
+        class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center"
+      >
+        <img
+          *ngIf="avatarToDisplay()"
+          [src]="avatarToDisplay()"
+          alt="Avatar"
+          class="w-full h-full rounded-full object-cover"
+        />
+        <fa-icon
+          *ngIf="!avatarToDisplay()"
+          [icon]="faCamera"
+          class="text-gray-500 text-3xl"
+        ></fa-icon>
+      </div>
       <button
         type="button"
+        (click)="triggerFileInput()"
         class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm cursor-pointer"
       >
-        Change avatar
+        Choose image
       </button>
+      <!-- Hidden file input -->
+      <input
+        type="file"
+        accept="image/*"
+        #fileInput
+        hidden
+        (change)="onFileSelected($event)"
+      />
     </div>
 
     <!-- Right Details -->
     <div class="flex-1 md:border-l border-gray-500 md:pl-10">
       <h2 class="text-2xl font-bold mb-6 text-center">DETAIL INFORMATION</h2>
 
-      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+      <div class="space-y-4">
         <div class="flex space-x-4">
           <div class="flex-1">
             <label class="text-sm" for="username">Username</label>
@@ -252,7 +274,7 @@
             </button>
           </div>
         </div>
-      </form>
+      </div>
     </div>
-  </div>
+  </form>
 </section>

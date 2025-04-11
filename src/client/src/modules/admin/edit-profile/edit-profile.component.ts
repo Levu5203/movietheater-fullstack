@@ -1,76 +1,133 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCalendar, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-
+import {
+  faCalendar,
+  faCamera,
+  IconDefinition,
+} from '@fortawesome/free-solid-svg-icons';
 import { debounceTime } from 'rxjs';
+import {
+  PROFILE_SERVICE,
+  AUTH_SERVICE,
+} from '../../../constants/injection.constant';
+import { UserInformation } from '../../../models/auth/user-information.model';
 import { UserProfileViewModel } from '../../../models/profile/user-profile.model';
+import { IAuthService } from '../../../services/auth/auth-service.interface';
 import { ModalService } from '../../../services/modal.service';
-import { ProfileService } from '../../../services/profile.service';
+import { IProfileService } from '../../../services/profile/profile-service.interface';
+import { ServicesModule } from '../../../services/services.module';
 
 @Component({
   selector: 'app-edit-profile',
   standalone: true,
-  imports: [CommonModule, FontAwesomeModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    ReactiveFormsModule,
+    ServicesModule,
+  ],
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.css'],
 })
 export class EditProfileComponent implements OnInit {
   public faCalendar: IconDefinition = faCalendar;
+  public faCamera: IconDefinition = faCamera;
 
-  currentUser!: UserProfileViewModel | null;
-  form: FormGroup;
+  public currentUser!: UserProfileViewModel | null;
+  public form!: FormGroup;
 
   public successMessage = '';
-  error: string | null = null;
+  public error: string | null = null;
   public errorMessage: string = '';
-  showErrorMessage: boolean = false;
+  public showErrorMessage: boolean = false;
+
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  initialAvatarUrl: string | null = null;
+  previewUrl: string | ArrayBuffer | null = null;
+  selectedFile: File | null = null;
+  avatarChanged = false;
+
+  avatarToDisplay(): string | ArrayBuffer | null {
+    return this.previewUrl || this.initialAvatarUrl;
+  }
+
+  triggerFileInput() {
+    if (this.fileInput) {
+      this.fileInput.nativeElement.click();
+    } else {
+      console.warn('fileInput is not defined');
+    }
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.selectedFile = file;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.previewUrl = reader.result;
+      };
+      reader.readAsDataURL(file);
+      this.avatarChanged = true;
+    }
+  }
 
   constructor(
     private readonly modalService: ModalService,
     private readonly fb: FormBuilder,
-    private readonly profileService: ProfileService
-  ) {
-    this.form = this.fb.group({
-      firstName: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(50),
-          Validators.pattern('^[A-Za-z]+$'),
-        ],
-      ],
-      lastName: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(50),
-          Validators.pattern('^[A-Za-z]+$'),
-        ],
-      ],
-      email: [],
-      username: [],
-      dateOfBirth: [null],
-      address: ['', [Validators.maxLength(255)]],
-      gender: ['Male', Validators.required],
-      identityCard: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(10),
-          Validators.maxLength(18),
-          Validators.pattern('^[0-9]{10,18}$'),
-        ],
-      ],
-      phoneNumber: [null, Validators.pattern('/^[0-9]{10,15}$/')],
+    @Inject(PROFILE_SERVICE) private readonly profileService: IProfileService,
+    @Inject(AUTH_SERVICE) private readonly authService: IAuthService
+  ) {}
+
+  ngOnInit(): void {
+    this.createForm();
+    this.loadUserProfile();
+  }
+
+  public createForm() {
+    this.form = new FormGroup({
+      firstName: new FormControl('', [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(50),
+        Validators.pattern('^[A-Za-z ]+$'),
+      ]),
+      lastName: new FormControl('', [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(50),
+        Validators.pattern('^[A-Za-z ]+$'),
+      ]),
+      email: new FormControl(),
+      username: new FormControl(),
+      dateOfBirth: new FormControl(null),
+      address: new FormControl(''),
+      gender: new FormControl('Male', [Validators.required]),
+      identityCard: new FormControl('', [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(18),
+        Validators.pattern('^[0-9]{10,18}$'),
+      ]),
+      phoneNumber: new FormControl(null, [
+        Validators.pattern(/^[0-9]{10,15}$/),
+      ]),
     });
     this.form.valueChanges.subscribe(() => (this.showErrorMessage = false));
     this.setupPhoneNumberValidation();
@@ -87,10 +144,6 @@ export class EditProfileComponent implements OnInit {
       }
       phoneControl.updateValueAndValidity({ emitEvent: false });
     });
-  }
-
-  ngOnInit(): void {
-    this.loadUserProfile();
   }
 
   loadUserProfile(): void {
@@ -113,6 +166,8 @@ export class EditProfileComponent implements OnInit {
         });
         this.form.get('username')?.disable(); // Disable the 'username' field
         this.form.get('email')?.disable(); // Disable the 'email' field
+        this.initialAvatarUrl =
+          typeof profile.avatar === 'string' ? profile.avatar : null;
       },
       error: (error) => {
         this.error = 'Failed to load profile information.';
@@ -127,29 +182,56 @@ export class EditProfileComponent implements OnInit {
 
   onSubmit() {
     if (this.form.invalid) {
-      console.log(this.form);
-
       this.showErrorMessage = true;
       this.errorMessage = 'All fields marked with an asterisk are required';
       return;
     }
 
-    const updatedProfile: Partial<UserProfileViewModel> = {
-      id: this.currentUser?.id,
-      avatar: this.currentUser?.avatar,
-      firstName: this.form.value.firstName,
-      lastName: this.form.value.lastName,
-      dateOfBirth: this.form.value.dateOfBirth,
-      gender: this.form.value.gender,
-      identityCard: this.form.value.identityCard,
-      phoneNumber: this.form.value.phoneNumber,
-      address: this.form.value.address,
-    };
+    if (!this.currentUser) {
+      this.showErrorMessage = true;
+      this.errorMessage = 'Please log in to continue';
+      return;
+    }
 
-    this.profileService.updateProfile(updatedProfile).subscribe({
-      next: (profile) => {
+    const data: UserProfileViewModel = this.form.getRawValue();
+
+    const formData = new FormData();
+    formData.append('id', this.currentUser.id);
+    formData.append('firstName', data.firstName);
+    formData.append('lastName', data.lastName);
+    formData.append('email', data.email);
+    formData.append('username', data.username);
+    formData.append('gender', data.gender);
+    formData.append('identityCard', data.identityCard);
+    formData.append('address', data.address ?? '');
+    formData.append('phoneNumber', data.phoneNumber ?? '');
+    formData.append(
+      'dateOfBirth',
+      data.dateOfBirth ? data.dateOfBirth.toLocaleString() : ''
+    );
+
+    if (this.selectedFile) {
+      formData.append('avatar', this.selectedFile);
+    }
+
+    this.profileService.updateProfileWithFile(formData).subscribe({
+      next: () => {
         this.successMessage = 'Profile updated successfully!';
         this.showErrorMessage = false;
+
+        // Update header via AuthService
+        if (!this.currentUser) {
+          this.showErrorMessage = true;
+          this.errorMessage = 'Please log in to continue';
+          return;
+        }
+        const updatedInfo: UserInformation = {
+          id: this.currentUser.id,
+          displayName: `${data.firstName} ${data.lastName}`,
+          avatar: this.previewUrl?.toString() ?? this.initialAvatarUrl ?? '',
+        };
+
+        this.authService.setUserInformation(updatedInfo);
       },
       error: (error) => {
         this.showErrorMessage = true;
