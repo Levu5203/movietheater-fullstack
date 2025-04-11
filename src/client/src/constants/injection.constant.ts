@@ -8,6 +8,7 @@ import { IRoomService } from '../services/room/room-service.interface';
 import { IShowtimeServiceInterface } from '../services/showtime/showtime-service.interface';
 import { IMovieServiceInterface } from '../services/movie/movie-service.interface';
 import { IBookingService } from '../services/booking/booking-service.interface';
+import { IProfileService } from '../services/profile/profile-service.interface';
 
 export const AUTH_SERVICE = new InjectionToken<IAuthService>('AUTH_SERVICE');
 export const MODAL_SERVICE = new InjectionToken<ModalService>('MODAL_SERVICE');
@@ -19,6 +20,9 @@ export const CUSTOMER_SERVICE = new InjectionToken<ICustomerService>(
 );
 export const EMPLOYEE_SERVICE = new InjectionToken<IEmployeeService>(
   'EMPLOYEE_SERVICE'
+);
+export const PROFILE_SERVICE = new InjectionToken<IProfileService>(
+  'PROFILE_SERVICE'
 );
 export const ROOM_SERVICE = new InjectionToken<IRoomService>(
   'ROOM_SERVICE'

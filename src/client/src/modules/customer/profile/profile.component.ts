@@ -9,7 +9,7 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { BookedTicketsComponent } from './booked-tickets/booked-tickets.component';
 import { ScoreHistoryComponent } from './score-history/score-history.component';
 import { UserProfileViewModel } from '../../../models/profile/user-profile.model';
-import { ProfileService } from '../../../services/profile.service';
+import { ProfileService } from '../../../services/profile/profile.service';
 import { ModalService } from '../../../services/modal.service';
 
 @Component({

@@ -20,7 +20,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ProfileService } from '../../../../services/profile.service';
+import { ProfileService } from '../../../../services/profile/profile.service';
 import { AUTH_SERVICE } from '../../../../constants/injection.constant';
 import { IAuthService } from '../../../../services/auth/auth-service.interface';
 
