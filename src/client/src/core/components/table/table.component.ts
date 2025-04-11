@@ -63,6 +63,7 @@ export class TableComponent {
   @Input() public infoable?: boolean = true;
   @Input() public lockable?: boolean = true;
 
+  @Input() public tempPage: number = 1;
   @Input() public currentPage: number = 1;
   @Input() public currentPageSize: number = 10;
 
@@ -118,5 +119,43 @@ export class TableComponent {
     this.showConfirmDeleteModal = false;
     this.showConfirmModal = false;
     this.selectedId = '';
+  }
+
+  public onTempPageInputChange(): void {
+    setTimeout(() => {
+      let value = Number(this.tempPage);
+
+      if (isNaN(value)) {
+        this.tempPage = this.currentPage;
+        return;
+      }
+
+      if (value < 1) {
+        this.tempPage = 1;
+      } else if (value > this.data.totalPages) {
+        this.tempPage = this.data.totalPages;
+      } else {
+        this.tempPage = value;
+      }
+
+      if (this.tempPage !== this.currentPage) {
+        this.currentPage = this.tempPage;
+        this.onPageChange.emit(this.currentPage);
+      }
+    });
+  }
+  public validatePage(value: number): void {
+    setTimeout(() => {
+      if (value < 1 || value > this.data.totalPages || isNaN(value)) {
+        this.currentPage = Math.min(
+          Math.max(1, this.currentPage),
+          this.data.totalPages
+        );
+        this.onPageChange.emit(this.currentPage);
+      } else {
+        this.currentPage = value;
+        this.onPageChange.emit(this.currentPage);
+      }
+    });
   }
 }
