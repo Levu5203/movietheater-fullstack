@@ -85,6 +85,7 @@ export class LoginComponent implements OnInit {
 
           if (userRoles && this.authService.hasAnyRole(['Admin', 'Employee'])) {
             this.router.navigate(['/admin']);
+            this.closeModal();
           } else {
             this.closeModal();
           }
