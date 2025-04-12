@@ -43,8 +43,6 @@ export class HomeComponent
       this.selectedItem = this.movies.find((x) => x.id === id);
       this.isShowDetail = true;
 
-      console.log(this.selectedItem);
-
       // Scroll into view
     }, 150);
   }
@@ -65,15 +63,20 @@ export class HomeComponent
 
   override ngOnInit() {
     this.getAll();
-    this.startSlideshow();
   }
+
   getAll(): void {
     this.movieService.getAll().subscribe((res) => {
       this.movies = res.filter(
         (movie) => movie.showtimes && movie.showtimes.length > 0
       );
+  
+      if (this.movies.length > 0) {
+        this.startSlideshow();
+      }
     });
   }
+  
 
   startSlideshow() {
     if (this.movies.length === 0) return;

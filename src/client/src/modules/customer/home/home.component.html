@@ -1,8 +1,12 @@
-<main *ngIf="!isShowDetail" class="min-h-screen bg-[#10141B] mx-auto px-4 md:px-8 lg:px-16 xl:px-32 text-white pt-16 h-full w-full">
+<main *ngIf="!isShowDetail"
+  class="min-h-screen bg-[#10141B] mx-auto px-4 md:px-8 lg:px-16 xl:px-32 text-white pt-20 sm:pt-24 h-full w-full">
   <div class="relative poster">
-    <img *ngIf="movies.length > 0 && movies[currentIndex]?.posterUrl" [src]="movies[currentIndex].posterUrl"
-      (click)="selectMovie(movies[currentIndex].id)" class="w-full ..." alt="Movie Banner" />
-
+    <div class="relative w-full aspect-[18/9] overflow-hidden rounded-xl shadow-md">
+      <img *ngIf="movies.length > 0 && movies[currentIndex]?.posterUrl" [src]="movies[currentIndex].posterUrl"
+        (click)="selectMovie(movies[currentIndex].id)"
+        class="absolute inset-0 w-full h-full object-cover hover:cursor-pointer transition-all duration-300"
+        alt="Movie Banner" />
+    </div>
     <!-- Nút điều hướng trái/phải -->
     <button (click)="prevSlide()"
       class="ml-2 sm:ml-3 absolute left-0 top-1/2 transform -translate-y-1/2 h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 group flex items-center justify-center bg-gray-400 rounded-full z-10 hover:bg-gray-600 transition-all duration-300">
@@ -27,14 +31,17 @@
       <div class="nowshowing w-full lg:basis-3/5 p-2 sm:p-4 pb-8 md:pb-12">
         <h2 class="text-white font-bold text-xl sm:text-2xl md:text-[28px] text-center lg:text-left">Now Showing</h2>
         <div class="listmovie grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 pt-6 sm:pt-8 md:pt-12">
+          <!-- Movie Cards -->
           <button *ngFor="let movie of movies" (click)="selectMovie(movie.id)"
             class="text-center cursor-pointer flex flex-col justify-between h-full">
-            <img [src]="movie.posterUrl" alt="" class="w-48 sm:w-60 md:w-72 h-auto mx-auto" />
+            <div class="relative w-full aspect-[2/3] max-w-[180px] sm:max-w-[200px] md:max-w-[240px] mx-auto">
+              <img [src]="movie.posterUrl" alt="{{ movie.name }}"
+                class="absolute inset-0 w-full h-full object-cover rounded-xl shadow-md" />
+            </div>
             <h3 class="text-white font-bold text-lg mt-2 min-h-[3rem]">
-              {{movie.name}}
+              {{ movie.name }}
             </h3>
           </button>
-
         </div>
       </div>
 
@@ -72,6 +79,5 @@
       </div>
     </div>
   </div>
-
 </main>
 <app-moviedetail *ngIf="isShowDetail" [selectedItem]="selectedItem" (close)="onCloseDetail()"></app-moviedetail>
