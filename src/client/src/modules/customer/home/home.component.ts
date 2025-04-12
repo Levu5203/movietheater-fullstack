@@ -60,9 +60,13 @@ export class HomeComponent
 
   currentIndex = 0;
   interval: any;
+  isTransitioning: boolean = false;
 
   override ngOnInit() {
     this.getAll();
+  }
+  ngOnDestroy(): void {
+    this.stopSlideshow();
   }
 
   getAll(): void {
@@ -70,29 +74,52 @@ export class HomeComponent
       this.movies = res.filter(
         (movie) => movie.showtimes && movie.showtimes.length > 0
       );
-  
+
       if (this.movies.length > 0) {
         this.startSlideshow();
       }
     });
   }
-  
+
+  getPrevMovie() {
+    return this.movies.length
+      ? this.movies[
+          (this.currentIndex - 1 + this.movies.length) % this.movies.length
+        ]
+      : null;
+  }
+
+  getNextMovie() {
+    return this.movies.length
+      ? this.movies[(this.currentIndex + 1) % this.movies.length]
+      : null;
+  }
 
   startSlideshow() {
     if (this.movies.length === 0) return;
 
     this.interval = setInterval(() => {
       this.nextSlide();
-    }, 3000);
+    }, 5000);
   }
 
   nextSlide() {
+    if (this.isTransitioning) return;
+    this.isTransitioning = true;
     this.currentIndex = (this.currentIndex + 1) % this.movies.length;
+    this.stopSlideshow();
+    this.startSlideshow();
+    setTimeout(() => (this.isTransitioning = false), 500);
   }
 
   prevSlide() {
+    if (this.isTransitioning) return;
+    this.isTransitioning = true;
     this.currentIndex =
       (this.currentIndex - 1 + this.movies.length) % this.movies.length;
+    this.stopSlideshow();
+    this.startSlideshow();
+        setTimeout(() => (this.isTransitioning = false), 500);
   }
 
   stopSlideshow() {
