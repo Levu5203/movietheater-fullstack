@@ -6,7 +6,6 @@ import { ModalService } from '../../../../services/modal.service';
 import {
   faBars,
   faSortDesc,
-  faUser,
   faUserCircle,
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
@@ -27,6 +26,10 @@ export class HeaderComponent {
     private readonly router: Router // Inject Router
   ) {
     this.authService.isAuthenticated().subscribe((res) => {
+      if (this.authService.isTokenExpired()) {
+        this.authService.logout();
+        return;
+      }
       this.isAuthenticated = res;
     });
 
