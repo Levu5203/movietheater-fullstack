@@ -19,7 +19,7 @@
                         <textarea formControlName="description" rows="3" class="w-full p-2 border hover:bg-gray-100 rounded"></textarea>
                     </label>
                     <label for="version" class="">Version *</label>
-                    <select formControlName="version" class="w-full p-2 border hover:bg-gray-100 rounded">
+                    <select (select)="selectedItem?.version" formControlName="version" class="w-full p-2 border hover:bg-gray-100 rounded">
                         <option value="_2D">2D</option>
                         <option value="_3D">3D</option>
                     </select>

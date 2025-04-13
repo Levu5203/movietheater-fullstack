@@ -5,13 +5,15 @@ import { faArrowLeft, faRotateLeft, faFilter, faEdit, faTrash, faInfoCircle, faA
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MasterDataListComponent } from '../../../core/components/master-data/master-data.component';
 import { MovieviewModel } from '../../../models/movie/movieview.model';
-import { MOVIE_SERVICE } from '../../../constants/injection.constant';
+import { MOVIE_ADMIN_SERVICE, MOVIE_SERVICE } from '../../../constants/injection.constant';
 import { IMovieServiceInterface } from '../../../services/movie/movie-service.interface';
 import { ServicesModule } from '../../../services/services.module';
 import { TableComponent } from '../../../core/components/table/table.component';
 import { TableColumn } from '../../../core/models/table-column.model';
 import { AddmovieComponent } from '../addmovie/addmovie.component';
 import { UpdatemovieComponent } from '../updatemovie/updatemovie.component';
+import { MovieViewModel } from '../../../models/movie/movie-view-model';
+import { IMovieAdminServiceInterface } from '../../../services/movieAdmin/movie-admin.interface';
 
 @Component({
   selector: 'app-moviemanagement',
@@ -19,7 +21,7 @@ import { UpdatemovieComponent } from '../updatemovie/updatemovie.component';
   templateUrl: './moviemanagement.component.html',
   styleUrl: './moviemanagement.component.css'
 })
-export class MoviemanagementComponent extends MasterDataListComponent<MovieviewModel> implements OnInit {
+export class MoviemanagementComponent extends MasterDataListComponent<MovieViewModel> implements OnInit {
   public faArrowLeft: IconDefinition = faArrowLeft;
     public faRotateLeft: IconDefinition = faRotateLeft;
     public faFilter: IconDefinition = faFilter;
@@ -40,7 +42,7 @@ export class MoviemanagementComponent extends MasterDataListComponent<MovieviewM
       { name: 'Version', value: 'version' },
       ];
 
-  constructor(@Inject(MOVIE_SERVICE) private readonly movieService: IMovieServiceInterface) {
+  constructor(@Inject(MOVIE_ADMIN_SERVICE) private readonly movieAdminService: IMovieAdminServiceInterface) {
     super();
   }
 
@@ -54,7 +56,7 @@ export class MoviemanagementComponent extends MasterDataListComponent<MovieviewM
   }
 
   protected override searchData(): void {
-    this.movieService.search(this.filter).subscribe((res) => {
+    this.movieAdminService.search(this.filter).subscribe((res) => {
       console.log(res);
       
       this.data = res;
@@ -62,7 +64,7 @@ export class MoviemanagementComponent extends MasterDataListComponent<MovieviewM
   }
 
   public delete(id: string): void {
-    this.movieService.delete(id).subscribe((data) => {
+    this.movieAdminService.delete(id).subscribe((data) => {
       // Neu xoa duoc thi goi lai ham getData de load lai du lieu
       if (data) {
         this.searchData();

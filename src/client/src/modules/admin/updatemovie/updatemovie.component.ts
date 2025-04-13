@@ -4,8 +4,10 @@ import { faCamera, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { MovieviewModel } from '../../../models/movie/movieview.model';
 import { CommonModule } from '@angular/common';
 import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MOVIE_SERVICE } from '../../../constants/injection.constant';
+import { MOVIE_ADMIN_SERVICE, MOVIE_SERVICE } from '../../../constants/injection.constant';
 import { IMovieServiceInterface } from '../../../services/movie/movie-service.interface';
+import { MovieViewModel } from '../../../models/movie/movie-view-model';
+import { IMovieAdminServiceInterface } from '../../../services/movieAdmin/movie-admin.interface';
 
 interface ScheduleSlot {
   id: string;
@@ -76,7 +78,7 @@ export class UpdatemovieComponent implements OnInit {
     }
   }
 
-  @Input() public selectedItem!: MovieviewModel | undefined | null;
+  @Input() public selectedItem!: MovieViewModel | undefined | null;
   @Output() close = new EventEmitter<void>();
   @Output() dataChanged = new EventEmitter<void>();
 
@@ -85,15 +87,15 @@ export class UpdatemovieComponent implements OnInit {
   }
 
   constructor(
-    @Inject(MOVIE_SERVICE) private readonly movieService: IMovieServiceInterface
+    @Inject(MOVIE_ADMIN_SERVICE) private readonly movieAdminService: IMovieAdminServiceInterface
   ) {}
 
   ngOnInit(): void {
     this.createForm();
     
     if (this.selectedItem) {
-      console.log(this.selectedItem)
-      this.initialAvatarUrl = this.selectedItem.posterUrl || null;
+      console.log(this.selectedItem);
+      this.initialAvatarUrl = this.selectedItem.posterImage || null;
       this.updateForm();
     }
   }
@@ -128,10 +130,10 @@ export class UpdatemovieComponent implements OnInit {
         Validators.required
       ]),
       posterUrl: new FormControl(null),
-      status: new FormControl('Now showing', [
+      status: new FormControl('NowShowing', [
         Validators.required
       ]),
-      releaseDate: new FormControl(null, [
+      releasedDate: new FormControl(null, [
         Validators.required
       ]),
       endDate: new FormControl(null, [
@@ -176,11 +178,11 @@ export class UpdatemovieComponent implements OnInit {
         genres.removeAt(index);
       }
     }
+    console.log('after', genres)
   }
 
   onScheduleChange(event: any, scheduleId: string) {
     const schedules = this.form.get('schedules') as FormArray;
-    
     if (event.target.checked) {
       schedules.push(new FormControl(scheduleId));
     } else {
@@ -189,6 +191,7 @@ export class UpdatemovieComponent implements OnInit {
         schedules.removeAt(index);
       }
     }
+    console.log('after', schedules)
   }
 
   private formatDate(date: string | Date): string {
@@ -212,6 +215,19 @@ export class UpdatemovieComponent implements OnInit {
     while (schedulesArray.length) {
       schedulesArray.removeAt(0);
     }
+
+     // Add genres
+     if (this.selectedItem.selectedGenres && Array.isArray(this.selectedItem.selectedGenres)) {
+      this.selectedItem.selectedGenres.forEach(genre => {
+        genresArray.push(new FormControl(genre));
+      });
+    }
+
+    if (this.selectedItem.selectedShowTimeSlots && Array.isArray(this.selectedItem.selectedShowTimeSlots)) {
+      this.selectedItem.selectedShowTimeSlots.forEach(time => {
+        schedulesArray.push(new FormControl(time));
+      });
+    }
     
     // Basic form fields
     this.form.patchValue({
@@ -220,27 +236,16 @@ export class UpdatemovieComponent implements OnInit {
       origin: this.selectedItem.origin,
       description: this.selectedItem.description,
       director: this.selectedItem.director,
-      actor: this.selectedItem.actor,
+      actor: this.selectedItem.actors,
       version: this.selectedItem.version,
       status: this.selectedItem.status,
-      releaseDate: this.formatDate(this.selectedItem.releaseDate),
+      releaseDate: this.formatDate(this.selectedItem.releasedDate),
       endDate: this.formatDate(this.selectedItem.endDate),
-      cinemaroomId: this.selectedItem.cinemarooms
+      cinemaroomId: this.selectedItem.cinemaRoomId,
+      genres: this.selectedItem.selectedGenres,
+      schedules: this.selectedItem.selectedShowTimeSlots
     });
     
-    // Add genres
-    if (this.selectedItem.genres && Array.isArray(this.selectedItem.genres)) {
-      this.selectedItem.genres.forEach(genre => {
-        genresArray.push(new FormControl(genre));
-      });
-    }
-    
-    // Add schedules
-    if (this.selectedItem.schedules && Array.isArray(this.selectedItem.schedules)) {
-      this.selectedItem.schedules.forEach(schedule => {
-        schedulesArray.push(new FormControl(schedule));
-      });
-    }
   }
 
   public onSubmit(): void {
@@ -287,8 +292,8 @@ export class UpdatemovieComponent implements OnInit {
     formData.append('director', formValue.director);
     formData.append('actors', formValue.actor);
     formData.append('status', formValue.status);
-    formData.append('releasedDate', this.formatDate(formValue.releaseDate));
-    formData.append('endDate', this.formatDate(formValue.endDate));
+    formData.append('releasedDate', formValue.releasedDate);
+    formData.append('endDate', formValue.endDate);
     formData.append('cinemaRoomId', formValue.cinemaroomId);
     formValue.schedules.forEach((scheduleId: string, index: number) => {
       formData.append(`selectedShowTimeSlots[${index}]`, scheduleId);
@@ -302,9 +307,12 @@ export class UpdatemovieComponent implements OnInit {
       formData.append('posterImage', this.selectedFile);
     }
 
+    console.log(formValue.releasedDate)
+
     if (this.selectedItem) {
       // Update existing movie
-      this.movieService
+      console.log(this.selectedItem.id)
+      this.movieAdminService
         .updateWithFile(this.selectedItem.id, formData)
         .subscribe({
           next: (res) => {
@@ -329,7 +337,7 @@ export class UpdatemovieComponent implements OnInit {
       // for (const pair of formData.entries()) {
       //   console.log(pair[0], pair[1]);
       // }
-      this.movieService.createWithFile(formData).subscribe({
+      this.movieAdminService.createWithFile(formData).subscribe({
         next: (res) => {
           if (res) {
             console.log('Movie created successfully');
