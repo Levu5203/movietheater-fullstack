@@ -14,7 +14,7 @@ export class MovieViewModel extends MasterBaseModel {
     public releasedDate!: Date;
     public endDate!: Date;
     public cinemaRooms!: string[];
-    public selectedGenres!: string[];
+    public genres!: string[];
     public selectedShowTimeSlots!: string[];
     public showtimes!: ShowtimeviewModel[];
 }

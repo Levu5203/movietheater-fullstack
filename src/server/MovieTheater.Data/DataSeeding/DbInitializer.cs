@@ -224,7 +224,7 @@ public static class DbInitializer
     {
         foreach (var movie in movies)
         {
-            if (!ExistsInDb<Movie>(context, m => m.Name == movie.Name && m.ReleasedDate == movie.ReleasedDate && m.Version == movie.Version))
+            if (!ExistsInDb<Movie>(context, m => m.Name == movie.Name && m.ReleasedDate == movie.ReleasedDate && m.Version == movie.Version || m.Id == movie.Id))
             {
                 context.Movies.Add(new Movie
                 {

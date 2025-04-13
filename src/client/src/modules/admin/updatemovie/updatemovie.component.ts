@@ -223,18 +223,46 @@ export class UpdatemovieComponent implements OnInit {
       schedulesArray.removeAt(0);
     }
 
-     // Add genres
-     if (this.selectedItem.selectedGenres && Array.isArray(this.selectedItem.selectedGenres)) {
-      this.selectedItem.selectedGenres.forEach(genre => {
+    // Add genres
+    if (this.selectedItem.genres && Array.isArray(this.selectedItem.genres)) {
+      // Add each selected genre to the FormArray
+      console.log('Selected genres:', this.selectedItem.genres);
+      this.selectedItem.genres.forEach(genre => {
         genresArray.push(new FormControl(genre));
       });
+      
+      // Log to verify genres were added correctly
+      console.log('Genres added:', genresArray.value);
     }
 
-    if (this.selectedItem.selectedShowTimeSlots && Array.isArray(this.selectedItem.selectedShowTimeSlots)) {
-    this.selectedItem.selectedShowTimeSlots.forEach(time => {
-      schedulesArray.push(new FormControl(time));
-    });
-  }
+   // Add schedules
+    if (this.selectedItem.showtimes && Array.isArray(this.selectedItem.showtimes) && this.selectedItem.showtimes.length > 0) {
+      // Get the first day's date
+      const firstDay = this.selectedItem.showtimes[0].showDate;
+      
+      // Filter showtimes for the first day only
+      const firstDayShowtimes = this.selectedItem.showtimes.filter(showtime => 
+        showtime.showDate === firstDay
+      );
+      
+      // Extract all startTime values
+        const startTimes = firstDayShowtimes.map(showtime => {
+          // Convert "08:00:00" format to "8:00" format to match availableSchedules
+          const timeString = showtime.startTime;
+          const hours = timeString.toString().substring(0, 2).replace(/^0+/, ''); // Remove leading zeros
+          const minutes = timeString.toString().substring(3, 5);
+          return `${hours}:${minutes}`;
+        });
+        
+        // Find and push schedule IDs that match these times
+        this.availableSchedules.forEach(schedule => {
+          if (startTimes.includes(schedule.time)) {
+            schedulesArray.push(new FormControl(schedule.id));
+          }
+        });
+        
+        console.log('Schedule IDs added:', schedulesArray.value);
+      }
 
     // Convert status from numeric enum to string
     let statusValue: string;
@@ -293,7 +321,7 @@ export class UpdatemovieComponent implements OnInit {
       releasedDate: this.formatDate(this.selectedItem.releasedDate),
       endDate: this.formatDate(this.selectedItem.endDate),
       cinemaroomId: cinemaRoom,
-      genres: this.selectedItem.selectedGenres,
+      genres: this.selectedItem.genres,
       schedules: this.selectedItem.selectedShowTimeSlots
     });
     
