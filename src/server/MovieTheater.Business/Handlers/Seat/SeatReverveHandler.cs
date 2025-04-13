@@ -1,7 +1,7 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using MovieTheater.Business.ViewModels.Ticket;
+using MovieTheater.Business.ViewModels.Invoice;
 using MovieTheater.Core.Exceptions;
 using MovieTheater.Data.Repositories;
 using MovieTheater.Data.UnitOfWorks;
@@ -10,15 +10,18 @@ using MovieTheater.Models.Common;
 namespace MovieTheater.Business.Handlers.Seat;
 
 public class SeatReverveHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserIdentity userIdentity) : BaseHandler(unitOfWork, mapper),
-                                IRequestHandler<SeatReverveCommand, IEnumerable<TicketViewModel>>
+                                IRequestHandler<SeatReverveCommand, InvoicePreviewViewModel>
 {
     private readonly IUserIdentity currentUser = userIdentity;
-    public async Task<IEnumerable<TicketViewModel>> Handle(SeatReverveCommand request, CancellationToken cancellationToken)
+    public async Task<InvoicePreviewViewModel> Handle(SeatReverveCommand request, CancellationToken cancellationToken)
     {
         using var transaction = await unitOfWork.BeginTransactionAsync();
         try
         {
-            var showtime = await _unitOfWork.ShowtimeRepository.GetByIdAsync(request.ShowTimeId);
+            var showtime = await _unitOfWork.ShowtimeRepository.GetQuery()
+                        .Include(st => st.CinemaRoom)
+                        .Include(st => st.Movie)
+                        .FirstOrDefaultAsync(st => st.Id == request.ShowTimeId, cancellationToken);//thêm include để cinema với movie không bị null
             if (showtime == null) throw new ResourceNotFoundException("Showtime not found");
             var seats = await _unitOfWork.SeatRepository.GetQuery()
                 .Where(s => request.SeatIds.Contains(s.Id))
@@ -38,21 +41,44 @@ public class SeatReverveHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserIde
                 AddedScore = 0,
                 User = await _unitOfWork.UserRepository.GetByIdAsync(currentUser.UserId),
                 ShowTimeId = showtime.Id,
+                InvoiceStatus = InvoiceStatus.Pending
             };
-            //set seats to pendding
+            var seatShowTimes = await _unitOfWork.SeatShowtimeRepository.GetQuery()
+                .Where(sst => sst.ShowTimeId == showtime.Id && request.SeatIds.Contains(sst.SeatId))
+                .ToListAsync(cancellationToken);
             foreach (var seat in seats)
             {
-                seat.seatStatus = SeatStatus.Pending;
-                seat.UpdatedById = currentUser.UserId;
-                seat.UpdatedAt = DateTime.Now;
-                _unitOfWork.SeatRepository.Update(seat);
+                var existingSST = seatShowTimes.FirstOrDefault(sst => sst.SeatId == seat.Id);
+
+                if (existingSST != null)
+                {
+                    // Cập nhật trạng thái nếu đã có bản ghi
+                    existingSST.Status = SeatStatus.Pending;
+                    existingSST.UpdatedAt = DateTime.Now;
+                    existingSST.UpdatedById = currentUser.UserId;
+                    _unitOfWork.SeatShowtimeRepository.Update(existingSST);
+                }
+                else
+                {
+                    // Thêm bản ghi mới nếu chưa có
+                    var newSST = new SeatShowTime
+                    {
+                        SeatShowTimeId = Guid.NewGuid(),
+                        SeatId = seat.Id,
+                        ShowTimeId = showtime.Id,
+                        Status = SeatStatus.Pending,
+                        UpdatedAt = DateTime.Now,
+                        UpdatedById = currentUser.UserId
+                    };
+                    _unitOfWork.SeatShowtimeRepository.Add(newSST);
+                }
             }
             var tickets = seats.Select(seat => new Models.Common.Ticket
             {
                 Id = Guid.NewGuid(),
                 SeatId = seat.Id,
                 Price = 50000,
-                Status = TicketStatus.Paid,
+                Status = TicketStatus.Pending,
                 BookingDate = DateTime.Now,
                 InvoiceId = invoice.Id,
                 ShowTimeId = showtime.Id,
@@ -68,7 +94,7 @@ public class SeatReverveHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserIde
             _unitOfWork.InvoiceRepository.Add(invoice);
             await unitOfWork.SaveChangesAsync();
             await transaction.CommitAsync();
-            return _mapper.Map<IEnumerable<TicketViewModel>>(tickets);
+            return _mapper.Map<InvoicePreviewViewModel>(invoice);
         }
         catch (Exception e)
         {

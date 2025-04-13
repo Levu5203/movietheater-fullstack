@@ -1,8 +1,11 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Moq;
 using MovieTheater.Business.Handlers.Auth;
 using MovieTheater.Business.Services;
@@ -12,7 +15,7 @@ using MovieTheater.Data.Repositories;
 using MovieTheater.Data.UnitOfWorks;
 using MovieTheater.Models.Security;
 
-namespace MovieTheater.Testing;
+namespace MovieTheater.Testing.Auth;
 
 [TestFixture]
 public class LoginHandlerTesting
@@ -68,14 +71,14 @@ public class LoginHandlerTesting
         // Setup UserManager
         _userManager = new UserManager<User>(
             userStoreMock.Object,
-            null,
+            new Mock<IOptions<IdentityOptions>>().Object,
             new PasswordHasher<User>(),
             [new UserValidator<User>()],
             [new PasswordValidator<User>()],
-            null,
+            new UpperInvariantLookupNormalizer(),
             new IdentityErrorDescriber(),
-            null,
-            null
+            new Mock<IServiceProvider>().Object,
+            new Mock<ILogger<UserManager<User>>>().Object
         );
 
         // Setup SignInManager mock
@@ -83,10 +86,10 @@ public class LoginHandlerTesting
             _userManager,
             Mock.Of<IHttpContextAccessor>(),
             Mock.Of<IUserClaimsPrincipalFactory<User>>(),
-            null,
-            null,
-            null,
-            null
+            Mock.Of<IOptions<IdentityOptions>>(),
+            Mock.Of<ILogger<SignInManager<User>>>(),
+            Mock.Of<IAuthenticationSchemeProvider>(),
+            Mock.Of<IUserConfirmation<User>>()
         );
 
         // Setup test users with pre-hashed passwords
@@ -103,7 +106,6 @@ public class LoginHandlerTesting
                 IsDeleted = false,
                 IsActive = true,
                 EmailConfirmed = true,
-                PasswordHash = hasher.HashPassword(null, TestPassword)
             },
             new() {
                 Id = Guid.NewGuid(),
@@ -116,9 +118,10 @@ public class LoginHandlerTesting
                 IsDeleted = false,
                 IsActive = false,
                 EmailConfirmed = true,
-                PasswordHash = hasher.HashPassword(null, TestPassword)
             },
         ];
+        _users[0].PasswordHash = hasher.HashPassword(_users[0], TestPassword);
+        _users[1].PasswordHash = hasher.HashPassword(_users[1], TestPassword);
         // Add test users to the in-memory database
         _dbContext.Users.AddRange(_users);
         await _dbContext.SaveChangesAsync();
@@ -206,9 +209,9 @@ public class LoginHandlerTesting
             Password = TestPassword
         };
 
-        var ex = Assert.ThrowsAsync<UnauthorizedAccessException>(() =>
-           _handler.Handle(loginCommand, CancellationToken.None));
-        Assert.That(ex.Message, Is.EqualTo("The email address you entered isn't connected to an account."));
+        var ex = await Task.Run(() => Assert.ThrowsAsync<UnauthorizedAccessException>(() =>
+           _handler.Handle(loginCommand, CancellationToken.None)));
+        Assert.That(ex!.Message, Is.EqualTo("The email address you entered isn't connected to an account."));
     }
 
     [Test]
@@ -220,9 +223,9 @@ public class LoginHandlerTesting
             Password = "WrongPassword123"
         };
 
-        var ex = Assert.ThrowsAsync<UnauthorizedAccessException>(() =>
-           _handler.Handle(loginCommand, CancellationToken.None));
-        Assert.That(ex.Message, Is.EqualTo("Invalid password. Try other password for account with email user1@example.com"));
+        var ex =await Task.Run(() =>  Assert.ThrowsAsync<UnauthorizedAccessException>(() =>
+           _handler.Handle(loginCommand, CancellationToken.None)));
+        Assert.That(ex!.Message, Is.EqualTo("Invalid password. Try other password for account with email user1@example.com"));
     }
 
     [Test]
@@ -234,8 +237,8 @@ public class LoginHandlerTesting
             Password = TestPassword
         };
 
-        var ex = Assert.ThrowsAsync<UnauthorizedAccessException>(() =>
-           _handler.Handle(loginCommand, CancellationToken.None));
-        Assert.That(ex.Message, Is.EqualTo("Your account is deactivated. Please contact an administrator."));
+        var ex = await Task.Run(() => Assert.ThrowsAsync<UnauthorizedAccessException>(() =>
+           _handler.Handle(loginCommand, CancellationToken.None)));
+        Assert.That(ex!.Message, Is.EqualTo("Your account is deactivated. Please contact an administrator."));
     }
 }

@@ -56,6 +56,8 @@ public class UnitOfWork : IUnitOfWork
 
     private IRepository<HistoryScore>? _HistoryScoreRepository;
     public IRepository<HistoryScore> HistoryScoreRepository => _HistoryScoreRepository ??= new Repository<HistoryScore>(_context, _currentUser);
+
+    
     #endregion
 
     #region Implementation of Repositories
@@ -69,6 +71,9 @@ public class UnitOfWork : IUnitOfWork
 
     private IRepository<MovieGenre>? _movieGenreRepository;
     public IRepository<MovieGenre> MovieGenreRepository => _movieGenreRepository ??= new Repository<MovieGenre>(_context, _currentUser);
+
+    private IRepository<SeatShowTime>? _SeatShowtimeRepository;
+    public IRepository<SeatShowTime> SeatShowtimeRepository => _SeatShowtimeRepository ??= new Repository<SeatShowTime>(_context, _currentUser);
 
     public IRepository<T> Repository<T>() where T : BaseEntity, IBaseEntity
     {

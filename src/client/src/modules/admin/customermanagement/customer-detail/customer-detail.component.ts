@@ -5,12 +5,12 @@ import {
 } from '@fortawesome/angular-fontawesome';
 import { faUser, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { EmployeeModel } from '../../../../models/user/employee.model';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { UserModel } from '../../../../models/user/user.model';
 
 @Component({
   selector: 'app-customer-detail',
-  imports: [FontAwesomeModule, DatePipe],
+  imports: [FontAwesomeModule, DatePipe, CommonModule],
   templateUrl: './customer-detail.component.html',
   styleUrl: './customer-detail.component.css',
 })

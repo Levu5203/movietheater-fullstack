@@ -19,7 +19,6 @@ export class MasterDataService<T> implements IMasterDataService<T> {
   }
 
   search(filter: any): Observable<PaginatedResult<T>> {
-    
     return this.http.post<PaginatedResult<T>>(this.baseUrl + '/search', filter);
   }
 
@@ -46,5 +45,4 @@ export class MasterDataService<T> implements IMasterDataService<T> {
   createWithFile(data: FormData): Observable<T> {
     return this.http.post<T>(this.baseUrl, data);
   }
-
 }

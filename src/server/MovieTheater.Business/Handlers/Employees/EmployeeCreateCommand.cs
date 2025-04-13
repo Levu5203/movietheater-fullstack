@@ -1,5 +1,6 @@
 
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 using MovieTheater.Business.ViewModels.Users;
 namespace MovieTheater.Business.Handlers.Employees;
 
@@ -36,4 +37,5 @@ public class EmployeeCreateCommand : MasterBaseCreateCommand<EmployeeViewModel>
 
     public DateTime? DateOfBirth { get; set; }
 
+    public IFormFile? Avatar { get; set; }
 }

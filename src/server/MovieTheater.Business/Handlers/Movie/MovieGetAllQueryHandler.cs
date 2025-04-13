@@ -6,15 +6,18 @@ using MovieTheater.Data.UnitOfWorks;
 
 namespace MovieTheater.Business.Handlers.Movie;
 
-public class MovieGetAllQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : 
+public class MovieGetAllQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) :
     BaseHandler(unitOfWork, mapper), IRequestHandler<MovieGetAllQuery, IEnumerable<MovieViewModel>>
 {
-    public async Task<IEnumerable<MovieViewModel>> Handle(MovieGetAllQuery request, CancellationToken cancellationToken){
+    public async Task<IEnumerable<MovieViewModel>> Handle(MovieGetAllQuery request, CancellationToken cancellationToken)
+    {
         var query = _unitOfWork.MovieRepository.GetQuery()
               .Include(m => m.ShowTimes)
                   .ThenInclude(st => st.CinemaRoom)
               .Include(m => m.ShowTimes)
-                  .ThenInclude(st => st.ShowTimeSlot);
+                  .ThenInclude(st => st.ShowTimeSlot)
+              .Include(m => m.MovieGenres)
+                  .ThenInclude(mg => mg.Genre);
         //Filter by user if specified
         // if (request.UserId.HasValue)
         // {

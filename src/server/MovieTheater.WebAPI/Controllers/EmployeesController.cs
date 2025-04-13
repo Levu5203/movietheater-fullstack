@@ -81,10 +81,21 @@ public class EmployeesController(IMediator mediator) : ControllerBase
     [HttpPost]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(EmployeeViewModel), StatusCodes.Status201Created)]
-    public async Task<IActionResult> CreateAsync([FromBody] EmployeeCreateCommand command)
+    public async Task<IActionResult> CreateAsync([FromForm] EmployeeCreateCommand command)
     {
-        var result = await _mediator.Send(command);
-        return CreatedAtAction(nameof(GetEmployeeById), new { id = result.Id }, result);
+        try
+        {
+            var result = await _mediator.Send(command);
+            return CreatedAtAction(nameof(GetEmployeeById), new { id = result.Id }, result);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
+        }
     }
 
     /// <summary>
@@ -97,7 +108,7 @@ public class EmployeesController(IMediator mediator) : ControllerBase
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(typeof(EmployeeViewModel), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> UpdateAsync(Guid id, [FromBody] EmployeeUpdateCommand command)
+    public async Task<IActionResult> UpdateAsync(Guid id, [FromForm] EmployeeUpdateCommand command)
     {
         command.Id = id;
         if (!ModelState.IsValid)

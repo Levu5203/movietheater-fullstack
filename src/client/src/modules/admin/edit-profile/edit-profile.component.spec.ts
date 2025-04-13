@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MasterDataComponent } from './master-data.component';
+import { EditProfileComponent } from './edit-profile.component';
 
-describe('MasterDataComponent', () => {
-  let component: MasterDataComponent;
-  let fixture: ComponentFixture<MasterDataComponent>;
+describe('EditProfileComponent', () => {
+  let component: EditProfileComponent;
+  let fixture: ComponentFixture<EditProfileComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MasterDataComponent]
+      imports: [EditProfileComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(MasterDataComponent);
+    fixture = TestBed.createComponent(EditProfileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,137 +1,123 @@
-<section class="text-white bg-gray-900 pt-20">
-    <!-- poster -->
-    <div class="w-full h-[250px] md:h-[300px] xl:h-[473px] relative wrapper">
-        <div class="absolute inset-0 w-full h-full">
-            <img src="../assets/img-movie-1.webp" alt="ANH KHÔNG ĐAU-T18" class="object-cover img-css-detail">
-        </div>
-        <div class="absolute bg-primary/60 inset-0 w-full h-full z-10"></div>
+<section class="text-white bg-gray-900 pt-20 h-full">
+  <div class="w-full h-[250px] md:h-[300px] xl:h-[473px] relative wrapper">
+    <div class="absolute top-5 left-4 z-30">
+      <button
+        type="button"
+        (click)="onClose()"
+        class="flex items-center gap-2 bg-[#EF4444]  text-white px-5 py-2 rounded-full shadow-md hover:bg-[#E30713] hover:underline transition"
+        title="Back"
+      >
+        <fa-icon [icon]="faArrowLeft" class="text-white/70 text-lg"></fa-icon>
+      </button>
+    </div>
+    <!-- Poster background -->
+    <div class="absolute inset-0 w-full h-full">
+      <img [src]="selectedItem?.posterUrl" [alt]="selectedItem?.name" class="object-cover img-css-detail" />
+    </div>
+    <div class="absolute bg-primary/60 inset-0 w-full h-full z-10"></div>
 
-        <div class="hidden xl:block absolute w-full inset-0 m-auto z-20">
-            <div class="w-full max-w-4xl m-auto h-[473px] py-7 pt-24 flex gap-10">
-                <div class="relative h-[333px] min-w-[238px] shadow-lg">
-                    <img sizes="238px" src="../assets/img-movie-1.webp" 
-                                        srcset="../assets/img-movie-1.webp 16w, 
-                                                ../assets/img-movie-1.webp 32w, 
-                                                ../assets/img-movie-1.webp 48w, 
-                                                ../assets/img-movie-1.webp 64w, 
-                                                ../assets/img-movie-1.webp 96w, 
-                                                ../assets/img-movie-1.webp 128w, 
-                                                ../assets/img-movie-1.webp 256w, 
-                                                ../assets/img-movie-1.webp 384w, 
-                                                ../assets/img-movie-1.webp 640w, 
-                                                ../assets/img-movie-1.webp 750w, 
-                                                ../assets/img-movie-1.webp 828w, 
-                                                ../assets/img-movie-1.webp 1080w, 
-                                                ../assets/img-movie-1.webp 1200w, 
-                                                ../assets/img-movie-1.webp 1920w, 
-                                                ../assets/img-movie-1.webp 2048w, 
-                                                ../assets/img-movie-1.webp 3840w"  
-                                        alt="ANH KHÔNG ĐAU-T18" class="object-cover rounded-xl img-css-detail">
-                </div>
-                <div class="text-sm flex flex-col">
-                    <div class="flex items-center gap-2 mt-2">
-                        <h3 class="font-bold text-2xl">ANH KHÔNG ĐAU-T18</h3>
-                        <div class="rounded-xl p-2 border border-white font-bold">2D</div>
-                    </div>
-                    <div class="flex items-center mt-2 gap-5 text-sm">
-                        <p>Hài, Hành động</p>
-                        <p>US</p>
-                        <p>110 Min</p>
-                        <p>Directors: Dan Berk, Robert Olsen</p>
-                    </div>
-                    <p>Actors: Amber Midthunder, Jack Quaid, Ray Nicholson</p>
-                    <p>Release: 14/03/2025</p>
-                    <p class="mt-5 line-clamp-4">A man who cannot feel physical pain turns his rare condition into an unexpected advantage in a life-or-death battle to rescue the girl of his dreams.</p>
-                    <div class="text-red-500 mt-5">Rating: T18 - The film is intended for viewers aged 18 and above (18+).</div>
-                    <div class="mt-2 flex items-center gap-4 flex-1">
-                        <button type="button" class="text-sm underline hover:cursor-pointer">Plot details</button>
-                        <button class="border border-yellow-500 rounded-full py-2 px-10 text-yellow-500 hover:scale-105 hover:cursor-pointer" type="button">Watch trailer</button>
-                    </div>
-                </div>
-            </div>
+    <!-- Desktop Detail -->
+    <div class="hidden xl:block absolute w-full inset-0 m-auto z-20" *ngIf="selectedItem">
+      <div class="w-full max-w-4xl m-auto h-[473px] py-7 pt-24 flex gap-10">
+        <div class="relative h-[333px] min-w-[238px] shadow-lg">
+          <img [src]="selectedItem.posterUrl" [alt]="selectedItem.name"
+            class="object-cover rounded-xl img-css-detail" />
         </div>
+        <div class="text-sm flex flex-col">
+          <div class="flex items-center gap-2 mt-2">
+            <h3 class="font-bold text-2xl">{{ selectedItem.name }}</h3>
+            <div class="rounded-xl p-2 border border-white font-bold">2D</div>
+          </div>
+          <div class="flex items-center mt-2 gap-5 text-sm flex-wrap">
+            <p>{{ selectedItem.genres.join(', ') }}</p>
+            <p>{{ selectedItem.origin }}</p>
+            <p>{{ selectedItem.duration }} Minutes</p>
+            <p>Directors: {{ selectedItem.director }}</p>
+          </div>
+          <p>Actors: {{ selectedItem.actors }}</p>
+          <p>Release: {{ selectedItem.releasedDate | date: 'dd/MM/yyyy' }}</p>
+          <p class="mt-5 line-clamp-4">{{ selectedItem.description }}</p>
+          <div class="text-red-500 mt-5">Rating: T18 - The film is intended for viewers aged 18 and above (18+).</div>
+          <div class="mt-2 flex items-center gap-4 flex-1">
+            <button type="button" class="text-sm underline hover:cursor-pointer">Plot details</button>
+            <button
+              class="border border-yellow-500 rounded-full py-2 px-10 text-yellow-500 hover:scale-105 hover:cursor-pointer"
+              type="button">Watch trailer</button>
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- Responsive -->
-    <div class="relative block xl:hidden px-4 md:px-6 pb-10 -mt-[120px] z-30">
-        <div class="flex items-center gap-4">
-            <div class="h-[200px] w-full max-w-[150px] md:w-[200px] md:max-w-[200px] md:h-[250px] relative">
-                <img alt="NGHỀ SIÊU KHÓ NÓI-T18" class="object-cover rounded-xl shadow-lg img-css-detail" sizes="(min-width: 780px) 200px, (min-width: 360px) 150px, calc(72.5vw - 98px)" 
-                        srcset="../assets/img-movie-1.webp 16w, 
-                        ../assets/img-movie-1.webp 32w, 
-                        ../assets/img-movie-1.webp 48w, 
-                        ../assets/img-movie-1.webp 64w, 
-                        ../assets/img-movie-1.webp 96w, 
-                        ../assets/img-movie-1.webp 128w, 
-                        ../assets/img-movie-1.webp 256w, 
-                        ../assets/img-movie-1.webp 384w, 
-                        ../assets/img-movie-1.webp 640w, 
-                        ../assets/img-movie-1.webp 750w, 
-                        ../assets/img-movie-1.webp 828w, 
-                        ../assets/img-movie-1.webp 1080w, 
-                        ../assets/img-movie-1.webp 1200w, 
-                        ../assets/img-movie-1.webp 1920w, 
-                        ../assets/img-movie-1.webp 2048w, 
-                        ../assets/img-movie-1.webp 3840w">
-                    </div>
-                    <div>
-                        <div class="flex items-center gap-2 mt-2">
-                            <h3 class="font-bold md:text-xl">ANH KHONG ĐAU-T18</h3>
-                            <div class="rounded-md p-1 border border-white font-bold text-sm md:text-base">2D</div>
-                        </div>
-                        <div class="flex items-center mt-2 gap-x-2 text-sm md:text-base flex-wrap">
-                            <p>Hài, Hành động</p>
-                            <p>US</p>
-                            <p>110 Min</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="text-sm flex flex-col mt-4">
-                    <div class="flex items-center mt-2 gap-5 text-sm md:text-base">
-                        <p>Directions: Dan Berk, Robert Olsen</p>
-                    </div>
-                    <p>Actors: Amber Midthunder, Jack Quaid, Ray Nicholson</p>
-                    <p>Release: 14/03/2025</p>
-                    <p class="mt-4 line-clamp-4">A man who cannot feel physical pain turns his rare condition into an unexpected advantage in a life-or-death battle to rescue the girl of his dreams.</p>
-                <div class="text-red-500 mt-5">Rating: T18 - The film is intended for viewers aged 18 and above (18+).</div>
-                <div class="mt-4 flex items-center justify-center gap-4 flex-1">
-                <button type="button" class="text-sm underline">Plot details</button>
-                <button class="border border-yellow-500 rounded-full py-2 px-10 text-yellow-500 hover:scale-105" type="button">Watch trailer</button>
-            </div>
+  </div>
+
+  <!-- Mobile View -->
+  <div class="relative block xl:hidden px-4 md:px-6 -mt-[120px] z-30" *ngIf="selectedItem">
+    <div class="flex items-center gap-4">
+      <div class="h-[200px] w-full max-w-[150px] md:w-[200px] md:max-w-[200px] md:h-[250px] relative">
+        <img [src]="selectedItem.posterUrl" [alt]="selectedItem.name"
+          class="object-cover rounded-xl shadow-lg img-css-detail" />
+      </div>
+      <div>
+        <div class="flex items-center gap-2 mt-2">
+          <h3 class="font-bold md:text-xl">{{ selectedItem.name }}</h3>
+          <div class="rounded-md p-1 border border-white font-bold text-sm md:text-base">2D</div>
         </div>
+        <div class="flex items-center mt-2 gap-x-2 text-sm md:text-base flex-wrap">
+          <p>{{ selectedItem.genres.join(', ') }}</p>
+          <p>{{ selectedItem.origin }}</p>
+          <p>{{ selectedItem.duration }} Min</p>
+        </div>
+      </div>
     </div>
-    <div class="w-full">
-        <div class="flex h-[91px] justify-center bg-[#1A1D23]">
-            <button class="focus:border-none focus:outline-none" 
-            type="button" aria-selected="true" tabindex="0" 
-            data-headlessui-state="selected" aria-controls="headlessui-tabs-panel-:r60:" 
-            disabled="">
-            <div class="w-[72px] h-full flex flex-col items-center justify-center text-xs transition-colors bg-red-600">
-                <p>Th. 03</p>
-                <p class="text-xl font-bold">19</p>
-                <p>Wed</p>
-            </div>
-        </button>
-        </div>
-        <div class="text-sm text-center mx-4 md:px-6 lg:mx-auto mt-4 text-orange-500">
-            <b>Note:</b> Viewers under 13 years old may only select screenings that end before 10:00 PM, and viewers under 16 years old may only select screenings that end before 11:00 PM.
-        </div>
-        <div>
-            <div class="mx-auto w-full max-w-4xl py-6 space-y-6 relative">
-                <div class="grid grid-cols-5 gap-2 xl:gap-4 px-4 xl:px-0">
-                    <button class="inline-flex items-center justify-center rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2
-                                     focus-visible:ring-offset-2 border bg-transparent hover:bg-blue-500 hover:cursor-pointer h-10 px-8 py-2">
-                        <p class="font-bold text-sm">17:05</p>
-                    </button>
-                    <button class="inline-flex items-center justify-center rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2
-                                     focus-visible:ring-offset-2 border bg-transparent hover:bg-blue-500 hover:cursor-pointer h-10 px-8 py-2">
-                        <p class="font-bold text-sm">17:05</p>
-                    </button>
-                    <button class="inline-flex items-center justify-center rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2
-                                     focus-visible:ring-offset-2 border bg-transparent hover:bg-blue-500 hover:cursor-pointer h-10 px-8 py-2">
-                        <p class="font-bold text-sm">17:05</p>
-                    </button>
-                </div>
-            </div>
-        </div>
+    <div class="text-sm flex flex-col mt-4">
+      <p>Directors: {{ selectedItem.director }}</p>
+      <p>Actors: {{ selectedItem.actors }}</p>
+      <p>Release: {{ selectedItem.releasedDate | date: 'dd/MM/yyyy' }}</p>
+      <p class="mt-4 line-clamp-4">{{ selectedItem.description }}</p>
+      <div class="text-red-500 mt-5">Rating: T18 - The film is intended for viewers aged 18 and above (18+).</div>
+      <div class="mt-4 flex items-center justify-center gap-4 flex-1">
+        <button type="button" class="text-sm underline">Plot details</button>
+        <button class="border border-yellow-500 rounded-full py-2 px-10 text-yellow-500 hover:scale-105"
+          type="button">Watch trailer</button>
+      </div>
     </div>
+  </div>
+
+  <!-- Date Tabs -->
+  <div class="w-full pt-6">
+    <!-- Show Time Date Selection -->
+    <div class="flex items-center gap-2 mb-4 justify-center">
+      <h3 class="text-xl font-bold">Now showing</h3>
+    </div>
+    <div class="flex items-center justify-center gap-4 xl:gap-4 flex-wrap">
+      <button *ngFor="let showtime of selectedItem?.showtimes" class="inline-flex items-center justify-center text-sm font-medium ring-offset-background transition-colors
+             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
+             disabled:pointer-events-none disabled:opacity-50 border text-destructive-foreground
+             hover:bg-blue-500 h-9 rounded-md px-3 hover:cursor-pointer"
+        [ngClass]="{'bg-danger text-white': selectedDate === showtime.showDate}"
+        (click)="onShowtimeClick(showtime.showDate)">
+        {{ showtime.showDate }}
+      </button>
+    </div>
+    <div class="text-sm text-center mx-auto mt-4 text-orange-500">
+      <b>Note: </b>Viewers under 13 years old may only select screenings that end before 10:00 PM, and viewers under 16
+      years old may only select screenings that end before 11:00 PM.
+    </div>
+
+    <!-- Showtimes -->
+    <div>
+      <div class="mx-auto w-full max-w-4xl py-6 space-y-6 relative">
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 xl:gap-4 px-4 xl:px-0">
+          <ng-container *ngIf="showtimesBySelectedDate; else noShowtimes">
+            <button *ngFor="let showtime of selectedItem?.showtimes" (click)="selectShowtime(showtime.id)"
+              class="inline-flex items-center justify-center rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 border bg-transparent hover:bg-blue-500 hover:cursor-pointer h-10 px-8 py-2">
+              <p class="font-bold text-sm">{{ showtime.startTime | customFormat: 'timeShort' }}</p>
+            </button>
+          </ng-container>
+          <ng-template #noShowtimes>
+            <p class="text-gray-400 text-center col-span-full">No showtimes available.</p>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>

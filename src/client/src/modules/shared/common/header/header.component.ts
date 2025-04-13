@@ -6,7 +6,6 @@ import { ModalService } from '../../../../services/modal.service';
 import {
   faBars,
   faSortDesc,
-  faUser,
   faUserCircle,
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
@@ -22,17 +21,22 @@ import { UserInformation } from '../../../../models/auth/user-information.model'
 })
 export class HeaderComponent {
   constructor(
-    private modalService: ModalService,
-    @Inject(AUTH_SERVICE) private authService: IAuthService,
-    private router: Router // Inject Router
+    private readonly modalService: ModalService,
+    @Inject(AUTH_SERVICE) private readonly authService: IAuthService,
+    private readonly router: Router // Inject Router
   ) {
     this.authService.isAuthenticated().subscribe((res) => {
+      if (this.authService.isTokenExpired()) {
+        this.authService.logout();
+        return;
+      }
       this.isAuthenticated = res;
     });
 
     this.authService.getUserInformation().subscribe((res) => {
       if (res) {
         this.currentUser = res;
+        this.hasPermission = this.authService.hasAnyRole(['Admin', 'Employee']);
       }
     });
   }
@@ -48,6 +52,7 @@ export class HeaderComponent {
   public isMobileMenuOpen = false;
   public isAuthenticated: boolean = false;
   public currentUser: UserInformation | null = null;
+  public hasPermission: boolean = false;
 
   // Show form login
   openLogin() {

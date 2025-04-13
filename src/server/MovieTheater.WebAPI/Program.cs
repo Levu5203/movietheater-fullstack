@@ -13,6 +13,7 @@ using MovieTheater.Data.DataSeeding;
 using MovieTheater.Data.Repositories;
 using MovieTheater.Data.UnitOfWorks;
 using MovieTheater.Models.Security;
+using MovieTheater.WebAPI.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -97,6 +98,10 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 
 // Register File Service
 builder.Services.AddScoped<IFileStorageService, FileStorageService>();
+
+builder.Services.AddScoped<IAzureService, AzureService>();
+
+builder.Services.AddHostedService<PendingSeatTimeoutService>();
 
 // Register controllers
 builder.Services.AddControllers();

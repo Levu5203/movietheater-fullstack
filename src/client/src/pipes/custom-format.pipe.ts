@@ -26,11 +26,18 @@ export class CustomFormatPipe implements PipeTransform {
           new Date(value)
         );
       case 'timeShort':
+        if (typeof value === 'string' && /^\d{2}:\d{2}(:\d{2})?$/.test(value)) {
+          // Use base date to convert time-only string
+          value = `1970-01-01T${value}`;
+        }
+        const date = new Date(value);
+        if (isNaN(date.getTime())) return 'Invalid time';
         return new Intl.DateTimeFormat('en-US', {
           hour: '2-digit',
           minute: '2-digit',
           hour12: false,
-        }).format(new Date(value));
+        }).format(date);
+
       case 'currency':
         return new Intl.NumberFormat('vi-VN', {
           style: 'currency',

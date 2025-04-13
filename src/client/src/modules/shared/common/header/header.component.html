@@ -4,9 +4,13 @@
     'background-color': 'rgba(11, 13, 19, ' + bgHeaderOpacity + ')'
   }"
 >
-  <nav class="flex justify-between items-center w-11/12 sm:w-10/12 md:w-5/6 lg:w-4/5 mx-auto py-2 sm:py-3 relative">
+  <nav
+    class="flex justify-between items-center w-11/12 sm:w-10/12 md:w-5/6 lg:w-4/5 mx-auto py-2 sm:py-3 relative"
+  >
     <!-- Mobile & Tablet Menu Button -->
     <button
+      type="button"
+      title="toggleMobileMenu"
       class="text-white text-xl sm:text-2xl xl:hidden mr-2 sm:mr-4"
       (click)="toggleMobileMenu()"
     >
@@ -15,16 +19,40 @@
 
     <!-- Logo -->
     <a href="" class="flex flex-col items-center">
-      <img src="../assets/logo.png" alt="Logo" class="w-10 sm:w-12 md:w-14 lg:w-16" />
+      <img
+        src="../assets/logo.png"
+        alt="Logo"
+        class="w-10 sm:w-12 md:w-14 lg:w-16"
+      />
       <span class="font-bold text-sm sm:text-base">TonyCinema</span>
     </a>
 
     <!-- Desktop Navigation (Visible on xl screens) -->
     <div class="hidden xl:flex space-x-10 text-white">
-      <a routerLink="/home" [ngClass]="{'active': isActive('/home') || isActive('/')}" class="hover:text-gray-400">Home</a>
-      <a routerLink="/showtime" [ngClass]="{'active': isActive('/showtime')}" class="hover:text-gray-400">Show Time</a>
-      <a routerLink="/promotion" [ngClass]="{'active': isActive('/promotion')}" class="hover:text-gray-400">Promotion</a>
-      <a routerLink="/ticketprice" [ngClass]="{'active': isActive('/ticketprice')}" class="hover:text-gray-400">Ticket Price</a>
+      <a
+        routerLink="/home"
+        [ngClass]="{ active: isActive('/home') || isActive('/') }"
+        class="hover:text-gray-400"
+        >Home</a
+      >
+      <a
+        routerLink="/showtime"
+        [ngClass]="{ active: isActive('/showtime') }"
+        class="hover:text-gray-400"
+        >Show Time</a
+      >
+      <a
+        routerLink="/promotion"
+        [ngClass]="{ active: isActive('/promotion') }"
+        class="hover:text-gray-400"
+        >Promotion</a
+      >
+      <a
+        routerLink="/ticketprice"
+        [ngClass]="{ active: isActive('/ticketprice') }"
+        class="hover:text-gray-400"
+        >Ticket Price</a
+      >
     </div>
 
     <!-- Mobile & Tablet Navigation -->
@@ -32,24 +60,81 @@
       class="absolute top-full left-0 sm:left-4 w-40 sm:w-48 bg-black text-white flex flex-col items-center rounded-xl transition-all duration-300 mt-1 z-10 xl:hidden"
       *ngIf="isMobileMenuOpen"
     >
-      <a routerLink="/home" class="block w-full text-center py-2 sm:py-3 hover:text-red-500 text-sm sm:text-base" [ngClass]="{'bg-gray-800': isActive('/home') || isActive('/')}" >Home</a>
-      <a routerLink="/showtime" class="block w-full text-center py-2 sm:py-3 hover:text-red-500 text-sm sm:text-base" [ngClass]="{'bg-gray-800': isActive('/showtime')}">Show Time</a>
-      <a routerLink="/promotion" class="block w-full text-center py-2 sm:py-3 hover:text-red-500 text-sm sm:text-base" [ngClass]="{'bg-gray-800': isActive('/promotion')}">Promotion</a>
-      <a routerLink="/ticketprice" class="block w-full text-center py-2 sm:py-3 hover:text-red-500 text-sm sm:text-base" [ngClass]="{'bg-gray-800': isActive('/ticketprice')}">Ticket Price</a>
+      <a
+        routerLink="/home"
+        class="block w-full text-center py-2 sm:py-3 hover:text-red-500 text-sm sm:text-base"
+        [ngClass]="{ 'bg-gray-800': isActive('/home') || isActive('/') }"
+        >Home</a
+      >
+      <a
+        routerLink="/showtime"
+        class="block w-full text-center py-2 sm:py-3 hover:text-red-500 text-sm sm:text-base"
+        [ngClass]="{ 'bg-gray-800': isActive('/showtime') }"
+        >Show Time</a
+      >
+      <a
+        routerLink="/promotion"
+        class="block w-full text-center py-2 sm:py-3 hover:text-red-500 text-sm sm:text-base"
+        [ngClass]="{ 'bg-gray-800': isActive('/promotion') }"
+        >Promotion</a
+      >
+      <a
+        routerLink="/ticketprice"
+        class="block w-full text-center py-2 sm:py-3 hover:text-red-500 text-sm sm:text-base"
+        [ngClass]="{ 'bg-gray-800': isActive('/ticketprice') }"
+        >Ticket Price</a
+      >
     </div>
 
     <!-- User Info & Auth -->
     <ng-container *ngIf="isAuthenticated; else unAuthenticated">
-      <div class="relative flex items-center space-x-2 sm:space-x-4 cursor-pointer" (click)="toggleDropdown()">
-        <img *ngIf="currentUser?.avatar" class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full border border-gray-500 shadow-sm" src="{{ currentUser?.avatar }}" alt="User Avatar" />
-        <fa-icon *ngIf="!currentUser?.avatar" [icon]="faUser" class="text-xl sm:text-2xl md:text-3xl"></fa-icon>
-        <p class="text-sm sm:text-base truncate max-w-24 sm:max-w-32 md:max-w-full">{{ currentUser?.displayName }}</p>
+      <div
+        class="relative flex items-center space-x-2 sm:space-x-4 cursor-pointer"
+        (click)="toggleDropdown()"
+      >
+        <img
+          *ngIf="currentUser?.avatar"
+          class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full border border-gray-500 shadow-sm"
+          src="{{ currentUser?.avatar }}"
+          alt="User Avatar"
+        />
+        <fa-icon
+          *ngIf="!currentUser?.avatar"
+          [icon]="faUser"
+          class="text-xl sm:text-2xl md:text-3xl"
+        ></fa-icon>
+        <p
+          class="text-sm sm:text-base truncate max-w-24 sm:max-w-32 md:max-w-full"
+        >
+          {{ currentUser?.displayName }}
+        </p>
         <fa-icon [icon]="faDropDown" class="mb-1.5"></fa-icon>
-        
+
         <!-- User Dropdown -->
-        <div class="absolute top-10 sm:top-12 right-0 w-40 sm:w-48 bg-black text-white shadow-lg rounded-md transition-opacity duration-300" [ngClass]="{'opacity-100 visible': isDropdownOpen, 'opacity-0 invisible': !isDropdownOpen}">
-          <a routerLink="/profile" class="block px-4 py-2 sm:p-3 hover:text-red-500 text-sm sm:text-base">Profile</a>
-          <a href="#" class="block px-4 py-2 sm:p-3 hover:text-red-500 text-sm sm:text-base" (click)="logout()">Logout</a>
+        <div
+          class="absolute top-10 sm:top-12 right-0 w-40 sm:w-48 bg-black text-white shadow-lg rounded-md transition-opacity duration-300"
+          [ngClass]="{
+            'opacity-100 visible': isDropdownOpen,
+            'opacity-0 invisible': !isDropdownOpen
+          }"
+        >
+          <a
+            routerLink="/profile"
+            class="block px-4 py-2 sm:p-3 hover:text-red-500 text-sm sm:text-base"
+            >Profile</a
+          >
+          <a
+            *ngIf="hasPermission"
+            routerLink="/admin"
+            class="block px-4 py-2 sm:p-3 hover:text-red-500 text-sm sm:text-base"
+            >Management page</a
+          >
+          <a
+            href="#"
+            class="block px-4 py-2 sm:p-3 hover:text-red-500 text-sm sm:text-base"
+            (click)="logout()"
+            >Logout</a
+          >
         </div>
       </div>
     </ng-container>
@@ -57,8 +142,20 @@
     <!-- Authentication Buttons -->
     <ng-template #unAuthenticated>
       <div class="flex space-x-2 sm:space-x-3 md:space-x-6 lg:space-x-8">
-        <button type="button" (click)="openRegister()" class="border border-white text-white px-2 sm:px-4 md:px-6 lg:px-10 py-1 sm:py-2 rounded-full hover:bg-white hover:text-black text-xs sm:text-sm md:text-base">Register</button>
-        <button type="button" (click)="openLogin()" class="bg-red-500 whitespace-nowrap px-2 sm:px-4 md:px-6 lg:px-10 py-1 sm:py-2 rounded-full hover:bg-red-600 text-xs sm:text-sm md:text-base">Log in</button>
+        <button
+          type="button"
+          (click)="openRegister()"
+          class="border border-white text-white px-2 sm:px-4 md:px-6 lg:px-10 py-1 sm:py-2 rounded-full hover:bg-white hover:text-black text-xs sm:text-sm md:text-base"
+        >
+          Register
+        </button>
+        <button
+          type="button"
+          (click)="openLogin()"
+          class="bg-red-500 whitespace-nowrap px-2 sm:px-4 md:px-6 lg:px-10 py-1 sm:py-2 rounded-full hover:bg-red-600 text-xs sm:text-sm md:text-base"
+        >
+          Log in
+        </button>
       </div>
     </ng-template>
   </nav>

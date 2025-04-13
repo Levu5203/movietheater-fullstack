@@ -30,18 +30,18 @@
                 </div>
                 <div class="text-sm flex flex-col">
                     <div class="flex items-center gap-2 mt-2">
-                        <h3 class="font-bold text-2xl">ANH KHONG ĐAU-T18</h3>
-                        <div class="rounded-xl p-2 border border-white font-bold">2D</div>
+                        <h3 class="font-bold text-2xl">{{movie.name}}</h3>
+                        <div class="rounded-xl p-2 border border-white font-bold">{{ movie.version === 1 ? '2D' : 'N/A' }}</div>
                     </div>
                     <div class="flex items-center mt-2 gap-5 text-sm">
                         <p>Hài, Hành động</p>
-                        <p>US</p>
-                        <p>110 Min</p>
-                        <p>Directors: Dan Berk, Robert Olsen</p>
+                        <p>{{ movie.origin}}</p>
+                        <p>{{movie.duration}} Min</p>
+                        <p>Directors: {{movie.director}}</p>
                     </div>
-                    <p>Actors: Amber Midthunder, Jack Quaid, Ray Nicholson</p>
-                    <p>Release: 14/03/2025</p>
-                    <p class="mt-5 line-clamp-4">A man who cannot feel physical pain turns his rare condition into an unexpected advantage in a life-or-death battle to rescue the girl of his dreams.</p>
+                    <p>Actors: {{movie.actors}}</p>
+                    <p>Release: {{movie.releasedDate}}</p>
+                    <p class="mt-5 line-clamp-4">{{movie.description}}</p>
                     <div class="text-red-500 mt-5">Rating: T18 - The film is intended for viewers aged 18 and above (18+).</div>
                     <div class="mt-2 flex items-center gap-4 flex-1">
                         <button type="button" class="text-sm underline hover:cursor-pointer">Plot details</button>
@@ -75,22 +75,22 @@
                     </div>
                     <div>
                         <div class="flex items-center gap-2 mt-2">
-                            <h3 class="font-bold md:text-xl">ANH KHONG ĐAU-T18</h3>
-                            <div class="rounded-md p-1 border border-white font-bold text-sm md:text-base">2D</div>
+                            <h3 class="font-bold md:text-xl">{{movie.name}}</h3>
+                            <div class="rounded-md p-1 border border-white font-bold text-sm md:text-base">{{ movie.version === 1 ? '2D' : 'N/A' }}</div>
                         </div>
                         <div class="flex items-center mt-2 gap-x-2 text-sm md:text-base flex-wrap">
                             <p>Hài, Hành động</p>
-                            <p>Mỹ</p>
-                            <p>110 Min</p>
+                            <p>{{ movie.origin}}</p>
+                            <p>{{ movie.duration}} Min</p>
                         </div>
                     </div>
                 </div>
                 <div class="text-sm flex flex-col mt-4">
                     <div class="flex items-center mt-2 gap-5 text-sm md:text-base">
-                        <p>Directors: Dan Berk, Robert Olsen</p>
+                        <p>{{ movie.director}}</p>
                     </div>
-                    <p>Actors: Amber Midthunder, Jack Quaid, Ray Nicholson</p>
-                    <p>Release: 14/03/2025</p>
+                    <p>Actors: {{ movie.actors}}</p>
+                    <p>Release: {{ movie.releasedDate}}</p>
                     <p class="mt-4 line-clamp-4">A man who cannot feel physical pain turns his rare condition into an unexpected advantage in a life-or-death battle to rescue the girl of his dreams.</p>
                 <div class="text-red-500 mt-5">Rating: T18 - The film is intended for viewers aged 18 and above (18+).</div>
                 <div class="mt-4 flex items-center justify-center gap-4 flex-1">
@@ -124,273 +124,42 @@
                         <div class="flex items-center justify-between mb-5">
                             <div class="text-sm md:text-base self-end">
                                 Time start: 
-                                <span class="font-bold">20:20</span>
+                                <span class="font-bold">{{ showtime.startTime}}</span>
                             </div>
                         </div>
                         <div>
                             <div class="mb-4 text-center font-bold text-lg">
-                                Room 13
+                                {{ room.name}}
                             </div>
                             <!-- Seats matrix -->
                              <div class="space-y-1 -mx-4">
-                                <div class="grid md:flex gap-1 items-center justify-center seat">
-                                    <div class="aspect-square w-3 sm:w-6 xl:h-10 xl:w-10 rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center text-[8px] sm:text-sm lg:hidden">A</div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A1</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A2</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A3</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A4</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A5</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A6</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A7</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A8</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A9</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A10</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A11</p>
-                                    </div>
-                                    <div class="aspect-square w-3 sm:w-6 xl:h-10 xl:w-10 rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center text-[8px] sm:text-sm lg:hidden">A</div>
-                                </div>
-                                <div class="grid md:flex gap-1 items-center justify-center seat">
-                                    <div class="aspect-square w-3 sm:w-6 xl:h-10 xl:w-10 rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center text-[8px] sm:text-sm lg:hidden">B</div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A1</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A2</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A3</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A4</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A5</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A6</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A7</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A8</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A9</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A10</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A11</p>
-                                    </div>
-                                    <div class="aspect-square w-3 sm:w-6 xl:h-10 xl:w-10 rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center text-[8px] sm:text-sm lg:hidden">B</div>
-                                </div>
-                                <div class="grid md:flex gap-1 items-center justify-center seat">
-                                    <div class="aspect-square w-3 sm:w-6 xl:h-10 xl:w-10 rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center text-[8px] sm:text-sm lg:hidden">C</div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A1</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A2</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A3</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A4</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A5</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A6</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A7</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A8</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A9</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A10</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A11</p>
-                                    </div>
-                                    <div class="aspect-square w-3 sm:w-6 xl:h-10 xl:w-10 rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center text-[8px] sm:text-sm lg:hidden">C</div>
-                                </div>
-                                <div class="grid md:flex gap-1 items-center justify-center seat">
-                                    <div class="aspect-square w-3 sm:w-6 xl:h-10 xl:w-10 rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center text-[8px] sm:text-sm lg:hidden">D</div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A1</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A2</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A3</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A4</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A5</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A6</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A7</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A8</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A9</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A10</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A11</p>
-                                    </div>
-                                    <div class="aspect-square w-3 sm:w-6 xl:h-10 xl:w-10 rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center text-[8px] sm:text-sm lg:hidden">D</div>
-                                </div>
-                                <div class="grid md:flex gap-1 items-center justify-center seat">
-                                    <div class="aspect-square w-3 sm:w-6 xl:h-10 xl:w-10 rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center text-[8px] sm:text-sm lg:hidden">E</div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A1</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A2</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A3</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A4</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A5</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A6</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A7</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A8</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A9</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A10</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A11</p>
-                                    </div>
-                                    <div class="aspect-square w-3 sm:w-6 xl:h-10 xl:w-10 rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center text-[8px] sm:text-sm lg:hidden">E</div>
-                                </div>
-                                <div class="grid md:flex gap-1 items-center justify-center seat">
-                                    <div class="aspect-square w-3 sm:w-6 xl:h-10 xl:w-10 rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center text-[8px] sm:text-sm lg:hidden">F</div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A1</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A2</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A3</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A4</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A5</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A6</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A7</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A8</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A9</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A10</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A11</p>
-                                    </div>
-                                    <div class="aspect-square w-3 sm:w-6 xl:h-10 xl:w-10 rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center text-[8px] sm:text-sm lg:hidden">F</div>
-                                </div>
-                                <div class="grid md:flex gap-1 items-center justify-center seat">
-                                    <div class="aspect-square w-3 sm:w-6 xl:h-10 xl:w-10 rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center text-[8px] sm:text-sm lg:hidden">G</div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A1</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A2</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A3</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A4</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A5</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A6</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A7</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A8</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A9</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A10</p>
-                                    </div>
-                                    <div class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 bg-gray-700 md:bg-[#252A31] cursor-pointer">
-                                        <p class="hidden lg:block text-sm lg:text-base">A11</p>
-                                    </div>
-                                    <div class="aspect-square w-3 sm:w-6 xl:h-10 xl:w-10 rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center text-[8px] sm:text-sm lg:hidden">G</div>
+                                <div *ngFor="let row of groupSeatsByRow() | keyvalue">
+                                    <div class="grid md:flex gap-1 items-center justify-center seat">
+                                        <div class="aspect-square w-3 sm:w-6 xl:h-10 xl:w-10 rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center text-[8px] sm:text-sm lg:hidden">{{row.key}}</div>
+                                        <!-- Danh sách ghế -->
+                                        <div
+                                        *ngFor="let seat of row.value"
+                                        class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 cursor-pointer transition-all duration-300"
+                                        [ngClass]="{
+                                            'seat-color-click text-white': !seat.isBooked && !seat.isActive,
+                                            'seat-color-nor text-white': !seat.isBooked && seat.isActive && seat.seatType === 1,
+                                            'seat-color-booked cursor-not-allowed text-white': seat.isBooked
+                                        }"
+                                        (click)="toggleSeatSelection(seat)">
+                                        <ng-container *ngIf="seat.isBooked; else normalSeat">
+                                            <p class="hidden lg:block text-sm lg:text-base">
+                                                X
+                                              </p>
+                                          </ng-container>
+                                          <ng-template #normalSeat>
+                                            <p class="hidden lg:block text-sm lg:text-base">
+                                              {{ seat.row + seat.column }}
+                                            </p>
+                                          </ng-template>
+                                        </div>
+                                        <div class="aspect-square w-3 sm:w-6 xl:h-10 xl:w-10 rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center text-[8px] sm:text-sm lg:hidden">{{row.key}}</div>
+                                    </div>
+
                                 </div>
                              </div>
                              <!-- Select seat and type seat -->

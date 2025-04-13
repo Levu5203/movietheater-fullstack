@@ -11,4 +11,5 @@ export class EmployeeModel extends MasterBaseModel {
   public dateOfBirth!: Date;
   public identityCard!: string;
   public address!: string;
+  public avatar!: File | string | null;
 }

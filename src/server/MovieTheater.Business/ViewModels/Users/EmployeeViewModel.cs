@@ -21,4 +21,6 @@ public class EmployeeViewModel : MasterBaseViewModel
     public DateTime? DateOfBirth { get; set; }
 
     public string? PhoneNumber { get; set; }
+
+    public string? Avatar { get; set; }
 }

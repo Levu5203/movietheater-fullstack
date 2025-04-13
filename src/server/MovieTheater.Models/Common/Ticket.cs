@@ -57,4 +57,5 @@ public enum TicketStatus
     Paid = 1,
     Issued = 2,
     Used = 3,
+    Pending = 4,
 }
