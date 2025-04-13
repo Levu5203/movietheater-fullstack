@@ -77,6 +77,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.RoomName, opt => opt.MapFrom(src => src.ShowTime.CinemaRoom.Name))
             .ForMember(dest => dest.MovieName, opt => opt.MapFrom(src => src.ShowTime.Movie.Name))
             .ForMember(dest => dest.ShowDate, opt => opt.MapFrom(src => src.ShowTime.ShowDate))
+            .ForMember(dest => dest.ShowTimeId, opt => opt.MapFrom(src => src.ShowTimeId))
             .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.ShowTime.ShowTimeSlot.Time.ToString(@"hh\:mm\:ss")));
 
         CreateMap<Invoice, InvoiceViewModel>()

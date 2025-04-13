@@ -16,6 +16,7 @@ import { AddpromotionComponent } from './addpromotion/addpromotion.component';
 import { UpdatepromotionComponent } from './updatepromotion/updatepromotion.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { TiketsellingSelectseatComponent } from './ticketselling/tiketselling-selectseat/tiketselling-selectseat.component';
+import { TicketsellingPaymentComponent } from './ticketselling/ticketselling-payment/ticketselling-payment.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -34,6 +35,8 @@ const routes: Routes = [
   { path: 'updatepromotion/:id', component: UpdatepromotionComponent },
   { path: 'updatepromotion', component: UpdatepromotionComponent },
   { path: 'ticketselling-selectseat', component: TiketsellingSelectseatComponent },
+  { path: 'ticketselling-payment', component: TicketsellingPaymentComponent },
+
 
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

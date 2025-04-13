@@ -14,4 +14,5 @@ export class InvoiceViewModel extends MasterBaseModel{
     public showDate!: Date;
     public startTime!: string;
     public ticketIssued!: boolean;
+    public showtimeId!: string;
 }
