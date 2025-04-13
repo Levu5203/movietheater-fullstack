@@ -1,15 +1,15 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MovieviewModel } from '../../../models/movie/movieview.model';
-import { PipesModule } from '../../../pipes/pipe.module';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { CustomFormatPipe } from '../../../pipes/custom-format.pipe';
 import { ShowtimeviewModel } from '../../../models/showtime/showtimeview.model';
 import { FontAwesomeModule, IconDefinition } from '@fortawesome/angular-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-moviedetail',
-  imports: [CommonModule, CustomFormatPipe, FontAwesomeModule],
+  imports: [CommonModule, CustomFormatPipe, FontAwesomeModule, RouterModule],
   templateUrl: './moviedetail.component.html',
   styleUrl: './moviedetail.component.css',
 })

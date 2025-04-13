@@ -14,9 +14,9 @@
         </div>
 
         <!-- Current Movie -->
-        <div
+        <div *ngIf="movies[currentIndex] as currentMovie"
           class="flex-grow-0 w-[100%] max-w-[360px] min-w-[250px] mx-auto scale-95 hover:scale-100 transition-all duration-300 flex-shrink-0 relative z-10">
-          <img [src]="movies[currentIndex].posterUrl" [alt]="movies[currentIndex].name + ' poster'"
+          <img [src]="currentMovie.posterUrl" [alt]="currentMovie.name + ' poster'"
             class="aspect-[10/16] object-cover rounded-xl cursor-pointer shadow-xl w-full"
             (click)="selectMovie(movies[currentIndex].id)">
         </div>
