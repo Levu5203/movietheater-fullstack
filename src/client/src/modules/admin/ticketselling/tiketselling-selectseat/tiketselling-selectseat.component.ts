@@ -7,10 +7,11 @@ import { MovieviewModel } from '../../../../models/movie/movieview.model';
 import { ShowtimeviewModel } from '../../../../models/showtime/showtimeview.model';
 import { CinemaRoomViewModel } from '../../../../models/room/room.model';
 import { SeatViewModel } from '../../../../models/seat/seat.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { InvoiceViewModel } from '../../../../models/invoice/invoiceview.model';
+import { SeatshowtimeviewModel } from '../../../../models/seatshowtime/seatshowtimeview.model';
 
 interface Seat {
   label: string;
@@ -21,14 +22,13 @@ interface Seat {
 
 @Component({
   selector: 'app-tiketselling-selectseat',
-  imports: [CommonModule, FontAwesomeModule],
+  imports: [CommonModule, FontAwesomeModule, RouterLink],
   templateUrl: './tiketselling-selectseat.component.html',
   styleUrls: ['./tiketselling-selectseat.component.css'],
   standalone: true,
 })
 export class TiketsellingSelectseatComponent implements OnInit {
   faArrowLeft: IconDefinition = faArrowLeft;
-
   totalPrice: number = 0;
   showtimeId!: string;
   movieId!: string;
@@ -36,6 +36,7 @@ export class TiketsellingSelectseatComponent implements OnInit {
   showtime!: ShowtimeviewModel;
   room!: CinemaRoomViewModel;
   seats: SeatViewModel[] = [];
+  seatShowtimeList: SeatshowtimeviewModel[] = [];
   selectedSeats: SeatViewModel[] = []; // Mảng ghế đã chọn
   constructor(
     private route: ActivatedRoute,
@@ -60,6 +61,7 @@ export class TiketsellingSelectseatComponent implements OnInit {
   private getRoomAndSeats() {
     this.fetchRoom();
     this.fetchSeats();
+    this.fetchSeatShowtimes();
     this.fetchShowtime();
   }
 
@@ -81,8 +83,30 @@ export class TiketsellingSelectseatComponent implements OnInit {
       )
       .subscribe((response: SeatViewModel[]) => {
         this.seats = response;
-        console.log('Seats data:', this.seats);
+        this.markBookedSeats(); // Gọi khi đã load xong seats và seatShowtimeList
       });
+  }
+
+  private fetchSeatShowtimes() {
+    this.http
+      .get<SeatshowtimeviewModel[]>(
+        `http://localhost:5063/api/v1/showtime/${this.showtimeId}/seatshowtimes`
+      )
+      .subscribe((seatShowtimes: SeatshowtimeviewModel[]) => {
+        this.seatShowtimeList = seatShowtimes;
+        this.markBookedSeats(); // Gọi lại để đánh dấu
+      });
+  }
+  private markBookedSeats() {
+    if (!this.seats.length || !this.seatShowtimeList.length) return;
+
+    const bookedSeatIds = new Set(
+      this.seatShowtimeList.filter((s) => s.status === 2).map((s) => s.seatId)
+    );
+
+    this.seats.forEach((seat) => {
+      seat.isBooked = bookedSeatIds.has(seat.id);
+    });
   }
   private fetchShowtime() {
     this.http
@@ -97,10 +121,16 @@ export class TiketsellingSelectseatComponent implements OnInit {
   }
   // Chọn hoặc bỏ chọn ghế
   toggleSeatSelection(seat: SeatViewModel) {
-    if (seat.seatStatus !== 1) return;
+    if ((seat as any).isBooked) return;
     seat.isActive = !seat.isActive;
     console.log(`Seat ${seat.row}${seat.column} selected:`, seat.isActive);
     this.selectedSeats = this.getSelectedSeats();
+    this.updateTotalPrice();
+  }
+  updateTotalPrice() {
+    // Tính tổng giá trị ghế đã chọn, mỗi ghế có giá 50k
+    const pricePerSeat = 50000;  // Giá của mỗi ghế
+    this.totalPrice = this.selectedSeats.length * pricePerSeat;
   }
   // Lấy danh sách ghế đã chọn để tạo invoice
   getSelectedSeats() {
@@ -125,7 +155,7 @@ export class TiketsellingSelectseatComponent implements OnInit {
     // Gọi API đặt vé
     this.reserveSeats(this.showtimeId, seatIds).subscribe((response) => {
       console.log('Đặt vé thành công!', response);
-      this.router.navigate(['/booking'], {
+      this.router.navigate(['/admin/ticketselling-payment'], {
         state: { invoice: response },
       });
     });

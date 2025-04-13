@@ -6,10 +6,11 @@ import { CustomFormatPipe } from '../../../pipes/custom-format.pipe';
 import { ShowtimeviewModel } from '../../../models/showtime/showtimeview.model';
 import { FontAwesomeModule, IconDefinition } from '@fortawesome/angular-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-moviedetail',
-  imports: [CommonModule, CustomFormatPipe, FontAwesomeModule],
+  imports: [CommonModule, CustomFormatPipe, FontAwesomeModule, RouterLink],
   templateUrl: './moviedetail.component.html',
   styleUrl: './moviedetail.component.css',
 })

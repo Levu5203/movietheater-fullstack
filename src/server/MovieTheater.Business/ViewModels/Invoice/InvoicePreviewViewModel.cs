@@ -14,4 +14,5 @@ public class InvoicePreviewViewModel : MasterBaseViewModel
     public required string MovieName { get; set; }
     public required DateOnly ShowDate { get; set; }
     public required TimeSpan StartTime { get; set; }
+    public required string ShowTimeId { get; set; }
 }

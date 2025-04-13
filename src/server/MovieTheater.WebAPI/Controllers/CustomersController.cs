@@ -5,6 +5,7 @@ using MovieTheater.Business.Handlers.Customers;
 using MovieTheater.Business.Handlers.Users;
 using MovieTheater.Business.ViewModels.Users;
 using MovieTheater.Core;
+using MovieTheater.Models.Security;
 
 namespace MovieTheater.WebAPI.Controllers;
 
@@ -71,6 +72,17 @@ public class CustomersController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> UpdateStatusAsync(Guid id)
     {
         var command = new CustomerUpdateStatusCommand { Id = id };
+
+        var result = await _mediator.Send(command);
+        return Ok(result);
+    }
+    [HttpGet("phone/{phone}")]
+    [Authorize(Roles = "Employee, Admin")]
+    [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UpdateStatusAsync(string phone)
+    {
+        var command = new CustomerGetByPhoneQuery { phoneNumber = phone};   
 
         var result = await _mediator.Send(command);
         return Ok(result);
