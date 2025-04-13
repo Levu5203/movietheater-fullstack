@@ -15,12 +15,14 @@ import {
   faGear,
   faList,
   faPercent,
+  faSignOut,
   faTicketSimple,
   faUserAlt,
   faUserShield,
 } from '@fortawesome/free-solid-svg-icons';
 import { AUTH_SERVICE } from '../../../../constants/injection.constant';
 import { IAuthService } from '../../../../services/auth/auth-service.interface';
+import { UserInformation } from '../../../../models/auth/user-information.model';
 
 @Component({
   selector: 'app-sidebar',
@@ -33,7 +35,17 @@ export class SidebarComponent {
   constructor(
     private readonly router: Router,
     @Inject(AUTH_SERVICE) private authService: IAuthService
-  ) {}
+  ) {
+    this.authService.isAuthenticated().subscribe((res) => {
+      this.isAuthenticated = res;
+    });
+
+    this.authService.getUserInformation().subscribe((res) => {
+      if (res) {
+        this.currentUser = res;
+      }
+    });
+  }
 
   public isActive(route: string): boolean {
     return this.router.url === route; // Kiểm tra trang hiện tại
@@ -55,7 +67,10 @@ export class SidebarComponent {
   public faDoorOpen: IconDefinition = faDoorOpen;
   public faPercent: IconDefinition = faPercent;
   public faCaretDown: IconDefinition = faCaretDown;
+  public faSignOut: IconDefinition = faSignOut;
 
+  public isAuthenticated: boolean = false;
+  public currentUser: UserInformation | null = null;
   ngOnInit(): void {
     this.checkScreenSize(); // Kiểm tra kích thước màn hình khi component khởi tạo
     this.restoreDropdownState(); // Khôi phục trạng thái dropdown từ localStorage

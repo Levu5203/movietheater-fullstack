@@ -14,10 +14,12 @@ import { TicketconfirmComponent } from './ticketconfirm/ticketconfirm.component'
 import { AddmovieComponent } from './addmovie/addmovie.component';
 import { AddpromotionComponent } from './addpromotion/addpromotion.component';
 import { UpdatepromotionComponent } from './updatepromotion/updatepromotion.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { TiketsellingSelectseatComponent } from './ticketselling/tiketselling-selectseat/tiketselling-selectseat.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
+  { path: 'editprofile', component: EditProfileComponent },
   { path: 'customermanagement', component: CustomermanagementComponent },
   { path: 'employeemanagement', component: EmployeemanagementComponent },
   { path: 'moviemanagement', component: MoviemanagementComponent },
@@ -38,8 +40,6 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule, RouterModule.forChild(routes)
-  ]
+  imports: [CommonModule, RouterModule.forChild(routes)],
 })
-export class AdminModule { }
+export class AdminModule {}

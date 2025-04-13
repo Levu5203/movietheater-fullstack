@@ -9,14 +9,34 @@
           <div
             class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mr-4"
           >
-            <fa-icon [icon]="faCamera" class="text-gray-500 text-3xl"></fa-icon>
+            <img
+              *ngIf="avatarToDisplay()"
+              [src]="avatarToDisplay()"
+              alt="Avatar"
+              class="w-full h-full rounded-full object-cover"
+            />
+            <fa-icon
+              *ngIf="!avatarToDisplay()"
+              [icon]="faCamera"
+              class="text-gray-500 text-3xl"
+            ></fa-icon>
           </div>
           <button
             type="button"
+            (click)="triggerFileInput()"
             class="text-blue-500 hover:underline cursor-pointer"
           >
             Choose image
           </button>
+
+          <!-- Hidden file input -->
+          <input
+            type="file"
+            accept="image/*"
+            #fileInput
+            hidden
+            (change)="onFileSelected($event)"
+          />
         </div>
 
         <div>
@@ -116,6 +136,12 @@
           >
             Username is required with 5-50 characters.
           </span>
+          <span
+            *ngIf="showErrorMessage && errorMessage.includes('Username')"
+            class="text-red-500 text-sm"
+          >
+            {{ errorMessage }}
+          </span>
         </div>
         <div>
           <label for="email" class="block mb-2"
@@ -137,6 +163,12 @@
             class="text-red-500 text-sm"
           >
             Email is required with 3-50 characters
+          </span>
+          <span
+            *ngIf="showErrorMessage && errorMessage.includes('Email')"
+            class="text-red-500 text-sm"
+          >
+            {{ errorMessage }}
           </span>
         </div>
 
@@ -224,7 +256,7 @@
           type="submit"
           class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer disabled:cursor-not-allowed"
           (click)="onSubmit()"
-          [disabled]="form.pristine || form.invalid"
+          [disabled]="(form.pristine && !avatarChanged) || form.invalid"
         >
           Save
         </button>

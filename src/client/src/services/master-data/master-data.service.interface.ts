@@ -13,4 +13,8 @@ export interface IMasterDataService<T> {
   update(id: string, data: T): Observable<T>;
 
   delete(id: string): Observable<boolean>;
+
+  updateWithFile(id: string, data: FormData): Observable<T>;
+
+  createWithFile(data: FormData): Observable<T>;
 }

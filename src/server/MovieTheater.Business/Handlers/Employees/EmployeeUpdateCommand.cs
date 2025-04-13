@@ -1,5 +1,5 @@
-
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 using MovieTheater.Business.ViewModels.Users;
 namespace MovieTheater.Business.Handlers.Employees;
 
@@ -17,7 +17,7 @@ public class EmployeeUpdateCommand : MasterBaseUpdateCommand<EmployeeViewModel>
     [EmailAddress(ErrorMessage = "Invalid email address")]
     public required string Email { get; set; }
 
-    public string Password { get; set; } = "Abc@12345";
+    public string? Password { get; set; } = "Abc@12345";
 
     [Required(ErrorMessage = "{0} is required")]
     public required string Gender { get; set; }
@@ -32,4 +32,5 @@ public class EmployeeUpdateCommand : MasterBaseUpdateCommand<EmployeeViewModel>
 
     public DateTime? DateOfBirth { get; set; }
 
+    public IFormFile? Avatar { get; set; }
 }

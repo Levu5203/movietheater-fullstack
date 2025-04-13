@@ -19,18 +19,17 @@ import {
   faCamera,
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
-
-import { ModalService } from '../../../../services/modal.service';
-import { UserProfileViewModel } from '../../../../models/profile/user-profile.model';
 import { debounceTime } from 'rxjs';
-import { IProfileService } from '../../../../services/profile/profile-service.interface';
 import {
-  AUTH_SERVICE,
   PROFILE_SERVICE,
-} from '../../../../constants/injection.constant';
-import { ServicesModule } from '../../../../services/services.module';
-import { IAuthService } from '../../../../services/auth/auth-service.interface';
-import { UserInformation } from '../../../../models/auth/user-information.model';
+  AUTH_SERVICE,
+} from '../../../constants/injection.constant';
+import { UserInformation } from '../../../models/auth/user-information.model';
+import { UserProfileViewModel } from '../../../models/profile/user-profile.model';
+import { IAuthService } from '../../../services/auth/auth-service.interface';
+import { ModalService } from '../../../services/modal.service';
+import { IProfileService } from '../../../services/profile/profile-service.interface';
+import { ServicesModule } from '../../../services/services.module';
 
 @Component({
   selector: 'app-edit-profile',

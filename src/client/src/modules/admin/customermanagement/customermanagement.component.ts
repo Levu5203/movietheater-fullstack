@@ -90,6 +90,7 @@ export class CustomermanagementComponent
   protected override searchData(): void {
     this.customerService.search(this.filter).subscribe((res) => {
       this.data = res;
+      
     });
   }
 

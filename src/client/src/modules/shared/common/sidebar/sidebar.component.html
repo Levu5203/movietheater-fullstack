@@ -117,18 +117,18 @@
       <div
         [ngClass]="isShowSidebar ? 'block' : 'hidden'"
         *ngIf="isTicketDropdownOpen"
-        class="pl-8 space-y-2"
+        class="pl-4 space-y-2"
       >
         <a
           routerLink="/admin/bookingmanagement"
           [ngClass]="{ active: isActive('/admin/bookingmanagement')}"
-          class="block p-1 pl-2 m-2 rounded-xl hover:bg-gray-400 hover:text-black"
+          class="block p-1 pl-2 m-2 rounded-xl hover:bg-gray-400 hover:text-black truncate"
           >Booking Management</a
         >
         <a
           routerLink="/admin/ticketselling"
           [ngClass]="{ active: isActive('/admin/ticketselling') }"
-          class="block p-1 pl-2 m-2 rounded-xl hover:bg-gray-400 hover:text-black"
+          class="block p-1 pl-2 m-2 rounded-xl hover:bg-gray-400 hover:text-black truncate"
           >Ticket Selling</a
         >
       </div>
@@ -139,7 +139,7 @@
       <a
         *ngIf="isPermitted()"
         routerLink="/admin/moviemanagement"
-        [ngClass]="{  
+        [ngClass]="{
           active: isActive('/admin/moviemanagement'),
           'justify-center': !isShowSidebar
         }"
@@ -231,17 +231,17 @@
         Only available for admin users
       </div>
     </div>
-
     <a
       routerLink="/admin/setting"
       [ngClass]="{
         active: isActive('/admin/setting'),
         'justify-center': !isShowSidebar
       }"
+      (click)="logout()"
       class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-gray-400 hover:text-black"
     >
-      <fa-icon [icon]="faGear" class="text-xl"></fa-icon>
-      <span [ngClass]="isShowSidebar ? 'block' : 'hidden'">Setting</span>
+      <fa-icon [icon]="faSignOut" class="text-xl"></fa-icon>
+      <span [ngClass]="isShowSidebar ? 'block' : 'hidden'">Logout</span>
     </a>
   </div>
 
@@ -254,17 +254,31 @@
     <div
       type="button"
       title="Collapse"
-      [ngClass]="isShowSidebar ? '' : 'justify-center'"
-      class="flex flex-row justify-between items-center px-2 bg-gray-300 text-black rounded-xl w-full m-2"
+      [ngClass]="isShowSidebar ? 'bg-gray-300 text-black ' : 'flex-col'"
+      class="flex justify-between items-center px-2 rounded-xl w-full m-2"
     >
-      <button
-        type="button"
-        (click)="logout()"
-        class="w-full h-full cursor-pointer py-2"
-        [ngClass]="isShowSidebar ? 'block' : 'hidden'"
+      <a
+        routerLink="/admin/editprofile"
+        class="flex flex-row items-center gap-2"
       >
-        Log out
-      </button>
+        <img
+          *ngIf="currentUser?.avatar"
+          class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full border border-gray-500 shadow-sm"
+          src="{{ currentUser?.avatar }}"
+          alt="User Avatar"
+        />
+        <fa-icon
+          *ngIf="!currentUser?.avatar"
+          [icon]="faUser"
+          class="text-xl"
+        ></fa-icon>
+        <p
+          [ngClass]="isShowSidebar ? 'block' : 'hidden'"
+          class="text-sm sm:text-base truncate max-w-24 sm:max-w-32 md:max-w-full"
+        >
+          {{ currentUser?.displayName }}
+        </p></a
+      >
       <button
         type="button"
         title="Toggle sidebar"

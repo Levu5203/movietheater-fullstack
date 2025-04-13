@@ -49,6 +49,10 @@ export class AuthService implements IAuthService {
     return this._userInformation$;
   }
 
+  setUserInformation(user: UserInformation | null): void {
+    this._userInformation.next(user);
+  }
+
   public login(loginRequest: LoginRequest): Observable<LoginResponse> {
     return this.httpClient
       .post<LoginResponse>(this.apiUrl + '/login', loginRequest)

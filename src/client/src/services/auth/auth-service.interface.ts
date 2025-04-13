@@ -12,6 +12,7 @@ export interface IAuthService {
   logout(): void;
   getAccessToken(): string;
   getUserInformation(): Observable<UserInformation | null>;
+  setUserInformation(user: UserInformation | null): void;
   getUserInformationFromAccessToken(): UserInformationFromToken | null;
   isTokenExpired(): boolean;
   hasAnyRole(requiredRoles: string[]): boolean;
