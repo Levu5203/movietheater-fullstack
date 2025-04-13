@@ -121,7 +121,7 @@
       >
         <a
           routerLink="/admin/bookingmanagement"
-          [ngClass]="{ active: isActive('/admin/bookingmanagement')}"
+          [ngClass]="{ active: isActive('/admin/bookingmanagement') }"
           class="block p-1 pl-2 m-2 rounded-xl hover:bg-gray-400 hover:text-black truncate"
           >Booking Management</a
         >
@@ -232,9 +232,7 @@
       </div>
     </div>
     <a
-      routerLink="/admin/setting"
       [ngClass]="{
-        active: isActive('/admin/setting'),
         'justify-center': !isShowSidebar
       }"
       (click)="logout()"

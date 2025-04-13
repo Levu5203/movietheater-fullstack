@@ -115,7 +115,7 @@ export class SidebarComponent {
   public logout(): void {
     this.authService.logout();
     setTimeout(() => {
-      this.router.navigate(['/']);
+      window.location.reload();
     }, 500);
   }
 
