@@ -401,7 +401,8 @@ public static class DbInitializer
                     CreatedAt = invoice.CreatedAt,
                     CreatedById = invoice.CreatedById,
                     IsActive = invoice.IsActive,
-                    IsDeleted = invoice.IsDeleted
+                    IsDeleted = invoice.IsDeleted,
+                    InvoiceStatus = InvoiceStatus.Paid
                 });
             }
         }

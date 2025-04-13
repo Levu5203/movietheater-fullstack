@@ -35,7 +35,8 @@ public class CancelExpiredInvoicesHandler : BaseHandler, IRequestHandler<CancelE
             var expiredInvoices = await _unitOfWork.InvoiceRepository.GetQuery()
                 .Where(i => i.IsActive == true
                 && i.CreatedAt <= timeoutThreshold
-                && i.UserId == _userIdentity.UserId)
+                && i.UserId == _userIdentity.UserId
+                && i.InvoiceStatus == InvoiceStatus.Pending)
                 .ToListAsync(cancellationToken);
 
             if (!expiredInvoices.Any())
