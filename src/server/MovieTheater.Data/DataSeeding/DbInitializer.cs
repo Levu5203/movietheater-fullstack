@@ -160,7 +160,7 @@ public static class DbInitializer
         {
             foreach (var room in cinemaRooms)
             {
-                if (!ExistsInDb<CinemaRoom>(context, r => r.Name == room.Name))
+                if (!ExistsInDb<CinemaRoom>(context, r => r.Id == room.Id || r.Name == room.Name))
                 {
                     context.CinemaRooms.Add(new CinemaRoom
                     {
@@ -208,7 +208,7 @@ public static class DbInitializer
     {
         foreach (var genre in genres)
         {
-            if (!ExistsInDb<Genre>(context, g => g.Type == genre.Type))
+            if (!ExistsInDb<Genre>(context, g => g.Id == genre.Id || g.Type == genre.Type))
             {
                 context.Genres.Add(new Genre
                 {
@@ -225,7 +225,7 @@ public static class DbInitializer
     {
         foreach (var movie in movies)
         {
-            if (!ExistsInDb<Movie>(context, m => m.Name == movie.Name && m.ReleasedDate == movie.ReleasedDate && m.Version == movie.Version))
+            if (!ExistsInDb<Movie>(context, m => m.Id == movie.Id || m.Name == movie.Name && m.ReleasedDate == movie.ReleasedDate && m.Version == movie.Version))
             {
                 context.Movies.Add(new Movie
                 {
@@ -248,7 +248,7 @@ public static class DbInitializer
         context.SaveChanges();
     }
 
-        private static void SeedMovieGenres(MovieTheaterDbContext context)
+    private static void SeedMovieGenres(MovieTheaterDbContext context)
     {
         var moviesWithoutGenres = context.Movies
             .Where(m => !context.MovieGenres.Any(mg => mg.MovieId == m.Id))
@@ -286,7 +286,7 @@ public static class DbInitializer
     {
         foreach (var slot in showTimeSlots)
         {
-            if (!ExistsInDb<ShowTimeSlot>(context, s => s.Time == slot.Time))
+            if (!ExistsInDb<ShowTimeSlot>(context, s => s.ShowTimeSlotId == slot.ShowTimeSlotId || s.Time == slot.Time))
             {
                 context.ShowTimeSlots.Add(slot);
             }
@@ -298,7 +298,7 @@ public static class DbInitializer
     {
         foreach (var showTime in showTimes)
         {
-            if (!ExistsInDb<ShowTime>(context, s =>
+            if (!ExistsInDb<ShowTime>(context, s => s.Id == showTime.ShowTimeId ||
                 s.CinemaRoomId == showTime.CinemaRoomId &&
                 s.ShowTimeSlotId == showTime.ShowTimeSlotId &&
                 s.ShowDate == DateOnly.Parse(showTime.ShowDate)))
@@ -453,21 +453,6 @@ public static class DbInitializer
             }
         }
         context.SaveChanges();
-    }
-
-    private static Guid GetSeatId(MovieTheaterDbContext context, Guid cinemaRoomId, char row, int column)
-    {
-        var seat = context.Seats.FirstOrDefault(s =>
-            s.CinemaRoomId == cinemaRoomId &&
-            s.Row == row &&
-            s.Column == column);
-
-        if (seat == null)
-        {
-            throw new Exception($"Seat not found at row {row}, column {column} in room {cinemaRoomId}");
-        }
-
-        return seat.Id;
     }
 
     private static void SeedTickets(MovieTheaterDbContext context)
