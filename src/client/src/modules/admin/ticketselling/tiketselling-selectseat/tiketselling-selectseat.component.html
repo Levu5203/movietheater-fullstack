@@ -40,13 +40,13 @@
                 <div class="pb-5 text-white">
                     <div class="border-b-2 border-black text-black scale-110 py-2 mb-[50px]">Screen</div>
                     <div class="grid grid-cols-8 gap-2 lg:gap-4 mb-2" *ngFor="let row of [0, 1, 2, 3, 4, 5]">
-                        <button
+                        <!-- <button
                             class="w-[100%] h-auto aspect-square m-0.75 lg:m-1.25 rounded shadow-md shadow-gray-500 hover:shadow-lg hover:shadow-gray-700"
                             [ngClass]="!seats[row * 8 + col].isAvailable ? 'bg-black pointer-events-none' : (seats[row * 8 + col].isSelected ? 'bg-blue-500 hover:bg-blue-600' : (seats[row * 8 + col].isVip ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-gray-500 hover:bg-gray-600'))"
                             [disabled]="!seats[row * 8 + col].isAvailable" (click)="toggleSeat(seats[row * 8 + col])"
                             *ngFor="let col of [0, 1, 2, 3, 4, 5, 6, 7]">
                             {{ seats[row * 8 + col].isAvailable ? seats[row * 8 + col].label : 'X' }}
-                        </button>
+                        </button> -->
                     </div>
                 </div>
             </div>
@@ -74,8 +74,8 @@
                 <div>
                     <span>Selected Seat:</span>
                     <ng-container class="grid grid-cols-8 gap-8 mb-2" *ngFor="let seat of selectedSeats">
-                        <span class="h-auto p-1 m-0.5 rounded text-white text-sm lg:text-base"
-                            [ngClass]="seat.isVip ? 'bg-yellow-500' : 'bg-gray-500'">{{seat.label}}</span>
+                        <!-- <span class="h-auto p-1 m-0.5 rounded text-white text-sm lg:text-base"
+                            [ngClass]="seat.isVip ? 'bg-yellow-500' : 'bg-gray-500'">{{seat.label}}</span> -->
                     </ng-container>
                 </div>
                 <div class="mt-2">

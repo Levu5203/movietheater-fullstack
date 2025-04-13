@@ -21,6 +21,7 @@ const routes: Routes = [
   { path: 'moviedetail', component: MoviedetailComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'booking', component: BookingComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 

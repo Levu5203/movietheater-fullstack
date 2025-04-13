@@ -63,3 +63,12 @@ body {
 .ql-align-right {
     text-align: right;
 }
+.seat-color-nor{
+    background: rgb(37 42 49);
+}
+.seat-color-click{
+    background: rgb(59 130 246);
+}
+.seat-color-booked{
+    background: rgb(37 42 49);
+}

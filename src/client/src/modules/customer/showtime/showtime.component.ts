@@ -18,7 +18,7 @@ import { MoviesComponent } from '../movies/movies.component';
 })
 export class ShowtimeComponent extends MasterDataListComponent<ShowtimeviewModel> implements OnInit{
   public showtimes: ShowtimeviewModel[] = [];
-  public movies: MovieviewModel[] = [];
+  // public movies: MovieviewModel[] = [];
   selectedShowtime!: Date;
   constructor(
     @Inject(SHOWTIME_SERVICE) private readonly showtimeService: IShowtimeServiceInterface

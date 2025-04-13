@@ -26,6 +26,8 @@ public class MappingProfile : Profile
 
         //
         CreateMap<Movie, MovieViewModel>()
+            .ForMember(dest => dest.Actors, opt => opt.MapFrom(src => src.Actors))
+            .ForMember(dest => dest.ReleaseDate, opt => opt.MapFrom(src => src.ReleasedDate))
             .ForMember(dest => dest.Genres,
                 opt => opt.MapFrom(src => src.MovieGenres.Select(mg => mg.Genre.Type).ToList()))
             .ForMember(dest => dest.CinemaRooms,
@@ -94,5 +96,7 @@ public class MappingProfile : Profile
 
         CreateMap<Seat, SeatViewModel>();
         CreateMap<SeatViewModel, Seat>().ReverseMap();
+        CreateMap<SeatShowTime, SeatShowTimeViewModel>();
+
     }
 }

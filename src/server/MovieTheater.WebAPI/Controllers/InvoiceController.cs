@@ -1,7 +1,9 @@
 using System;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Business.Handlers.Invoice;
+using MovieTheater.Business.Handlers.Seat;
 using MovieTheater.Business.ViewModels.Invoice;
 
 namespace MovieTheater.WebAPI.Controllers
@@ -25,6 +27,15 @@ namespace MovieTheater.WebAPI.Controllers
         {
             var query = new InvoicePreviewGetByIdQuery { InvoiceId = id };
             var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+        [HttpPost("payment")]
+        [Authorize(Roles = "Employee, Customer")]
+        [ProducesResponseType(typeof(InvoicePreviewViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> PaymentAsync([FromBody] SeatPaymentCommand command)
+        {
+            var result = await _mediator.Send(command);
             return Ok(result);
         }
     }
