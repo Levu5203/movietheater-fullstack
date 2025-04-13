@@ -55,6 +55,12 @@ export class UpdatemovieComponent implements OnInit {
     { id: '100e8400-e29b-41d4-a716-446655440062', time: '24:00' }
   ];
 
+  public cinemaRoomsMapping: { [key: string]: string } = {
+    'Room 1': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+    'Room 2': '3fa85f64-5717-4562-b3fc-2c963f66afa7',
+    'Room 3': '3fa85f64-5717-4562-b3fc-2c963f66afa8'
+  };
+
   avatarToDisplay(): string | ArrayBuffer | null {
     return this.previewUrl || this.initialAvatarUrl;
   }
@@ -94,6 +100,7 @@ export class UpdatemovieComponent implements OnInit {
     this.createForm();
     
     if (this.selectedItem) {
+      console.log(this.selectedItem.cinemaRooms[0]);
       console.log(this.selectedItem);
       this.initialAvatarUrl = this.selectedItem.posterImage || null;
       this.updateForm();
@@ -224,9 +231,53 @@ export class UpdatemovieComponent implements OnInit {
     }
 
     if (this.selectedItem.selectedShowTimeSlots && Array.isArray(this.selectedItem.selectedShowTimeSlots)) {
-      this.selectedItem.selectedShowTimeSlots.forEach(time => {
-        schedulesArray.push(new FormControl(time));
-      });
+    this.selectedItem.selectedShowTimeSlots.forEach(time => {
+      schedulesArray.push(new FormControl(time));
+    });
+  }
+
+    // Convert status from numeric enum to string
+    let statusValue: string;
+    switch (this.selectedItem.status) {
+      case 0:
+        statusValue = 'ComingSoon';
+        break;
+      case 1:
+        statusValue = 'NowShowing';
+        break;
+      case 2:
+        statusValue = 'NotAvailable';
+        break;
+      default:
+        statusValue = 'NowShowing';
+    }
+
+    // Convert version from numeric to string with underscore prefix
+    let versionValue: string;
+    switch (this.selectedItem.version) {
+      case 1:
+        versionValue = '_2D';
+        break;
+      case 2:
+        versionValue = '_3D';
+        break;
+      default:
+        versionValue = '_2D';
+    }
+
+    let cinemaRoom: string;
+    switch (this.selectedItem.cinemaRooms[0]) {
+      case 'Room 1':
+        cinemaRoom = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
+        break;
+      case 'Room 2':
+        cinemaRoom = '3fa85f64-5717-4562-b3fc-2c963f66afa7';
+        break;
+      case 'Room 3':
+        cinemaRoom = '3fa85f64-5717-4562-b3fc-2c963f66afa8';
+        break;
+      default:
+        cinemaRoom = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
     }
     
     // Basic form fields
@@ -237,11 +288,11 @@ export class UpdatemovieComponent implements OnInit {
       description: this.selectedItem.description,
       director: this.selectedItem.director,
       actor: this.selectedItem.actors,
-      version: this.selectedItem.version,
-      status: this.selectedItem.status,
-      releaseDate: this.formatDate(this.selectedItem.releasedDate),
+      version: versionValue,
+      status: statusValue,
+      releasedDate: this.formatDate(this.selectedItem.releasedDate),
       endDate: this.formatDate(this.selectedItem.endDate),
-      cinemaroomId: this.selectedItem.cinemaRoomId,
+      cinemaroomId: cinemaRoom,
       genres: this.selectedItem.selectedGenres,
       schedules: this.selectedItem.selectedShowTimeSlots
     });
@@ -284,6 +335,7 @@ export class UpdatemovieComponent implements OnInit {
     const formData = new FormData();
     const formValue = this.form.getRawValue();
     
+
     formData.append('name', formValue.name);
     formData.append('duration', formValue.duration.toString());
     formData.append('origin', formValue.origin);
@@ -312,6 +364,7 @@ export class UpdatemovieComponent implements OnInit {
     if (this.selectedItem) {
       // Update existing movie
       console.log(this.selectedItem.id)
+      formData.append('id', this.selectedItem.id);
       this.movieAdminService
         .updateWithFile(this.selectedItem.id, formData)
         .subscribe({
