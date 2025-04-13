@@ -26,14 +26,14 @@ public class UpdateMovieQueryHandler : IRequestHandler<UpdateMovieQuery, bool>
             return false;
         }
 
-        movie.Name = request.Name ?? string.Empty;
+        movie.Name = request.Name ?? movie.Name;
         movie.Duration = request.Duration;
-        movie.Origin = request.Origin ?? string.Empty;
-        movie.Description = request.Description ?? string.Empty;
+        movie.Origin = request.Origin ?? movie.Origin;
+        movie.Description = request.Description ?? movie.Description;
         movie.Version = request.Version != null ? Enum.Parse<VersionType>(request.Version) : default;
         movie.Status = request.Status != null ? Enum.Parse<MovieStatus>(request.Status) : default;
-        movie.Director = request.Director ?? string.Empty;
-        movie.Actors = request.Actors ?? string.Empty;
+        movie.Director = request.Director ?? movie.Director;
+        movie.Actors = request.Actors ?? movie.Actors;
         movie.ReleasedDate = request.ReleasedDate;
         movie.EndDate = request.EndDate;
         movie.UpdatedAt = DateTime.UtcNow;

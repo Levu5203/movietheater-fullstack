@@ -10,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
 export class MovieServiceService extends MasterDataService<MovieviewModel> implements IMovieServiceInterface{
 
   constructor(protected override http: HttpClient) {
-    super(http, 'Movie/movies')
+    super(http, 'Movie')
    }
 
 }

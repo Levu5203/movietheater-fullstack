@@ -16,8 +16,8 @@ public class MovieViewModel : MasterBaseViewModel
     public string? PosterUrl { get; set; }
     public MovieStatus Status { get; set; }
     public DateTime ReleaseDate { get; set; }
+    public DateOnly EndDate { get; set; }
     public required List<ShowtimeViewModel> Showtimes { get; set; } = [];
-
     public required List<string> Genres { get; set; } = [];
     public required List<string> CinemaRooms { get; set; } = [];
 }

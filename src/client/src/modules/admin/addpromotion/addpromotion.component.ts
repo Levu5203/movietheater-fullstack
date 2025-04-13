@@ -51,6 +51,8 @@ export class AddpromotionComponent {
       formData.append('Image', this.selectedFile);
     }
 
+    console.log(formData)
+
     this.promotionService.createPromotion(formData).subscribe({
       next: () => {
         alert('Promotion created successfully!');
