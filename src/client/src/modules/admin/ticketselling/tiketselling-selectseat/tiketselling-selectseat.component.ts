@@ -202,7 +202,23 @@ export class TiketsellingSelectseatComponent implements OnInit {
   //     this.totalPrice = price;
   //   });
   // }
+  //   this.ticketService.getTotalPrice().subscribe((price) => {
+  //     this.totalPrice = price;
+  //   });
+  // }
 
+  // toggleSeat(seat: any) {
+  //   if (seat.isAvailable) {
+  //     seat.isSelected = !seat.isSelected;
+  //     if (seat.isSelected) {
+  //       this.selectedSeats.push(seat);
+  //     } else {
+  //       this.selectedSeats = this.selectedSeats.filter((s) => s !== seat);
+  //     }
+  //     this.calculateTotalPrice();
+  //     this.ticketService.setSelectedSeats(this.selectedSeats);
+  //   }
+  // }
   // toggleSeat(seat: any) {
   //   if (seat.isAvailable) {
   //     seat.isSelected = !seat.isSelected;
@@ -222,11 +238,22 @@ export class TiketsellingSelectseatComponent implements OnInit {
   //   }, 0);
   //   this.ticketService.setTotalPrice(this.totalPrice);
   // }
+  // calculateTotalPrice() {
+  //   this.totalPrice = this.selectedSeats.reduce((total, seat) => {
+  //     return total + (seat.isVip ? 100000 : 80000);
+  //   }, 0);
+  //   this.ticketService.setTotalPrice(this.totalPrice);
+  // }
 
   // onPayment() {
   //   this.ticketService.setCurrentView('payment');
   // }
+  // onPayment() {
+  //   this.ticketService.setCurrentView('payment');
+  // }
 
+  // onCancel() {
+  //   this.ticketService.setCurrentView('ticketselling');
   // onCancel() {
   //   this.ticketService.setCurrentView('ticketselling');
 }

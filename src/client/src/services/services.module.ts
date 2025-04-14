@@ -5,6 +5,7 @@ import {
   BOOKING_SERVICE,
   CUSTOMER_SERVICE,
   EMPLOYEE_SERVICE,
+  MOVIE_ADMIN_SERVICE,
   MOVIE_SERVICE,
   PROFILE_SERVICE,
   ROOM_SERVICE,
@@ -16,6 +17,7 @@ import { RoomService } from './room/room.service';
 import { ShowtimeServiceService } from './showtime/showtime-service.service';
 import { MovieServiceService } from './movie/movie-service.service';
 import { BookingService } from './booking/booking.service';
+import { MovieAdminService } from './movieAdmin/movie-admin.service';
 
 @NgModule({
   declarations: [],
@@ -48,6 +50,10 @@ import { BookingService } from './booking/booking.service';
     {
       provide: BOOKING_SERVICE,
       useClass: BookingService,
+    },
+    {
+      provide: MOVIE_ADMIN_SERVICE,
+      useClass: MovieAdminService,
     }
   ],
 })

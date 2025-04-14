@@ -1,136 +1,107 @@
-
+<body class="bg-gray-100 w-full">
     <div class="mx-auto bg-white p-8 rounded-lg shadow-md">
-        <h2 class="text-2xl font-semibold mb-6">Update Movie</h2>
-        <form>
+        <h2 class="text-2xl font-semibold mb-6">{{ selectedItem ? "Edit" : "Create" }} Movie</h2>
+        
+        <div *ngIf="showErrorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            {{ errorMessage }}
+        </div>
+        
+        <form [formGroup]="form">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-4">
-                    <label class="block">Movie Name
-                        <input type="text" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
+                    <label for="name" class="block">Movie Name <span class="text-red-500 ml-1">*</span>
+                        <input formControlName="name" type="text" class="w-full p-2 border hover:bg-gray-100 rounded">
                     </label>
-                    <label class="block">Origin
-                        <input type="text" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
+                    <label for="origin" class="block">Origin <span class="text-red-500 ml-1">*</span>
+                        <input formControlName="origin" type="text" class="w-full p-2 border hover:bg-gray-100 rounded">
                     </label>
-                    <label class="block">Description
-                        <input type="text" class="w-full p-2 border  rounded" value="">
+                    <label for="description" class="block">Description <span class="text-red-500 ml-1">*</span>
+                        <textarea formControlName="description" rows="3" class="w-full p-2 border hover:bg-gray-100 rounded"></textarea>
                     </label>
-                    <label class="block">Version
-                        <input type="text" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
+                    <label for="version" class="">Version <span class="text-red-500 ml-1">*</span></label>
+                    <select (select)="selectedItem?.version" formControlName="version" class="w-full p-2 border hover:bg-gray-100 rounded">
+                        <option value="_2D">2D</option>
+                        <option value="_3D">3D</option>
+                    </select>
+                    <label for="status" class="">Status <span class="text-red-500 ml-1">*</span></label>
+                    <select formControlName="status" class="w-full p-2 border hover:bg-gray-100 rounded">
+                        <option value="NowShowing">Now showing</option>
+                        <option value="ComingSoon">Coming soon</option>
+                        <option value="NotAvailable">Not available</option>
+                    </select>
+                    <label for="releasedDate" class="block">Start Date <span class="text-red-500 ml-1">*</span>
+                        <input formControlName="releasedDate" type="date" class="w-full p-2 border hover:bg-gray-100 rounded">
                     </label>
-                    <label class="block">Status
-                        <input type="text" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
+                    <label for="endDate" class="block">End Date <span class="text-red-500 ml-1">*</span>
+                        <input formControlName="endDate" type="date" class="w-full p-2 border hover:bg-gray-100 rounded">
                     </label>
-                    <label class="block">Release Date
-                        <input type="date" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
+                    <label for="director" class="block">Director <span class="text-red-500 ml-1">*</span>
+                        <input formControlName="director" type="text" class="w-full p-2 border hover:bg-gray-100 rounded">
                     </label>
-                    <label class="block">Director
-                        <input type="text" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
+                    <label for="actor" class="block">Actors <span class="text-red-500 ml-1">*</span>
+                        <input formControlName="actor" type="text" class="w-full p-2 border hover:bg-gray-100 rounded">
                     </label>
-                    <label class="block">Actors
-                        <input type="text" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
-                    </label>
-                    <label class="block">Duration
-                        <input type="time" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
+                    <label for="duration" class="block">Duration (minutes) <span class="text-red-500 ml-1">*</span>
+                        <input formControlName="duration" type="number" min="1" class="w-full p-2 border hover:bg-gray-100 rounded">
                     </label>
                 </div>
                 <div>
-                    <label class="block mb-2">Type:</label>
+                    <label for="genres" class="block mb-2">Type: <span class="text-red-500 ml-1">*</span></label>
                     <div class="grid grid-cols-3 gap-2">
-                        <label class="flex items-center">
-                            <input type="checkbox" class="mr-2"> Action
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="mr-2"> Sci-Fi 
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="mr-2"> Horror
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="mr-2"> Comedy
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="mr-2"> War
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="mr-2"> Adventure
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="mr-2"> Romance
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="mr-2"> Chinese drama
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="mr-2"> Psychological
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="mr-2"> Romance
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="mr-2"> Musical
-                        </label>
-                        <label class="flex items-center">
-                            <input type="checkbox" class="mr-2"> Animation
-                        </label>
+                        <ng-container *ngFor="let genre of availableGenres">
+                            <label class="flex items-center">
+                                <input (change)="onGenreChange($event, genre)" 
+                                       type="checkbox" 
+                                       class="mr-2"
+                                       [checked]="isGenreSelected(genre)"> {{ genre }}
+                            </label>
+                        </ng-container>
                     </div>
-                    <label class="block mt-4 ">Cinema Room:</label>
-                    <select class="w-full p-2 border hover:bg-gray-100 rounded">
-                        <option>Cinema Room 1</option>
-                        <option>Cinema Room 2</option>
-                        <option>Cinema Room 3</option>
+                    
+                    <label for="cinemaroomId" class="block mt-4">Cinema Room: <span class="text-red-500 ml-1">*</span></label>
+                    <select formControlName="cinemaroomId" class="w-full p-2 border hover:bg-gray-100 rounded">
+                        <option value="3fa85f64-5717-4562-b3fc-2c963f66afa6">Room 1</option>
+                        <option value="3fa85f64-5717-4562-b3fc-2c963f66afa7">Room 2</option>
+                        <option value="3fa85f64-5717-4562-b3fc-2c963f66afa8">Room 3</option>
                     </select>
-                    <label class="block mt-4 mb-2 ">Schedule:</label>
+                    
+                    <label for="schedules" class="block mt-4 mb-2">Schedule: <span class="text-red-500 ml-1">*</span></label>
                     <div class="grid grid-cols-3 gap-2">
-                        <label class="flex items-center">
-                            <input type="radio" name="schedule" class="mr-2"> 8:00
-                        </label>
-                        <label class="flex items-center">
-                            <input type="radio" name="schedule" class="mr-2"> 9:00
-                        </label>
-                        <label class="flex items-center">
-                            <input type="radio" name="schedule" class="mr-2"> 10:00
-                        </label>
-                        <label class="flex items-center">
-                            <input type="radio" name="schedule" class="mr-2"> 11:00
-                        </label>
-                        <label class="flex items-center">
-                            <input type="radio" name="schedule" class="mr-2"> 12:00
-                        </label>
-                        <label class="flex items-center">
-                            <input type="radio" name="schedule" class="mr-2"> 14:00
-                        </label>
-                        <label class="flex items-center">
-                            <input type="radio" name="schedule" class="mr-2"> 16:00
-                        </label>
-                        <label class="flex items-center">
-                            <input type="radio" name="schedule" class="mr-2"> 18:00
-                        </label>
-                        <label class="flex items-center">
-                            <input type="radio" name="schedule" class="mr-2"> 19:00
-                        </label>
-                        <label class="flex items-center">
-                            <input type="radio" name="schedule" class="mr-2"> 20:00
-                        </label>
-                        <label class="flex items-center">
-                            <input type="radio" name="schedule" class="mr-2"> 22:00
-                        </label>
-                        <label class="flex items-center">
-                            <input type="radio" name="schedule" class="mr-2"> 24:00
-                        </label>
+                        <ng-container *ngFor="let slot of availableSchedules">
+                            <label class="flex items-center">
+                                <input (change)="onScheduleChange($event, slot.id)" 
+                                       type="checkbox" 
+                                       class="mr-2"
+                                       [checked]="isScheduleSelected(slot.id)"> {{ slot.time }}
+                            </label>
+                        </ng-container>
                     </div>
-                    <label aria-placeholder="Content: " class="block mt-4 ">Content:</label>
-                    <input type="text" class="w-full p-2 border hover:bg-gray-100 rounded" value="">
+                    
                     <div class="flex items-center mb-6 mt-4">
-                        <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mr-4">
-                            <fa-icon [icon]="faCamera" class="text-gray-500 text-3xl"></fa-icon>
+                        <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mr-4 overflow-hidden">
+                            <img *ngIf="avatarToDisplay()" [src]="avatarToDisplay()" class="w-full h-full object-cover" alt="Movie poster">
+                            <fa-icon *ngIf="!avatarToDisplay()" [icon]="faCamera" class="text-gray-500 text-3xl"></fa-icon>
                         </div>
-                        <button type="button" class="text-blue-500 hover:underline cursor-pointer mr-4">Choose image</button>
-                        <img src="data:image/jpeg;base64,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" alt="">
+                        <div>
+                            <input #fileInput type="file" id="fileUpload" class="hidden" (change)="onFileSelected($event)" accept="image/*">
+                            <button type="button" (click)="triggerFileInput()" class="text-blue-500 hover:underline cursor-pointer">
+                                {{ selectedFile || initialAvatarUrl ? 'Change Poster' : 'Upload Poster' }} <span class="text-red-500 ml-1">*</span>
+                            </button>
+                            <div *ngIf="selectedFile" class="text-sm text-gray-500 mt-1">
+                                {{ selectedFile.name }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="flex justify-end mt-6 space-x-4">
-                <button type="button" class="text-black px-4 py-2 rounded mr-2 hover:underline cursor-pointer">Cancel</button>
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save</button>
+                <button (click)="onClose()" type="button" class="text-black px-4 py-2 rounded mr-2 hover:underline cursor-pointer">Cancel</button>
+                <button
+                 (click)="onSubmit()" 
+                 type="submit" 
+                 class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                 [disabled]="form.invalid">Save</button>
             </div>
         </form>
     </div>
+</body>

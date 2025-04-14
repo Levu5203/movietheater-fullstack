@@ -98,5 +98,7 @@ public class MappingProfile : Profile
         CreateMap<SeatViewModel, Seat>().ReverseMap();
         CreateMap<SeatShowTime, SeatShowTimeViewModel>();
 
+
+        CreateMap<Movie, MovieAdminViewModel>();
     }
 }

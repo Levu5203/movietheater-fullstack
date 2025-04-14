@@ -41,7 +41,7 @@ export class UpdatepromotionComponent implements OnInit {
         this.promotion = data;
         this.promotion.startDate = data.startDate.split("T")[0]; // Chuyển về yyyy-MM-dd
         this.promotion.endDate = data.endDate.split("T")[0];
-        this.previewImage = `http://localhost:5063${data.image}`; // Hiển thị ảnh cũ
+        this.previewImage = data.image; // Hiển thị ảnh cũ
         console.log(this.previewImage)
       });
     }

@@ -24,6 +24,7 @@ export class AddpromotionComponent {
     endDate: ''
   };
   selectedFile: File | null = null;
+  imagePreviewUrl: string | ArrayBuffer | null = null;
 
   constructor(private promotionService: PromotionService, private router: Router) {}
 
@@ -31,14 +32,22 @@ export class AddpromotionComponent {
     const file = event.target.files[0];
     if (file && file.type.startsWith('image/')) {
       this.selectedFile = file;
+      
+      // Create preview for the selected image
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreviewUrl = reader.result;
+      };
+      reader.readAsDataURL(file);
     } else {
       alert('Please select a valid image file');
       this.selectedFile = null;
+      this.imagePreviewUrl = null;
     }
   }
 
   onSubmit() {
-    event?.preventDefault(); // Ngăn trang reload khi submit form
+    event?.preventDefault(); // Prevent page reload when submitting form
 
     const formData = new FormData();
     formData.append('PromotionTitle', this.promotion.promotionTitle);
@@ -50,6 +59,8 @@ export class AddpromotionComponent {
     if (this.selectedFile) {
       formData.append('Image', this.selectedFile);
     }
+
+    console.log(formData);
 
     this.promotionService.createPromotion(formData).subscribe({
       next: () => {
