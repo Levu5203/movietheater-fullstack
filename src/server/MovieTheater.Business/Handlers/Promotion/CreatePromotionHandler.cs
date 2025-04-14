@@ -1,6 +1,7 @@
 using System;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
+using MovieTheater.Business.Services;
 using MovieTheater.Data.UnitOfWorks;
 using DomainPromotion = MovieTheater.Models.Common.Promotion;
 
@@ -9,45 +10,28 @@ namespace MovieTheater.Business.Handlers.Promotion;
 public class CreatePromotionHandler : IRequestHandler<CreatePromotionCommand, Guid>
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IWebHostEnvironment _env; 
+    private readonly IAzureService _azureService;
 
-    public CreatePromotionHandler(IUnitOfWork unitOfWork, IWebHostEnvironment env)
+    public CreatePromotionHandler(IUnitOfWork unitOfWork, IAzureService azureService)
     {
         _unitOfWork = unitOfWork;
-        _env = env;
+        _azureService = azureService;
     }
     public async Task<Guid> Handle(CreatePromotionCommand request, CancellationToken cancellationToken)
 {
-    if (request.Image == null)
-    {
-        return Guid.Empty; // Trả về một GUID rỗng nếu không có ảnh
-    }
-
-    string uploadsFolder = Path.Combine(_env.WebRootPath, "uploads");
-    if (!Directory.Exists(uploadsFolder))
-    {
-        Directory.CreateDirectory(uploadsFolder);
-    }
-
-    string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(request.Image.FileName);
-    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-    using (var fileStream = new FileStream(filePath, FileMode.Create))
-    {
-        await request.Image.CopyToAsync(fileStream);
-    }
-
-    string imageUrl = $"/uploads/{uniqueFileName}";
+    // Handle image upload
+    var fileName = $"/{Guid.NewGuid()}_{request.Image!.FileName}";
+    var promotionUrl = await _azureService.UploadFileAsync(request.Image!, fileName);
 
     var promotion = new DomainPromotion
     {
         Id = Guid.NewGuid(),
-        PromotionTitle = request.PromotionTitle,
-        Description = request.Description,
+        PromotionTitle = request.PromotionTitle!,
+        Description = request.Description!,
         Discount = request.Discount,
         StartDate = request.StartDate,
         EndDate = request.EndDate,
-        Image = imageUrl
+        Image = promotionUrl
     };
 
     await _unitOfWork.PromotionRepository.AddAsync(promotion);

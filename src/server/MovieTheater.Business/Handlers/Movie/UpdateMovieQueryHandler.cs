@@ -29,9 +29,13 @@ public class UpdateMovieQueryHandler : IRequestHandler<UpdateMovieQuery, bool>
             return false;
         }
 
-        var fileName = $"/{Guid.NewGuid()}_{request.PosterImage!.FileName}";
-        var posterUrl = await _azureService.UploadFileAsync(request.PosterImage, fileName);
-
+        if (request.PosterImage != null && request.PosterImage.Length > 0)
+        {
+            var fileName = $"/{Guid.NewGuid()}_{request.PosterImage!.FileName}";
+            var posterUrl = await _azureService.UploadFileAsync(request.PosterImage, fileName);
+            movie.PosterUrl = posterUrl;
+        }
+        
         movie.Name = request.Name ?? movie.Name;
         movie.Duration = request.Duration;
         movie.Origin = request.Origin ?? movie.Origin;
@@ -42,7 +46,6 @@ public class UpdateMovieQueryHandler : IRequestHandler<UpdateMovieQuery, bool>
         movie.Actors = request.Actors ?? movie.Actors;
         movie.ReleasedDate = request.ReleasedDate;
         movie.EndDate = request.EndDate;
-        movie.PosterUrl = posterUrl;
         movie.UpdatedAt = DateTime.UtcNow;
 
         

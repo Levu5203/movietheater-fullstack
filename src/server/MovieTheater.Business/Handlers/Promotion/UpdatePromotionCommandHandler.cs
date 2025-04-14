@@ -5,51 +5,46 @@ using MovieTheater.Data;
 using MovieTheater.Data.UnitOfWorks;
 
 namespace MovieTheater.Business.Handlers.Promotion;
-    public class UpdatePromotionCommandHandler : IRequestHandler<UpdatePromotionCommand, bool>
+public class UpdatePromotionCommandHandler : IRequestHandler<UpdatePromotionCommand, bool>
+{
+    private readonly IUnitOfWork _unitOfWork;
+
+    private readonly IAzureService _azureService;
+
+    public UpdatePromotionCommandHandler(IUnitOfWork unitOfWork, IAzureService azureService)
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IFileStorageService _fileStorageService;
+        _unitOfWork = unitOfWork;
 
-        public UpdatePromotionCommandHandler(IUnitOfWork unitOfWork, IFileStorageService fileStorageService)
-        {
-            _unitOfWork = unitOfWork;
-            _fileStorageService = fileStorageService;
-        }
-
-        public async Task<bool> Handle(UpdatePromotionCommand request, CancellationToken cancellationToken)
-        {
-            var promotion = await _unitOfWork.PromotionRepository.GetByIdAsync(request.Id);
-            if (promotion == null)
-            {
-                return false;
-            }
-
-            // Cập nhật thông tin
-            promotion.PromotionTitle = request.PromotionTitle ?? string.Empty;
-            promotion.Description = request.Description ?? string.Empty;
-            promotion.Discount = request.Discount;
-            promotion.StartDate = request.StartDate;
-            promotion.EndDate = request.EndDate;
-
-            // Nếu có ảnh mới, cập nhật ảnh
-            if (request.Image != null)
-            {
-                // Xóa ảnh cũ nếu có
-                if (!string.IsNullOrEmpty(promotion.Image))
-                {
-                    await _fileStorageService.DeleteFileAsync(promotion.Image);
-                }
-
-                // Lưu ảnh mới
-                promotion.Image = await _fileStorageService.SaveFileAsync(request.Image);
-            }
-
-            _unitOfWork.PromotionRepository.Update(promotion);
-            await _unitOfWork.SaveChangesAsync();
-
-            return true;
-        }
+        _azureService = azureService;
     }
+
+    public async Task<bool> Handle(UpdatePromotionCommand request, CancellationToken cancellationToken)
+    {
+        var promotion = await _unitOfWork.PromotionRepository.GetByIdAsync(request.Id);
+        if (promotion == null)
+        {
+            return false;
+        }
+
+        if (request.Image != null && request.Image.Length > 0)
+        {
+            var fileName = $"/{Guid.NewGuid()}_{request.Image!.FileName}";
+            var posterUrl = await _azureService.UploadFileAsync(request.Image!, fileName);
+            promotion.Image = posterUrl;
+        }
+        // Cập nhật thông tin
+        promotion.PromotionTitle = request.PromotionTitle ?? string.Empty;
+        promotion.Description = request.Description ?? string.Empty;
+        promotion.Discount = request.Discount;
+        promotion.StartDate = request.StartDate;
+        promotion.EndDate = request.EndDate;
+
+        _unitOfWork.PromotionRepository.Update(promotion);
+        await _unitOfWork.SaveChangesAsync();
+
+        return true;
+    }
+}
 
 
 

@@ -9,44 +9,44 @@
         <form [formGroup]="form">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-4">
-                    <label for="name" class="block">Movie Name *
+                    <label for="name" class="block">Movie Name <span class="text-red-500 ml-1">*</span>
                         <input formControlName="name" type="text" class="w-full p-2 border hover:bg-gray-100 rounded">
                     </label>
-                    <label for="origin" class="block">Origin *
+                    <label for="origin" class="block">Origin <span class="text-red-500 ml-1">*</span>
                         <input formControlName="origin" type="text" class="w-full p-2 border hover:bg-gray-100 rounded">
                     </label>
-                    <label for="description" class="block">Description *
+                    <label for="description" class="block">Description <span class="text-red-500 ml-1">*</span>
                         <textarea formControlName="description" rows="3" class="w-full p-2 border hover:bg-gray-100 rounded"></textarea>
                     </label>
-                    <label for="version" class="">Version *</label>
+                    <label for="version" class="">Version <span class="text-red-500 ml-1">*</span></label>
                     <select (select)="selectedItem?.version" formControlName="version" class="w-full p-2 border hover:bg-gray-100 rounded">
                         <option value="_2D">2D</option>
                         <option value="_3D">3D</option>
                     </select>
-                    <label for="status" class="">Status *</label>
+                    <label for="status" class="">Status <span class="text-red-500 ml-1">*</span></label>
                     <select formControlName="status" class="w-full p-2 border hover:bg-gray-100 rounded">
                         <option value="NowShowing">Now showing</option>
                         <option value="ComingSoon">Coming soon</option>
                         <option value="NotAvailable">Not available</option>
                     </select>
-                    <label for="releasedDate" class="block">Start Date *
+                    <label for="releasedDate" class="block">Start Date <span class="text-red-500 ml-1">*</span>
                         <input formControlName="releasedDate" type="date" class="w-full p-2 border hover:bg-gray-100 rounded">
                     </label>
-                    <label for="endDate" class="block">End Date *
+                    <label for="endDate" class="block">End Date <span class="text-red-500 ml-1">*</span>
                         <input formControlName="endDate" type="date" class="w-full p-2 border hover:bg-gray-100 rounded">
                     </label>
-                    <label for="director" class="block">Director *
+                    <label for="director" class="block">Director <span class="text-red-500 ml-1">*</span>
                         <input formControlName="director" type="text" class="w-full p-2 border hover:bg-gray-100 rounded">
                     </label>
-                    <label for="actor" class="block">Actors *
+                    <label for="actor" class="block">Actors <span class="text-red-500 ml-1">*</span>
                         <input formControlName="actor" type="text" class="w-full p-2 border hover:bg-gray-100 rounded">
                     </label>
-                    <label for="duration" class="block">Duration (minutes) *
+                    <label for="duration" class="block">Duration (minutes) <span class="text-red-500 ml-1">*</span>
                         <input formControlName="duration" type="number" min="1" class="w-full p-2 border hover:bg-gray-100 rounded">
                     </label>
                 </div>
                 <div>
-                    <label for="genres" class="block mb-2">Type: *</label>
+                    <label for="genres" class="block mb-2">Type: <span class="text-red-500 ml-1">*</span></label>
                     <div class="grid grid-cols-3 gap-2">
                         <ng-container *ngFor="let genre of availableGenres">
                             <label class="flex items-center">
@@ -58,14 +58,14 @@
                         </ng-container>
                     </div>
                     
-                    <label for="cinemaroomId" class="block mt-4">Cinema Room: *</label>
+                    <label for="cinemaroomId" class="block mt-4">Cinema Room: <span class="text-red-500 ml-1">*</span></label>
                     <select formControlName="cinemaroomId" class="w-full p-2 border hover:bg-gray-100 rounded">
                         <option value="3fa85f64-5717-4562-b3fc-2c963f66afa6">Room 1</option>
                         <option value="3fa85f64-5717-4562-b3fc-2c963f66afa7">Room 2</option>
                         <option value="3fa85f64-5717-4562-b3fc-2c963f66afa8">Room 3</option>
                     </select>
                     
-                    <label for="schedules" class="block mt-4 mb-2">Schedule: *</label>
+                    <label for="schedules" class="block mt-4 mb-2">Schedule: <span class="text-red-500 ml-1">*</span></label>
                     <div class="grid grid-cols-3 gap-2">
                         <ng-container *ngFor="let slot of availableSchedules">
                             <label class="flex items-center">
@@ -85,7 +85,7 @@
                         <div>
                             <input #fileInput type="file" id="fileUpload" class="hidden" (change)="onFileSelected($event)" accept="image/*">
                             <button type="button" (click)="triggerFileInput()" class="text-blue-500 hover:underline cursor-pointer">
-                                {{ selectedFile || initialAvatarUrl ? 'Change Poster' : 'Upload Poster' }} *
+                                {{ selectedFile || initialAvatarUrl ? 'Change Poster' : 'Upload Poster' }} <span class="text-red-500 ml-1">*</span>
                             </button>
                             <div *ngIf="selectedFile" class="text-sm text-gray-500 mt-1">
                                 {{ selectedFile.name }}
