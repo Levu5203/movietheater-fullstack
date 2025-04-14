@@ -21,7 +21,7 @@ public class SeatPaymentEmployeeHandler(IUnitOfWork unitOfWork, IMapper mapper) 
             if (invoice.InvoiceStatus == InvoiceStatus.Paid) throw new InvalidOperationException("Invoice is already paid");
 
             // 🔍 Tìm user theo số điện thoại
-            if (request.PhoneNumber != "")
+            if (request.PhoneNumber != null)
             {
                 var customer = await unitOfWork.UserRepository.GetQuery()
                     .FirstOrDefaultAsync(u => u.PhoneNumber == request.PhoneNumber, cancellationToken);
@@ -29,7 +29,6 @@ public class SeatPaymentEmployeeHandler(IUnitOfWork unitOfWork, IMapper mapper) 
                 {
                     invoice.User = customer;
                 }
-
             }
 
             var tickets = await unitOfWork.TicketRepository.GetQuery()
