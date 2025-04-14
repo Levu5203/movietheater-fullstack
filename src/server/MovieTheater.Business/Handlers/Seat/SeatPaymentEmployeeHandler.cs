@@ -21,12 +21,17 @@ public class SeatPaymentEmployeeHandler(IUnitOfWork unitOfWork, IMapper mapper) 
             if (invoice.InvoiceStatus == InvoiceStatus.Paid) throw new InvalidOperationException("Invoice is already paid");
 
             // 🔍 Tìm user theo số điện thoại
-            var customer = await unitOfWork.UserRepository.GetQuery()
-                .FirstOrDefaultAsync(u => u.PhoneNumber == request.PhoneNumber, cancellationToken);
+            if (request.PhoneNumber != "")
+            {
+                var customer = await unitOfWork.UserRepository.GetQuery()
+                    .FirstOrDefaultAsync(u => u.PhoneNumber == request.PhoneNumber, cancellationToken);
+                if (customer != null)
+                {
+                    invoice.User = customer;
+                }
 
-            if (customer != null){
-                invoice.User = customer;
             }
+
             var tickets = await unitOfWork.TicketRepository.GetQuery()
                 .Where(t => t.InvoiceId == request.InvoiceId)
                 .ToListAsync(cancellationToken);
@@ -67,4 +72,4 @@ public class SeatPaymentEmployeeHandler(IUnitOfWork unitOfWork, IMapper mapper) 
             throw;
         }
     }
-}   
+}
