@@ -9,7 +9,7 @@ export class MovieViewModel extends MasterBaseModel {
     public director!: string;
     public actors!: string;
     public version!: number;
-    public posterImage!: string;
+    public posterUrl!: string;
     public status!: number;
     public releasedDate!: Date;
     public endDate!: Date;

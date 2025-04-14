@@ -102,7 +102,7 @@ export class UpdatemovieComponent implements OnInit {
     if (this.selectedItem) {
       console.log(this.selectedItem.cinemaRooms[0]);
       console.log(this.selectedItem);
-      this.initialAvatarUrl = this.selectedItem.posterImage || null;
+      this.initialAvatarUrl = this.selectedItem.posterUrl || null;
       this.updateForm();
     }
   }
@@ -185,7 +185,7 @@ export class UpdatemovieComponent implements OnInit {
         genres.removeAt(index);
       }
     }
-    console.log('after', genres)
+    // console.log('after', genres)
   }
 
   onScheduleChange(event: any, scheduleId: string) {
@@ -198,7 +198,7 @@ export class UpdatemovieComponent implements OnInit {
         schedules.removeAt(index);
       }
     }
-    console.log('after', schedules)
+    // console.log('after', schedules)
   }
 
   private formatDate(date: string | Date): string {
@@ -226,13 +226,13 @@ export class UpdatemovieComponent implements OnInit {
     // Add genres
     if (this.selectedItem.genres && Array.isArray(this.selectedItem.genres)) {
       // Add each selected genre to the FormArray
-      console.log('Selected genres:', this.selectedItem.genres);
+      // console.log('Selected genres:', this.selectedItem.genres);
       this.selectedItem.genres.forEach(genre => {
         genresArray.push(new FormControl(genre));
       });
       
       // Log to verify genres were added correctly
-      console.log('Genres added:', genresArray.value);
+      // console.log('Genres added:', genresArray.value);
     }
 
    // Add schedules
@@ -261,7 +261,7 @@ export class UpdatemovieComponent implements OnInit {
           }
         });
         
-        console.log('Schedule IDs added:', schedulesArray.value);
+        // console.log('Schedule IDs added:', schedulesArray.value);
       }
 
     // Convert status from numeric enum to string
@@ -322,7 +322,8 @@ export class UpdatemovieComponent implements OnInit {
       endDate: this.formatDate(this.selectedItem.endDate),
       cinemaroomId: cinemaRoom,
       genres: this.selectedItem.genres,
-      schedules: this.selectedItem.selectedShowTimeSlots
+      schedules: this.selectedItem.selectedShowTimeSlots,
+      posterUrl: this.selectedItem.posterUrl
     });
     
   }
@@ -333,7 +334,7 @@ export class UpdatemovieComponent implements OnInit {
     if (this.form.invalid) {
       this.showErrorMessage = true;
       this.errorMessage = 'Please fill in all the required fields correctly';
-      console.log('Form validation errors:', this.form.errors);
+      // console.log('Form validation errors:', this.form.errors);
       return;
     }
 
@@ -387,11 +388,11 @@ export class UpdatemovieComponent implements OnInit {
       formData.append('posterImage', this.selectedFile);
     }
 
-    console.log(formValue.releasedDate)
+    // console.log(formValue.releasedDate)
 
     if (this.selectedItem) {
       // Update existing movie
-      console.log(this.selectedItem.id)
+      // console.log(this.selectedItem.id)
       formData.append('id', this.selectedItem.id);
       this.movieAdminService
         .updateWithFile(this.selectedItem.id, formData)

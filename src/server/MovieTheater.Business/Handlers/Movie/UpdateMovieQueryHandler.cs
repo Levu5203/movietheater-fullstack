@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using MovieTheater.Business.Handlers.Movie;
+using MovieTheater.Business.Services;
 using MovieTheater.Data.UnitOfWorks;
 using MovieTheater.Models.Common;
 
@@ -11,11 +12,13 @@ public class UpdateMovieQueryHandler : IRequestHandler<UpdateMovieQuery, bool>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IAzureService _azureService;
 
-    public UpdateMovieQueryHandler(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
+    public UpdateMovieQueryHandler(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment, IAzureService azureService)
     {
         _unitOfWork = unitOfWork;
         _webHostEnvironment = webHostEnvironment;
+        _azureService = azureService;
     }
 
     public async Task<bool> Handle(UpdateMovieQuery request, CancellationToken cancellationToken)
@@ -25,6 +28,9 @@ public class UpdateMovieQueryHandler : IRequestHandler<UpdateMovieQuery, bool>
         {
             return false;
         }
+
+        var fileName = $"/{Guid.NewGuid()}_{request.PosterImage!.FileName}";
+        var posterUrl = await _azureService.UploadFileAsync(request.PosterImage, fileName);
 
         movie.Name = request.Name ?? movie.Name;
         movie.Duration = request.Duration;
@@ -36,25 +42,10 @@ public class UpdateMovieQueryHandler : IRequestHandler<UpdateMovieQuery, bool>
         movie.Actors = request.Actors ?? movie.Actors;
         movie.ReleasedDate = request.ReleasedDate;
         movie.EndDate = request.EndDate;
+        movie.PosterUrl = posterUrl;
         movie.UpdatedAt = DateTime.UtcNow;
 
-        // Upload new image if provided
-        if (request.PosterImage != null)
-        {
-            // Xoá ảnh cũ nếu có
-            if (!string.IsNullOrEmpty(movie.PosterUrl))
-            {
-                var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, movie.PosterUrl.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
-                if (File.Exists(oldImagePath))
-                {
-                    File.Delete(oldImagePath);
-                }
-            }
-
-            // Upload ảnh mới
-            var posterUrl = await UploadPosterImage(request.PosterImage);
-            movie.PosterUrl = posterUrl;
-        }
+        
 
         // Remove old genres & add new ones
         var oldGenres = _unitOfWork.MovieGenreRepository

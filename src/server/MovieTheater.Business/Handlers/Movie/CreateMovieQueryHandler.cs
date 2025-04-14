@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using MovieTheater.Business.Services;
 using MovieTheater.Commands;
 using MovieTheater.Data.UnitOfWorks;
 using MovieTheater.Models.Common;
@@ -13,17 +14,20 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, Gui
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IAzureService _azureService;
 
-    public CreateMovieCommandHandler(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
+    public CreateMovieCommandHandler(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment, IAzureService azureService)
     {
         _unitOfWork = unitOfWork;
         _webHostEnvironment = webHostEnvironment;
+        _azureService = azureService;
     }
 
     public async Task<Guid> Handle(CreateMovieCommand request, CancellationToken cancellationToken)
     {
         // Handle image upload
-        string posterUrl = await UploadPosterImage(request.PosterImage);
+        var fileName = $"/{Guid.NewGuid()}_{request.PosterImage.FileName}";
+        var avatarUrl = await _azureService.UploadFileAsync(request.PosterImage, fileName);
 
         // Create movie
         var movie = new Movie
@@ -39,9 +43,11 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, Gui
             Actors = request.Actors,
             ReleasedDate = request.ReleasedDate,
             EndDate = request.EndDate,
-            PosterUrl = posterUrl,
+            PosterUrl = avatarUrl,
             CreatedAt = DateTime.UtcNow
         };
+
+        
 
         // Add movie using the generic repository
         await _unitOfWork.MovieRepository.AddAsync(movie);
@@ -102,26 +108,5 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, Gui
         return movie.Id;
     }
 
-    private async Task<string> UploadPosterImage(IFormFile posterImage)
-    {
-        // Create upload folder if it doesn't exist
-        string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads/posters");
-        if (!Directory.Exists(uploadsFolder))
-        {
-            Directory.CreateDirectory(uploadsFolder);
-        }
-
-        // Create unique filename
-        string uniqueFileName = $"{Guid.NewGuid()}_{Path.GetFileName(posterImage.FileName)}";
-        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-        // Save file
-        using (var fileStream = new FileStream(filePath, FileMode.Create))
-        {
-            await posterImage.CopyToAsync(fileStream);
-        }
-
-        // Return relative URL path
-        return $"/uploads/posters/{uniqueFileName}";
-    }
+    
 }
