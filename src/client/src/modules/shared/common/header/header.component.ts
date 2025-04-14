@@ -26,10 +26,6 @@ export class HeaderComponent {
     private readonly router: Router // Inject Router
   ) {
     this.authService.isAuthenticated().subscribe((res) => {
-      if (this.authService.isTokenExpired()) {
-        this.authService.logout();
-        return;
-      }
       this.isAuthenticated = res;
     });
 
@@ -42,7 +38,7 @@ export class HeaderComponent {
   }
 
   public isActive(route: string): boolean {
-    return this.router.url === route; // Kiểm tra trang hiện tại
+    return this.router.url === route;
   }
 
   public faUser: IconDefinition = faUserCircle;
