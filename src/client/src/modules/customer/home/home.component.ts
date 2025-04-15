@@ -72,8 +72,11 @@ export class HomeComponent
   getAll(): void {
     this.movieService.getAll().subscribe((res) => {
       this.movies = res.filter(
-        (movie) => movie.showtimes && movie.showtimes.length > 0
+        (movie) => movie.showtimes && movie.showtimes.length > 0 && movie.status == 1
       );
+
+      console.log(this.movies);
+      
 
       if (this.movies.length > 0) {
         this.startSlideshow();
