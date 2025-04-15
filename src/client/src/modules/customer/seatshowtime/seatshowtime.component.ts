@@ -10,7 +10,6 @@ import { Observable } from 'rxjs';
 import { InvoiceViewModel } from '../../../models/invoice/invoiceview.model';
 import { MovieviewModel } from '../../../models/movie/movieview.model';
 import { SeatshowtimeviewModel } from '../../../models/seatshowtime/seatshowtimeview.model';
-
 @Component({
   selector: 'app-seatshowtime',
   imports: [RouterModule, CommonModule, ServicesModule],
@@ -18,6 +17,7 @@ import { SeatshowtimeviewModel } from '../../../models/seatshowtime/seatshowtime
   styleUrl: './seatshowtime.component.css',
 })
 export class SeatshowtimeComponent implements OnInit {
+  totalPrice: number = 0;
   showtimeId!: string;
   movieId!: string;
   movie!: MovieviewModel;
@@ -29,7 +29,7 @@ export class SeatshowtimeComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
   ) {}
   ngOnInit() {
     // Lấy showtimeId từ URL hoặc queryParams
@@ -113,6 +113,12 @@ export class SeatshowtimeComponent implements OnInit {
     seat.isActive = !seat.isActive;
     console.log(`Seat ${seat.row}${seat.column} selected:`, seat.isActive);
     this.selectedSeats = this.getSelectedSeats();
+    this.updateTotalPrice();
+  }
+  updateTotalPrice() {
+    // Tính tổng giá trị ghế đã chọn, mỗi ghế có giá 50k
+    const pricePerSeat = 50000;  // Giá của mỗi ghế
+    this.totalPrice = this.selectedSeats.length * pricePerSeat;
   }
   // Lấy danh sách ghế đã chọn để tạo invoice
   getSelectedSeats() {
@@ -173,5 +179,17 @@ export class SeatshowtimeComponent implements OnInit {
       acc[seat.row].push(seat);
       return acc;
     }, {} as { [key: string]: SeatViewModel[] });
+  }
+  formatShowtimeDate(date: Date) {
+    const daysOfWeek = ['Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'];
+    const dayOfWeek = daysOfWeek[new Date(date).getDay()]; // Lấy thứ trong tuần
+    const day = new Date(date).getDate(); // Lấy ngày trong tháng
+    const month = new Date(date).getMonth() + 1; // Lấy tháng, cộng 1 vì getMonth() trả về giá trị từ 0 - 11
+
+    return {
+      day,
+      month,
+      dayOfWeek
+    };
   }
 }

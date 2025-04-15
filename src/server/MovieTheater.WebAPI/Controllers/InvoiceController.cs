@@ -38,5 +38,14 @@ namespace MovieTheater.WebAPI.Controllers
             var result = await _mediator.Send(command);
             return Ok(result);
         }
+        [HttpPost("employee/payment")]
+        [Authorize(Roles = "Employee, Admin")]
+        [ProducesResponseType(typeof(InvoicePreviewViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> EmployeePaymentAsync([FromBody] SeatPaymentEmployeeCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
     }
 }

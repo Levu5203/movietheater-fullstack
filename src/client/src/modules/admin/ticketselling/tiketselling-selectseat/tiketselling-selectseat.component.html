@@ -2,7 +2,7 @@
     <h2 class="text-2xl font-bold mb-4">Selling Ticket</h2>
     <div class="xl:flex items-center mb-4 xl:relative">
         <div class="flex items-center mb-4">
-            <button class="mr-2 p-2 w-10 h-10 rounded-xl shadow-md hover:bg-gray-100 cursor-pointer">
+            <button [routerLink]="['/admin/ticketselling']" class="mr-2 p-2 w-10 h-10 rounded-xl shadow-md hover:bg-gray-100 cursor-pointer">
                 <fa-icon [icon]="faArrowLeft" class="w-6 h-6"></fa-icon>
             </button>
             <input type="text" placeholder="Search"
@@ -12,41 +12,56 @@
             <span class="text-red-500 font-bold mb-2">● Now showing</span>
             <div class="flex">
                 <button
-                    class="bg-red-500 text-white px-4 py-2 rounded mr-2 hover:bg-red-600 cursor-pointer">13-3-2025</button>
-                <button
-                    class="bg-gray-200 text-black px-4 py-2 rounded mr-2 hover:bg-gray-300 cursor-pointer">14-3-2025</button>
-                <button
-                    class="bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300 cursor-pointer">15-3-2025</button>
+                    class="bg-red-500 text-white px-4 py-2 rounded mr-2 hover:bg-red-600 cursor-pointer">{{showtime.showDate}}</button>
             </div>
         </div>
     </div>
     <div class="flex flex-col border rounded-lg mt-4 p-4 relative">
         <p class="border px-8 rounded absolute top-5 right-5">2D</p>
         <div>
-            <p class="text-sm">Comedy, Action 110 minutes</p>
-            <h3 class="text-lg font-bold">ANH KHÔNG ĐAU-T18</h3>
-            <p class="text-sm">Origin: US</p>
-            <p class="text-sm">Released Date: 14/03/2025</p>
+            <p class="text-sm">Comedy, Action {{movie.duration}} minutes</p>
+            <h3 class="text-lg font-bold">{{movie.name}}</h3>
+            <p class="text-sm">Origin: {{movie.origin}}</p>
+            <p class="text-sm">Released Date: {{movie.releasedDate}}</p>
             <p class="text-sm font-bold">Show time</p>
             <div class="mt-2">
-                <p class="px-4 mr-2 rounded bg-red-500 w-fit text-white">9:00</p>
+                <p class="px-4 mr-2 rounded bg-red-500 w-fit text-white">{{showtime.startTime}}</p>
             </div>
         </div>
     </div>
     <div class="seat-container flex-1 text-center">
-        <h2 class="text-2xl font-bold mt-4">Room 14</h2>
+        <h2 class="text-2xl font-bold mt-4">{{room.name}}</h2>
         <div class="flex justify-center">
             <div class="container w-fit scale-75 lg:scale-90 text-center py-4 px-15 bg-gray-300 rounded-lg">
                 <div class="pb-5 text-white">
                     <div class="border-b-2 border-black text-black scale-110 py-2 mb-[50px]">Screen</div>
-                    <div class="grid grid-cols-8 gap-2 lg:gap-4 mb-2" *ngFor="let row of [0, 1, 2, 3, 4, 5]">
-                        <!-- <button
-                            class="w-[100%] h-auto aspect-square m-0.75 lg:m-1.25 rounded shadow-md shadow-gray-500 hover:shadow-lg hover:shadow-gray-700"
-                            [ngClass]="!seats[row * 8 + col].isAvailable ? 'bg-black pointer-events-none' : (seats[row * 8 + col].isSelected ? 'bg-blue-500 hover:bg-blue-600' : (seats[row * 8 + col].isVip ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-gray-500 hover:bg-gray-600'))"
-                            [disabled]="!seats[row * 8 + col].isAvailable" (click)="toggleSeat(seats[row * 8 + col])"
-                            *ngFor="let col of [0, 1, 2, 3, 4, 5, 6, 7]">
-                            {{ seats[row * 8 + col].isAvailable ? seats[row * 8 + col].label : 'X' }}
-                        </button> -->
+                    <div *ngFor="let row of groupSeatsByRow() | keyvalue">
+                        <div class="grid md:flex gap-1 items-center justify-center seat">
+                            <div class="aspect-square w-3 sm:w-6 xl:h-10 xl:w-10 rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center text-[8px] sm:text-sm lg:hidden">{{row.key}}</div>
+                            <!-- Danh sách ghế -->
+                            <div
+                            *ngFor="let seat of row.value"
+                            class="aspect-square rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center md:h-6 lg:h-10 cursor-pointer transition-all duration-300"
+                            [ngClass]="{
+                                'seat-color-click text-white': !seat.isBooked && !seat.isActive,
+                                'seat-color-nor text-white': !seat.isBooked && seat.isActive && seat.seatType === 1,
+                                'seat-color-booked cursor-not-allowed text-white': seat.isBooked
+                            }"
+                            (click)="toggleSeatSelection(seat)">
+                            <ng-container *ngIf="seat.isBooked; else normalSeat">
+                                <p class="hidden lg:block text-sm lg:text-base">
+                                    X
+                                  </p>
+                              </ng-container>
+                              <ng-template #normalSeat>
+                                <p class="hidden lg:block text-sm lg:text-base">
+                                  {{ seat.row + seat.column }}
+                                </p>
+                              </ng-template>
+                            </div>
+                            <div class="aspect-square w-3 sm:w-6 xl:h-10 xl:w-10 rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center text-[8px] sm:text-sm lg:hidden">{{row.key}}</div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -74,8 +89,7 @@
                 <div>
                     <span>Selected Seat:</span>
                     <ng-container class="grid grid-cols-8 gap-8 mb-2" *ngFor="let seat of selectedSeats">
-                        <!-- <span class="h-auto p-1 m-0.5 rounded text-white text-sm lg:text-base"
-                            [ngClass]="seat.isVip ? 'bg-yellow-500' : 'bg-gray-500'">{{seat.label}}</span> -->
+                        <span class="h-auto p-1 m-0.5 rounded text-black text-sm lg:text-base">{{seat.row}}{{seat.column}}</span>
                     </ng-container>
                 </div>
                 <div class="mt-2">
@@ -84,9 +98,9 @@
                 </div>
             </div>
             <div class="mt-6 flex justify-end">
-                <button type="button"
+                <button [routerLink]="['/admin/ticketselling']"
                     class="text-black px-4 py-2 rounded mr-2 hover:underline cursor-pointer">Cancel</button>
-                <button type="submit"
+                <button (click)="confirmSeats()"
                     class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">Continue</button>
             </div>
         </div>

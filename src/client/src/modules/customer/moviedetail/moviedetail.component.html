@@ -15,6 +15,23 @@
       <img [src]="selectedItem?.posterUrl" [alt]="selectedItem?.name" class="object-cover img-css-detail" />
     </div>
     <div class="absolute bg-primary/60 inset-0 w-full h-full z-10"></div>
+<section class="text-white bg-gray-900 pt-20 h-full">
+  <div class="w-full h-[250px] md:h-[300px] xl:h-[473px] relative wrapper">
+    <div class="absolute top-5 left-4 z-30">
+      <button
+        type="button"
+        (click)="onClose()"
+        class="flex items-center gap-2 bg-[#EF4444]  text-white px-5 py-2 rounded-full shadow-md hover:bg-[#E30713] hover:underline transition"
+        title="Back"
+      >
+        <fa-icon [icon]="faArrowLeft" class="text-white/70 text-lg"></fa-icon>
+      </button>
+    </div>
+    <!-- Poster background -->
+    <div class="absolute inset-0 w-full h-full">
+      <img [src]="selectedItem?.posterUrl" [alt]="selectedItem?.name" class="object-cover img-css-detail" />
+    </div>
+    <div class="absolute bg-primary/60 inset-0 w-full h-full z-10"></div>
 
     <!-- Desktop Detail -->
     <div class="hidden xl:block absolute w-full inset-0 m-auto z-20" *ngIf="selectedItem">

@@ -1,7 +1,7 @@
 import { MasterBaseModel } from "../../core/models/master-base.model";
 import { ShowtimeviewModel } from "../showtime/showtimeview.model";
 
-export class MovieviewModel extends MasterBaseModel{
+export class MovieViewModel extends MasterBaseModel {
     public name!: string;
     public duration!: number;
     public origin!: string;
@@ -9,13 +9,12 @@ export class MovieviewModel extends MasterBaseModel{
     public director!: string;
     public actors!: string;
     public version!: number;
-    public posterUrl!: File | string | null;
+    public posterUrl!: string;
     public status!: number;
     public releasedDate!: Date;
     public endDate!: Date;
-    public showtimes!: ShowtimeviewModel[];
+    public cinemaRooms!: string[];
     public genres!: string[];
-    public cinemarooms!: string[];
-    public schedules!: string[];
-
+    public selectedShowTimeSlots!: string[];
+    public showtimes!: ShowtimeviewModel[];
 }

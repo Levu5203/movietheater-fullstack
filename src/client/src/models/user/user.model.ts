@@ -8,4 +8,5 @@ export class UserModel extends MasterBaseModel {
   public email!: string;
   public dateOfBirth!: Date;
   public avatar!: File | string | null;
+  public totalScore!: number;
 }

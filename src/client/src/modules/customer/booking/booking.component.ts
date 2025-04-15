@@ -3,8 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { InvoiceViewModel } from '../../../models/invoice/invoiceview.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { ModalService } from '../../../services/modal.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-booking',
@@ -14,7 +13,7 @@ import { ModalService } from '../../../services/modal.service';
 })
 export class BookingComponent implements OnInit{
   // private modalService!: ModalService,
-   
+  public showtimeId: string = ''; 
   public invoice: InvoiceViewModel;
   public invoiceById!: InvoiceViewModel;
   constructor(private router: Router, private http: HttpClient) {
@@ -25,7 +24,12 @@ export class BookingComponent implements OnInit{
   ngOnInit(): void {
     console.log('Invoice loaded:', this.invoice); 
   }
-
+  goBackToSeatShowtime(showtimeId: string): void {
+    // Điều hướng về trang seatshowtime và truyền query parameter 'id'
+    this.router.navigate(['/seatshowtime'], {
+      queryParams: { id: showtimeId }  // Truyền 'id' trong query parameters
+    });
+  }
   // Hàm gọi API để lấy thông tin hóa đơn theo ID
   getInvoiceById(invoiceId: string){
     this.http

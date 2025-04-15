@@ -53,3 +53,4 @@ export class MoviedetailComponent implements OnInit {
     this.close.emit();
   }
 }
+

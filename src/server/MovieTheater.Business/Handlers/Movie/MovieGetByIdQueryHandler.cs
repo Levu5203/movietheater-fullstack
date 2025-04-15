@@ -12,7 +12,9 @@ public class MovieGetByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : 
 {
     public async Task<MovieViewModel> Handle(MovieGetByIdQuery request, CancellationToken cancellationToken){
         var movie = await _unitOfWork.MovieRepository.GetQuery().Include(m => m.ShowTimes)
-        .ThenInclude(st => st.CinemaRoom).FirstOrDefaultAsync(m => m.Id ==request.Id, cancellationToken);
+        .ThenInclude(st => st.CinemaRoom)
+        .Include(m => m.ShowTimes)
+        .ThenInclude(st => st.ShowTimeSlot).FirstOrDefaultAsync(m => m.Id ==request.Id, cancellationToken);
         return _mapper.Map<MovieViewModel>(movie);
     }
 }
