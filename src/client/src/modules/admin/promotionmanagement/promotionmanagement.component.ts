@@ -79,10 +79,30 @@ export class PromotionmanagementComponent implements OnInit {
   }
 
   goToPage(page: number) {
-    if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page;
-      this.updatePagination();
+    // Validate page value - must be a number, not NaN
+    if (isNaN(page) || page === null) {
+      // Reset to current valid page if input is invalid
+      this.currentPage = Math.min(Math.max(1, this.currentPage), this.totalPages);
+      return;
     }
+    
+    // Ensure page is within valid boundaries
+    const validatedPage = Math.min(Math.max(1, Math.round(page)), this.totalPages);
+    
+    // Only update if it's a valid page
+    if (validatedPage >= 1 && validatedPage <= this.totalPages) {
+      this.currentPage = validatedPage;
+      this.updatePagination();
+    } else {
+      // If invalid page, reset to current valid page
+      this.currentPage = Math.min(Math.max(1, this.currentPage), this.totalPages);
+    }
+  }
+
+  getRowIndex(localIndex: number): number {
+    // Use a validated currentPage to calculate index
+    const validPage = Math.min(Math.max(1, this.currentPage), this.totalPages);
+    return (validPage - 1) * this.itemsPerPage + localIndex + 1;
   }
   
   nextPage() {

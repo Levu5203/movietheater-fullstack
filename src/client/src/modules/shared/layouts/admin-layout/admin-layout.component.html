@@ -1,6 +1,17 @@
-<main class="flex bg-admin">
-    <app-sidebar class="sticky h-screen top-0"></app-sidebar>
-    <div class="main-content flex-grow p-4">
-        <router-outlet />
-    </div>
-</main>
+<section class="w-full min-h-screen relative flex bg-admin">
+  <app-sidebar class="sticky h-screen top-0"></app-sidebar>
+  <div class="main-content flex-grow p-4">
+    <router-outlet />
+  </div>
+  <ng-container *ngIf="modalService.modal$ | async as modal">
+    <div
+      class="fixed inset-0 bg-white opacity-60 z-40"
+      (click)="modalService.close()"
+    ></div>
+
+    <!-- Modals -->
+    <app-change-password
+      *ngIf="modal === 'changePassword'"
+    ></app-change-password>
+  </ng-container>
+</section>

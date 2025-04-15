@@ -52,5 +52,13 @@ namespace MovieTheater.WebAPI.Controllers
             var result = await _mediator.Send(query);
             return Ok(result);
         }
+        [HttpGet("{id}/seatshowtimes")]
+        [ProducesResponseType(typeof(IEnumerable<SeatShowTimeViewModel>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAllSeatShowtime(Guid id)
+        {
+            var query = new GetAllSeatShowtimeQuery{ShowtimeId = id};
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
     }
 }

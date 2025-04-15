@@ -18,7 +18,7 @@ import { MoviesComponent } from '../movies/movies.component';
 })
 export class ShowtimeComponent extends MasterDataListComponent<ShowtimeviewModel> implements OnInit{
   public showtimes: ShowtimeviewModel[] = [];
-  public movies: MovieviewModel[] = [];
+  // public movies: MovieviewModel[] = [];
   selectedShowtime!: Date;
   constructor(
     @Inject(SHOWTIME_SERVICE) private readonly showtimeService: IShowtimeServiceInterface
@@ -30,12 +30,16 @@ export class ShowtimeComponent extends MasterDataListComponent<ShowtimeviewModel
   }
   private getShowtimes(): void {
     this.showtimeService.getAll().subscribe((res) => {
-      this.showtimes = res.filter((showtime, index, self) =>
-        index === self.findIndex(s => s.showDate === showtime.showDate)
-      );
+      // Sắp xếp showtimes theo showDate
+      this.showtimes = res
+        .filter((showtime, index, self) =>
+          index === self.findIndex(s => s.showDate === showtime.showDate) // Lọc các showtime trùng lặp
+        )
+        .sort((a, b) => new Date(a.showDate).getTime() - new Date(b.showDate).getTime()); // Sắp xếp theo ngày tăng dần
+
       // Chọn suất chiếu đầu tiên mặc định
       if (this.showtimes.length > 0) {
-        this.selectedShowtime = this.showtimes[0].showDate;
+        this.selectedShowtime = this.showtimes[0].showDate; // Cập nhật selectedShowtime
       }
     });
 }

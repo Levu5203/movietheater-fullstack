@@ -1,21 +1,50 @@
-<main class="min-h-screen bg-[#10141B] mx-auto px-4 md:px-8 lg:px-16 xl:px-32 text-white pt-16 h-full w-full">
-  <div class="relative poster">
-    <img [src]="images[currentIndex]" class="w-full h-[250px] sm:h-[400px] md:h-[600px] lg:h-[800px] object-cover mx-auto transition-all duration-500"
-      alt="Movie Banner" />
-    <!-- Nút điều hướng trái/phải -->
-    <button (click)="prevSlide()"
-      class="ml-2 sm:ml-3 absolute left-0 top-1/2 transform -translate-y-1/2 h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 group flex items-center justify-center bg-gray-400 rounded-full z-10 hover:bg-gray-600 transition-all duration-300">
-        <fa-icon [icon]="faPrevious" class="text-gray-300 text-xl sm:text-2xl md:text-3xl"></fa-icon>
-    </button>
+<main *ngIf="!isShowDetail"
+  class="min-h-screen bg-[#10141B] mx-auto px-4 md:px-8 lg:px-16 xl:px-32 text-white pt-20 sm:pt-24 h-full w-full">
+  <!-- Carousel Section -->
+  <div class="relative poster w-full mx-auto">
+    <!-- Slideshow Container -->
+    <div class="relative overflow-hidden flex justify-center">
+      <div class="flex justify-center items-center w-3/4 gap-0 transition-all duration-500 ease-in-out">
+        <!-- Previous Movie -->
+        <div *ngIf="getPrevMovie() as prevMovie"
+          class="w-[90%] max-w-[324px] opacity-30 hover:opacity-50 scale-85 hover:scale-90 transition-all duration-300 cursor-pointer flex-shrink-0 -mr-15 relative translate-y-4 rotate-x-15 -rotate-y-30"
+          (click)="prevSlide()">
+          <img [src]="prevMovie.posterUrl" [alt]="prevMovie.name + ' poster'"
+            class="aspect-[10/16] object-cover rounded-xl w-full shadow-md">
+        </div>
 
+        <!-- Current Movie -->
+        <div
+          class="flex-grow-0 w-[100%] max-w-[360px] min-w-[250px] mx-auto scale-95 hover:scale-100 transition-all duration-300 flex-shrink-0 relative z-10">
+          <img [src]="movies[currentIndex].posterUrl" [alt]="movies[currentIndex].name + ' poster'"
+            class="aspect-[10/16] object-cover rounded-xl cursor-pointer shadow-xl w-full"
+            (click)="selectMovie(movies[currentIndex].id)">
+        </div>
+
+        <!-- Next Movie -->
+        <div *ngIf="getNextMovie() as nextMovie"
+          class="w-[90%] max-w-[324px] opacity-30 hover:opacity-50 scale-85 hover:scale-90 transition-all duration-300 cursor-pointer flex-shrink-0 -ml-15 relative translate-y-4 rotate-x-15 rotate-y-30"
+          (click)="nextSlide()">
+          <img [src]="nextMovie.posterUrl" [alt]="nextMovie.name + ' poster'"
+            class="aspect-[10/16] object-cover rounded-xl w-full shadow-md">
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Navigation Buttons -->
+    <button (click)="prevSlide()"
+      class="absolute left-4 top-1/2 -translate-y-1/2 z-10 p-3 bg-gray-700 rounded-full hover:bg-gray-600">
+      <fa-icon [icon]="faPrevious"></fa-icon>
+    </button>
     <button (click)="nextSlide()"
-      class="mr-2 sm:mr-3 absolute right-0 top-1/2 transform -translate-y-1/2 h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 group flex items-center justify-center bg-gray-400 rounded-full z-10 hover:bg-gray-500 transition-all duration-300">
-        <fa-icon [icon]="faNext" class="text-gray-300 text-xl sm:text-2xl md:text-3xl"></fa-icon>
+      class="absolute right-4 top-1/2 -translate-y-1/2 z-10 p-3 bg-gray-700 rounded-full hover:bg-gray-600">
+      <fa-icon [icon]="faNext"></fa-icon>
     </button>
   </div>
 
   <div class="dots flex justify-center gap-2 mt-4">
-    <span *ngFor="let img of images; let i = index" (click)="currentIndex = i"
+    <span *ngFor="let movie of movies; let i = index" (click)="currentIndex = i"
       class="w-3 h-3 sm:w-4 sm:h-4 rounded-full cursor-pointer" [class.bg-white]="i === currentIndex"
       [class.bg-gray-600]="i !== currentIndex">
     </span>
@@ -26,13 +55,17 @@
       <div class="nowshowing w-full lg:basis-3/5 p-2 sm:p-4 pb-8 md:pb-12">
         <h2 class="text-white font-bold text-xl sm:text-2xl md:text-[28px] text-center lg:text-left">Now Showing</h2>
         <div class="listmovie grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 pt-6 sm:pt-8 md:pt-12">
-          <button *ngFor="let movie of movies" class="text-center cursor-pointer flex flex-col justify-between h-full">
-            <img src="../assets/anhkhongdau.png" alt="" class="w-48 sm:w-60 md:w-72 h-auto mx-auto" />
+          <!-- Movie Cards -->
+          <button *ngFor="let movie of movies" (click)="selectMovie(movie.id)"
+            class="text-center cursor-pointer flex flex-col justify-between h-full">
+            <div class="relative w-full aspect-[2/3] max-w-[180px] sm:max-w-[200px] md:max-w-[240px] mx-auto">
+              <img [src]="movie.posterUrl" alt="{{ movie.name }}"
+                class="absolute inset-0 w-full h-full object-cover rounded-xl shadow-md" />
+            </div>
             <h3 class="text-white font-bold text-lg mt-2 min-h-[3rem]">
-              {{movie.name}}
+              {{ movie.name }}
             </h3>
           </button>
-          
         </div>
       </div>
 
@@ -71,3 +104,4 @@
     </div>
   </div>
 </main>
+<app-moviedetail *ngIf="isShowDetail" [selectedItem]="selectedItem" (close)="onCloseDetail()"></app-moviedetail>

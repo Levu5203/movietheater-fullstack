@@ -36,6 +36,7 @@ public interface IUnitOfWork : IDisposable
     IRepository<Genre> GenreRepository { get; }
 
     IRepository<MovieGenre> MovieGenreRepository { get; }
+    IRepository<SeatShowTime> SeatShowtimeRepository { get; }
 
     #endregion
 

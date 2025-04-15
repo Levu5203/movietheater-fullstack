@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Business.Handlers.Movie;
 using MovieTheater.Business.ViewModels.Movie;
 using MovieTheater.Commands;
+using MovieTheater.Core;
 using MovieTheater.ViewModels;
 
 namespace MovieTheater.WebAPI.Controllers
@@ -23,7 +24,7 @@ namespace MovieTheater.WebAPI.Controllers
         /// Retrieves all movies.
         /// </summary>
         /// <returns>A collection of all orders.</returns>
-        [HttpGet("movies")]
+        [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<MovieViewModel>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllAsync()
         {
@@ -90,5 +91,15 @@ namespace MovieTheater.WebAPI.Controllers
             return Ok(new { message = "Movie updated successfully" });
         }
 
+        /// <summary>
+        /// Search movies by keyword, director, actor, etc.
+        /// </summary>
+        [HttpPost("search")]
+        [ProducesResponseType(typeof(PaginatedResult<MovieViewModel>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<PaginatedResult<MovieViewModel>>> SearchMovies([FromBody] MovieSearchQuery query)
+        {
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
     }
 }

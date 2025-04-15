@@ -136,6 +136,12 @@
           >
             Username is required with 5-50 characters.
           </span>
+          <span
+            *ngIf="showErrorMessage && errorMessage.includes('Username')"
+            class="text-red-500 text-sm"
+          >
+            {{ errorMessage }}
+          </span>
         </div>
         <div>
           <label for="email" class="block mb-2"
@@ -157,6 +163,12 @@
             class="text-red-500 text-sm"
           >
             Email is required with 3-50 characters
+          </span>
+          <span
+            *ngIf="showErrorMessage && errorMessage.includes('Email')"
+            class="text-red-500 text-sm"
+          >
+            {{ errorMessage }}
           </span>
         </div>
 

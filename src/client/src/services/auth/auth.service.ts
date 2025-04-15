@@ -7,6 +7,7 @@ import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { RegisterRequest } from '../../models/auth/register-request.model';
 import { UserInformation } from '../../models/auth/user-information.model';
 import { UserInformationFromToken } from '../../models/auth/user-information-from-token';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -24,8 +25,11 @@ export class AuthService implements IAuthService {
 
   private readonly _userInformation$: Observable<UserInformation | null> =
     this._userInformation.asObservable();
-
-  constructor(private readonly httpClient: HttpClient) {
+  private tokenCheckInterval: any;
+  constructor(
+    private readonly httpClient: HttpClient,
+    private readonly router: Router
+  ) {
     // Check if the access token is present in local storage
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
@@ -47,6 +51,10 @@ export class AuthService implements IAuthService {
 
   public getUserInformation(): Observable<UserInformation | null> {
     return this._userInformation$;
+  }
+
+  setUserInformation(user: UserInformation | null): void {
+    this._userInformation.next(user);
   }
 
   public login(loginRequest: LoginRequest): Observable<LoginResponse> {
@@ -110,6 +118,10 @@ export class AuthService implements IAuthService {
   }
 
   logout(): void {
+    if (this.tokenCheckInterval) {
+      clearInterval(this.tokenCheckInterval);
+      this.tokenCheckInterval = null;
+    }
     // Remove the access token from local storage
     localStorage.clear();
 
@@ -149,11 +161,13 @@ export class AuthService implements IAuthService {
   }
 
   private checkTokenExpired(): void {
-    setInterval(() => {
-      if (this.isTokenExpired()) {
-        this.logout();
-      }
-    }, 10000);
+    if (this._isAuthenticated && !this.tokenCheckInterval) {
+      this.tokenCheckInterval = setInterval(() => {
+        if (this.isTokenExpired()) {
+          this.logout();
+        }
+      }, 10000);
+    }
   }
 
   public hasAnyRole(requiredRoles: string[]): boolean {

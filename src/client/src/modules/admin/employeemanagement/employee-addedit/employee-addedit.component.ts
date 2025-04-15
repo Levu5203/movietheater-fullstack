@@ -188,27 +188,41 @@ export class EmployeeAddeditComponent implements OnInit {
 
       this.employeeService
         .updateWithFile(this.selectedItem.id, formData)
-        .subscribe((res) => {
+        .subscribe({
+          next: (res) => {
+            if (res) {
+              console.log('Update success');
+              // Search data again
+              // Close detail
+              this.onClose();
+            } else {
+              console.log('Update failed');
+            }
+          },
+          error: (error) => {
+            this.showErrorMessage = true;
+            this.errorMessage = error.message;
+          },
+        });
+    } else {
+      // Create
+      this.employeeService.createWithFile(formData).subscribe({
+        next: (res) => {
           if (res) {
-            console.log('Update success');
+            console.log('Create success');
             // Search data again
             // Close detail
             this.onClose();
           } else {
-            console.log('Update failed');
+            console.log('Create failed');
           }
-        });
-    } else {
-      // Create
-      this.employeeService.createWithFile(formData).subscribe((res) => {
-        if (res) {
-          console.log('Create success');
-          // Search data again
-          // Close detail
-          this.onClose();
-        } else {
-          console.log('Create failed');
-        }
+        },
+        error: (error) => {
+          console.log(error.error.message);
+
+          this.showErrorMessage = true;
+          this.errorMessage = error.error.message;
+        },
       });
     }
   }
