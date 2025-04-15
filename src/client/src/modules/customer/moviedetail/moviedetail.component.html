@@ -34,7 +34,6 @@
             <p>Directors: {{ selectedItem.director }}</p>
           </div>
           <p>Actors: {{ selectedItem.actors }}</p>
-          <p>Release: {{ selectedItem.releasedDate | date: 'dd/MM/yyyy' }}</p>
           <p class="mt-5 line-clamp-4">{{ selectedItem.description }}</p>
           <div class="text-red-500 mt-5">Rating: T18 - The film is intended for viewers aged 18 and above (18+).</div>
           <div class="mt-2 flex items-center gap-4 flex-1">
@@ -70,7 +69,6 @@
     <div class="text-sm flex flex-col mt-4">
       <p>Directors: {{ selectedItem.director }}</p>
       <p>Actors: {{ selectedItem.actors }}</p>
-      <p>Release: {{ selectedItem.releasedDate | date: 'dd/MM/yyyy' }}</p>
       <p class="mt-4 line-clamp-4">{{ selectedItem.description }}</p>
       <div class="text-red-500 mt-5">Rating: T18 - The film is intended for viewers aged 18 and above (18+).</div>
       <div class="mt-4 flex items-center justify-center gap-4 flex-1">
