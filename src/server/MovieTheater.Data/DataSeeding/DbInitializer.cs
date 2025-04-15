@@ -58,6 +58,7 @@ public static class DbInitializer
         SeedCinemaRooms(context, rooms);
         SeedGenres(context, genres);
         SeedMovies(context, movies);
+        // SeedMoviesWithUpdatedPosterUrl(context, movies);
         SeedMovieGenres(context);
         SeedShowTimeSlots(context, showTimeSlots);
         SeedShowTimes(context, showTimes);
@@ -225,7 +226,7 @@ public static class DbInitializer
     {
         foreach (var movie in movies)
         {
-            if (!ExistsInDb<Movie>(context, m => m.Name == movie.Name && m.ReleasedDate == movie.ReleasedDate && m.Version == movie.Version || m.Id == movie.Id))
+            if (!ExistsInDb<Movie>(context, m => m.Id == movie.Id || m.Name == movie.Name && m.ReleasedDate == movie.ReleasedDate && m.Version == movie.Version))
             {
                 context.Movies.Add(new Movie
                 {
@@ -247,6 +248,48 @@ public static class DbInitializer
         }
         context.SaveChanges();
     }
+
+    public static void SeedMoviesWithUpdatedPosterUrl(MovieTheaterDbContext context, List<Movie> movies)
+{
+    foreach (var movie in movies)
+    {
+        var existingMovie = context.Movies.FirstOrDefault(m => m.Id == movie.Id ||
+            m.Name == movie.Name &&
+            m.ReleasedDate == movie.ReleasedDate &&
+            m.Version == movie.Version);
+
+        if (existingMovie == null)
+        {
+            context.Movies.Add(new Movie
+            {
+                Id = movie.Id,
+                Name = movie.Name,
+                Duration = movie.Duration,
+                Origin = movie.Origin,
+                Description = movie.Description,
+                Version = movie.Version,
+                PosterUrl = movie.PosterUrl,
+                Status = movie.Status,
+                ReleasedDate = movie.ReleasedDate,
+                EndDate = movie.EndDate,
+                Actors = movie.Actors,
+                Director = movie.Director,
+                CreatedAt = DateTime.Now,
+            });
+        }
+        else
+        {
+            // Cập nhật PosterUrl nếu khác
+            if (existingMovie.PosterUrl != movie.PosterUrl)
+            {
+                existingMovie.PosterUrl = movie.PosterUrl;
+            }
+        }
+    }
+
+    context.SaveChanges();
+}
+
 
     private static void SeedMovieGenres(MovieTheaterDbContext context)
     {
