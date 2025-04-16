@@ -14,6 +14,9 @@ import { MovieviewModel } from '../../../models/movie/movieview.model';
 import { ServicesModule } from '../../../services/services.module';
 import { MasterDataListComponent } from '../../../core/components/master-data/master-data.component';
 import { MoviedetailComponent } from '../moviedetail/moviedetail.component';
+import { PromotionModel } from '../../../models/promotion/promotion.model';
+import { HttpClient } from '@angular/common/http';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +25,7 @@ import { MoviedetailComponent } from '../moviedetail/moviedetail.component';
     FontAwesomeModule,
     ServicesModule,
     MoviedetailComponent,
+    RouterLink
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
@@ -33,9 +37,11 @@ export class HomeComponent
   public movies: MovieviewModel[] = [];
   public nowShowingMovies: MovieviewModel[] = [];
   public comingSoonMovies: MovieviewModel[] = [];
-
+  public promotions: PromotionModel[] = [];
   constructor(
-    @Inject(MOVIE_SERVICE) private readonly movieService: IMovieServiceInterface
+    @Inject(MOVIE_SERVICE)
+    private readonly movieService: IMovieServiceInterface,
+    private http: HttpClient
   ) {
     super();
   }
@@ -66,6 +72,7 @@ export class HomeComponent
 
   override ngOnInit() {
     this.getAll();
+    this.fetchRoom();
   }
   ngOnDestroy(): void {
     this.stopSlideshow();
@@ -79,8 +86,7 @@ export class HomeComponent
           movie.showtimes && movie.showtimes.length > 0 && movie.status == 1
       );
       this.comingSoonMovies = res.filter(
-        (movie) =>
-          movie.showtimes && movie.status == 2
+        (movie) => movie.showtimes && movie.status == 2
       );
 
       console.log(this.movies);
@@ -101,7 +107,9 @@ export class HomeComponent
 
   getNextMovie() {
     return this.nowShowingMovies.length
-      ? this.nowShowingMovies[(this.currentIndex + 1) % this.nowShowingMovies.length]
+      ? this.nowShowingMovies[
+          (this.currentIndex + 1) % this.nowShowingMovies.length
+        ]
       : null;
   }
 
@@ -126,7 +134,8 @@ export class HomeComponent
     if (this.isTransitioning) return;
     this.isTransitioning = true;
     this.currentIndex =
-      (this.currentIndex - 1 + this.nowShowingMovies.length) % this.nowShowingMovies.length;
+      (this.currentIndex - 1 + this.nowShowingMovies.length) %
+      this.nowShowingMovies.length;
     this.stopSlideshow();
     this.startSlideshow();
     setTimeout(() => (this.isTransitioning = false), 500);
@@ -134,5 +143,14 @@ export class HomeComponent
 
   stopSlideshow() {
     clearInterval(this.interval);
+  }
+  //get promotions fromt api http://localhost:5063/api/Promotion
+  private fetchRoom() {
+    this.http
+      .get<PromotionModel[]>(`http://localhost:5063/api/Promotion`)
+      .subscribe((response: PromotionModel[]) => {
+        this.promotions = response;
+        console.log('Promotion data:', this.promotions);
+      });
   }
 }

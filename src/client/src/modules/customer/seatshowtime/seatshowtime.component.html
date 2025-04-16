@@ -10,8 +10,24 @@
         <div class="hidden xl:block absolute w-full inset-0 m-auto z-20" *ngIf="movie">
             <div class="w-full max-w-4xl m-auto h-[473px] py-7 pt-24 flex gap-10">
                 <div class="relative h-[333px] min-w-[238px] shadow-lg">
-                    <img [src]="movie.posterUrl" [alt]="movie.name"
-                        class="object-cover rounded-xl img-css-detail" />
+                    <img sizes="238px" src={{movie.posterUrl}} 
+                                        srcset="{{movie.posterUrl}} 16w, 
+                                        {{movie.posterUrl}} 32w, 
+                                        {{movie.posterUrl}} 48w, 
+                                                {{movie.posterUrl}} 64w, 
+                                                {{movie.posterUrl}} 96w, 
+                                                {{movie.posterUrl}} 128w, 
+                                                {{movie.posterUrl}} 256w, 
+                                                {{movie.posterUrl}} 384w, 
+                                                {{movie.posterUrl}} 640w, 
+                                                {{movie.posterUrl}} 750w, 
+                                                {{movie.posterUrl}} 828w, 
+                                                {{movie.posterUrl}} 1080w, 
+                                                {{movie.posterUrl}} 1200w, 
+                                                {{movie.posterUrl}} 1920w, 
+                                                {{movie.posterUrl}} 2048w, 
+                                                {{movie.posterUrl}} 3840w"  
+                                        alt="ANH KHÔNG ĐAU-T18" class="object-cover rounded-xl img-css-detail">
                 </div>
                 <div class="text-sm flex flex-col">
                     <div class="flex items-center gap-2 mt-2">
@@ -43,27 +59,44 @@
     <div class="relative block xl:hidden px-4 md:px-6 -mt-[120px] z-30" *ngIf="movie">
         <div class="flex items-center gap-4">
             <div class="h-[200px] w-full max-w-[150px] md:w-[200px] md:max-w-[200px] md:h-[250px] relative">
-                <img [src]="movie.posterUrl" [alt]="movie.name"
-                    class="object-cover rounded-xl shadow-lg img-css-detail" />
-            </div>
-            <div>
-                <div class="flex items-center gap-2 mt-2">
-                    <h3 class="font-bold md:text-xl">{{ movie.name }}</h3>
-                    <div class="rounded-md p-1 border border-white font-bold text-sm md:text-base">2D</div>
+                <img alt="NGHỀ SIÊU KHÓ NÓI-T18" class="object-cover rounded-xl shadow-lg img-css-detail" sizes="(min-width: 780px) 200px, (min-width: 360px) 150px, calc(72.5vw - 98px)" 
+                        srcset="{{movie.posterUrl}} 16w, 
+                        {{movie.posterUrl}} 32w, 
+                        {{movie.posterUrl}} 48w, 
+                        {{movie.posterUrl}} 64w, 
+                        {{movie.posterUrl}} 96w, 
+                        {{movie.posterUrl}} 128w, 
+                        {{movie.posterUrl}} 256w, 
+                        {{movie.posterUrl}} 384w, 
+                        {{movie.posterUrl}} 640w, 
+                        {{movie.posterUrl}} 750w, 
+                        {{movie.posterUrl}} 828w, 
+                        {{movie.posterUrl}} 1080w, 
+                        {{movie.posterUrl}} 1200w, 
+                        {{movie.posterUrl}} 1920w, 
+                        {{movie.posterUrl}} 2048w, 
+                        {{movie.posterUrl}} 3840w">
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 mt-2">
+                            <h3 class="font-bold md:text-xl">{{movie.name}}</h3>
+                            <div class="rounded-md p-1 border border-white font-bold text-sm md:text-base">{{ movie.version === 1 ? '2D' : 'N/A' }}</div>
+                        </div>
+                        <div class="flex items-center mt-2 gap-x-2 text-sm md:text-base flex-wrap">
+                            <p>Hài, Hành động</p>
+                            <p>{{ movie.origin}}</p>
+                            <p>{{ movie.duration}} Min</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="flex items-center mt-2 gap-x-2 text-sm md:text-base flex-wrap">
-                    <p>{{ movie.genres.join(', ') }}</p>
-                    <p>{{ movie.origin }}</p>
-                    <p>{{ movie.duration }} Min</p>
-                </div>
-            </div>
-        </div>
-        <div class="text-sm flex flex-col mt-4">
-            <p>Directors: {{ movie.director }}</p>
-            <p>Actors: {{ movie.actors }}</p>
-            <p class="mt-4 line-clamp-4">{{ movie.description }}</p>
-            <div class="text-red-500 mt-5">Rating: T18 - The film is intended for viewers aged 18 and above (18+).</div>
-            <div class="mt-4 flex items-center justify-center gap-4 flex-1">
+                <div class="text-sm flex flex-col mt-4">
+                    <div class="flex items-center mt-2 gap-5 text-sm md:text-base">
+                        <p>{{ movie.director}}</p>
+                    </div>
+                    <p>Actors: {{ movie.actors}}</p>
+                    <p class="mt-4 line-clamp-4">A man who cannot feel physical pain turns his rare condition into an unexpected advantage in a life-or-death battle to rescue the girl of his dreams.</p>
+                <div class="text-red-500 mt-5">Rating: T18 - The film is intended for viewers aged 18 and above (18+).</div>
+                <div class="mt-4 flex items-center justify-center gap-4 flex-1">
                 <button type="button" class="text-sm underline">Plot details</button>
                 <button class="border border-yellow-500 rounded-full py-2 px-10 text-yellow-500 hover:scale-105"
                     type="button">Watch trailer</button>
