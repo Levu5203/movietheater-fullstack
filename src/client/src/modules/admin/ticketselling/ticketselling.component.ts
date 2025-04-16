@@ -77,16 +77,34 @@ export class TicketsellingComponent
     this.ticketService.setCurrentView('select-seat');
   }
   private getShowtimes(): void {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const oneWeekLater = new Date();
+    oneWeekLater.setDate(today.getDate() + 7);
+    oneWeekLater.setHours(0, 0, 0, 0);
+
     this.showtimeService.getAll().subscribe((res) => {
       // Sắp xếp showtimes theo showDate
       this.showtimes = res
-        .filter((showtime, index, self) =>
-          index === self.findIndex(s => s.showDate === showtime.showDate) // Lọc các showtime trùng lặp
+        // Lọc các showtime có showDate lớn hơn hoặc bằng hôm nay
+        .filter(showtime => {
+          const showDate = new Date(showtime.showDate);
+          showDate.setHours(0, 0, 0, 0);
+          return showDate >= today && showDate <= oneWeekLater;
+        })
+        .filter(
+          (showtime, index, self) =>
+            index === self.findIndex((s) => s.showDate === showtime.showDate) // Lọc các showtime trùng lặp
         )
-        .sort((a, b) => new Date(a.showDate).getTime() - new Date(b.showDate).getTime()); // Sắp xếp theo ngày tăng dần
+        .sort(
+          (a, b) =>
+            new Date(a.showDate).getTime() - new Date(b.showDate).getTime()
+        ); // Sắp xếp theo ngày tăng dần
+
       // Chọn suất chiếu đầu tiên mặc định
       if (this.showtimes.length > 0) {
-        this.selectedShowtime = this.showtimes[0].showDate;
+        this.selectedShowtime = this.showtimes[0].showDate; // Cập nhật selectedShowtime
       }
     });
   }

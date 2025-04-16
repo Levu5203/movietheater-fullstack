@@ -54,10 +54,25 @@ export class TicketsellingMoviesComponent
     }
   }
   filterMovies(selectedDate: Date) {
-    if (!this.originalMovies.length) return; // Đảm bảo danh sách gốc đã có dữ liệu
+    if (!this.originalMovies.length) return;
 
-    this.movies = this.originalMovies.filter((movie) =>
-      movie.showtimes.some((showtime) => showtime.showDate === selectedDate)
-    );
+    // Normalize selectedDate
+    const selected = new Date(selectedDate);
+    selected.setHours(0, 0, 0, 0);
+
+    this.movies = this.originalMovies
+      .map((movie) => {
+        const filteredShowtimes = movie.showtimes.filter((showtime) => {
+          const showDate = new Date(showtime.showDate);
+          showDate.setHours(0, 0, 0, 0);
+          return showDate.getTime() === selected.getTime();
+        });
+
+        return {
+          ...movie,
+          showtimes: filteredShowtimes,
+        };
+      })
+      .filter((movie) => movie.showtimes.length > 0); // Keep only movies that have matching showtimes
   }
 }
