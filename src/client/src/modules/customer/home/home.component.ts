@@ -31,6 +31,8 @@ export class HomeComponent
   implements OnInit
 {
   public movies: MovieviewModel[] = [];
+  public nowShowingMovies: MovieviewModel[] = [];
+  public comingSoonMovies: MovieviewModel[] = [];
 
   constructor(
     @Inject(MOVIE_SERVICE) private readonly movieService: IMovieServiceInterface
@@ -71,9 +73,17 @@ export class HomeComponent
 
   getAll(): void {
     this.movieService.getAll().subscribe((res) => {
-      this.movies = res.filter(
-        (movie) => movie.showtimes && movie.showtimes.length > 0
+      this.movies = res;
+      this.nowShowingMovies = res.filter(
+        (movie) =>
+          movie.showtimes && movie.showtimes.length > 0 && movie.status == 1
       );
+      this.comingSoonMovies = res.filter(
+        (movie) =>
+          movie.showtimes && movie.status == 2
+      );
+
+      console.log(this.movies);
 
       if (this.movies.length > 0) {
         this.startSlideshow();
@@ -82,21 +92,21 @@ export class HomeComponent
   }
 
   getPrevMovie() {
-    return this.movies.length
-      ? this.movies[
-          (this.currentIndex - 1 + this.movies.length) % this.movies.length
+    return this.nowShowingMovies.length
+      ? this.nowShowingMovies[
+          (this.currentIndex - 1 + this.movies.length) % this.nowShowingMovies.length
         ]
       : null;
   }
 
   getNextMovie() {
-    return this.movies.length
-      ? this.movies[(this.currentIndex + 1) % this.movies.length]
+    return this.nowShowingMovies.length
+      ? this.nowShowingMovies[(this.currentIndex + 1) % this.nowShowingMovies.length]
       : null;
   }
 
   startSlideshow() {
-    if (this.movies.length === 0) return;
+    if (this.nowShowingMovies.length === 0) return;
 
     this.interval = setInterval(() => {
       this.nextSlide();
@@ -106,7 +116,7 @@ export class HomeComponent
   nextSlide() {
     if (this.isTransitioning) return;
     this.isTransitioning = true;
-    this.currentIndex = (this.currentIndex + 1) % this.movies.length;
+    this.currentIndex = (this.currentIndex + 1) % this.nowShowingMovies.length;
     this.stopSlideshow();
     this.startSlideshow();
     setTimeout(() => (this.isTransitioning = false), 500);
@@ -116,10 +126,10 @@ export class HomeComponent
     if (this.isTransitioning) return;
     this.isTransitioning = true;
     this.currentIndex =
-      (this.currentIndex - 1 + this.movies.length) % this.movies.length;
+      (this.currentIndex - 1 + this.nowShowingMovies.length) % this.nowShowingMovies.length;
     this.stopSlideshow();
     this.startSlideshow();
-        setTimeout(() => (this.isTransitioning = false), 500);
+    setTimeout(() => (this.isTransitioning = false), 500);
   }
 
   stopSlideshow() {

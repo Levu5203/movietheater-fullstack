@@ -58,6 +58,7 @@ public static class DbInitializer
         SeedCinemaRooms(context, rooms);
         SeedGenres(context, genres);
         SeedMovies(context, movies);
+        // SeedMoviesWithUpdatedPosterUrl(context, movies);
         SeedMovieGenres(context);
         SeedShowTimeSlots(context, showTimeSlots);
         SeedShowTimes(context, showTimes);
@@ -225,7 +226,7 @@ public static class DbInitializer
     {
         foreach (var movie in movies)
         {
-            if (!ExistsInDb<Movie>(context, m => m.Name == movie.Name && m.ReleasedDate == movie.ReleasedDate && m.Version == movie.Version || m.Id == movie.Id))
+            if (!ExistsInDb<Movie>(context, m => m.Id == movie.Id || m.Name == movie.Name && m.ReleasedDate == movie.ReleasedDate && m.Version == movie.Version))
             {
                 context.Movies.Add(new Movie
                 {
@@ -238,7 +239,7 @@ public static class DbInitializer
                     PosterUrl = movie.PosterUrl,
                     Status = movie.Status,
                     ReleasedDate = movie.ReleasedDate,
-                    EndDate = movie.EndDate,
+                    EndDate = movie.ReleasedDate.AddDays(14),
                     Actors = movie.Actors,
                     Director = movie.Director,
                     CreatedAt = DateTime.Now,
@@ -247,6 +248,48 @@ public static class DbInitializer
         }
         context.SaveChanges();
     }
+
+    public static void SeedMoviesWithUpdatedPosterUrl(MovieTheaterDbContext context, List<Movie> movies)
+    {
+        foreach (var movie in movies)
+        {
+            var existingMovie = context.Movies.FirstOrDefault(m => m.Id == movie.Id ||
+                m.Name == movie.Name &&
+                m.ReleasedDate == movie.ReleasedDate &&
+                m.Version == movie.Version);
+
+            if (existingMovie == null)
+            {
+                context.Movies.Add(new Movie
+                {
+                    Id = movie.Id,
+                    Name = movie.Name,
+                    Duration = movie.Duration,
+                    Origin = movie.Origin,
+                    Description = movie.Description,
+                    Version = movie.Version,
+                    PosterUrl = movie.PosterUrl,
+                    Status = movie.Status,
+                    ReleasedDate = movie.ReleasedDate,
+                    EndDate = movie.ReleasedDate.AddDays(14),
+                    Actors = movie.Actors,
+                    Director = movie.Director,
+                    CreatedAt = DateTime.Now,
+                });
+            }
+            else
+            {
+                // Cập nhật PosterUrl nếu khác
+                if (existingMovie.PosterUrl != movie.PosterUrl)
+                {
+                    existingMovie.PosterUrl = movie.PosterUrl;
+                }
+            }
+        }
+
+        context.SaveChanges();
+    }
+
 
     private static void SeedMovieGenres(MovieTheaterDbContext context)
     {
@@ -298,10 +341,12 @@ public static class DbInitializer
     {
         foreach (var showTime in showTimes)
         {
+            var showDate = DateOnly.ParseExact(showTime.ShowDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
             if (!ExistsInDb<ShowTime>(context, s => s.Id == showTime.ShowTimeId ||
                 s.CinemaRoomId == showTime.CinemaRoomId &&
                 s.ShowTimeSlotId == showTime.ShowTimeSlotId &&
-                s.ShowDate == DateOnly.Parse(showTime.ShowDate)))
+                s.ShowDate == showDate))
             {
                 var movie = context.Movies.Find(showTime.MovieId);
                 var timeSlot = context.ShowTimeSlots.Find(showTime.ShowTimeSlotId);
@@ -312,7 +357,12 @@ public static class DbInitializer
                     continue;
                 }
 
-                var showDate = DateOnly.Parse(showTime.ShowDate);
+                if (showDate < movie.ReleasedDate || showDate > movie.EndDate)
+                {
+                    Console.WriteLine($"Warning: Show Date must be from released date to end date {showTime.ShowTimeId}");
+                    continue;
+                }
+
                 if (HasTimeConflict(context, showTime.CinemaRoomId, showDate, timeSlot.Time, movie.Duration, showTime.ShowTimeId))
                 {
                     Console.WriteLine($"Warning: Time conflict detected for ShowTime {showTime.ShowTimeId} in room {showTime.CinemaRoomId} at {showDate} {timeSlot.Time}");
