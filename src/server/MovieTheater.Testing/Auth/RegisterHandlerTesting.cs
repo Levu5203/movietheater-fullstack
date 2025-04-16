@@ -12,7 +12,7 @@ using MovieTheater.Data;
 using MovieTheater.Data.Repositories;
 using MovieTheater.Data.UnitOfWorks;
 using MovieTheater.Models.Security;
-using static MovieTheater.Core.Constants.CoreConstants.RoleConstants;
+using static MovieTheater.Core.Constants.CoreConstants;
 
 namespace MovieTheater.Testing.Auth;
 
@@ -68,10 +68,10 @@ public class RegisterRequestCommandHandlerTests
             .ReturnsAsync((User?)null);
         _userManagerMock.Setup(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<string>()))
             .ReturnsAsync(IdentityResult.Success);
-        _userManagerMock.Setup(x => x.AddToRoleAsync(It.IsAny<User>(), Customer))
+        _userManagerMock.Setup(x => x.AddToRoleAsync(It.IsAny<User>(), RoleConstants.Customer))
             .ReturnsAsync(IdentityResult.Success);
         _userManagerMock.Setup(x => x.GetRolesAsync(It.IsAny<User>()))
-            .ReturnsAsync(new List<string> { Customer });
+            .ReturnsAsync([RoleConstants.Customer]);
 
         // Setup TokenService mock
         _tokenServiceMock = new Mock<ITokenService>();
@@ -140,7 +140,7 @@ public class RegisterRequestCommandHandlerTests
         _userManagerMock.Verify(
             x => x.AddToRoleAsync(
                 It.Is<User>(u => u.UserName == command.Username),
-                Customer),
+                RoleConstants.Customer),
             Times.Once);
 
         _tokenServiceMock.Verify(

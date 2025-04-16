@@ -101,7 +101,10 @@ builder.Services.AddScoped<IFileStorageService, FileStorageService>();
 
 builder.Services.AddScoped<IAzureService, AzureService>();
 
+//Register Background Service
 builder.Services.AddHostedService<PendingSeatTimeoutService>();
+builder.Services.AddHostedService<MovieStatusUpdateService>();
+
 
 // Register controllers
 builder.Services.AddControllers();
