@@ -32,7 +32,7 @@ export class MoviesComponent
   private getAll(): void {
     this.movieService.getAll().subscribe((res) => {
       this.originalMovies = res.filter(
-        (movie) => movie.showtimes && movie.showtimes.length > 0
+        (movie) => movie.showtimes && movie.showtimes.length > 0 && movie.status === 1
       );
       this.movies = [...this.originalMovies]; // Sao chép danh sách gốc vào movies
     });
