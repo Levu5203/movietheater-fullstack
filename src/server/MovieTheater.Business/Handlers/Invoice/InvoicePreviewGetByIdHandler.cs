@@ -15,6 +15,7 @@ public class InvoicePreviewGetByIdHandler(IUnitOfWork unitOfWork, IMapper mapper
     public async Task<InvoicePreviewViewModel> Handle(InvoicePreviewGetByIdQuery request, CancellationToken cancellationToken){
        var invoice = await _unitOfWork.InvoiceRepository.GetQuery()
             .Include(i => i.Tickets)
+                .ThenInclude(t => t.Seat)
             .Include(i => i.ShowTime)
                 .ThenInclude(s => s.CinemaRoom)
             .Include(i => i.ShowTime)

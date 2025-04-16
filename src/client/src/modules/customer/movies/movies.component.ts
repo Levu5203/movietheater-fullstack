@@ -6,10 +6,11 @@ import { MasterDataListComponent } from '../../../core/components/master-data/ma
 import { MovieviewModel } from '../../../models/movie/movieview.model';
 import { IMovieServiceInterface } from '../../../services/movie/movie-service.interface';
 import { MOVIE_SERVICE } from '../../../constants/injection.constant';
+import { CustomFormatPipe } from '../../../pipes/custom-format.pipe';
 
 @Component({
   selector: 'app-movies',
-  imports: [RouterModule, CommonModule, ServicesModule],
+  imports: [RouterModule, CommonModule, ServicesModule, CustomFormatPipe],
   templateUrl: './movies.component.html',
   styleUrl: './movies.component.css',
 })

@@ -1,13 +1,6 @@
-<section *ngIf="currentView === 'ticketselling'" class="flex-1 bg-white rounded-lg shadow p-6 w-full">
+<section class="flex-1 bg-white rounded-lg shadow p-6 w-full">
     <h2 class="text-2xl font-bold mb-4">Selling Ticket</h2>
     <div class="xl:flex items-center mb-4 xl:relative">
-        <!-- <div class="flex items-center mb-4">
-            <button class="mr-2 p-2 w-10 h-10 rounded-xl shadow-md hover:bg-gray-100 cursor-pointer">
-                <fa-icon [icon]="faArrowLeft" class="w-6 h-6"></fa-icon>
-            </button>
-            <input type="text" placeholder="Search"
-                class="flex-1 px-4 py-2 rounded-3xl bg-gray-200 hover:bg-gray-300 cursor-pointer">
-        </div> -->
         <div class="flex flex-col items-center mb-4 xl:absolute xl:left-1/2 xl:transform xl:-translate-x-1/2">
             <span class="text-red-500 font-bold mb-2">● Now showing</span>
             <div class="flex">
@@ -22,28 +15,4 @@
         </div>
     </div>
     <app-ticketselling-movies [selectedShowtime]="selectedShowtime"></app-ticketselling-movies>
-    <!-- <div class="pagination flex justify-center items-center py-4 px-10 text-sm">
-        <button
-            class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer">
-            <fa-icon [icon]="faAnglesLeft" class=""></fa-icon>
-        </button>
-        <button
-            class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer">
-            <fa-icon [icon]="faAngleLeft" class=""></fa-icon>
-        </button>
-        <div class="flex items-center mx-4">
-            <span>Page</span>
-            <input type="number" [(ngModel)]="currentPage" class="w-12 mx-2 text-center border rounded" min="1"
-                [max]="totalPages">
-            <span>/ {{totalPages}}</span>
-        </div>
-        <button
-            class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer">
-            <fa-icon [icon]="faAngleRight" class=""></fa-icon>
-        </button>
-        <button
-            class="w-8 h-8 flex justify-center items-center text-gray-500 px-4 py-1 rounded hover:bg-gray-100 cursor-pointer">
-            <fa-icon [icon]="faAnglesRight" class=""></fa-icon>
-        </button>
-    </div> -->
 </section>
