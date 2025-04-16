@@ -1,16 +1,24 @@
-<div class="container grid grid-cols-1 lg:grid-cols-2 gap-4 m-auto">
-    <div *ngFor="let movie of movies" class="flex flex-col border rounded-lg mt-4 p-4 relative">
-        <p class="border px-8 rounded absolute top-5 right-5">{{ movie.version === 1 ? '2D' : 'N/A' }}</p>
-        <div>
-            <p class="text-sm">Comedy, Action {{movie.duration}} minutes</p>
-            <h3 class="text-lg font-bold">{{movie.name}}</h3>
-            <p class="text-sm">Origin: {{movie.origin}}</p>
-            <p class="text-sm font-bold">Show time</p>
-            <div class="">
-                <button [routerLink]="['/admin/ticketselling-selectseat']"
-                [queryParams]="{id: showtime.id}" *ngFor="let showtime of movie.showtimes"
-                    class="px-4 mr-2 mt-2 border rounded hover:bg-red-500 hover:text-white cursor-pointer">{{showtime.startTime}}</button>
+<ng-container *ngIf="movies.length > 0; else noMovies">
+    <div class="container grid grid-cols-1 lg:grid-cols-2 gap-4 m-auto">
+        <div *ngFor="let movie of movies" class="flex flex-col border rounded-lg mt-4 p-4 relative">
+            <div class="absolute top-2 right-2 border border-gray-600 rounded-md px-2 font-semibold">
+                {{
+                movie.version === 1 ? '2D' : '3D' }}</div>
+            <div>
+                <p class="text-sm">Comedy, Action {{movie.duration}} minutes</p>
+                <h3 class="text-lg font-bold">{{movie.name}}</h3>
+                <p class="text-sm">Origin: {{movie.origin}}</p>
+                <p class="text-sm font-bold">Show time</p>
+                <div class="">
+                    <button [routerLink]="['/admin/ticketselling-selectseat']" [queryParams]="{id: showtime.id}"
+                        *ngFor="let showtime of movie.showtimes"
+                        class="px-4 mr-2 mt-2 border rounded hover:bg-red-500 hover:text-white cursor-pointer">
+                        {{ showtime.startTime | customFormat: 'timeShort' }}</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</ng-container>
+<ng-template #noMovies>
+    <p class="text-gray-400 text-center col-span-full">No showtimes available.</p>
+</ng-template>

@@ -32,9 +32,8 @@ export class MoviedetailComponent implements OnInit {
       this.selectedItem != undefined &&
       this.selectedItem?.showtimes.length > 0
     ) {
-      this.selectedDate = this.selectedItem?.showtimes[0].showDate;
-      this.getShowtimesByDate(this.selectedDate);
       this.getShowDates();
+      this.getShowtimesByDate(this.selectedDate);
     }
   }
 
@@ -50,7 +49,7 @@ export class MoviedetailComponent implements OnInit {
     today.setHours(0, 0, 0, 0);
 
     const oneWeekLater = new Date();
-    oneWeekLater.setDate(today.getDate() + 7);
+    oneWeekLater.setDate(today.getDate() + 6); // Lấy 1 tuần sau
     oneWeekLater.setHours(0, 0, 0, 0);
 
     const dates =
@@ -65,8 +64,17 @@ export class MoviedetailComponent implements OnInit {
     const uniqueDates = [...new Set(dates)];
     uniqueDates.sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
 
+    // Kiểm tra nếu hôm nay không còn suất chiếu nào hợp lệ thì loại bỏ
+    const hasValidTodayShowtimes = this.selectedItem?.showtimes.some((x) => {
+      const now = new Date();
+      const dateTime = new Date(`${x.showDate}T${x.startTime}`);
+      return dateTime.getDate() == now.getDate() && dateTime > now;
+    });
+
+    if (!hasValidTodayShowtimes) uniqueDates.shift(); // Loại bỏ ngày hôm nay nếu không có suất chiếu nào hợp lệ
+
     this.showDates = uniqueDates;
-    // Auto-select the earliest available date
+    // Chọn suất chiếu đầu tiên mặc định
     if (this.showDates.length > 0) {
       this.selectedDate = this.showDates[0];
     }
@@ -74,7 +82,16 @@ export class MoviedetailComponent implements OnInit {
 
   getShowtimesByDate(date: Date): void {
     this.showtimesBySelectedDate =
-      this.selectedItem?.showtimes.filter((x) => x.showDate == date) ?? [];
+      this.selectedItem?.showtimes
+        .filter((x) => x.showDate == date)
+        .filter((x) => {
+          return new Date(`${x.showDate}T${x.startTime}`) > new Date();
+        })
+        .sort((a, b) => {
+          const d1 = new Date(`${a.showDate}T${a.startTime}`);
+          const d2 = new Date(`${b.showDate}T${b.startTime}`);
+          return d1.getTime() - d2.getTime();
+        }) ?? [];
   }
 
   onClose() {
