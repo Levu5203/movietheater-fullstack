@@ -72,3 +72,6 @@ body {
 .seat-color-booked{
     background: rgb(37 42 49);
 }
+.promotion-image{
+    margin: 0 auto;
+}
