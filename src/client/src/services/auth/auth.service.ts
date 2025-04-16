@@ -166,7 +166,7 @@ export class AuthService implements IAuthService {
         if (this.isTokenExpired()) {
           this.logout();
         }
-      }, 10000);
+      }, 60000);
     }
   }
 

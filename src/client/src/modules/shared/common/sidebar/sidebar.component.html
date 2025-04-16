@@ -236,7 +236,7 @@
         'justify-center': !isShowSidebar
       }"
       (click)="logout()"
-      class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-gray-400 hover:text-black"
+      class="flex items-center space-x-2 p-1 pl-2 m-2 rounded-xl hover:bg-gray-400 hover:cursor-pointer"
     >
       <fa-icon [icon]="faSignOut" class="text-xl"></fa-icon>
       <span [ngClass]="isShowSidebar ? 'block' : 'hidden'">Logout</span>
