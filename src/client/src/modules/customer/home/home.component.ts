@@ -94,7 +94,7 @@ export class HomeComponent
   getPrevMovie() {
     return this.nowShowingMovies.length
       ? this.nowShowingMovies[
-          (this.currentIndex - 1 + this.movies.length) % this.nowShowingMovies.length
+          (this.currentIndex - 1 + this.nowShowingMovies.length) % this.nowShowingMovies.length
         ]
       : null;
   }
