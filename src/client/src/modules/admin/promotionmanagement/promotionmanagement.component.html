@@ -38,7 +38,7 @@
               <td class="text-center">{{ promotion.startDate | date:'yyyy-MM-dd'}}</td>
               <td class="text-center">{{ promotion.endDate | date:'yyyy-MM-dd'}}</td>
               <td class="text-center">{{ promotion.discount * 100 }} %</td>
-              <td class="text-center">{{ promotion.description }}</td>
+              <td class="text-center">{{ promotion.description.length > 100 ? (promotion.description | slice:0:100) + '...' : promotion.description}}</td>
               <td class="text-center">
                 <div class="flex justify-center space-x-2 *:cursor-pointer">
                   <button title="Edit" type="button" (click)="updatePromotion(promotion.id)" class="border-0">
