@@ -35,8 +35,8 @@
                 class="*:p-2 border-t border-gray-300 hover:bg-gray-100 *:text-center">
               <td class="text-center">{{ getRowIndex(i)  }}</td>
               <td class="text-center">{{ promotion.promotionTitle }}</td>
-              <td class="text-center">{{ promotion.startDate }}</td>
-              <td class="text-center">{{ promotion.endDate }}</td>
+              <td class="text-center">{{ promotion.startDate | date:'yyyy-MM-dd'}}</td>
+              <td class="text-center">{{ promotion.endDate | date:'yyyy-MM-dd'}}</td>
               <td class="text-center">{{ promotion.discount * 100 }} %</td>
               <td class="text-center">{{ promotion.description }}</td>
               <td class="text-center">

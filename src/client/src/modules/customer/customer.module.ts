@@ -10,6 +10,7 @@ import { BookingComponent } from './booking/booking.component';
 import { MoviedetailComponent } from './moviedetail/moviedetail.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ResetPasswordComponent } from '../auth/resetpassword/resetpassword.component';
+import { PromotiondetailComponent } from './promotiondetail/promotiondetail.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -22,6 +23,8 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'booking', component: BookingComponent },
+  { path: 'promotiondetail', component: PromotiondetailComponent },
+
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 

@@ -56,7 +56,7 @@ export class ShowtimeComponent
         .sort(
           (a, b) =>
             new Date(a.showDate).getTime() - new Date(b.showDate).getTime()
-        ); // Sắp xếp theo ngày tăng dần
+        ).slice(0, 7); // Sắp xếp theo ngày tăng dần
 
       // Chọn suất chiếu đầu tiên mặc định
       if (this.showtimes.length > 0) {
