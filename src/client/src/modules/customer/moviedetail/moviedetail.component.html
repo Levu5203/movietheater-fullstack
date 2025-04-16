@@ -19,8 +19,24 @@
     <div class="hidden xl:block absolute w-full inset-0 m-auto z-20" *ngIf="selectedItem">
       <div class="w-full max-w-4xl m-auto h-[473px] py-7 pt-24 flex gap-10">
         <div class="relative h-[333px] min-w-[238px] shadow-lg">
-          <img [src]="selectedItem.posterUrl" [alt]="selectedItem.name"
-            class="object-cover rounded-xl img-css-detail" />
+          <img sizes="238px" src={{selectedItem.posterUrl}} 
+                                        srcset="{{selectedItem.posterUrl}}  16w, 
+                                        {{selectedItem.posterUrl}}  32w, 
+                                        {{selectedItem.posterUrl}}  48w, 
+                                                {{selectedItem.posterUrl}}  64w, 
+                                                {{selectedItem.posterUrl}}  96w, 
+                                                {{selectedItem.posterUrl}}  128w, 
+                                                {{selectedItem.posterUrl}}  256w, 
+                                                {{selectedItem.posterUrl}}  384w, 
+                                                {{selectedItem.posterUrl}}  640w, 
+                                                {{selectedItem.posterUrl}}  750w, 
+                                                {{selectedItem.posterUrl}}  828w, 
+                                                {{selectedItem.posterUrl}}  1080w, 
+                                                {{selectedItem.posterUrl}}  1200w, 
+                                                {{selectedItem.posterUrl}}  1920w, 
+                                                {{selectedItem.posterUrl}}  2048w, 
+                                                {{selectedItem.posterUrl}}  3840w"  
+                                        alt="{{selectedItem.name}}" class="object-cover rounded-xl img-css-detail">
         </div>
         <div class="text-sm flex flex-col">
           <div class="flex items-center gap-2 mt-2">
@@ -51,8 +67,23 @@
   <div class="relative block xl:hidden px-4 md:px-6 -mt-[120px] z-30" *ngIf="selectedItem">
     <div class="flex items-center gap-4">
       <div class="h-[200px] w-full max-w-[150px] md:w-[200px] md:max-w-[200px] md:h-[250px] relative">
-        <img [src]="selectedItem.posterUrl" [alt]="selectedItem.name"
-          class="object-cover rounded-xl shadow-lg img-css-detail" />
+        <img alt="{{selectedItem.name}}" class="object-cover rounded-xl shadow-lg img-css-detail" sizes="(min-width: 780px) 200px, (min-width: 360px) 150px, calc(72.5vw - 98px)" 
+                        srcset="{{selectedItem.posterUrl}}  16w, 
+                        {{selectedItem.posterUrl}}  32w, 
+                        {{selectedItem.posterUrl}}  48w, 
+                        {{selectedItem.posterUrl}}  64w, 
+                        {{selectedItem.posterUrl}}  96w, 
+                        {{selectedItem.posterUrl}}  128w, 
+                        {{selectedItem.posterUrl}}  256w, 
+                        {{selectedItem.posterUrl}}  384w, 
+                        {{selectedItem.posterUrl}}  640w, 
+                        {{selectedItem.posterUrl}}  750w, 
+                        {{selectedItem.posterUrl}}  828w, 
+                        {{selectedItem.posterUrl}}  1080w, 
+                        {{selectedItem.posterUrl}}  1200w, 
+                        {{selectedItem.posterUrl}}  1920w, 
+                        {{selectedItem.posterUrl}}  2048w, 
+                        {{selectedItem.posterUrl}}  3840w">
       </div>
       <div>
         <div class="flex items-center gap-2 mt-2">

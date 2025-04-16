@@ -27,7 +27,7 @@
                                                 {{movie.posterUrl}} 1920w, 
                                                 {{movie.posterUrl}} 2048w, 
                                                 {{movie.posterUrl}} 3840w"  
-                                        alt="ANH KHÔNG ĐAU-T18" class="object-cover rounded-xl img-css-detail">
+                                        alt="{{movie.name}}" class="object-cover rounded-xl img-css-detail">
                 </div>
                 <div class="text-sm flex flex-col">
                     <div class="flex items-center gap-2 mt-2">
@@ -59,7 +59,7 @@
     <div class="relative block xl:hidden px-4 md:px-6 -mt-[120px] z-30" *ngIf="movie">
         <div class="flex items-center gap-4">
             <div class="h-[200px] w-full max-w-[150px] md:w-[200px] md:max-w-[200px] md:h-[250px] relative">
-                <img alt="NGHỀ SIÊU KHÓ NÓI-T18" class="object-cover rounded-xl shadow-lg img-css-detail" sizes="(min-width: 780px) 200px, (min-width: 360px) 150px, calc(72.5vw - 98px)" 
+                <img alt="{{movie.name}}" class="object-cover rounded-xl shadow-lg img-css-detail" sizes="(min-width: 780px) 200px, (min-width: 360px) 150px, calc(72.5vw - 98px)" 
                         srcset="{{movie.posterUrl}} 16w, 
                         {{movie.posterUrl}} 32w, 
                         {{movie.posterUrl}} 48w, 
