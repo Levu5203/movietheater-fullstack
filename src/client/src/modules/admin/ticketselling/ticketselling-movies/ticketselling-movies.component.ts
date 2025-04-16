@@ -62,11 +62,15 @@ export class TicketsellingMoviesComponent
 
     this.movies = this.originalMovies
       .map((movie) => {
-        const filteredShowtimes = movie.showtimes.filter((showtime) => {
-          const showDate = new Date(showtime.showDate);
-          showDate.setHours(0, 0, 0, 0);
-          return showDate.getTime() === selected.getTime();
-        });
+        const filteredShowtimes = movie.showtimes
+          .filter((showtime) => {
+            const showDate = new Date(showtime.showDate);
+            showDate.setHours(0, 0, 0, 0);
+            return showDate.getTime() === selected.getTime();
+          })
+          .filter((x) => {
+            return new Date(`${x.showDate}T${x.startTime}`) > new Date();
+          }); // Filter out past showtimes
 
         return {
           ...movie,

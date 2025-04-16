@@ -81,7 +81,7 @@ export class TicketsellingComponent
     today.setHours(0, 0, 0, 0);
 
     const oneWeekLater = new Date();
-    oneWeekLater.setDate(today.getDate() + 7);
+    oneWeekLater.setDate(today.getDate() + 6); // Lấy 1 tuần sau
     oneWeekLater.setHours(0, 0, 0, 0);
 
     this.showtimeService.getAll().subscribe((res) => {
