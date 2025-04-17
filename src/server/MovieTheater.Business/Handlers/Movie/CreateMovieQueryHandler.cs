@@ -47,7 +47,7 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, Gui
             CreatedAt = DateTime.UtcNow
         };
 
-        
+
 
         // Add movie using the generic repository
         await _unitOfWork.MovieRepository.AddAsync(movie);
@@ -70,7 +70,7 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, Gui
                 movieGenres.Add(movieGenre);
             }
         }
-        
+
         // Add all movie genres at once
         if (movieGenres.Any())
         {
@@ -79,11 +79,16 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, Gui
 
         // Create showtimes for each day between ReleasedDate and EndDate
         var showTimes = new List<ShowTime>();
+        var timeSlots = _unitOfWork.ShowtimeSlotRepository.GetQuery().ToList();
         var currentDate = request.ReleasedDate;
+        int count = 0;
         while (currentDate <= request.EndDate)
         {
             foreach (var timeSlotId in request.SelectedShowTimeSlots)
             {
+                var slot = timeSlots.FirstOrDefault(x => x.Id == timeSlotId);
+                if (slot == null) continue; // skip invalid time slots
+
                 var showTime = new ShowTime
                 {
                     ShowDate = currentDate,
@@ -93,8 +98,14 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, Gui
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 };
-                showTimes.Add(showTime);
+
+                if (!HasTimeConflict(showTime.CinemaRoomId, showTime.ShowDate, slot.Time, movie.Duration, showTime.Id))
+                {
+                    showTimes.Add(showTime);
+                    count ++;
+                }
             }
+
             currentDate = currentDate.AddDays(1);
         }
 
@@ -102,11 +113,39 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, Gui
         if (showTimes.Any())
         {
             await _unitOfWork.ShowtimeRepository.AddAsync(showTimes);
+            System.Console.WriteLine($"Added {count} showtimes");
         }
 
         await _unitOfWork.SaveChangesAsync();
         return movie.Id;
     }
 
-    
+    private bool HasTimeConflict(Guid roomId, DateOnly showDate, TimeSpan startTime, int duration, Guid currentShowTimeId)
+    {
+        var showTimesInRoom = _unitOfWork.ShowtimeRepository.GetQuery(false)
+            .Where(s => s.CinemaRoomId == roomId && s.ShowDate == showDate && s.Id != currentShowTimeId)
+            .Select(s => new
+            {
+                s.ShowTimeSlot!.Time,
+                s.Movie!.Duration
+            })
+            .ToList();
+
+        var endTime = startTime.Add(TimeSpan.FromMinutes(duration));
+
+        foreach (var existingShowTime in showTimesInRoom)
+        {
+            var existingEndTime = existingShowTime.Time.Add(TimeSpan.FromMinutes(existingShowTime.Duration));
+
+            if ((startTime >= existingShowTime.Time && startTime < existingEndTime) ||
+                (endTime > existingShowTime.Time && endTime <= existingEndTime) ||
+                (startTime <= existingShowTime.Time && endTime >= existingEndTime))
+            {
+                System.Console.WriteLine($"Time conflict for showtime: {currentShowTimeId}, at Room: {roomId} : {startTime}");
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
