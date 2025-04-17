@@ -6,7 +6,7 @@
       "Discount": 0.50,
       "StartDate": "2025-03-01T00:00:00",
       "EndDate": "2025-04-30T23:59:59",
-      "Image": "https://example.com/fsa-special.jpg"
+      "Image": "https://cdn.gadgets360.com/kostprice/assets/img/movie-offers-coupons-og-1200.png"
     },
     {
       "Id": "22222222-2222-2222-2222-222222222222",
@@ -15,7 +15,7 @@
       "Discount": 0.25,
       "StartDate": "2025-03-15T00:00:00",
       "EndDate": "2025-04-15T23:59:59",
-      "Image": "https://example.com/marchapril-discount.jpg"
+      "Image": "https://i.pinimg.com/474x/80/b1/4f/80b14f14bbe924e772601db10d8591fb.jpg"
     }
   ]
   
