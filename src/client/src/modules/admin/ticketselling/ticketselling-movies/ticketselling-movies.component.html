@@ -1,6 +1,6 @@
 <div class="container grid grid-cols-1 lg:grid-cols-2 gap-4 m-auto">
     <div *ngFor="let movie of movies" class="flex flex-col border rounded-lg mt-4 p-4 relative">
-        <p class="border px-8 rounded absolute top-5 right-5">{{ movie.version === 1 ? '2D' : 'N/A' }}</p>
+        <p class="border px-8 rounded absolute top-5 right-5">{{ movie.version === 1 ? '2D' : '3D' }}</p>
         <div>
             <p class="text-sm">Comedy, Action {{movie.duration}} minutes</p>
             <h3 class="text-lg font-bold">{{movie.name}}</h3>

@@ -9,13 +9,13 @@ using MovieTheater.Models.Common;
 
 namespace MovieTheater.Business.Handlers.Seat;
 
-public class SeatReverveHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserIdentity userIdentity) : BaseHandler(unitOfWork, mapper),
+public class SeatReverveHandler(IUnitOfWork _unitOfWork, IMapper mapper, IUserIdentity userIdentity) : BaseHandler(_unitOfWork, mapper),
                                 IRequestHandler<SeatReverveCommand, InvoicePreviewViewModel>
 {
     private readonly IUserIdentity currentUser = userIdentity;
     public async Task<InvoicePreviewViewModel> Handle(SeatReverveCommand request, CancellationToken cancellationToken)
     {
-        using var transaction = await unitOfWork.BeginTransactionAsync();
+        using var transaction = await _unitOfWork.BeginTransactionAsync();
         try
         {
             var showtime = await _unitOfWork.ShowtimeRepository.GetQuery()
@@ -77,7 +77,7 @@ public class SeatReverveHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserIde
             {
                 Id = Guid.NewGuid(),
                 SeatId = seat.Id,
-                Price = 50000,
+                Price = seat.SeatType == SeatType.VIP ? 70000 : 50000,
                 Status = TicketStatus.Pending,
                 BookingDate = DateTime.Now,
                 InvoiceId = invoice.Id,
@@ -92,14 +92,14 @@ public class SeatReverveHandler(IUnitOfWork unitOfWork, IMapper mapper, IUserIde
             invoice.TotalMoney = tickets.Sum(t => t.Price);
             invoice.AddedScore = tickets.Count * 10;
             _unitOfWork.InvoiceRepository.Add(invoice);
-            await unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync();
             await transaction.CommitAsync();
             return _mapper.Map<InvoicePreviewViewModel>(invoice);
         }
         catch (Exception e)
         {
             await transaction.RollbackAsync();
-            throw;
+            throw new Exception("An error occurred while reserving seats", e);
         }
     }
 }

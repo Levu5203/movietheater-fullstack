@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { UserModel } from '../../../../models/user/user.model';
 import { InvoiceViewModel } from '../../../../models/invoice/invoiceview.model';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-ticketselling-payment',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './ticketselling-payment.component.html',
   styleUrls: ['./ticketselling-payment.component.css'],
   standalone: true,
@@ -19,16 +19,19 @@ export class TicketsellingPaymentComponent implements OnInit {
   totalPrice: number = 0;
   customer?: UserModel;
   isShowMemberInfo: boolean = false;
+  showTimeId!: string;
   phoneNumber: string = '';
   public invoice: InvoiceViewModel;
   public invoiceById!: InvoiceViewModel;
   constructor(private router: Router, private http: HttpClient) {
     const nav = this.router.getCurrentNavigation();
     this.invoice = nav?.extras?.state?.['invoice'];
-    this.getInvoiceById(this.invoice.id);
+    // this.getInvoiceById(this.invoice.id);
   }
   ngOnInit(): void {
-    console.log('Invoice loaded:', this.invoice);
+    if (this.invoice?.id) {
+      this.getInvoiceById(this.invoice.id);
+    }
   }
   checkMember() {
     const token = localStorage.getItem('accessToken');
@@ -63,7 +66,9 @@ export class TicketsellingPaymentComponent implements OnInit {
       )
       .subscribe((response: InvoiceViewModel) => {
         this.invoiceById = response;
-        console.log('showtime data:', this.invoiceById);
+        this.showTimeId = response.showTimeId;
+        // console.log('InvoiceId data:', this.invoiceById);
+        console.log('ShowtimeId data:', this.showTimeId);
       });
   }
   payInvoice() {

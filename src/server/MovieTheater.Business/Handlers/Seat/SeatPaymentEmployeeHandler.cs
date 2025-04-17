@@ -9,21 +9,21 @@ using MovieTheater.Models.Common;
 
 namespace MovieTheater.Business.Handlers.Seat;
 
-public class SeatPaymentEmployeeHandler(IUnitOfWork unitOfWork, IMapper mapper) : BaseHandler(unitOfWork, mapper), IRequestHandler<SeatPaymentEmployeeCommand, InvoicePreviewViewModel>
+public class SeatPaymentEmployeeHandler(IUnitOfWork _unitOfWork, IMapper _mapper) : BaseHandler(_unitOfWork, _mapper), IRequestHandler<SeatPaymentEmployeeCommand, InvoicePreviewViewModel>
 {
     public async Task<InvoicePreviewViewModel> Handle(SeatPaymentEmployeeCommand request, CancellationToken cancellationToken)
     {
-        using var transaction = await unitOfWork.BeginTransactionAsync();
+        using var transaction = await _unitOfWork.BeginTransactionAsync();
         try
         {
-            var invoice = await unitOfWork.InvoiceRepository.GetByIdAsync(request.InvoiceId);
+            var invoice = await _unitOfWork.InvoiceRepository.GetByIdAsync(request.InvoiceId);
             if (invoice == null) throw new ResourceNotFoundException("Invoice not found");
             if (invoice.InvoiceStatus == InvoiceStatus.Paid) throw new InvalidOperationException("Invoice is already paid");
 
             // 🔍 Tìm user theo số điện thoại
             if (request.PhoneNumber != null)
             {
-                var customer = await unitOfWork.UserRepository.GetQuery()
+                var customer = await _unitOfWork.UserRepository.GetQuery()
                     .FirstOrDefaultAsync(u => u.PhoneNumber == request.PhoneNumber, cancellationToken);
                 if (customer != null)
                 {
@@ -31,7 +31,7 @@ public class SeatPaymentEmployeeHandler(IUnitOfWork unitOfWork, IMapper mapper) 
                 }
             }
 
-            var tickets = await unitOfWork.TicketRepository.GetQuery()
+            var tickets = await _unitOfWork.TicketRepository.GetQuery()
                 .Where(t => t.InvoiceId == request.InvoiceId)
                 .ToListAsync(cancellationToken);
             if (tickets.Count == 0) throw new ResourceNotFoundException("Tickets not found");
@@ -39,7 +39,7 @@ public class SeatPaymentEmployeeHandler(IUnitOfWork unitOfWork, IMapper mapper) 
             var seatIds = tickets.Select(t => t.SeatId).ToList();
             var showtimeId = tickets.First().ShowTimeId;
 
-            var seatShowtimes = await unitOfWork.SeatShowtimeRepository.GetQuery()
+            var seatShowtimes = await _unitOfWork.SeatShowtimeRepository.GetQuery()
                 .Where(s => seatIds.Contains(s.SeatId) && s.ShowTimeId == showtimeId)
                 .ToListAsync(cancellationToken);
 
@@ -47,23 +47,23 @@ public class SeatPaymentEmployeeHandler(IUnitOfWork unitOfWork, IMapper mapper) 
             {
                 seatShowtime.Status = SeatStatus.Booked;
                 seatShowtime.UpdatedAt = DateTime.Now;
-                unitOfWork.SeatShowtimeRepository.Update(seatShowtime);
+                _unitOfWork.SeatShowtimeRepository.Update(seatShowtime);
             }
 
             foreach (var ticket in tickets)
             {
                 ticket.Status = TicketStatus.Paid;
-                unitOfWork.TicketRepository.Update(ticket);
+                _unitOfWork.TicketRepository.Update(ticket);
             }
 
             invoice.InvoiceStatus = InvoiceStatus.Paid;
             invoice.UpdatedAt = DateTime.Now;
-            unitOfWork.InvoiceRepository.Update(invoice);
+            _unitOfWork.InvoiceRepository.Update(invoice);
 
-            await unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync();
             await transaction.CommitAsync();
 
-            return mapper.Map<InvoicePreviewViewModel>(invoice);
+            return _mapper.Map<InvoicePreviewViewModel>(invoice);
         }
         catch (Exception)
         {
