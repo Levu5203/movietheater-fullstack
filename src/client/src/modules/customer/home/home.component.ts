@@ -14,6 +14,9 @@ import { MovieviewModel } from '../../../models/movie/movieview.model';
 import { ServicesModule } from '../../../services/services.module';
 import { MasterDataListComponent } from '../../../core/components/master-data/master-data.component';
 import { MoviedetailComponent } from '../moviedetail/moviedetail.component';
+import { PromotionModel } from '../../../models/promotion/promotion.model';
+import { HttpClient } from '@angular/common/http';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +25,7 @@ import { MoviedetailComponent } from '../moviedetail/moviedetail.component';
     FontAwesomeModule,
     ServicesModule,
     MoviedetailComponent,
+    RouterLink
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
@@ -31,9 +35,13 @@ export class HomeComponent
   implements OnInit
 {
   public movies: MovieviewModel[] = [];
-
+  public nowShowingMovies: MovieviewModel[] = [];
+  public comingSoonMovies: MovieviewModel[] = [];
+  public promotions: PromotionModel[] = [];
   constructor(
-    @Inject(MOVIE_SERVICE) private readonly movieService: IMovieServiceInterface
+    @Inject(MOVIE_SERVICE)
+    private readonly movieService: IMovieServiceInterface,
+    private http: HttpClient
   ) {
     super();
   }
@@ -64,6 +72,7 @@ export class HomeComponent
 
   override ngOnInit() {
     this.getAll();
+    this.fetchRoom();
   }
   ngOnDestroy(): void {
     this.stopSlideshow();
@@ -71,9 +80,16 @@ export class HomeComponent
 
   getAll(): void {
     this.movieService.getAll().subscribe((res) => {
-      this.movies = res.filter(
-        (movie) => movie.showtimes && movie.showtimes.length > 0
+      this.movies = res;
+      this.nowShowingMovies = res.filter(
+        (movie) =>
+          movie.showtimes && movie.showtimes.length > 0 && movie.status == 1
       );
+      this.comingSoonMovies = res.filter(
+        (movie) => movie.showtimes && movie.status == 2
+      );
+
+      console.log(this.movies);
 
       if (this.movies.length > 0) {
         this.startSlideshow();
@@ -82,21 +98,23 @@ export class HomeComponent
   }
 
   getPrevMovie() {
-    return this.movies.length
-      ? this.movies[
-          (this.currentIndex - 1 + this.movies.length) % this.movies.length
+    return this.nowShowingMovies.length
+      ? this.nowShowingMovies[
+          (this.currentIndex - 1 + this.nowShowingMovies.length) % this.nowShowingMovies.length
         ]
       : null;
   }
 
   getNextMovie() {
-    return this.movies.length
-      ? this.movies[(this.currentIndex + 1) % this.movies.length]
+    return this.nowShowingMovies.length
+      ? this.nowShowingMovies[
+          (this.currentIndex + 1) % this.nowShowingMovies.length
+        ]
       : null;
   }
 
   startSlideshow() {
-    if (this.movies.length === 0) return;
+    if (this.nowShowingMovies.length === 0) return;
 
     this.interval = setInterval(() => {
       this.nextSlide();
@@ -106,7 +124,7 @@ export class HomeComponent
   nextSlide() {
     if (this.isTransitioning) return;
     this.isTransitioning = true;
-    this.currentIndex = (this.currentIndex + 1) % this.movies.length;
+    this.currentIndex = (this.currentIndex + 1) % this.nowShowingMovies.length;
     this.stopSlideshow();
     this.startSlideshow();
     setTimeout(() => (this.isTransitioning = false), 500);
@@ -116,13 +134,23 @@ export class HomeComponent
     if (this.isTransitioning) return;
     this.isTransitioning = true;
     this.currentIndex =
-      (this.currentIndex - 1 + this.movies.length) % this.movies.length;
+      (this.currentIndex - 1 + this.nowShowingMovies.length) %
+      this.nowShowingMovies.length;
     this.stopSlideshow();
     this.startSlideshow();
-        setTimeout(() => (this.isTransitioning = false), 500);
+    setTimeout(() => (this.isTransitioning = false), 500);
   }
 
   stopSlideshow() {
     clearInterval(this.interval);
+  }
+  //get promotions fromt api http://localhost:5063/api/Promotion
+  private fetchRoom() {
+    this.http
+      .get<PromotionModel[]>(`http://localhost:5063/api/Promotion`)
+      .subscribe((response: PromotionModel[]) => {
+        this.promotions = response;
+        console.log('Promotion data:', this.promotions);
+      });
   }
 }

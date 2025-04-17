@@ -6,10 +6,11 @@ import { MasterDataListComponent } from '../../../core/components/master-data/ma
 import { MovieviewModel } from '../../../models/movie/movieview.model';
 import { IMovieServiceInterface } from '../../../services/movie/movie-service.interface';
 import { MOVIE_SERVICE } from '../../../constants/injection.constant';
+import { CustomFormatPipe } from '../../../pipes/custom-format.pipe';
 
 @Component({
   selector: 'app-movies',
-  imports: [RouterModule, CommonModule, ServicesModule],
+  imports: [RouterModule, CommonModule, ServicesModule, CustomFormatPipe],
   templateUrl: './movies.component.html',
   styleUrl: './movies.component.css',
 })
@@ -19,7 +20,6 @@ export class MoviesComponent
 {
   @Input() selectedShowtime!: Date;
   public movies: MovieviewModel[] = [];
-  filteredMovies: MovieviewModel[] = [];
   private originalMovies: MovieviewModel[] = [];
   constructor(
     @Inject(MOVIE_SERVICE) private readonly movieService: IMovieServiceInterface
@@ -32,7 +32,7 @@ export class MoviesComponent
   private getAll(): void {
     this.movieService.getAll().subscribe((res) => {
       this.originalMovies = res.filter(
-        (movie) => movie.showtimes && movie.showtimes.length > 0
+        (movie) => movie.showtimes && movie.showtimes.length > 0 && movie.status === 1
       );
       this.movies = [...this.originalMovies]; // Sao chép danh sách gốc vào movies
     });
@@ -54,11 +54,29 @@ export class MoviesComponent
     }
   }
   filterMovies(selectedDate: Date) {
-    if (!this.originalMovies.length) return; // Đảm bảo danh sách gốc đã có dữ liệu
+    if (!this.originalMovies.length) return;
 
-    this.movies = this.originalMovies.filter(movie =>
-      movie.showtimes.some(showtime => showtime.showDate === selectedDate)
-    );
+    // Normalize selectedDate
+    const selected = new Date(selectedDate);
+    selected.setHours(0, 0, 0, 0);
+
+    this.movies = this.originalMovies
+      .map((movie) => {
+        const filteredShowtimes = movie.showtimes
+          .filter((showtime) => {
+            const showDate = new Date(showtime.showDate);
+            showDate.setHours(0, 0, 0, 0);
+            return showDate.getTime() === selected.getTime();
+          })
+          .filter((x) => {
+            return new Date(`${x.showDate}T${x.startTime}`) > new Date();
+          }); // Filter out past showtimes
+
+        return {
+          ...movie,
+          showtimes: filteredShowtimes,
+        };
+      })
+      .filter((movie) => movie.showtimes.length > 0); // Keep only movies that have matching showtimes
   }
-
 }

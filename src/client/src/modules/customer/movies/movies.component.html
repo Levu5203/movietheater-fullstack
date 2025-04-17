@@ -1,35 +1,42 @@
 <!-- Movie List -->
 <div class="mt-6">
+  <ng-container *ngIf="movies.length > 0; else noMovies">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 xl:gap-6">
-      <div *ngFor="let movie of movies" class="cursor-pointer rounded-xl w-full border-gray-700 border flex flex-row overflow-hidden" >
-       <!-- css for img -->
-       <div class="relative min-w-[150px] xl:min-w-[220px] min-h-[200px] xl:min-h-[290px] overflow-hidden shadow-lg">
-           <img
-             src={{movie.posterUrl}}
-             alt="Movie Poster"
-             class="object-cover object-center rounded-l-xl hover:scale-110 transition duration-500 movie-poster img-css"
-           />
-       </div>
-       <!-- css for infor moive -->
-       <div class="p-4 xl:p-6 flex-1 relative">
-           <div class="text-gray-300 absolute top-2 right-2 border border-gray-600 rounded-md px-2 py-1 font-semibold">{{ movie.version === 1 ? '2D' : 'N/A' }}</div>
-           <div class="flex-wrap items-center gap-x-5 text-[#5D6A81] text-sm pr-12 hidden md:flex"><p>Hài, Hành động</p><p>{{movie.duration}}<!-- --> Min</p></div>
-           <p class="mt-2 text-sm font-bold pr-10">{{movie.name}}</p>
-           <p class="mt-1 text-sm">Origin: <!-- -->{{movie.origin}}</p>
-           <p class="mt-1 text-sm hidden md:block">Release: <!-- -->{{movie.releasedDate}}</p>
-           <p class="line-clamp-2 mt-1 text-xs md:text-sm text-red-500">T18 - The film is intended for viewers aged 18 and above (18+).</p>
-           <div class="mt-3">
-               <p class="text-sm font-semibold hidden md:block">Screening schedule</p>
-               <div class="flex items-center gap-2 mt-2 flex-wrap">
-               <button [routerLink]="['/seatshowtime']"
-                [queryParams]="{id: showtime.id}" *ngFor="let showtime of movie.showtimes" class="inline-flex items-center justify-center text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none 
+      <div *ngFor="let movie of movies"
+        class="cursor-pointer rounded-xl w-full border-gray-700 border flex flex-row overflow-hidden">
+        <!-- css for img -->
+        <div class="relative min-w-[150px] xl:min-w-[220px] min-h-[200px] xl:min-h-[290px] overflow-hidden shadow-lg">
+          <img src={{movie.posterUrl}} alt="Movie Poster"
+            class="object-cover object-center rounded-l-xl hover:scale-110 transition duration-500 movie-poster img-css" />
+        </div>
+        <!-- css for infor moive -->
+        <div class="p-4 xl:p-6 flex-1 relative">
+          <div class="text-gray-300 absolute top-2 right-2 border border-gray-600 rounded-md px-2 py-1 font-semibold">{{
+            movie.version === 1 ? '2D' : '3D' }}</div>
+          <div class="flex-wrap items-center gap-x-5 text-[#5D6A81] text-sm pr-12 hidden md:flex">
+            <p>{{movie.genres}}</p>
+            <p>{{movie.duration}}<!-- --> Min</p>
+          </div>
+          <p class="mt-2 text-sm font-bold pr-10">{{movie.name}}</p>
+          <p class="mt-1 text-sm">Origin: <!-- -->{{movie.origin}}</p>
+          <p class="line-clamp-2 mt-1 text-xs md:text-sm text-red-500">T18 - The film is intended for viewers aged 18
+            and
+            above (18+).</p>
+          <div class="mt-3">
+            <p class="text-sm font-semibold hidden md:block">Screening schedule</p>
+            <div class="flex items-center gap-2 mt-2 flex-wrap">
+              <button [routerLink]="['/seatshowtime']" [queryParams]="{id: showtime.id}"
+                *ngFor="let showtime of movie.showtimes"
+                class="inline-flex items-center justify-center text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none 
                focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border bg-transparent 
-               hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3 border-white btn-movie hover:cursor-pointer hover:bg-blue-500">{{showtime.startTime}}</button>
-           </div>
-       </div>
-       </div>
+               hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3 border-white btn-movie hover:cursor-pointer hover:bg-blue-500">{{ showtime.startTime | customFormat: 'timeShort' }}</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
+  </ng-container>
+  <ng-template #noMovies>
+    <p class="text-gray-400 text-center col-span-full">No showtimes available.</p>
+  </ng-template>
 </div>
-

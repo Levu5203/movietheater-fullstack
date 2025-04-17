@@ -34,7 +34,7 @@ public class EditProfileCommandHandle(IUnitOfWork unitOfWork, IMapper mapper, IA
             user.DateOfBirth = request.DateOfBirth ?? user.DateOfBirth;
             user.Gender = request.Gender;
             user.IdentityCard = request.IdentityCard;
-            user.PhoneNumber = request.PhoneNumber;
+            user.PhoneNumber = request.PhoneNumber ?? null;
             _unitOfWork.UserRepository.Update(user);
             await _unitOfWork.SaveChangesAsync();
             await _unitOfWork.CommitTransactionAsync();

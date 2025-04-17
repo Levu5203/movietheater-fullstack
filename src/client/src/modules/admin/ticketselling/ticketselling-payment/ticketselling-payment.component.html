@@ -9,7 +9,7 @@
                 </div>
                 <div>
                     <label class="text-gray-500">Showtime</label>
-                    <p class="font-semibold">{{invoiceById.startTime}} - {{invoiceById.showDate}}</p>
+                    <p class="font-semibold">{{ invoiceById.startTime | customFormat: 'timeShort' }} - {{invoiceById.showDate}}</p>
                 </div>
                 <div>
                     <label class="text-gray-500">Type</label>
@@ -24,9 +24,9 @@
                 <div>
                     <h3 class="text-gray-500">Selected Seats:</h3>
                     <div class="flex flex-wrap gap-2">
-                        <!-- <span *ngFor="let seat of selectedSeats" class="font-semibold">
-                            {{seat.label}}
-                        </span> -->
+                        <span *ngFor="let seat of selectedSeats" class="font-semibold">
+                            {{seat.row}}{{seat.column}}
+                        </span>
                     </div>
                 </div>
                 <div>

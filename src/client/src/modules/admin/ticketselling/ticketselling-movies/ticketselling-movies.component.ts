@@ -6,10 +6,11 @@ import { IMovieServiceInterface } from '../../../../services/movie/movie-service
 import { ServicesModule } from '../../../../services/services.module';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { CustomFormatPipe } from '../../../../pipes/custom-format.pipe';
 
 @Component({
   selector: 'app-ticketselling-movies',
-  imports: [ServicesModule, RouterLink, CommonModule],
+  imports: [ServicesModule, RouterLink, CommonModule, CustomFormatPipe],
   templateUrl: './ticketselling-movies.component.html',
   styleUrl: './ticketselling-movies.component.css',
 })
@@ -54,10 +55,29 @@ export class TicketsellingMoviesComponent
     }
   }
   filterMovies(selectedDate: Date) {
-    if (!this.originalMovies.length) return; // Đảm bảo danh sách gốc đã có dữ liệu
+    if (!this.originalMovies.length) return;
 
-    this.movies = this.originalMovies.filter((movie) =>
-      movie.showtimes.some((showtime) => showtime.showDate === selectedDate)
-    );
+    // Normalize selectedDate
+    const selected = new Date(selectedDate);
+    selected.setHours(0, 0, 0, 0);
+
+    this.movies = this.originalMovies
+      .map((movie) => {
+        const filteredShowtimes = movie.showtimes
+          .filter((showtime) => {
+            const showDate = new Date(showtime.showDate);
+            showDate.setHours(0, 0, 0, 0);
+            return showDate.getTime() === selected.getTime();
+          })
+          .filter((x) => {
+            return new Date(`${x.showDate}T${x.startTime}`) > new Date();
+          }); // Filter out past showtimes
+
+        return {
+          ...movie,
+          showtimes: filteredShowtimes,
+        };
+      })
+      .filter((movie) => movie.showtimes.length > 0); // Keep only movies that have matching showtimes
   }
 }

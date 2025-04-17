@@ -23,7 +23,7 @@ public class CustomerUpdateStatusCommandHandler(IUnitOfWork unitOfWork, IMapper 
         var user = await _unitOfWork.UserRepository.GetByIdAsync(request.Id);
         if (user == null)
         {
-            throw new KeyNotFoundException("Employee not found");
+            throw new KeyNotFoundException($"User with {request.Id} is not found");
         }
 
         user.IsActive = !user.IsActive;
