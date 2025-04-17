@@ -1,6 +1,7 @@
 using System;
 using MovieTheater.Business.ViewModels.Showtime;
 using MovieTheater.Business.ViewModels.Ticket;
+using MovieTheater.Models.Common;
 
 namespace MovieTheater.Business.ViewModels.Invoice;
 
@@ -15,4 +16,5 @@ public class InvoicePreviewViewModel : MasterBaseViewModel
     public required DateOnly ShowDate { get; set; }
     public required TimeSpan StartTime { get; set; }
     public required string ShowTimeId { get; set; }
+    public VersionType MovieVersion { get; set; }
 }

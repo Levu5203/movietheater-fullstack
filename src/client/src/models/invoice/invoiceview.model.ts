@@ -1,4 +1,5 @@
 import { MasterBaseModel } from "../../core/models/master-base.model";
+import { MovieViewModel } from "../movie/movie-view-model";
 import { TicketViewModel } from "../ticket/ticketview.model";
 
 export class InvoiceViewModel extends MasterBaseModel{
@@ -14,5 +15,6 @@ export class InvoiceViewModel extends MasterBaseModel{
     public showDate!: Date;
     public startTime!: string;
     public ticketIssued!: boolean;
-    public showtimeId!: string;
+    public showTimeId!: string;
+    public movieVersion!: number;
 }

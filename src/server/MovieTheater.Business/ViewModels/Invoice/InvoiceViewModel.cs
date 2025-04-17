@@ -1,4 +1,5 @@
 using MovieTheater.Business.ViewModels.Ticket;
+using MovieTheater.Models.Common;
 
 namespace MovieTheater.Business.ViewModels.Invoice;
 
@@ -15,4 +16,5 @@ public class InvoiceViewModel : MasterBaseViewModel
     public required TimeSpan StartTime { get; set; }
     public required List<TicketViewModel> Tickets { get; set; }
     public required bool TicketIssued { get; set; }
+    public VersionType MovieVersion { get; set; }
 }

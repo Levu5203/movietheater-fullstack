@@ -31,8 +31,8 @@
                 </div>
                 <div class="text-sm flex flex-col">
                     <div class="flex items-center gap-2 mt-2">
-                        <h3 class="font-bold text-2xl">{{ movie.name }}</h3>
-                        <div class="rounded-xl p-2 border border-white font-bold">2D</div>
+                        <h3 class="font-bold text-2xl">{{movie.name}}</h3>
+                        <div class="rounded-xl p-2 border border-white font-bold">{{ movie.version === 1 ? '2D' : '3D' }}</div>
                     </div>
                     <div class="flex items-center mt-2 gap-5 text-sm flex-wrap">
                         <p>{{ movie.genres.join(', ') }}</p>
@@ -80,7 +80,7 @@
                     <div>
                         <div class="flex items-center gap-2 mt-2">
                             <h3 class="font-bold md:text-xl">{{movie.name}}</h3>
-                            <div class="rounded-md p-1 border border-white font-bold text-sm md:text-base">{{ movie.version === 1 ? '2D' : 'N/A' }}</div>
+                            <div class="rounded-md p-1 border border-white font-bold text-sm md:text-base">{{ movie.version === 1 ? '2D' : '3D' }}</div>
                         </div>
                         <div class="flex items-center mt-2 gap-x-2 text-sm md:text-base flex-wrap">
                             <p>Hài, Hành động</p>
@@ -148,18 +148,20 @@
                                             [ngClass]="{
                                             'seat-color-click text-white': !seat.isBooked && !seat.isActive,
                                             'seat-color-nor text-white': !seat.isBooked && seat.isActive && seat.seatType === 1,
-                                            'seat-color-booked cursor-not-allowed text-white': seat.isBooked
-                                        }" (click)="toggleSeatSelection(seat)">
-                                            <ng-container *ngIf="seat.isBooked; else normalSeat">
-                                                <p class="hidden lg:block text-sm lg:text-base">
-                                                    X
-                                                </p>
-                                            </ng-container>
-                                            <ng-template #normalSeat>
-                                                <p class="hidden lg:block text-sm lg:text-base">
-                                                    {{ seat.row + seat.column }}
-                                                </p>
-                                            </ng-template>
+                                            'seat-color-booked cursor-not-allowed text-white': seat.isBooked,
+                                            'seat-color-vip text-white': !seat.isBooked && seat.isActive && seat.seatType === 2
+                                        }"
+                                        (click)="toggleSeatSelection(seat)">
+                                        <ng-container *ngIf="seat.isBooked; else normalSeat">
+                                            <p class="hidden lg:block text-sm lg:text-base">
+                                                X
+                                              </p>
+                                          </ng-container>
+                                          <ng-template #normalSeat>
+                                            <p class="hidden lg:block text-sm lg:text-base">
+                                              {{ seat.row + seat.column }}
+                                            </p>
+                                          </ng-template>
                                         </div>
                                         <div
                                             class="aspect-square w-3 sm:w-6 xl:h-10 xl:w-10 rounded-[2px] sm:rounded-sm xl:rounded-[8px] flex items-center justify-center text-[8px] sm:text-sm lg:hidden">
