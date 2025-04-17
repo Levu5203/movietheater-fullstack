@@ -31,7 +31,7 @@ public class GetBookedTicketsByMemberIdHandler : IRequestHandler<GetBookedTicket
         {
             MovieName = t.Invoice.ShowTime.Movie.Name,
             BookingDate = t.BookingDate,
-            TotalMoney = t.Invoice.TotalMoney,
+            TotalMoney = t.Price,
             Status = t.Status 
         }).ToList();
     }

@@ -381,7 +381,7 @@ export class UpdatemovieComponent implements OnInit {
     });
     
     formValue.genres.forEach((genre: string, index: number) => {
-      formData.append(`genres[${index}]`, genre);
+      formData.append(`selectedGenres[${index}]`, genre);
     });
 
     if (this.selectedFile) {
