@@ -71,7 +71,7 @@ export class BookingManagementComponent
     { name: 'Phone Number', value: 'userPhoneNumber' },
     { name: 'Room', value: 'roomName' },
     { name: 'Movie', value: 'movieName' },
-    { name: 'Show Date', value: 'showDate' },
+    { name: 'Show Date', value: 'showDate  ' },
     { name: 'Time', value: 'startTime' },
     { name: 'Seat', value: 'seats' },
     { name: 'Status', value: 'ticketIssued' },
