@@ -10,7 +10,7 @@ import { CustomFormatPipe } from '../../../../pipes/custom-format.pipe';
 
 @Component({
   selector: 'app-ticketselling-payment',
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, CustomFormatPipe],
   templateUrl: './ticketselling-payment.component.html',
   styleUrls: ['./ticketselling-payment.component.css'],
   standalone: true,
