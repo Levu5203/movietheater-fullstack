@@ -12,9 +12,6 @@ import {
   faAnglesRight,
   faArrowLeft,
 } from '@fortawesome/free-solid-svg-icons';
-import { TiketsellingSelectseatComponent } from './tiketselling-selectseat/tiketselling-selectseat.component';
-import { TicketsellingPaymentComponent } from './ticketselling-payment/ticketselling-payment.component';
-import { TicketSellingService } from './ticketselling.service';
 import { ShowtimeviewModel } from '../../../models/showtime/showtimeview.model';
 import { MasterDataListComponent } from '../../../core/components/master-data/master-data.component';
 import { ServicesModule } from '../../../services/services.module';
@@ -57,10 +54,8 @@ export class TicketsellingComponent
   selectedShowtime!: Date;
 
 
-  currentView: 'ticketselling' | 'select-seat' | 'payment' = 'ticketselling';
 
   constructor(
-    private ticketService: TicketSellingService,
     @Inject(SHOWTIME_SERVICE)
     private readonly showtimeService: IShowtimeServiceInterface,
   ) {
@@ -69,19 +64,13 @@ export class TicketsellingComponent
 
   override ngOnInit() {
     this.getShowtimes();
-    this.ticketService.getCurrentView().subscribe((view) => {
-      this.currentView = view;
-    });
-  }
-  onSelectShowtime() {
-    this.ticketService.setCurrentView('select-seat');
   }
   private getShowtimes(): void {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
     const oneWeekLater = new Date();
-    oneWeekLater.setDate(today.getDate() + 7);
+    oneWeekLater.setDate(today.getDate() + 6); // Lấy 1 tuần sau
     oneWeekLater.setHours(0, 0, 0, 0);
 
     this.showtimeService.getAll().subscribe((res) => {

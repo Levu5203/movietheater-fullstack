@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TicketSellingService } from '../ticketselling.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowLeft, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { MovieviewModel } from '../../../../models/movie/movieview.model';
@@ -12,6 +11,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { InvoiceViewModel } from '../../../../models/invoice/invoiceview.model';
 import { SeatshowtimeviewModel } from '../../../../models/seatshowtime/seatshowtimeview.model';
+import { CustomFormatPipe } from '../../../../pipes/custom-format.pipe';
 
 interface Seat {
   label: string;
@@ -22,7 +22,7 @@ interface Seat {
 
 @Component({
   selector: 'app-tiketselling-selectseat',
-  imports: [CommonModule, FontAwesomeModule, RouterLink],
+  imports: [CommonModule, FontAwesomeModule, RouterLink, CustomFormatPipe],
   templateUrl: './tiketselling-selectseat.component.html',
   styleUrls: ['./tiketselling-selectseat.component.css'],
   standalone: true,

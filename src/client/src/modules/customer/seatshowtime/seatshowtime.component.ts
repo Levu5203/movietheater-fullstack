@@ -10,9 +10,10 @@ import { Observable } from 'rxjs';
 import { InvoiceViewModel } from '../../../models/invoice/invoiceview.model';
 import { MovieviewModel } from '../../../models/movie/movieview.model';
 import { SeatshowtimeviewModel } from '../../../models/seatshowtime/seatshowtimeview.model';
+import { CustomFormatPipe } from '../../../pipes/custom-format.pipe';
 @Component({
   selector: 'app-seatshowtime',
-  imports: [RouterModule, CommonModule, ServicesModule],
+  imports: [RouterModule, CommonModule, ServicesModule, CustomFormatPipe],
   templateUrl: './seatshowtime.component.html',
   styleUrl: './seatshowtime.component.css',
 })

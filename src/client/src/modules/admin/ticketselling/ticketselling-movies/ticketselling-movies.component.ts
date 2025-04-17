@@ -6,10 +6,11 @@ import { IMovieServiceInterface } from '../../../../services/movie/movie-service
 import { ServicesModule } from '../../../../services/services.module';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { CustomFormatPipe } from '../../../../pipes/custom-format.pipe';
 
 @Component({
   selector: 'app-ticketselling-movies',
-  imports: [ServicesModule, RouterLink, CommonModule],
+  imports: [ServicesModule, RouterLink, CommonModule, CustomFormatPipe],
   templateUrl: './ticketselling-movies.component.html',
   styleUrl: './ticketselling-movies.component.css',
 })
@@ -62,11 +63,15 @@ export class TicketsellingMoviesComponent
 
     this.movies = this.originalMovies
       .map((movie) => {
-        const filteredShowtimes = movie.showtimes.filter((showtime) => {
-          const showDate = new Date(showtime.showDate);
-          showDate.setHours(0, 0, 0, 0);
-          return showDate.getTime() === selected.getTime();
-        });
+        const filteredShowtimes = movie.showtimes
+          .filter((showtime) => {
+            const showDate = new Date(showtime.showDate);
+            showDate.setHours(0, 0, 0, 0);
+            return showDate.getTime() === selected.getTime();
+          })
+          .filter((x) => {
+            return new Date(`${x.showDate}T${x.startTime}`) > new Date();
+          }); // Filter out past showtimes
 
         return {
           ...movie,

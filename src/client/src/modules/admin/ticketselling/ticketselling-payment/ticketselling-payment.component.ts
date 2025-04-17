@@ -6,6 +6,7 @@ import { InvoiceViewModel } from '../../../../models/invoice/invoiceview.model';
 import { Router, RouterLink } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { CustomFormatPipe } from '../../../../pipes/custom-format.pipe';
 
 @Component({
   selector: 'app-ticketselling-payment',
@@ -15,7 +16,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
 })
 export class TicketsellingPaymentComponent implements OnInit {
-  // selectedSeats: any[] = [];
+  selectedSeats: any[] = [];
   totalPrice: number = 0;
   customer?: UserModel;
   isShowMemberInfo: boolean = false;

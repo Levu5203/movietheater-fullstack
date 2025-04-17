@@ -9,7 +9,7 @@
                 </div>
                 <div>
                     <label class="text-gray-500">Showtime</label>
-                    <p class="font-semibold">{{invoiceById.startTime}} - {{invoiceById.showDate}}</p>
+                    <p class="font-semibold">{{ invoiceById.startTime | customFormat: 'timeShort' }} - {{invoiceById.showDate}}</p>
                 </div>
                 <div>
                     <label class="text-gray-500">Type</label>

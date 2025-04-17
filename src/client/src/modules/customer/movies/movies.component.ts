@@ -6,10 +6,11 @@ import { MasterDataListComponent } from '../../../core/components/master-data/ma
 import { MovieviewModel } from '../../../models/movie/movieview.model';
 import { IMovieServiceInterface } from '../../../services/movie/movie-service.interface';
 import { MOVIE_SERVICE } from '../../../constants/injection.constant';
+import { CustomFormatPipe } from '../../../pipes/custom-format.pipe';
 
 @Component({
   selector: 'app-movies',
-  imports: [RouterModule, CommonModule, ServicesModule],
+  imports: [RouterModule, CommonModule, ServicesModule, CustomFormatPipe],
   templateUrl: './movies.component.html',
   styleUrl: './movies.component.css',
 })
@@ -19,7 +20,6 @@ export class MoviesComponent
 {
   @Input() selectedShowtime!: Date;
   public movies: MovieviewModel[] = [];
-  filteredMovies: MovieviewModel[] = [];
   private originalMovies: MovieviewModel[] = [];
   constructor(
     @Inject(MOVIE_SERVICE) private readonly movieService: IMovieServiceInterface
@@ -62,11 +62,15 @@ export class MoviesComponent
 
     this.movies = this.originalMovies
       .map((movie) => {
-        const filteredShowtimes = movie.showtimes.filter((showtime) => {
-          const showDate = new Date(showtime.showDate);
-          showDate.setHours(0, 0, 0, 0);
-          return showDate.getTime() === selected.getTime();
-        });
+        const filteredShowtimes = movie.showtimes
+          .filter((showtime) => {
+            const showDate = new Date(showtime.showDate);
+            showDate.setHours(0, 0, 0, 0);
+            return showDate.getTime() === selected.getTime();
+          })
+          .filter((x) => {
+            return new Date(`${x.showDate}T${x.startTime}`) > new Date();
+          }); // Filter out past showtimes
 
         return {
           ...movie,
