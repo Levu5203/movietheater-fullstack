@@ -7,6 +7,7 @@ using MovieTheater.Business.ViewModels.Invoice;
 using MovieTheater.Core;
 using MovieTheater.Core.Extensions;
 using MovieTheater.Data.UnitOfWorks;
+using MovieTheater.Models.Common;
 
 namespace MovieTheater.Business.Handlers.Invoice;
 
@@ -18,7 +19,7 @@ public class InvoiceSearchQueryHandler : BaseHandler, IRequestHandler<InvoiceSea
 
     public async Task<PaginatedResult<InvoiceViewModel>> Handle(InvoiceSearchQuery request, CancellationToken cancellationToken)
     {
-        var query = _unitOfWork.InvoiceRepository.GetQuery();
+        var query = _unitOfWork.InvoiceRepository.GetQuery().Where(i => i.InvoiceStatus == InvoiceStatus.Paid);
 
         // Filter by keyword
         if (!string.IsNullOrEmpty(request.Keyword))
