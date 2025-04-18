@@ -13,7 +13,7 @@
                 </div>
                 <div>
                     <label class="text-gray-500">Type</label>
-                    <p class="font-semibold">2D</p>
+                    <p class="font-semibold">{{ invoiceById.movieVersion === 1 ? '2D' : '3D' }}</p>
                 </div>
             </div>
             <div class="flex flex-col gap-2">
@@ -24,9 +24,7 @@
                 <div>
                     <h3 class="text-gray-500">Selected Seats:</h3>
                     <div class="flex flex-wrap gap-2">
-                        <span *ngFor="let seat of selectedSeats" class="font-semibold">
-                            {{seat.row}}{{seat.column}}
-                        </span>
+                      <span *ngFor="let ticket of invoice.tickets" class="font-semibold">{{ticket.seat?.row}}{{ticket.seat?.column}} </span>
                     </div>
                 </div>
                 <div>
@@ -81,7 +79,7 @@
     </div>
   </div>
         <div class="mt-6 flex justify-between">
-            <button type="button"
+            <button type="button" [routerLink]="['/admin/ticketselling-selectseat']" [queryParams]="{ id: showTimeId}"
                 class="text-black px-4 py-2 rounded mr-2 hover:underline cursor-pointer">Cancel</button>
             <button type="submit"
                 class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer" (click)="payInvoice()">Confirm</button>

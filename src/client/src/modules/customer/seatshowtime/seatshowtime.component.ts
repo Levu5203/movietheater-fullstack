@@ -117,9 +117,13 @@ export class SeatshowtimeComponent implements OnInit {
     this.updateTotalPrice();
   }
   updateTotalPrice() {
-    // Tính tổng giá trị ghế đã chọn, mỗi ghế có giá 50k
-    const pricePerSeat = 50000;  // Giá của mỗi ghế
-    this.totalPrice = this.selectedSeats.length * pricePerSeat;
+    this.totalPrice = this.selectedSeats.reduce((total, seat) => {
+      if (seat.seatType === 2) {
+        return total + 70000; // Ghế VIP
+      } else {
+        return total + 50000; // Ghế thường
+      }
+    }, 0);
   }
   // Lấy danh sách ghế đã chọn để tạo invoice
   getSelectedSeats() {

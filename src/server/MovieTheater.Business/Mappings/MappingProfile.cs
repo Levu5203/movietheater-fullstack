@@ -76,6 +76,8 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Tickets, opt => opt.MapFrom(src => src.Tickets))
             .ForMember(dest => dest.RoomName, opt => opt.MapFrom(src => src.ShowTime.CinemaRoom.Name))
             .ForMember(dest => dest.MovieName, opt => opt.MapFrom(src => src.ShowTime.Movie.Name))
+            .ForMember(dest => dest.MovieVersion, opt => opt.MapFrom(src => src.ShowTime.Movie.Version))
+
             .ForMember(dest => dest.ShowDate, opt => opt.MapFrom(src => src.ShowTime.ShowDate))
             .ForMember(dest => dest.ShowTimeId, opt => opt.MapFrom(src => src.ShowTimeId))
             .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.ShowTime.ShowTimeSlot.Time.ToString(@"hh\:mm\:ss")));
@@ -86,6 +88,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.UserPhoneNumber, opt => opt.MapFrom(src => src.User.PhoneNumber))
             .ForMember(dest => dest.RoomName, opt => opt.MapFrom(src => src.CinemaRoom.Name))
             .ForMember(dest => dest.MovieName, opt => opt.MapFrom(src => src.Movie.Name))
+            .ForMember(dest => dest.MovieVersion, opt => opt.MapFrom(src => src.ShowTime.Movie.Version))
             .ForMember(dest => dest.ShowDate, opt => opt.MapFrom(src => src.ShowTime.ShowDate))
             .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.ShowTime.ShowTimeSlot.Time.ToString(@"hh\:mm")))
             .ReverseMap();

@@ -53,42 +53,34 @@ public class CancelExpiredInvoicesHandler : BaseHandler, IRequestHandler<CancelE
                 using var transaction = await _unitOfWork.BeginTransactionAsync();
                 try
                 {
-                    // Lấy tất cả ticket liên quan đến invoice này
                     var tickets = await _unitOfWork.TicketRepository.GetQuery()
                         .Where(t => t.InvoiceId == invoice.Id)
                         .ToListAsync(cancellationToken);
 
-                    // Lấy tất cả seat ID từ các ticket
                     var seatIds = tickets.Select(t => t.SeatId).ToList();
 
-                    // Lấy các ghế cần reset trạng thái
-                    var seats = await _unitOfWork.SeatRepository.GetQuery()
-                        .Where(s => seatIds.Contains(s.Id))
+                    var showtimeId = tickets.First().ShowTimeId;
+                    var seatShowtimes = await _unitOfWork.SeatShowtimeRepository.GetQuery()
+                        .Where(s => seatIds.Contains(s.SeatId) && s.ShowTimeId == showtimeId)
                         .ToListAsync(cancellationToken);
 
-                    // Reset trạng thái ghế về Available
-                    foreach (var seat in seats)
+                    foreach (var seatShowtime in seatShowtimes)
                     {
-                        seat.seatStatus = SeatStatus.Available;
-                        seat.UpdatedAt = DateTime.Now;
-                        _unitOfWork.SeatRepository.Update(seat);
+                        _unitOfWork.SeatShowtimeRepository.Delete(seatShowtime, true);
                     }
 
-                    // Xóa các ticket
                     foreach (var ticket in tickets)
                     {
                         _unitOfWork.TicketRepository.Delete(ticket, true);
                     }
 
-                    // Xóa invoice
                     _unitOfWork.InvoiceRepository.Delete(invoice, true);
 
-                    // Lưu các thay đổi
                     await _unitOfWork.SaveChangesAsync();
                     await transaction.CommitAsync(cancellationToken);
 
                     // Cập nhật kết quả
-                    totalResetSeats += seats.Count();
+                    totalResetSeats += seatShowtimes.Count();
                     totalRemovedTickets += tickets.Count();
                     result.ProcessedInvoiceIds.Add(invoice.Id);
 
@@ -97,7 +89,6 @@ public class CancelExpiredInvoicesHandler : BaseHandler, IRequestHandler<CancelE
                 {
                     await transaction.RollbackAsync(cancellationToken);
 
-                    // Tiếp tục xử lý các invoice khác dù có lỗi với invoice này
                 }
             }
 
