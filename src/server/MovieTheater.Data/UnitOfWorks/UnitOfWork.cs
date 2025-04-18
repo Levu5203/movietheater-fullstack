@@ -53,11 +53,6 @@ public class UnitOfWork : IUnitOfWork
     private IMasterDataRepository<Ticket>? _ticketRepository;
 
     public IMasterDataRepository<Ticket> TicketRepository => _ticketRepository ??= new MasterDataRepository<Ticket>(_context, _currentUser);
-
-    private IRepository<HistoryScore>? _HistoryScoreRepository;
-    public IRepository<HistoryScore> HistoryScoreRepository => _HistoryScoreRepository ??= new Repository<HistoryScore>(_context, _currentUser);
-
-    
     #endregion
 
     #region Implementation of Repositories
@@ -75,6 +70,11 @@ public class UnitOfWork : IUnitOfWork
     private IRepository<SeatShowTime>? _SeatShowtimeRepository;
     public IRepository<SeatShowTime> SeatShowtimeRepository => _SeatShowtimeRepository ??= new Repository<SeatShowTime>(_context, _currentUser);
 
+    private IRepository<HistoryScore>? _HistoryScoreRepository;
+    public IRepository<HistoryScore> HistoryScoreRepository => _HistoryScoreRepository ??= new Repository<HistoryScore>(_context, _currentUser);
+
+    private IRepository<ShowTimeSlot>? _ShowtimeSlotRepository;
+    public IRepository<ShowTimeSlot> ShowtimeSlotRepository => _ShowtimeSlotRepository ??= new Repository<ShowTimeSlot>(_context, _currentUser);
     public IRepository<T> Repository<T>() where T : BaseEntity, IBaseEntity
     {
         return new Repository<T>(_context, _currentUser);

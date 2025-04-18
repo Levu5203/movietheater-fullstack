@@ -329,7 +329,7 @@ public static class DbInitializer
     {
         foreach (var slot in showTimeSlots)
         {
-            if (!ExistsInDb<ShowTimeSlot>(context, s => s.ShowTimeSlotId == slot.ShowTimeSlotId || s.Time == slot.Time))
+            if (!ExistsInDb<ShowTimeSlot>(context, s => s.Id == slot.Id || s.Time == slot.Time))
             {
                 context.ShowTimeSlots.Add(slot);
             }

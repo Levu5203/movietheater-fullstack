@@ -26,9 +26,9 @@ namespace MovieTheater.WebAPI.Controllers
         /// <response code="200">Returns the list of invoices.</response>
         [HttpGet("")]
         [ProducesResponseType(typeof(InvoiceViewModel), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAllInvoice()
+        public async Task<IActionResult> GetAllPaidInvoice()
         {
-            var query = new InvoiceGetAllQuery { };
+            var query = new PaidInvoiceGetAllQuery { };
             var result = await _mediator.Send(query);
             return Ok(result);
         }

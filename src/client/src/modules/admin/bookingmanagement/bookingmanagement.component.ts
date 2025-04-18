@@ -72,7 +72,7 @@ export class BookingManagementComponent
     { name: 'Room', value: 'roomName' },
     { name: 'Movie', value: 'movieName' },
     { name: 'Show Date', value: 'showDate' },
-    { name: 'Time', value: 'startTime' },
+    { name: 'Time', value: 'startTime', type: 'timeShort' },
     { name: 'Seat', value: 'seats' },
     { name: 'Status', value: 'ticketIssued' },
   ];
