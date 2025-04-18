@@ -328,10 +328,13 @@ export class UpdatemovieComponent implements OnInit {
 
   public onSubmit(): void {
     this.form.markAllAsTouched();
+
+    console.log(this.form.status)
+    console.log("heheheheheh")
     
     if (this.form.invalid) {
       this.showErrorMessage = true;
-      this.errorMessage = 'Please fill in all the required fields correctly';
+      this.errorMessage = 'Please fill in all the required fields';
       // console.log('Form validation errors:', this.form.errors);
       return;
     }
@@ -390,7 +393,6 @@ export class UpdatemovieComponent implements OnInit {
 
     if (this.selectedItem) {
       // Update existing movie
-      // console.log(this.selectedItem.id)
       formData.append('id', this.selectedItem.id);
       this.movieAdminService
         .updateWithFile(this.selectedItem.id, formData)
@@ -431,7 +433,7 @@ export class UpdatemovieComponent implements OnInit {
         },
         error: (error) => {
           this.showErrorMessage = true;
-          this.errorMessage = error.error?.message || 'An error occurred while creating the movie';
+          this.errorMessage = 'An error occurred while creating the movie';
           console.error('Create error:', error);
         },
       });
