@@ -19,7 +19,7 @@ obj/
 # 👉 Ignore environment & secret files
 .env
 *.config.local
-**/appsettings.Development.json
+appsettings.Development.json
 
 secrets.json
 
