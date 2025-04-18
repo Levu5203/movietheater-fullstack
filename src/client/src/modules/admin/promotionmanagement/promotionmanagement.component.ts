@@ -57,9 +57,9 @@ export class PromotionmanagementComponent implements OnInit {
 
   //delete
   deletePromotion(id: string): void {
-    if (confirm('Bạn có chắc chắn muốn xóa promotion này?')) {
+    if (confirm('Are you sure you want to delete this promotion?')) {
       this.promotionService.deletePromotion(id).subscribe(() => {
-        alert('Promotion đã được xóa thành công!');
+        alert('Promotion is deleted successfully');
         this.loadPromotions(); // Cập nhật danh sách sau khi xóa
       });
     }

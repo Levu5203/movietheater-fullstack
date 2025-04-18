@@ -100,8 +100,6 @@ export class UpdatemovieComponent implements OnInit {
     this.createForm();
     
     if (this.selectedItem) {
-      console.log(this.selectedItem.cinemaRooms[0]);
-      console.log(this.selectedItem);
       this.initialAvatarUrl = this.selectedItem.posterUrl || null;
       this.updateForm();
     }
@@ -185,7 +183,7 @@ export class UpdatemovieComponent implements OnInit {
         genres.removeAt(index);
       }
     }
-    // console.log('after', genres)
+    console.log('after', this.form.get('genres')?.value)
   }
 
   onScheduleChange(event: any, scheduleId: string) {
@@ -198,7 +196,6 @@ export class UpdatemovieComponent implements OnInit {
         schedules.removeAt(index);
       }
     }
-    // console.log('after', schedules)
   }
 
   private formatDate(date: string | Date): string {
@@ -214,6 +211,8 @@ export class UpdatemovieComponent implements OnInit {
     // Clear existing form arrays
     const genresArray = this.form.get('genres') as FormArray;
     const schedulesArray = this.form.get('schedules') as FormArray;
+
+    
     
     while (genresArray.length) {
       genresArray.removeAt(0);
@@ -230,10 +229,9 @@ export class UpdatemovieComponent implements OnInit {
       this.selectedItem.genres.forEach(genre => {
         genresArray.push(new FormControl(genre));
       });
-      
       // Log to verify genres were added correctly
-      // console.log('Genres added:', genresArray.value);
-    }
+      console.log('Genres added:', genresArray.value);
+    } 
 
    // Add schedules
     if (this.selectedItem.showtimes && Array.isArray(this.selectedItem.showtimes) && this.selectedItem.showtimes.length > 0) {
@@ -267,13 +265,13 @@ export class UpdatemovieComponent implements OnInit {
     // Convert status from numeric enum to string
     let statusValue: string;
     switch (this.selectedItem.status) {
-      case 0:
-        statusValue = 'ComingSoon';
-        break;
       case 1:
         statusValue = 'NowShowing';
         break;
       case 2:
+        statusValue = 'ComingSoon';
+        break;
+      case 3:
         statusValue = 'NotAvailable';
         break;
       default:
@@ -330,10 +328,13 @@ export class UpdatemovieComponent implements OnInit {
 
   public onSubmit(): void {
     this.form.markAllAsTouched();
+
+    console.log(this.form.status)
+    console.log("heheheheheh")
     
     if (this.form.invalid) {
       this.showErrorMessage = true;
-      this.errorMessage = 'Please fill in all the required fields correctly';
+      this.errorMessage = 'Please fill in all the required fields';
       // console.log('Form validation errors:', this.form.errors);
       return;
     }
@@ -363,8 +364,9 @@ export class UpdatemovieComponent implements OnInit {
 
     const formData = new FormData();
     const formValue = this.form.getRawValue();
-    
 
+    console.log(formValue)
+    
     formData.append('name', formValue.name);
     formData.append('duration', formValue.duration.toString());
     formData.append('origin', formValue.origin);
@@ -376,6 +378,7 @@ export class UpdatemovieComponent implements OnInit {
     formData.append('releasedDate', formValue.releasedDate);
     formData.append('endDate', formValue.endDate);
     formData.append('cinemaRoomId', formValue.cinemaroomId);
+
     formValue.schedules.forEach((scheduleId: string, index: number) => {
       formData.append(`selectedShowTimeSlots[${index}]`, scheduleId);
     });
@@ -388,11 +391,8 @@ export class UpdatemovieComponent implements OnInit {
       formData.append('posterImage', this.selectedFile);
     }
 
-    // console.log(formValue.releasedDate)
-
     if (this.selectedItem) {
       // Update existing movie
-      // console.log(this.selectedItem.id)
       formData.append('id', this.selectedItem.id);
       this.movieAdminService
         .updateWithFile(this.selectedItem.id, formData)
@@ -433,7 +433,7 @@ export class UpdatemovieComponent implements OnInit {
         },
         error: (error) => {
           this.showErrorMessage = true;
-          this.errorMessage = error.error?.message || 'An error occurred while creating the movie';
+          this.errorMessage = 'An error occurred while creating the movie';
           console.error('Create error:', error);
         },
       });

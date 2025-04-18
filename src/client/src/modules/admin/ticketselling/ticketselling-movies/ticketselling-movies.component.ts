@@ -33,7 +33,7 @@ export class TicketsellingMoviesComponent
   private getAll(): void {
     this.movieService.getAll().subscribe((res) => {
       this.originalMovies = res.filter(
-        (movie) => movie.showtimes && movie.showtimes.length > 0
+        (movie) => movie.showtimes && movie.showtimes.length > 0 && movie.status === 1
       );
       this.movies = [...this.originalMovies]; // Sao chép danh sách gốc vào movies
     });
@@ -47,7 +47,7 @@ export class TicketsellingMoviesComponent
         // Đợi dữ liệu trả về rồi mới filter
         this.movieService.getAll().subscribe((res) => {
           this.movies = res.filter(
-            (movie) => movie.showtimes && movie.showtimes.length > 0
+            (movie) => movie.showtimes && movie.showtimes.length > 0 
           );
           this.filterMovies(this.selectedShowtime);
         });
