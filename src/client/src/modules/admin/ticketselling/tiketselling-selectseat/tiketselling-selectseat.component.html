@@ -45,7 +45,7 @@
                                 'seat-color-click text-white': !seat.isBooked && !seat.isActive,
                                 'seat-color-nor text-white': !seat.isBooked && seat.isActive && seat.seatType === 1,
                                 'seat-color-booked cursor-not-allowed text-white': seat.isBooked,
-                                'seat-color-vip text-white': !seat.isBooked && seat.isActive && seat.seatType === 2
+                                'bg-yellow-500 text-white': !seat.isBooked && seat.isActive && seat.seatType === 2
                             }"
                             (click)="toggleSeatSelection(seat)">
                             <ng-container *ngIf="seat.isBooked; else normalSeat">
