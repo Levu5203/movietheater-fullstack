@@ -40,7 +40,8 @@ public class SeatPaymentHandler(IUnitOfWork _unitOfWork, IMapper mapper, IUserId
                 .ToListAsync(cancellationToken);
 
             foreach (var seatShowtime in seatShowtimes)
-            {
+            {   
+                if(seatShowtime.Status == SeatStatus.Booked) throw new InvalidOperationException("Seat is already booked");
                 seatShowtime.Status = SeatStatus.Booked;
                 seatShowtime.UpdatedById = currentUser.UserId;
                 seatShowtime.UpdatedAt = DateTime.Now;

@@ -45,6 +45,7 @@ public class SeatPaymentEmployeeHandler(IUnitOfWork _unitOfWork, IMapper _mapper
 
             foreach (var seatShowtime in seatShowtimes)
             {
+                if (seatShowtime.Status == SeatStatus.Booked) throw new InvalidOperationException("Seat is already booked");
                 seatShowtime.Status = SeatStatus.Booked;
                 seatShowtime.UpdatedAt = DateTime.Now;
                 _unitOfWork.SeatShowtimeRepository.Update(seatShowtime);
