@@ -2,7 +2,7 @@
     <!-- poster -->
     <div class="w-full h-[250px] md:h-[300px] xl:h-[473px] relative wrapper">
         <!-- Poster background -->
-        <div class="absolute inset-0 w-full h-full">
+        <div *ngIf="movie" class="absolute inset-0 w-full h-full">
             <img [src]="movie.posterUrl" [alt]="movie.name" class="object-cover img-css-detail" />
         </div>
         <div class="absolute bg-primary/60 inset-0 w-full h-full z-10"></div>
@@ -35,7 +35,7 @@
                         <div class="rounded-xl p-2 border border-white font-bold">{{ movie.version === 1 ? '2D' : '3D' }}</div>
                     </div>
                     <div class="flex items-center mt-2 gap-5 text-sm flex-wrap">
-                        <p>{{ movie.genres.join(', ') }}</p>
+                        <p>{{ movie.genres}}</p>
                         <p>{{ movie.origin }}</p>
                         <p>{{ movie.duration }} Minutes</p>
                         <p>Directors: {{ movie.director }}</p>
@@ -83,9 +83,9 @@
                             <div class="rounded-md p-1 border border-white font-bold text-sm md:text-base">{{ movie.version === 1 ? '2D' : '3D' }}</div>
                         </div>
                         <div class="flex items-center mt-2 gap-x-2 text-sm md:text-base flex-wrap">
-                            <p>Hài, Hành động</p>
-                            <p>{{ movie.origin}}</p>
-                            <p>{{ movie.duration}} Min</p>
+                            <p>{{movie.genres}}</p>
+                            <p>{{movie.origin}}</p>
+                            <p>{{movie.duration}} Min</p>
                         </div>
                     </div>
                 </div>
@@ -107,7 +107,7 @@
         <div class="flex h-[91px] justify-center bg-[#1A1D23]">
             <button class="focus:border-none focus:outline-none" type="button" aria-selected="true" tabindex="0"
                 data-headlessui-state="selected" aria-controls="headlessui-tabs-panel-:r60:" disabled="">
-                <div
+                <div *ngIf="showtime"
                     class="w-[72px] h-full flex flex-col items-center justify-center text-xs transition-colors bg-red-600">
                     <p>Th. {{ formatShowtimeDate(showtime.showDate).month | number : '1.0' }}</p>
                     <p class="text-xl font-bold">{{ formatShowtimeDate(showtime.showDate).day }}</p>
@@ -126,13 +126,13 @@
                 <div class="mx-auto max-w-7xl">
                     <div class="pb-10 pt-5 w-full xl:w-3/4 mx-auto px-4 xl:px-0">
                         <div class="flex items-center justify-between mb-5">
-                            <div class="text-sm md:text-base self-end">
+                            <div *ngIf="showtime" class="text-sm md:text-base self-end">
                                 Time start:
                                 <span class="font-bold">{{ showtime.startTime | customFormat: 'timeShort' }}</span>
                             </div>
                         </div>
                         <div>
-                            <div class="mb-4 text-center font-bold text-lg">
+                            <div *ngIf="room" class="mb-4 text-center font-bold text-lg">
                                 {{ room.name}}
                             </div>
                             <!-- Seats matrix -->

@@ -10,13 +10,13 @@
         </div>
         <div class="flex flex-col items-center mb-4 xl:absolute xl:left-1/2 xl:transform xl:-translate-x-1/2">
             <span class="text-red-500 font-bold mb-2">● Now showing</span>
-            <div class="flex">
+            <div *ngIf="showtime" class="flex">
                 <button
                     class="bg-red-500 text-white px-4 py-2 rounded mr-2 hover:bg-red-600 cursor-pointer">{{showtime.showDate}}</button>
             </div>
         </div>
     </div>
-    <div class="flex flex-col border rounded-lg mt-4 p-4 relative">
+    <div *ngIf="movie" class="flex flex-col border rounded-lg mt-4 p-4 relative">
         <p class="border px-8 rounded absolute top-5 right-5">{{ movie.version === 1 ? '2D' : '3D' }}</p>
         <div>
             <p class="text-sm">{{movie.genres}} {{movie.duration}} minutes</p>
@@ -29,10 +29,10 @@
         </div>
     </div>
     <div class="seat-container flex-1 text-center">
-        <h2 class="text-2xl font-bold mt-4">{{room.name}}</h2>
+        <h2 *ngIf="room" class="text-2xl font-bold mt-4">{{room.name}}</h2>
         <div class="flex justify-center">
             <div class="container w-fit scale-75 lg:scale-90 text-center py-4 px-15 bg-gray-300 rounded-lg">
-                <div class="pb-5 text-white">
+                <div class="pb-5 text-white space-y-1 -mx-4">
                     <div class="border-b-2 border-black text-black scale-110 py-2 mb-[50px]">Screen</div>
                     <div *ngFor="let row of groupSeatsByRow() | keyvalue">
                         <div class="grid md:flex gap-1 items-center justify-center seat">
