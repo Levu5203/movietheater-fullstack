@@ -15,6 +15,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class AddpromotionComponent {
   public faCamera: IconDefinition = faCamera;
+  public showErrorMessage: boolean = false;
+  public errorMessage: string = '';
   
   promotion = {
     promotionTitle: '',
@@ -64,7 +66,6 @@ export class AddpromotionComponent {
 
     this.promotionService.createPromotion(formData).subscribe({
       next: () => {
-        alert('Promotion created successfully!');
         this.router.navigate(['admin/promotionmanagement']);
       },
       error: (err) => {

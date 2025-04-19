@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { PromotionService } from '../../../services/promotion/promotion-service';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-promotionmanagement',
   imports: [CommonModule, FontAwesomeModule, FormsModule],
@@ -25,6 +26,10 @@ export class PromotionmanagementComponent implements OnInit {
   public faAnglesRight: IconDefinition = faAnglesRight;
 
   public isDropdownOpen: boolean = false;
+  
+  // Delete confirmation properties
+  public showDeleteConfirmation: boolean = false;
+  public promotionToDelete: any = null;
 
   public toggleDropdown(): void {
     this.isDropdownOpen = !this.isDropdownOpen;
@@ -55,12 +60,25 @@ export class PromotionmanagementComponent implements OnInit {
     this.router.navigate(['admin/updatepromotion', id]);
   }
 
-  //delete
-  deletePromotion(id: string): void {
-    if (confirm('Are you sure you want to delete this promotion?')) {
-      this.promotionService.deletePromotion(id).subscribe(() => {
-        alert('Promotion is deleted successfully');
-        this.loadPromotions(); // Cập nhật danh sách sau khi xóa
+  // Open confirmation dialog
+  openDeleteConfirmation(promotion: any): void {
+    this.promotionToDelete = promotion;
+    this.showDeleteConfirmation = true;
+  }
+
+  // Cancel delete action
+  cancelDelete(): void {
+    this.showDeleteConfirmation = false;
+    this.promotionToDelete = null;
+  }
+
+  // Confirm delete action
+  confirmDelete(): void {
+    if (this.promotionToDelete) {
+      this.promotionService.deletePromotion(this.promotionToDelete.id).subscribe(() => {
+        this.loadPromotions(); // Refresh the list after deletion
+        this.showDeleteConfirmation = false;
+        this.promotionToDelete = null;
       });
     }
   }
@@ -130,27 +148,25 @@ export class PromotionmanagementComponent implements OnInit {
   }
   
   //search
-  // search
-searchKeyword: string = '';
+  searchKeyword: string = '';
 
-updateSearchResults() {
-  if (!this.searchKeyword.trim()) {
-    this.updatePagination(); // Nếu ô tìm kiếm rỗng, hiển thị danh sách phân trang bình thường
-    return;
+  updateSearchResults() {
+    if (!this.searchKeyword.trim()) {
+      this.updatePagination(); // Nếu ô tìm kiếm rỗng, hiển thị danh sách phân trang bình thường
+      return;
+    }
+
+    const keyword = this.searchKeyword.toLowerCase();
+
+    // Lọc các promotion theo tiêu chí
+    const filtered = this.promotions.filter(promotion =>
+      promotion.promotionTitle.toLowerCase().includes(keyword) ||
+      promotion.description.toLowerCase().includes(keyword) ||
+      promotion.discount.toString().includes(keyword) // Tìm kiếm discount bằng số
+    );
+
+    this.displayedPromotions = filtered.slice(0, this.itemsPerPage);
+    this.totalPages = Math.ceil(filtered.length / this.itemsPerPage);
+    this.currentPage = 1; // Đưa về trang đầu tiên khi tìm kiếm
   }
-
-  const keyword = this.searchKeyword.toLowerCase();
-
-  // Lọc các promotion theo tiêu chí
-  const filtered = this.promotions.filter(promotion =>
-    promotion.promotionTitle.toLowerCase().includes(keyword) ||
-    promotion.description.toLowerCase().includes(keyword) ||
-    promotion.discount.toString().includes(keyword) // Tìm kiếm discount bằng số
-  );
-
-  this.displayedPromotions = filtered.slice(0, this.itemsPerPage);
-  this.totalPages = Math.ceil(filtered.length / this.itemsPerPage);
-  this.currentPage = 1; // Đưa về trang đầu tiên khi tìm kiếm
-}
-
 }

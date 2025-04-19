@@ -90,7 +90,7 @@ export class TableComponent {
   public openConfirmDeleteModal(id: string): void {
     const entity = this.data.items.find((x) => x.id === id);
     this.confirmAction = 'delete';
-    this.confirmMessage = `Are you sure you want to ${this.confirmAction} ${entity?.username}?`;
+    this.confirmMessage = `Are you sure you want to ${this.confirmAction} ${entity?.username ?? entity?.name}?`;
     this.showConfirmDeleteModal = true;
     this.selectedId = id;
   }
