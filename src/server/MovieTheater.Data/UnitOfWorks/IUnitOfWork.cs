@@ -29,6 +29,8 @@ public interface IUnitOfWork : IDisposable
 
     IMasterDataRepository<Ticket> TicketRepository { get; }
 
+    IRepository<ShowTimeSlot> ShowtimeSlotRepository { get; }
+    
     IRepository<HistoryScore> HistoryScoreRepository { get; }
 
     IRepository<RefreshToken> RefreshTokenRepository { get; }

@@ -4,7 +4,7 @@
 
 ### Add a migration
 ```bash
-dotnet ef migrations add UpdateTicketInvoiceModels --project MovieTheater.Data --startup-project MovieTheater.WebAPI --context MovieTheaterDbContext --output-dir Migrations
+dotnet ef migrations add ModifyShowTimeSlot --project MovieTheater.Data --startup-project MovieTheater.WebAPI --context MovieTheaterDbContext --output-dir Migrations
 dotnet ef migrations add [MigrationName] --project MovieTheater.Data --startup-project MovieTheater.API --context StorageDbContext --output-dir Migrations/Storage
 ```
 

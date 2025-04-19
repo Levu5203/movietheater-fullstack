@@ -65,13 +65,15 @@ export class MoviedetailComponent implements OnInit {
     uniqueDates.sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
 
     // Kiểm tra nếu hôm nay không còn suất chiếu nào hợp lệ thì loại bỏ
-    const hasValidTodayShowtimes = this.selectedItem?.showtimes.some((x) => {
+    const hasNoValidTodayShowtimes = this.selectedItem?.showtimes.some((x) => {
       const now = new Date();
       const dateTime = new Date(`${x.showDate}T${x.startTime}`);
-      return dateTime.getDate() == now.getDate() && dateTime > now;
+      return dateTime.getDate() == now.getDate() && dateTime < now;
     });
 
-    if (!hasValidTodayShowtimes) uniqueDates.shift(); // Loại bỏ ngày hôm nay nếu không có suất chiếu nào hợp lệ
+    if (hasNoValidTodayShowtimes) {
+      uniqueDates.shift();
+    } // Loại bỏ ngày hôm nay nếu không có suất chiếu nào hợp lệ
 
     this.showDates = uniqueDates;
     // Chọn suất chiếu đầu tiên mặc định

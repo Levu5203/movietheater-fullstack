@@ -6,13 +6,13 @@ using MovieTheater.Business.ViewModels.Invoice;
 
 namespace MovieTheater.Business.Handlers.Invoice;
 
-public class InvoiceGetAllQueryHandler : BaseHandler, IRequestHandler<InvoiceGetAllQuery, IEnumerable<InvoiceViewModel>>
+public class PaidInvoiceGetAllQueryHandler : BaseHandler, IRequestHandler<PaidInvoiceGetAllQuery, IEnumerable<InvoiceViewModel>>
 {
-    public InvoiceGetAllQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
+    public PaidInvoiceGetAllQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
     {
     }
 
-    public async Task<IEnumerable<InvoiceViewModel>> Handle(InvoiceGetAllQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<InvoiceViewModel>> Handle(PaidInvoiceGetAllQuery request, CancellationToken cancellationToken)
     {
         var invoices = await _unitOfWork.InvoiceRepository.GetQuery()
             .Include(i => i.User)

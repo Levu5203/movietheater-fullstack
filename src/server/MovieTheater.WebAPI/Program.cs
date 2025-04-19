@@ -106,7 +106,6 @@ builder.Services.AddScoped<IAzureService, AzureService>();
 builder.Services.AddHostedService<PendingSeatTimeoutService>();
 builder.Services.AddHostedService<MovieStatusUpdateService>();
 
-builder.Services.AddSingleton<ShowtimeQueueManager>();
 // Register controllers
 builder.Services.AddControllers();
 

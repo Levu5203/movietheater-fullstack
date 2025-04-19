@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { InvoiceViewModel } from '../../../models/invoice/invoiceview.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Location } from '@angular/common';
+import { SeatViewModel } from '../../../models/seat/seat.model';
 
 @Component({
   selector: 'app-booking',
@@ -63,7 +64,7 @@ export class BookingComponent implements OnInit{
         },
         error: (error) => {
           console.error('Payment failed', error);
-          // Bạn có thể xử lý lỗi như hiển thị thông báo lỗi cho người dùng
+          alert('Seat already booked! Please choose another seat.');
         }
       });
   }

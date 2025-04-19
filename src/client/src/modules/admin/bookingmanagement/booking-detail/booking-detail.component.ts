@@ -56,10 +56,10 @@ export class BookingDetailComponent {
     if (this.selectedItem) {
       this.bookingService.update(this.selectedItem?.id,).subscribe((res) => {
         if (res) {
-          console.log('Update success');
+          alert('Get ticket successfully!');
           this.onClose();
         } else {
-          console.log('Update failed');
+          alert('Cannot get ticket!');
         }
       });;
     }
