@@ -330,7 +330,12 @@ export class UpdatemovieComponent implements OnInit {
     this.form.markAllAsTouched();
   
     console.log(this.form.status)
-    console.log("heheheheheh")
+
+    if (this.form.invalid) {
+      this.showErrorMessage = true;
+      this.errorMessage = 'Please fill in all the required fields';
+      return;
+    }
   
     // Check if poster is provided for new movie
     if (!this.selectedItem && !this.selectedFile) {
@@ -369,13 +374,6 @@ export class UpdatemovieComponent implements OnInit {
     if (schedules.length === 0) {
       this.showErrorMessage = true;
       this.errorMessage = 'Please select at least one schedule';
-      return;
-    }
-
-    if (this.form.invalid) {
-      this.showErrorMessage = true;
-      this.errorMessage = 'Please fill in all the required fields';
-      // console.log('Form validation errors:', this.form.errors);
       return;
     }
   
