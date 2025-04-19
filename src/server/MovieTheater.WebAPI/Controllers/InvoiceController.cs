@@ -30,7 +30,7 @@ namespace MovieTheater.WebAPI.Controllers
             return Ok(result);
         }
         [HttpPost("payment")]
-        [Authorize(Roles = "Employee, Customer")]
+        [Authorize(Roles = "Employee, Customer, Admin")]
         [ProducesResponseType(typeof(InvoicePreviewViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PaymentAsync([FromBody] SeatPaymentCommand command)
