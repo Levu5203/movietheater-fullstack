@@ -4,6 +4,7 @@ using MovieTheater.Models.Common;
 using MovieTheater.Models.Security;
 using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace MovieTheater.Data.DataSeeding;
 
@@ -556,8 +557,9 @@ public static class DbInitializer
         context.SaveChanges();
     }
 
-    private static bool ExistsInDb<T>(MovieTheaterDbContext context, Func<T, bool> predicate) where T : class
+    private static bool ExistsInDb<T>(MovieTheaterDbContext context, Expression<Func<T, bool>> predicate) where T : class
     {
-        return context.Set<T>().Any(predicate);
+        return context.Set<T>().IgnoreQueryFilters().Any(predicate);
     }
+
 }
