@@ -58,7 +58,9 @@ export class UpdatemovieComponent implements OnInit {
   public cinemaRoomsMapping: { [key: string]: string } = {
     'Room 1': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
     'Room 2': '3fa85f64-5717-4562-b3fc-2c963f66afa7',
-    'Room 3': '3fa85f64-5717-4562-b3fc-2c963f66afa8'
+    'Room 3': '3fa85f64-5717-4562-b3fc-2c963f66afa8',
+    'Room 4': '3fa85f64-5717-4562-b3fc-2c963f66afa9',
+    'Room 5': '3fa85f64-5717-4562-b3fc-2c963f66afb0'
   };
 
   avatarToDisplay(): string | ArrayBuffer | null {
@@ -258,8 +260,6 @@ export class UpdatemovieComponent implements OnInit {
             schedulesArray.push(new FormControl(schedule.id));
           }
         });
-        
-        // console.log('Schedule IDs added:', schedulesArray.value);
       }
 
     // Convert status from numeric enum to string
@@ -302,6 +302,12 @@ export class UpdatemovieComponent implements OnInit {
       case 'Room 3':
         cinemaRoom = '3fa85f64-5717-4562-b3fc-2c963f66afa8';
         break;
+      case 'Room 4':
+        cinemaRoom = '3fa85f64-5717-4562-b3fc-2c963f66afa9';
+        break;
+      case 'Room 5':
+        cinemaRoom = '3fa85f64-5717-4562-b3fc-2c963f66afb0';
+        break;
       default:
         cinemaRoom = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
     }
@@ -335,7 +341,6 @@ export class UpdatemovieComponent implements OnInit {
     if (this.form.invalid) {
       this.showErrorMessage = true;
       this.errorMessage = 'Please fill in all the required fields';
-      // console.log('Form validation errors:', this.form.errors);
       return;
     }
 
