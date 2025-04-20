@@ -415,7 +415,7 @@ export class UpdatemovieComponent implements OnInit {
           },
           error: (error) => {
             this.showErrorMessage = true;
-            this.errorMessage = error.error?.message || 'An error occurred while updating the movie';
+            this.errorMessage = 'An error occurred while updating the movie';
             console.error('Update error:', error);
           },
         });

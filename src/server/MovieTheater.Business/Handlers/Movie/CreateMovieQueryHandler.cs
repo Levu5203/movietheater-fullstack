@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using MovieTheater.Business.Services;
 using MovieTheater.Commands;
 using MovieTheater.Data.UnitOfWorks;
@@ -89,6 +90,11 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, Gui
                 var slot = timeSlots.FirstOrDefault(x => x.Id == timeSlotId);
                 if (slot == null) continue;
 
+                // Tính thời gian chiếu cụ thể
+                var showDateTime = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day)
+                                   .Add(slot.Time);
+                if (showDateTime <= DateTime.Now) continue; // Bỏ qua nếu là quá khứ
+
                 var showTime = new ShowTime
                 {
                     ShowDate = currentDate,
@@ -117,6 +123,10 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, Gui
         {
             await _unitOfWork.ShowtimeRepository.AddAsync(showTimes);
             System.Console.WriteLine($"Added {count} showtimes");
+        }
+
+        else {
+            throw new InvalidOperationException($"Selected showtimes are not available for selected room. Try another room or showtimes");
         }
 
         await _unitOfWork.SaveChangesAsync();
@@ -157,7 +167,7 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, Gui
 
         if (newShowTimes != null)
         {
-            foreach (var existingShowTime in newShowTimes)
+            foreach (var existingShowTime in newShowTimes.Where(s => s.ShowDate == showDate))
             {
                 var existingStartTime = existingShowTime.ShowTimeSlot.Time;
                 var existingEndTime = existingStartTime.Add(TimeSpan.FromMinutes(existingShowTime.Movie.Duration));
