@@ -6,53 +6,42 @@
         <div class="flex flex-row gap-4">
           <div class="flex items-center gap-2 bg-gray-200 rounded-3xl px-2">
             <!-- Search Input -->
-            <input
-              type="text"
-              placeholder="Enter keyword"
-              formControlName="keyword"
-              class="flex-1 bg-transparent outline-none p-2 rounded-3xl w-[240px]"
-            />
+            <input type="text" placeholder="Enter keyword" formControlName="keyword"
+              class="flex-1 bg-transparent outline-none p-2 rounded-3xl w-[240px]" />
 
           </div>
           <!-- Search Button -->
-          <button
-            title="Search"
-            type="submit"
-            (click)="onSubmit()"
+          <button title="Search" type="submit" (click)="onSubmit()"
             class="p-2 w-10 h-10 text-gray-700 rounded-xl hover:bg-gray-300 cursor-pointer disabled:cursor-not-allowed"
-            [disabled]="searchForm.invalid"
-          >
+            [disabled]="searchForm.invalid">
             <fa-icon [icon]="faSearch" class="w-6 h-6"></fa-icon>
           </button>
         </div>
 
-        <button
-          type="button"
-          (click)="create()"
-          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer"
-        >
+        <button type="button" (click)="create()"
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer">
           Add new movie
         </button>
       </div>
     </form>
-    <app-table
-      [isShowNumber]="true"
-      [columns]="columns"
-      [data]="data"
-      [currentPage]="currentPage"
-      [lockable]="false"
-      [infoable]="false"
-      (onView)="view($event)"
-      (onDelete)="delete($event)"
-      (onEdit)="edit($event)"
-      (onPageChange)="onPageChange($event)"
-    >
+    <app-table [isShowNumber]="true" [columns]="columns" [data]="data" [currentPage]="currentPage" [lockable]="false"
+      [infoable]="false" (onView)="view($event)" (onDelete)="delete($event)" (onEdit)="edit($event)"
+      (onPageChange)="onPageChange($event)">
     </app-table>
   </div>
 </section>
 
-<app-updatemovie
-  *ngIf="isShowForm"
-  [selectedItem]="selectedItem"
-  (close)="onCloseDetail()"
-></app-updatemovie>
+<app-updatemovie *ngIf="isShowForm" [selectedItem]="selectedItem" (close)="onCloseDetail()"></app-updatemovie>
+
+<div *ngIf="showErrorMessage"
+  class="fixed transform translate-y-[-50%] top-1/2 left-1/2 translate-x-[-50%] flex items-center justify-center z-50 shadow-[10px_20px_35px_rgba(0,0,0,0.25)] shadow-slate-800 rounded-2xl">
+  <div class="w-screen md:w-[500px] bg-[#0B0D13] shadow-lg rounded-lg p-10 md:p-8 text-center *:text-white">
+    <p class="text-lg text-gray-700 mb-4">{{ errorMessage }}</p>
+    <div class="flex flex-row gap-4 mt-8 px-4 *:text-white *:cursor-pointer">
+      <button type="button" (click)="closeErrorMessage()"
+        class="bg-[#EF4444] w-full px-4 py-2 rounded hover:bg-[#E30713] transition">
+        Ok
+      </button>
+    </div>
+  </div>
+</div>
