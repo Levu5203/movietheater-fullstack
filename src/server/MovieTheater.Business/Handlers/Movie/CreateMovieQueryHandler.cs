@@ -87,24 +87,27 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, Gui
             foreach (var timeSlotId in request.SelectedShowTimeSlots)
             {
                 var slot = timeSlots.FirstOrDefault(x => x.Id == timeSlotId);
-                if (slot == null) continue; // skip invalid time slots
+                if (slot == null) continue;
 
                 var showTime = new ShowTime
                 {
                     ShowDate = currentDate,
                     MovieId = movie.Id,
+                    Movie = movie,
                     CinemaRoomId = request.CinemaRoomId,
                     ShowTimeSlotId = timeSlotId,
+                    ShowTimeSlot = slot,
                     CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow
+                    UpdatedAt = DateTime.UtcNow,
                 };
 
-                if (!HasTimeConflict(showTime.CinemaRoomId, showTime.ShowDate, slot.Time, movie.Duration, showTime.Id))
+                if (!HasTimeConflict(showTime.CinemaRoomId, showTime.ShowDate, slot.Time, movie.Duration, showTime.Id, showTimes))
                 {
                     showTimes.Add(showTime);
-                    count ++;
+                    count++;
                 }
             }
+
 
             currentDate = currentDate.AddDays(1);
         }
@@ -120,7 +123,13 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, Gui
         return movie.Id;
     }
 
-    private bool HasTimeConflict(Guid roomId, DateOnly showDate, TimeSpan startTime, int duration, Guid currentShowTimeId)
+    private bool HasTimeConflict(
+    Guid roomId,
+    DateOnly showDate,
+    TimeSpan startTime,
+    int duration,
+    Guid currentShowTimeId,
+    List<ShowTime>? newShowTimes = null)
     {
         var showTimesInRoom = _unitOfWork.ShowtimeRepository.GetQuery(false)
             .Where(s => s.CinemaRoomId == roomId && s.ShowDate == showDate && s.Id != currentShowTimeId)
@@ -141,11 +150,29 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, Gui
                 (endTime > existingShowTime.Time && endTime <= existingEndTime) ||
                 (startTime <= existingShowTime.Time && endTime >= existingEndTime))
             {
-                System.Console.WriteLine($"Time conflict for showtime: {currentShowTimeId}, at Room: {roomId} : {startTime}");
+                Console.WriteLine($"Time conflict (DB) for showtime: {currentShowTimeId}, at Room: {roomId} : {startTime}");
                 return true;
+            }
+        }
+
+        if (newShowTimes != null)
+        {
+            foreach (var existingShowTime in newShowTimes)
+            {
+                var existingStartTime = existingShowTime.ShowTimeSlot.Time;
+                var existingEndTime = existingStartTime.Add(TimeSpan.FromMinutes(existingShowTime.Movie.Duration));
+
+                if ((startTime >= existingStartTime && startTime < existingEndTime) ||
+                    (endTime > existingStartTime && endTime <= existingEndTime) ||
+                    (startTime <= existingStartTime && endTime >= existingEndTime))
+                {
+                    Console.WriteLine($"Time conflict (NEW) for showtime: {currentShowTimeId}, at Room: {roomId} : {startTime}");
+                    return true;
+                }
             }
         }
 
         return false;
     }
+
 }
