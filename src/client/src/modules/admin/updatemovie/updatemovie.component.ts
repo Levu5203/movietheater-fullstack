@@ -32,14 +32,14 @@ export class UpdatemovieComponent implements OnInit {
   previewUrl: string | ArrayBuffer | null = null;
   selectedFile: File | null = null;
   avatarChanged = false;
-  
+
   public availableGenres: string[] = [
-    'Action', 'Adventure', 'Animation', 'Biography', 'Comedy', 
-    'Crime', 'Drama', 'Family', 'Fantasy', 'History', 
-    'Horror', 'Musical', 'Mystery', 'Romance', 'SciFi', 
+    'Action', 'Adventure', 'Animation', 'Biography', 'Comedy',
+    'Crime', 'Drama', 'Family', 'Fantasy', 'History',
+    'Horror', 'Musical', 'Mystery', 'Romance', 'SciFi',
     'Sport', 'Thriller', 'War', 'Western'
   ];
-  
+
   public availableSchedules: ScheduleSlot[] = [
     { id: '100e8400-e29b-41d4-a716-446655440000', time: '8:00' },
     { id: '100e8400-e29b-41d4-a716-446655440004', time: '9:00' },
@@ -96,11 +96,11 @@ export class UpdatemovieComponent implements OnInit {
 
   constructor(
     @Inject(MOVIE_ADMIN_SERVICE) private readonly movieAdminService: IMovieAdminServiceInterface
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.createForm();
-    
+
     if (this.selectedItem) {
       this.initialAvatarUrl = this.selectedItem.posterUrl || null;
       this.updateForm();
@@ -158,7 +158,7 @@ export class UpdatemovieComponent implements OnInit {
         Validators.minLength(1)
       ])
     });
-    
+
     this.form.valueChanges.subscribe(() => {
       this.showErrorMessage = false;
     });
@@ -176,7 +176,7 @@ export class UpdatemovieComponent implements OnInit {
 
   onGenreChange(event: any, genre: string) {
     const genres = this.form.get('genres') as FormArray;
-    
+
     if (event.target.checked) {
       genres.push(new FormControl(genre));
     } else {
@@ -202,24 +202,24 @@ export class UpdatemovieComponent implements OnInit {
 
   private formatDate(date: string | Date): string {
     if (!date) return '';
-    
+
     const d = new Date(date);
     return d.toISOString().split('T')[0]; // YYYY-MM-DD format
   }
 
   public updateForm(): void {
     if (!this.selectedItem) return;
-    
+
     // Clear existing form arrays
     const genresArray = this.form.get('genres') as FormArray;
     const schedulesArray = this.form.get('schedules') as FormArray;
 
-    
-    
+
+
     while (genresArray.length) {
       genresArray.removeAt(0);
     }
-    
+
     while (schedulesArray.length) {
       schedulesArray.removeAt(0);
     }
@@ -233,34 +233,34 @@ export class UpdatemovieComponent implements OnInit {
       });
       // Log to verify genres were added correctly
       console.log('Genres added:', genresArray.value);
-    } 
+    }
 
-   // Add schedules
+    // Add schedules
     if (this.selectedItem.showtimes && Array.isArray(this.selectedItem.showtimes) && this.selectedItem.showtimes.length > 0) {
       // Get the first day's date
       const firstDay = this.selectedItem.showtimes[0].showDate;
-      
+
       // Filter showtimes for the first day only
-      const firstDayShowtimes = this.selectedItem.showtimes.filter(showtime => 
+      const firstDayShowtimes = this.selectedItem.showtimes.filter(showtime =>
         showtime.showDate === firstDay
       );
-      
+
       // Extract all startTime values
-        const startTimes = firstDayShowtimes.map(showtime => {
-          // Convert "08:00:00" format to "8:00" format to match availableSchedules
-          const timeString = showtime.startTime;
-          const hours = timeString.toString().substring(0, 2).replace(/^0+/, ''); // Remove leading zeros
-          const minutes = timeString.toString().substring(3, 5);
-          return `${hours}:${minutes}`;
-        });
-        
-        // Find and push schedule IDs that match these times
-        this.availableSchedules.forEach(schedule => {
-          if (startTimes.includes(schedule.time)) {
-            schedulesArray.push(new FormControl(schedule.id));
-          }
-        });
-      }
+      const startTimes = firstDayShowtimes.map(showtime => {
+        // Convert "08:00:00" format to "8:00" format to match availableSchedules
+        const timeString = showtime.startTime;
+        const hours = timeString.toString().substring(0, 2).replace(/^0+/, ''); // Remove leading zeros
+        const minutes = timeString.toString().substring(3, 5);
+        return `${hours}:${minutes}`;
+      });
+
+      // Find and push schedule IDs that match these times
+      this.availableSchedules.forEach(schedule => {
+        if (startTimes.includes(schedule.time)) {
+          schedulesArray.push(new FormControl(schedule.id));
+        }
+      });
+    }
 
     // Convert status from numeric enum to string
     let statusValue: string;
@@ -311,7 +311,7 @@ export class UpdatemovieComponent implements OnInit {
       default:
         cinemaRoom = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
     }
-    
+
     // Basic form fields
     this.form.patchValue({
       name: this.selectedItem.name,
@@ -329,7 +329,7 @@ export class UpdatemovieComponent implements OnInit {
       schedules: this.selectedItem.selectedShowTimeSlots,
       posterUrl: this.selectedItem.posterUrl
     });
-    
+
   }
 
   public onSubmit(): void {
@@ -337,7 +337,7 @@ export class UpdatemovieComponent implements OnInit {
 
     console.log(this.form.status)
     console.log("heheheheheh")
-    
+
     if (this.form.invalid) {
       this.showErrorMessage = true;
       this.errorMessage = 'Please fill in all the required fields';
@@ -371,7 +371,7 @@ export class UpdatemovieComponent implements OnInit {
     const formValue = this.form.getRawValue();
 
     console.log(formValue)
-    
+
     formData.append('name', formValue.name);
     formData.append('duration', formValue.duration.toString());
     formData.append('origin', formValue.origin);
@@ -387,7 +387,7 @@ export class UpdatemovieComponent implements OnInit {
     formValue.schedules.forEach((scheduleId: string, index: number) => {
       formData.append(`selectedShowTimeSlots[${index}]`, scheduleId);
     });
-    
+
     formValue.genres.forEach((genre: string, index: number) => {
       formData.append(`selectedGenres[${index}]`, genre);
     });
@@ -415,7 +415,7 @@ export class UpdatemovieComponent implements OnInit {
           },
           error: (error) => {
             this.showErrorMessage = true;
-            this.errorMessage = 'An error occurred while updating the movie';
+            this.errorMessage = error.error?.message || 'An error occurred while updating the movie';
             console.error('Update error:', error);
           },
         });
@@ -438,7 +438,7 @@ export class UpdatemovieComponent implements OnInit {
         },
         error: (error) => {
           this.showErrorMessage = true;
-          this.errorMessage = 'An error occurred while creating the movie';
+          this.errorMessage = error.error?.message || 'An error occurred while creating the movie';
           console.error('Create error:', error);
         },
       });

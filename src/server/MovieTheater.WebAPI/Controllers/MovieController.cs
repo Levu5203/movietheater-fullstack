@@ -57,7 +57,7 @@ namespace MovieTheater.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return StatusCode(500, new { message = ex.Message });
             }
         }
 
@@ -78,18 +78,26 @@ namespace MovieTheater.WebAPI.Controllers
         {
             if (id != command.Id)
             {
-                return BadRequest("Movie ID mismatch.");
+                return BadRequest(new { message = "Movie ID mismatch." });
             }
 
-            var result = await _mediator.Send(command);
-            if (!result)
+            try
             {
-                System.Console.WriteLine(result);
-                return NotFound("Movie not found.");
-            }
+                var result = await _mediator.Send(command);
 
-            return Ok(new { message = "Movie updated successfully" });
+                if (!result)
+                {
+                    return NotFound(new { message = "Movie not found." });
+                }
+
+                return Ok(new { message = "Movie updated successfully" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
         }
+
 
         /// <summary>
         /// Search movies by keyword, director, actor, etc.
