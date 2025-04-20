@@ -334,23 +334,39 @@ export class UpdatemovieComponent implements OnInit {
 
   public onSubmit(): void {
     this.form.markAllAsTouched();
-
+  
     console.log(this.form.status)
-    console.log("heheheheheh")
-    
+
     if (this.form.invalid) {
       this.showErrorMessage = true;
       this.errorMessage = 'Please fill in all the required fields';
       return;
     }
-
+  
     // Check if poster is provided for new movie
     if (!this.selectedItem && !this.selectedFile) {
       this.showErrorMessage = true;
       this.errorMessage = 'Please upload a movie poster';
       return;
     }
-
+  
+    // Check if duration is a positive number
+    const duration = Number(this.form.get('duration')?.value);
+    if (isNaN(duration) || duration <= 0 || !Number.isInteger(duration)) {
+      this.showErrorMessage = true;
+      this.errorMessage = 'Duration must be a positive number';
+      return;
+    }
+  
+    // Check if endDate is not before releasedDate
+    const releasedDate = new Date(this.form.get('releasedDate')?.value);
+    const endDate = new Date(this.form.get('endDate')?.value);
+    if (endDate < releasedDate) {
+      this.showErrorMessage = true;
+      this.errorMessage = 'End date cannot be before release date';
+      return;
+    }
+  
     // Check if at least one genre is selected
     const genres = this.form.get('genres') as FormArray;
     if (genres.length === 0) {
@@ -358,7 +374,7 @@ export class UpdatemovieComponent implements OnInit {
       this.errorMessage = 'Please select at least one genre';
       return;
     }
-
+  
     // Check if at least one schedule is selected
     const schedules = this.form.get('schedules') as FormArray;
     if (schedules.length === 0) {
@@ -366,10 +382,10 @@ export class UpdatemovieComponent implements OnInit {
       this.errorMessage = 'Please select at least one schedule';
       return;
     }
-
+  
     const formData = new FormData();
     const formValue = this.form.getRawValue();
-
+  
     console.log(formValue)
     
     formData.append('name', formValue.name);
@@ -383,7 +399,7 @@ export class UpdatemovieComponent implements OnInit {
     formData.append('releasedDate', formValue.releasedDate);
     formData.append('endDate', formValue.endDate);
     formData.append('cinemaRoomId', formValue.cinemaroomId);
-
+  
     formValue.schedules.forEach((scheduleId: string, index: number) => {
       formData.append(`selectedShowTimeSlots[${index}]`, scheduleId);
     });
@@ -391,11 +407,11 @@ export class UpdatemovieComponent implements OnInit {
     formValue.genres.forEach((genre: string, index: number) => {
       formData.append(`selectedGenres[${index}]`, genre);
     });
-
+  
     if (this.selectedFile) {
       formData.append('posterImage', this.selectedFile);
     }
-
+  
     if (this.selectedItem) {
       // Update existing movie
       formData.append('id', this.selectedItem.id);

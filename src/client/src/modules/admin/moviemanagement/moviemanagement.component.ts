@@ -39,7 +39,7 @@ export class MoviemanagementComponent extends MasterDataListComponent<MovieViewM
       { name: 'Director', value: 'director'},
       { name: 'Actors', value: 'actors' },
       { name: 'Duration', value: 'duration' },
-      { name: 'Version', value: 'version' },
+      { name: 'Version', value: 'versionText' },
       ];
 
   constructor(@Inject(MOVIE_ADMIN_SERVICE) private readonly movieAdminService: IMovieAdminServiceInterface) {
@@ -57,9 +57,13 @@ export class MoviemanagementComponent extends MasterDataListComponent<MovieViewM
 
   protected override searchData(): void {
     this.movieAdminService.search(this.filter).subscribe((res) => {
-      console.log(res);
-      
-      this.data = res;
+      this.data = {
+        ...res,
+        items: res.items.map((item) => ({
+          ...item,
+          versionText: item.version === 1 ? '2D' : item.version === 2 ? '3D' : 'Unknown'
+        }))
+      };
     });
   }
 
