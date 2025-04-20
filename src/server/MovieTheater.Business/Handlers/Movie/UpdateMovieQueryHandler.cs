@@ -1,3 +1,4 @@
+using System.Data.Common;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -104,63 +105,83 @@ public class UpdateMovieQueryHandler : IRequestHandler<UpdateMovieQuery, bool>
                     .AsNoTracking()
                     .Where(s => s.MovieId == movie.Id)
                     .ToListAsync(cancellationToken);
-                if (oldShowTimes.Any())
-                {
-                    _context.ShowTimes.RemoveRange(oldShowTimes);
-                    await _context.SaveChangesAsync(cancellationToken);
 
-                    // Ngắt theo dõi tất cả ShowTime
-                    foreach (var entry in _context.ChangeTracker.Entries<ShowTime>().ToList())
+                var deletableShowtimes = new List<ShowTime> { };
+                foreach (var oldShowTime in oldShowTimes)
+                {
+                    var tickets = await _context.Tickets.Where(t => t.ShowTimeId == oldShowTime.Id).ToListAsync();
+                    if (tickets.Count == 0) { deletableShowtimes.Add(oldShowTime); }
+                }
+                _context.ShowTimes.RemoveRange(deletableShowtimes);
+                await _context.SaveChangesAsync(cancellationToken);
+
+                // Ngắt theo dõi tất cả ShowTime
+                foreach (var showtime in deletableShowtimes)
+                {
+                    var entry = _context.Entry(showtime);
+                    if (entry != null)
                     {
                         entry.State = EntityState.Detached;
                     }
                 }
 
+
+                // Lấy các slot để dùng nhiều lần
+                var timeSlots = await _context.ShowTimeSlots.ToListAsync(cancellationToken);
+
                 // Tạo showtimes mới
                 if (request.SelectedShowTimeSlots != null && request.SelectedShowTimeSlots.Any())
                 {
-                    var showTimes = new List<ShowTime>();
-                    var timeSlots = await _context.ShowTimeSlots
-                        .AsNoTracking()
-                        .ToListAsync(cancellationToken);
-                    
+                    var newShowTimes = new List<ShowTime>();
                     var currentDate = request.ReleasedDate;
                     int count = 0;
-                    
+
                     while (currentDate <= request.EndDate)
                     {
                         foreach (var timeSlotId in request.SelectedShowTimeSlots)
                         {
                             var slot = timeSlots.FirstOrDefault(x => x.Id == timeSlotId);
-                            if (slot == null) continue; // skip invalid time slots
-                            
+                            if (slot == null) continue;
+
+                            var showDateTime = new DateTime(currentDate.Year, currentDate.Month, currentDate.Day)
+                                               .Add(slot.Time);
+                            if (showDateTime <= DateTime.Now) continue;
+
                             var showTime = new ShowTime
                             {
                                 Id = Guid.NewGuid(), // Ensure each showtime has a unique ID
                                 ShowDate = currentDate,
                                 MovieId = movie.Id,
+                                Movie = movie,
                                 CinemaRoomId = request.CinemaRoomId,
                                 ShowTimeSlotId = timeSlotId,
+                                ShowTimeSlot = slot,
                                 CreatedAt = DateTime.UtcNow,
                                 UpdatedAt = DateTime.UtcNow
                             };
 
-                            // Check for time conflicts
-                            if (!HasTimeConflict(showTime.CinemaRoomId, showTime.ShowDate, slot.Time, movie.Duration, showTime.Id))
+                            if (!HasTimeConflict(request.CinemaRoomId, currentDate, slot.Time, movie.Duration, Guid.Empty, newShowTimes))
                             {
-                                showTimes.Add(showTime);
+                                newShowTimes.Add(showTime);
                                 count++;
                             }
                         }
+                        System.Console.WriteLine($"Added showtimes for {currentDate}");
                         currentDate = currentDate.AddDays(1);
                     }
 
-                    if (showTimes.Any())
+                    if (newShowTimes.Any())
                     {
-                        _context.ShowTimes.AddRange(showTimes);
-                        System.Console.WriteLine($"Added {count} showtimes during update");
+                        _context.ShowTimes.AddRange(newShowTimes);
                     }
+                    else
+                    {
+                        throw new InvalidOperationException($"Selected showtimes are not available for selected room. Try another room or showtimes");
+                    }
+
+                    Console.WriteLine($"Added {count} updated showtimes");
                 }
+
 
                 // Cập nhật phim
                 _context.Movies.Update(movie);
@@ -178,23 +199,21 @@ public class UpdateMovieQueryHandler : IRequestHandler<UpdateMovieQuery, bool>
         }
     }
 
-    private bool HasTimeConflict(Guid roomId, DateOnly showDate, TimeSpan startTime, int duration, Guid currentShowTimeId)
+    private bool HasTimeConflict(
+    Guid roomId,
+    DateOnly showDate,
+    TimeSpan startTime,
+    int duration,
+    Guid currentShowTimeId,
+    List<ShowTime>? newShowTimes = null)
     {
         var showTimesInRoom = _context.ShowTimes
-            .AsNoTracking()
             .Where(s => s.CinemaRoomId == roomId && s.ShowDate == showDate && s.Id != currentShowTimeId)
-            .Join(_context.ShowTimeSlots,
-                  showtime => showtime.ShowTimeSlotId,
-                  slot => slot.Id,
-                  (showtime, slot) => new { showtime, slot })
-            .Join(_context.Movies,
-                  joined => joined.showtime.MovieId,
-                  movie => movie.Id,
-                  (joined, movie) => new
-                  {
-                      Time = joined.slot.Time,
-                      Duration = movie.Duration
-                  })
+            .Select(s => new
+            {
+                s.ShowTimeSlot!.Time,
+                s.Movie!.Duration
+            })
             .ToList();
 
         var endTime = startTime.Add(TimeSpan.FromMinutes(duration));
@@ -207,11 +226,29 @@ public class UpdateMovieQueryHandler : IRequestHandler<UpdateMovieQuery, bool>
                 (endTime > existingShowTime.Time && endTime <= existingEndTime) ||
                 (startTime <= existingShowTime.Time && endTime >= existingEndTime))
             {
-                System.Console.WriteLine($"Time conflict detected during update at Room: {roomId}, Date: {showDate}, Time: {startTime}");
+                Console.WriteLine($"Time conflict (DB) for showtime: {currentShowTimeId}, at Room: {roomId} : {startTime}");
                 return true;
+            }
+        }
+
+        if (newShowTimes != null)
+        {
+            foreach (var existingShowTime in newShowTimes.Where(s => s.ShowDate == showDate))
+            {
+                var existingStartTime = existingShowTime.ShowTimeSlot.Time;
+                var existingEndTime = existingStartTime.Add(TimeSpan.FromMinutes(existingShowTime.Movie.Duration));
+
+                if ((startTime >= existingStartTime && startTime < existingEndTime) ||
+                    (endTime > existingStartTime && endTime <= existingEndTime) ||
+                    (startTime <= existingStartTime && endTime >= existingEndTime))
+                {
+                    Console.WriteLine($"Time conflict (NEW) for showtime: {currentShowTimeId}, at Room: {roomId} : {startTime}");
+                    return true;
+                }
             }
         }
 
         return false;
     }
+
 }

@@ -57,20 +57,34 @@ namespace MovieTheater.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return StatusCode(500, new { message = ex.Message });
             }
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMovie(Guid id)
         {
-            var result = await _mediator.Send(new DeleteMovieCommand(id));
+            try
+            {
+                var result = await _mediator.Send(new DeleteMovieCommand(id));
 
-            if (!result)
-                return NotFound("Movie not found.");
+                if (!result)
+                    return NotFound(new { message = "Movie not found." });
 
-            return Ok(new { message = "Movie deleted successfully" });
+                return Ok(new { message = "Movie deleted successfully" });
+            }
+            catch (InvalidOperationException ex)
+            {
+                // Trường hợp logic không cho xoá (đã bán vé)
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                // Lỗi không xác định
+                return StatusCode(500, new { message = "Internal server error", detail = ex.Message });
+            }
         }
+
 
         [HttpPut("{id}")]
         [Consumes("multipart/form-data")]
@@ -78,18 +92,26 @@ namespace MovieTheater.WebAPI.Controllers
         {
             if (id != command.Id)
             {
-                return BadRequest("Movie ID mismatch.");
+                return BadRequest(new { message = "Movie ID mismatch." });
             }
 
-            var result = await _mediator.Send(command);
-            if (!result)
+            try
             {
-                System.Console.WriteLine(result);
-                return NotFound("Movie not found.");
-            }
+                var result = await _mediator.Send(command);
 
-            return Ok(new { message = "Movie updated successfully" });
+                if (!result)
+                {
+                    return NotFound(new { message = "Movie not found." });
+                }
+
+                return Ok(new { message = "Movie updated successfully" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
         }
+
 
         /// <summary>
         /// Search movies by keyword, director, actor, etc.
