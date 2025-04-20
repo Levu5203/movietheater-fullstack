@@ -14,7 +14,9 @@ public class MovieGetByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : 
         var movie = await _unitOfWork.MovieRepository.GetQuery().Include(m => m.ShowTimes)
         .ThenInclude(st => st.CinemaRoom)
         .Include(m => m.ShowTimes)
-        .ThenInclude(st => st.ShowTimeSlot).FirstOrDefaultAsync(m => m.Id ==request.Id, cancellationToken);
+        .ThenInclude(st => st.ShowTimeSlot)
+        .Include(m => m.MovieGenres)
+        .ThenInclude(mg => mg.Genre).FirstOrDefaultAsync(m => m.Id ==request.Id, cancellationToken);
         return _mapper.Map<MovieViewModel>(movie);
     }
 }
