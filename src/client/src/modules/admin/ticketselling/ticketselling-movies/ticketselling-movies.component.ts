@@ -71,7 +71,12 @@ export class TicketsellingMoviesComponent
           })
           .filter((x) => {
             return new Date(`${x.showDate}T${x.startTime}`) > new Date();
-          }); // Filter out past showtimes
+          }) // Filter out past showtimes
+          .sort((a, b) => {
+            const d1 = new Date(`${a.showDate}T${a.startTime}`);
+            const d2 = new Date(`${b.showDate}T${b.startTime}`);
+            return d1.getTime() - d2.getTime();
+          }) ?? [];
 
         return {
           ...movie,
