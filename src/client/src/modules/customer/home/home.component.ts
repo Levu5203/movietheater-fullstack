@@ -32,8 +32,7 @@ import { RouterLink } from '@angular/router';
 })
 export class HomeComponent
   extends MasterDataListComponent<MovieviewModel>
-  implements OnInit
-{
+  implements OnInit {
   public movies: MovieviewModel[] = [];
   public nowShowingMovies: MovieviewModel[] = [];
   public comingSoonMovies: MovieviewModel[] = [];
@@ -78,39 +77,39 @@ export class HomeComponent
     this.stopSlideshow();
   }
 
-    getAll(): void {
-      this.movieService.getAll().subscribe((res) => {
-        this.movies = res;
-        const now = new Date();
-        this.nowShowingMovies = res.filter(
-          (movie) =>
-            movie.showtimes && movie.showtimes.length > 0 && movie.showtimes.some((showtime) => new Date(showtime.showDate) > now) && movie.status == 1
-        );
-        this.comingSoonMovies = res.filter(
-          (movie) => movie.showtimes && movie.status == 2
-        );
+  getAll(): void {
+    this.movieService.getAll().subscribe((res) => {
+      this.movies = res;
+      const now = new Date();
+      this.nowShowingMovies = res.filter(
+        (movie) =>
+          movie.showtimes && movie.showtimes.length > 0 && movie.showtimes.some((showtime) => new Date(`${showtime.showDate}T${showtime.startTime}`) > now) && movie.status == 1
+      );
+      this.comingSoonMovies = res.filter(
+        (movie) => movie.showtimes && movie.status == 2
+      );
 
-        console.log(this.movies);
+      console.log(this.movies);
 
-        if (this.movies.length > 0) {
-          this.startSlideshow();
-        }
-      });
-    }
+      if (this.movies.length > 0) {
+        this.startSlideshow();
+      }
+    });
+  }
 
   getPrevMovie() {
     return this.nowShowingMovies.length
       ? this.nowShowingMovies[
-          (this.currentIndex - 1 + this.nowShowingMovies.length) % this.nowShowingMovies.length
-        ]
+      (this.currentIndex - 1 + this.nowShowingMovies.length) % this.nowShowingMovies.length
+      ]
       : null;
   }
 
   getNextMovie() {
     return this.nowShowingMovies.length
       ? this.nowShowingMovies[
-          (this.currentIndex + 1) % this.nowShowingMovies.length
-        ]
+      (this.currentIndex + 1) % this.nowShowingMovies.length
+      ]
       : null;
   }
 
