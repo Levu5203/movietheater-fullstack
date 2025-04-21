@@ -15,15 +15,15 @@
     </button>
   </div>
 
-  <div class=" bg-white  rounded-md shadow-md">
+  <div class=" bg-white rounded-md shadow-md">
     <div class="">
       <table class="w-full text-sm border-b border-gray-300">
         <thead class="bg-blue-100 border-t border-gray-300">
           <tr class="*:p-2 *:border *:border-gray-200 *:text-center">
             <th class="text-center w-12">No</th>
             <th class="text-center">Title</th>
-            <th class="text-center">Start Time</th>
-            <th class="text-center">End Time</th>
+            <th class="text-center whitespace-nowrap">Start Time</th>
+            <th class="text-center whitespace-nowrap">End Time</th>
             <th class="text-center">Discount Level</th>
             <th class="text-center">Detail</th>
             <th class="text-center w-28">Actions</th>
@@ -32,13 +32,13 @@
         <tbody>
           <tr *ngFor="let promotion of displayedPromotions; let i = index"
               class="*:p-2 border-t border-gray-300 hover:bg-gray-100 *:text-center">
-            <td class="text-center">{{ getRowIndex(i)  }}</td>
-            <td class="text-center">{{ promotion.promotionTitle }}</td>
-            <td class="text-center">{{ promotion.startDate | date:'yyyy-MM-dd'}}</td>
-            <td class="text-center">{{ promotion.endDate | date:'yyyy-MM-dd'}}</td>
+            <td class="text-center">{{ getRowIndex(i) }}</td>
+            <td class="text-center break-words max-w-xs">{{ promotion.promotionTitle }}</td>
+            <td class="text-center whitespace-nowrap">{{ promotion.startDate | date:'yyyy-MM-dd'}}</td>
+            <td class="text-center whitespace-nowrap">{{ promotion.endDate | date:'yyyy-MM-dd'}}</td>
             <td class="text-center">{{ promotion.discount * 100 }} %</td>
-            <td class="text-center">{{ promotion.description.length > 100 ? (promotion.description | slice:0:100) + '...' : promotion.description}}</td>
-            <td class="text-center">
+            <td class="text-center break-words max-w-xs">{{ promotion.description.length > 100 ? (promotion.description | slice:0:100) + '...' : promotion.description}}</td>
+            <td class="text-center whitespace-nowrap">
               <div class="flex justify-center space-x-2 *:cursor-pointer">
                 <button title="Edit" type="button" (click)="updatePromotion(promotion.id)" class="border-0">
                   <fa-icon [icon]="faEdit" class="text-blue-500 hover:text-blue-700"></fa-icon>
@@ -59,16 +59,16 @@
     <!-- Mobile View -->
     <div class="md:hidden">
       <div *ngFor="let promotion of displayedPromotions, let i = index" class="flex justify-between border-b border-[#E8F1FD] p-4 bg-white items-center">
-        <div>
+        <div class="w-full">
           <p class="font-bold"># {{ getRowIndex(i) }}</p>
-          <p><span class="font-semibold">Title:</span> {{ promotion.promotionTitle }}</p>
-          <p><span class="font-semibold">Start Time:</span> {{ promotion.startDate }}</p>
-          <p><span class="font-semibold">End Time:</span> {{ promotion.endDate }} min</p>
+          <p class="break-words"><span class="font-semibold">Title:</span> {{ promotion.promotionTitle }}</p>
+          <p class="whitespace-nowrap"><span class="font-semibold">Start Time:</span> {{ promotion.startDate }}</p>
+          <p class="whitespace-nowrap"><span class="font-semibold">End Time:</span> {{ promotion.endDate }} min</p>
           <p><span class="font-semibold">Discount Level:</span> {{ promotion.discount * 100 }}</p>
-          <p><span class="font-semibold">Detail:</span> {{ promotion.description }}</p>
+          <p class="break-words"><span class="font-semibold">Detail:</span> {{ promotion.description }}</p>
         </div>
         
-        <div class="flex gap-4 ml-auto">
+        <div class="flex gap-4 ml-auto shrink-0">
           <button class="text-blue-500 hover:text-blue-700">
             <a href="./admin/updatepromotion">
               <fa-icon [icon]="faEdit" class="text-gray-500"></fa-icon>

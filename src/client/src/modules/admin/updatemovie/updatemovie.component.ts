@@ -1,13 +1,11 @@
 import { Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCamera, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { MovieviewModel } from '../../../models/movie/movieview.model';
 import { CommonModule } from '@angular/common';
 import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MOVIE_ADMIN_SERVICE, MOVIE_SERVICE } from '../../../constants/injection.constant';
-import { IMovieServiceInterface } from '../../../services/movie/movie-service.interface';
-import { MovieViewModel } from '../../../models/movie/movie-view-model';
+import { MOVIE_ADMIN_SERVICE } from '../../../constants/injection.constant';
 import { IMovieAdminServiceInterface } from '../../../services/movieAdmin/movie-admin.interface';
+import { MovieViewModel } from '../../../models/movie/movie-view-model';
 
 interface ScheduleSlot {
   id: string;
@@ -26,6 +24,7 @@ export class UpdatemovieComponent implements OnInit {
   public form!: FormGroup;
   public errorMessage: string = '';
   public showErrorMessage: boolean = false;
+  private isCurrentlyShowing: boolean = false;
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   initialAvatarUrl: string | null = null;
@@ -104,6 +103,26 @@ export class UpdatemovieComponent implements OnInit {
     if (this.selectedItem) {
       this.initialAvatarUrl = this.selectedItem.posterUrl || null;
       this.updateForm();
+      this.checkIfCurrentlyShowing();
+    }
+  }
+
+  private checkIfCurrentlyShowing(): void {
+    if (this.selectedItem) {
+      const currentDate = new Date();
+      const releasedDate = new Date(this.selectedItem.releasedDate);
+      const endDate = new Date(this.selectedItem.endDate);
+      // Remove time component for date comparison
+      currentDate.setHours(0, 0, 0, 0);
+      releasedDate.setHours(0, 0, 0, 0);
+      endDate.setHours(0, 0, 0, 0);
+
+      this.isCurrentlyShowing = currentDate >= releasedDate && currentDate <= endDate;
+      if (this.isCurrentlyShowing) {
+        this.showErrorMessage = true;
+        this.errorMessage = 'This movie is currently being shown and cannot be updated';
+        this.form.disable(); // Disable the form to prevent changes
+      }
     }
   }
 
@@ -160,7 +179,9 @@ export class UpdatemovieComponent implements OnInit {
     });
 
     this.form.valueChanges.subscribe(() => {
-      this.showErrorMessage = false;
+      if (!this.isCurrentlyShowing) {
+        this.showErrorMessage = false;
+      }
     });
   }
 
@@ -185,7 +206,6 @@ export class UpdatemovieComponent implements OnInit {
         genres.removeAt(index);
       }
     }
-    console.log('after', this.form.get('genres')?.value)
   }
 
   onScheduleChange(event: any, scheduleId: string) {
@@ -210,11 +230,8 @@ export class UpdatemovieComponent implements OnInit {
   public updateForm(): void {
     if (!this.selectedItem) return;
 
-    // Clear existing form arrays
     const genresArray = this.form.get('genres') as FormArray;
     const schedulesArray = this.form.get('schedules') as FormArray;
-
-
 
     while (genresArray.length) {
       genresArray.removeAt(0);
@@ -224,37 +241,25 @@ export class UpdatemovieComponent implements OnInit {
       schedulesArray.removeAt(0);
     }
 
-    // Add genres
     if (this.selectedItem.genres && Array.isArray(this.selectedItem.genres)) {
-      // Add each selected genre to the FormArray
-      // console.log('Selected genres:', this.selectedItem.genres);
       this.selectedItem.genres.forEach(genre => {
         genresArray.push(new FormControl(genre));
       });
-      // Log to verify genres were added correctly
-      console.log('Genres added:', genresArray.value);
     }
 
-    // Add schedules
     if (this.selectedItem.showtimes && Array.isArray(this.selectedItem.showtimes) && this.selectedItem.showtimes.length > 0) {
-      // Get the first day's date
       const firstDay = this.selectedItem.showtimes[0].showDate;
-
-      // Filter showtimes for the first day only
       const firstDayShowtimes = this.selectedItem.showtimes.filter(showtime =>
         showtime.showDate === firstDay
       );
 
-      // Extract all startTime values
       const startTimes = firstDayShowtimes.map(showtime => {
-        // Convert "08:00:00" format to "8:00" format to match availableSchedules
         const timeString = showtime.startTime;
-        const hours = timeString.toString().substring(0, 2).replace(/^0+/, ''); // Remove leading zeros
+        const hours = timeString.toString().substring(0, 2).replace(/^0+/, '');
         const minutes = timeString.toString().substring(3, 5);
         return `${hours}:${minutes}`;
       });
 
-      // Find and push schedule IDs that match these times
       this.availableSchedules.forEach(schedule => {
         if (startTimes.includes(schedule.time)) {
           schedulesArray.push(new FormControl(schedule.id));
@@ -262,7 +267,6 @@ export class UpdatemovieComponent implements OnInit {
       });
     }
 
-    // Convert status from numeric enum to string
     let statusValue: string;
     switch (this.selectedItem.status) {
       case 1:
@@ -278,7 +282,6 @@ export class UpdatemovieComponent implements OnInit {
         statusValue = 'NowShowing';
     }
 
-    // Convert version from numeric to string with underscore prefix
     let versionValue: string;
     switch (this.selectedItem.version) {
       case 1:
@@ -312,7 +315,6 @@ export class UpdatemovieComponent implements OnInit {
         cinemaRoom = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
     }
 
-    // Basic form fields
     this.form.patchValue({
       name: this.selectedItem.name,
       duration: this.selectedItem.duration,
@@ -329,36 +331,36 @@ export class UpdatemovieComponent implements OnInit {
       schedules: this.selectedItem.selectedShowTimeSlots,
       posterUrl: this.selectedItem.posterUrl
     });
-
   }
 
   public onSubmit(): void {
+    if (this.isCurrentlyShowing) {
+      this.showErrorMessage = true;
+      this.errorMessage = 'This movie is currently being shown and cannot be updated';
+      return;
+    }
+
     this.form.markAllAsTouched();
-  
-    console.log(this.form.status)
 
     if (this.form.invalid) {
       this.showErrorMessage = true;
       this.errorMessage = 'Please fill in all the required fields';
       return;
     }
-  
-    // Check if poster is provided for new movie
+
     if (!this.selectedItem && !this.selectedFile) {
       this.showErrorMessage = true;
       this.errorMessage = 'Please upload a movie poster';
       return;
     }
-  
-    // Check if duration is a positive number
+
     const duration = Number(this.form.get('duration')?.value);
     if (isNaN(duration) || duration <= 0 || !Number.isInteger(duration)) {
       this.showErrorMessage = true;
       this.errorMessage = 'Duration must be a positive number';
       return;
     }
-  
-    // Check if endDate is not before releasedDate
+
     const releasedDate = new Date(this.form.get('releasedDate')?.value);
     const endDate = new Date(this.form.get('endDate')?.value);
     if (endDate < releasedDate) {
@@ -366,27 +368,23 @@ export class UpdatemovieComponent implements OnInit {
       this.errorMessage = 'End date cannot be before release date';
       return;
     }
-  
-    // Check if at least one genre is selected
+
     const genres = this.form.get('genres') as FormArray;
     if (genres.length === 0) {
       this.showErrorMessage = true;
       this.errorMessage = 'Please select at least one genre';
       return;
     }
-  
-    // Check if at least one schedule is selected
+
     const schedules = this.form.get('schedules') as FormArray;
     if (schedules.length === 0) {
       this.showErrorMessage = true;
       this.errorMessage = 'Please select at least one schedule';
       return;
     }
-  
+
     const formData = new FormData();
     const formValue = this.form.getRawValue();
-  
-    console.log(formValue)
 
     formData.append('name', formValue.name);
     formData.append('duration', formValue.duration.toString());
@@ -399,7 +397,7 @@ export class UpdatemovieComponent implements OnInit {
     formData.append('releasedDate', formValue.releasedDate);
     formData.append('endDate', formValue.endDate);
     formData.append('cinemaRoomId', formValue.cinemaroomId);
-  
+
     formValue.schedules.forEach((scheduleId: string, index: number) => {
       formData.append(`selectedShowTimeSlots[${index}]`, scheduleId);
     });
@@ -407,13 +405,12 @@ export class UpdatemovieComponent implements OnInit {
     formValue.genres.forEach((genre: string, index: number) => {
       formData.append(`selectedGenres[${index}]`, genre);
     });
-  
+
     if (this.selectedFile) {
       formData.append('posterImage', this.selectedFile);
     }
-  
+
     if (this.selectedItem) {
-      // Update existing movie
       formData.append('id', this.selectedItem.id);
       this.movieAdminService
         .updateWithFile(this.selectedItem.id, formData)
@@ -436,10 +433,6 @@ export class UpdatemovieComponent implements OnInit {
           },
         });
     } else {
-      // Create new movie
-      // for (const pair of formData.entries()) {
-      //   console.log(pair[0], pair[1]);
-      // }
       this.movieAdminService.createWithFile(formData).subscribe({
         next: (res) => {
           if (res) {

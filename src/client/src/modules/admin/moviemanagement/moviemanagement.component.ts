@@ -70,13 +70,13 @@ export class MoviemanagementComponent
   public showErrorMessage: boolean = false;
 
   public override columns: TableColumn[] = [
-    { name: 'Name', value: 'name' },
-    { name: 'Release Date', value: 'releasedDate', type: 'date' },
-    { name: 'Director', value: 'director' },
-    { name: 'Actors', value: 'actors' },
-    { name: 'Duration', value: 'duration' },
-    { name: 'Version', value: 'version' },
-  ];
+      { name: 'Name', value: 'name' },
+      { name: 'Release Date', value: 'releasedDate', type: 'date' },
+      { name: 'Director', value: 'director'},
+      { name: 'Actors', value: 'actors' },
+      { name: 'Duration', value: 'duration' },
+      { name: 'Version', value: 'versionText' },
+      ];
 
   constructor(
     @Inject(MOVIE_ADMIN_SERVICE)
