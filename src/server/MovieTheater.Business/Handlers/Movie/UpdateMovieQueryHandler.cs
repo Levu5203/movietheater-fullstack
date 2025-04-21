@@ -138,7 +138,7 @@ public class UpdateMovieQueryHandler : IRequestHandler<UpdateMovieQuery, bool>
 
                     while (currentDate <= request.EndDate)
                     {
-                        foreach (var timeSlotId in request.SelectedShowTimeSlots)
+                        foreach (var timeSlotId in request.SelectedShowTimeSlots)   
                         {
                             var slot = timeSlots.FirstOrDefault(x => x.Id == timeSlotId);
                             if (slot == null) continue;
