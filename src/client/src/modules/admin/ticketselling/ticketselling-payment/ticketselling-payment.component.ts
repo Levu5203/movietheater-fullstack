@@ -94,12 +94,13 @@ export class TicketsellingPaymentComponent implements OnInit {
       .subscribe({
         next: (response) => {
           console.log('Payment successful', response);
-
+          alert('Payment successful!!!')
           this.router.navigate(['/admin/ticketselling']);
         },
         error: (error) => {
           console.error('Payment failed', error);
-          // Bạn có thể xử lý lỗi như hiển thị thông báo lỗi cho người dùng
+          // Bạn có thể xử lý lỗi như hiển thị thông báo lỗi cho người dùng 
+          alert('Seat already booked!!!');
         },
       });
   }
