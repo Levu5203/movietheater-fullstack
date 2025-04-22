@@ -1,8 +1,5 @@
-using System;
 using MediatR;
 using MovieTheater.Business.ViewModels.Invoice;
-using MovieTheater.Business.ViewModels.Seat;
-using MovieTheater.Business.ViewModels.Ticket;
 
 namespace MovieTheater.Business.Handlers.Seat;
 

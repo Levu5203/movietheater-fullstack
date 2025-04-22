@@ -1,4 +1,3 @@
-using System;
 using MovieTheater.Business.ViewModels.Ticket;
 
 namespace MovieTheater.Business.Handlers.Ticket;

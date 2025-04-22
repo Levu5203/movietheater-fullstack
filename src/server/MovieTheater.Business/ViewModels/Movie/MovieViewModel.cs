@@ -1,4 +1,3 @@
-using System;
 using MovieTheater.Business.ViewModels.Showtime;
 using MovieTheater.Models.Common;
 

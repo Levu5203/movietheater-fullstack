@@ -1,4 +1,3 @@
-using System;
 using Microsoft.AspNetCore.Http;
 using MovieTheater.Business.ViewModels.Showtime;
 

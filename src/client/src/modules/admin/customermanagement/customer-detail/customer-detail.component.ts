@@ -4,7 +4,6 @@ import {
   IconDefinition,
 } from '@fortawesome/angular-fontawesome';
 import { faUser, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { EmployeeModel } from '../../../../models/user/employee.model';
 import { CommonModule, DatePipe } from '@angular/common';
 import { UserModel } from '../../../../models/user/user.model';
 

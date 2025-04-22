@@ -6,7 +6,6 @@ using MovieTheater.Business.ViewModels.Movie;
 using MovieTheater.Core;
 using MovieTheater.Core.Extensions;
 using MovieTheater.Data.UnitOfWorks;
-using MovieTheater.Models;
 
 namespace MovieTheater.Business.Handlers.Movies;
 

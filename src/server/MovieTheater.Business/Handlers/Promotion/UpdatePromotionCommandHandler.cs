@@ -1,7 +1,5 @@
-using System;
 using MediatR;
 using MovieTheater.Business.Services;
-using MovieTheater.Data;
 using MovieTheater.Data.UnitOfWorks;
 
 namespace MovieTheater.Business.Handlers.Promotion;

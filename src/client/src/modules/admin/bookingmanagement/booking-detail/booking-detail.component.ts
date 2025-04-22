@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { InvoiceViewModel } from '../../../../models/invoice/invoiceview.model';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule} from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowLeft, faUser } from '@fortawesome/free-solid-svg-icons';
 import { IBookingService } from '../../../../services/booking/booking-service.interface';

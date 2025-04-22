@@ -1,9 +1,7 @@
-using System;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MovieTheater.Business.Handlers.Seat;
 using MovieTheater.Business.ViewModels.Invoice;
-using MovieTheater.Business.ViewModels.Ticket;
 
 namespace MovieTheater.WebAPI.Controllers
 {

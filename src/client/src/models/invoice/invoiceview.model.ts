@@ -1,5 +1,4 @@
 import { MasterBaseModel } from "../../core/models/master-base.model";
-import { MovieViewModel } from "../movie/movie-view-model";
 import { TicketViewModel } from "../ticket/ticketview.model";
 
 export class InvoiceViewModel extends MasterBaseModel{

@@ -18,15 +18,6 @@ public class MovieGetAllQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) :
                   .ThenInclude(st => st.ShowTimeSlot)
               .Include(m => m.MovieGenres)
                   .ThenInclude(mg => mg.Genre);
-        //Filter by user if specified
-        // if (request.UserId.HasValue)
-        // {
-        //     query = from movie in query
-        //             join showTime in _unitOfWork.ShowtimeRepository.GetQuery() on movie.Id equals showTime.MovieId
-        //             join invoice in _unitOfWork.InvoiceRepository.GetQuery() on showTime.Id equals invoice.ShowTimeId
-        //             where invoice.UserId == request.UserId.Value
-        //             select movie;
-        // }
         var movies = await query.ToListAsync(cancellationToken);
         return _mapper.Map<IEnumerable<MovieViewModel>>(movies);
     }

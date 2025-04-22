@@ -6,7 +6,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MockAuthService } from '../../../../testing/mock-service';
 import { AUTH_SERVICE } from '../../../constants/injection.constant';
-import { RegisterComponent } from '../register/register.component';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;

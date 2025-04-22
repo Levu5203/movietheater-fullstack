@@ -1,7 +1,5 @@
-using System;
 using MediatR;
 using MovieTheater.Business.ViewModels.Seat;
-using MovieTheater.Models.Common;
 
 namespace MovieTheater.Business.Handlers.Showtime;
 

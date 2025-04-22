@@ -15,7 +15,6 @@ import { ModalService } from '../../../services/modal.service';
 import { faTimes, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import {
   AUTH_SERVICE,
-  MODAL_SERVICE,
 } from '../../../constants/injection.constant';
 import { IAuthService } from '../../../services/auth/auth-service.interface';
 

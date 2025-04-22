@@ -4,7 +4,7 @@ import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import { PromotionService } from '../../../services/promotion/promotion-service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-updatepromotion',

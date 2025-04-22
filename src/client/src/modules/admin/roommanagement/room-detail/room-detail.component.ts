@@ -4,7 +4,6 @@ import {
   Inject,
   Input,
   OnChanges,
-  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';

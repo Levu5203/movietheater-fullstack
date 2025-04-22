@@ -1,9 +1,6 @@
 using MovieTheater.Business.ViewModels.Seat;
-using MovieTheater.Business.ViewModels.Showtime;
-using MovieTheater.Business.ViewModels.Movie;
 using MovieTheater.Business.ViewModels.Promotion;
 using MovieTheater.Models.Common;
-using MovieTheater.Business.ViewModels.Room;
 
 namespace MovieTheater.Business.ViewModels.Ticket;
 

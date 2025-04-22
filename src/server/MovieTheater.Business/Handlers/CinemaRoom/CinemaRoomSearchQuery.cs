@@ -1,4 +1,3 @@
-using System;
 using MovieTheater.Business.ViewModels.Room;
 
 namespace MovieTheater.Business.Handlers.CinemaRoom;

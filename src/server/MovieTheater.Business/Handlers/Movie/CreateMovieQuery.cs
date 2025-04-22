@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using MovieTheater.ViewModels;
 
 namespace MovieTheater.Commands;
 

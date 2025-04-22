@@ -1,5 +1,3 @@
-using System;
-
 namespace MovieTheater.Business.Handlers.Invoice;
 
 public class TimeoutPendingSeatsResult

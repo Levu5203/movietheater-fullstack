@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using MovieTheater.Business.Manager;
 using MovieTheater.Business.Services;
 using MovieTheater.Business.ViewModels.Auth;
 using MovieTheater.Data;

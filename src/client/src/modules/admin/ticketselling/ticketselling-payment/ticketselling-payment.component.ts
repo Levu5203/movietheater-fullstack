@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { UserModel } from '../../../../models/user/user.model';
 import { InvoiceViewModel } from '../../../../models/invoice/invoiceview.model';
 import { Router, RouterLink } from '@angular/router';
@@ -27,7 +26,6 @@ export class TicketsellingPaymentComponent implements OnInit {
   constructor(private router: Router, private http: HttpClient) {
     const nav = this.router.getCurrentNavigation();
     this.invoice = nav?.extras?.state?.['invoice'];
-    // this.getInvoiceById(this.invoice.id);
   }
   ngOnInit(): void {
     if (this.invoice?.id) {
@@ -68,7 +66,6 @@ export class TicketsellingPaymentComponent implements OnInit {
       .subscribe((response: InvoiceViewModel) => {
         this.invoiceById = response;
         this.showTimeId = response.showTimeId;
-        // console.log('InvoiceId data:', this.invoiceById);
         console.log('ShowtimeId data:', this.showTimeId);
       });
   }

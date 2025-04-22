@@ -1,16 +1,9 @@
-using System.Data.Common;
 using MediatR;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using MovieTheater.Business.Handlers.Movie;
 using MovieTheater.Business.Services;
 using MovieTheater.Data;
 using MovieTheater.Models.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace MovieTheater.Handlers;
 

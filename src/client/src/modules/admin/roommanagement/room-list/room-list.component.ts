@@ -23,12 +23,10 @@ import { MasterDataListComponent } from '../../../../core/components/master-data
 import { CinemaRoomViewModel } from '../../../../models/room/room.model';
 import { IRoomService } from '../../../../services/room/room-service.interface';
 import {
-  MODAL_SERVICE,
   ROOM_SERVICE,
 } from '../../../../constants/injection.constant';
 import { ServicesModule } from '../../../../services/services.module';
 import { TableComponent } from '../../../../core/components/table/table.component';
-import { ModalService } from '../../../../services/modal.service';
 
 @Component({
   selector: 'app-roommanagement',

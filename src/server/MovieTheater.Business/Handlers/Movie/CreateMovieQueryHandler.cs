@@ -1,13 +1,10 @@
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using MovieTheater.Business.Services;
 using MovieTheater.Commands;
 using MovieTheater.Data.UnitOfWorks;
 using MovieTheater.Models.Common;
-using System.IO;
-using System.Linq.Expressions;
+
 
 namespace MovieTheater.Handlers;
 

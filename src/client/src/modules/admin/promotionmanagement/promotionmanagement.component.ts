@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { faAngleLeft, faAngleRight, faAnglesLeft, faAnglesRight, faArrowLeft, faEdit, faFilter, faInfoCircle, faRotateLeft, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule, IconDefinition } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { PromotionService } from '../../../services/promotion/promotion-service';
 import { Router } from '@angular/router';
 

@@ -1,5 +1,4 @@
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using MovieTheater.Models.Security;
 
