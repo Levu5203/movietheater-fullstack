@@ -1,8 +1,6 @@
-using System;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using MovieTheater.Business.ViewModels.Invoice;
 using MovieTheater.Core;
 using MovieTheater.Core.Extensions;

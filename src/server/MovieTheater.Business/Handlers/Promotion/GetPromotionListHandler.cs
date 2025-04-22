@@ -1,4 +1,3 @@
-using System;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MovieTheater.Business.ViewModels.Promotion;

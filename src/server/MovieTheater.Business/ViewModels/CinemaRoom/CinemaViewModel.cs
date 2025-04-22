@@ -1,5 +1,3 @@
-using System;
-
 namespace MovieTheater.Business.ViewModels.CinemaRoom;
 
 public class CinemaViewModel : MasterBaseViewModel

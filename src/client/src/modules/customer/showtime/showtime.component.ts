@@ -1,10 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { SeatshowtimeComponent } from '../seatshowtime/seatshowtime.component';
 import { CommonModule } from '@angular/common';
 import { ShowtimeviewModel } from '../../../models/showtime/showtimeview.model';
 import { MasterDataListComponent } from '../../../core/components/master-data/master-data.component';
-import { MovieviewModel } from '../../../models/movie/movieview.model';
 import { SHOWTIME_SERVICE } from '../../../constants/injection.constant';
 import { IShowtimeServiceInterface } from '../../../services/showtime/showtime-service.interface';
 import { ServicesModule } from '../../../services/services.module';

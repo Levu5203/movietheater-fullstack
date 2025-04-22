@@ -1,10 +1,8 @@
-using System;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MovieTheater.Business.ViewModels.Seat;
 using MovieTheater.Data.UnitOfWorks;
-using MovieTheater.Models.Common;
 
 namespace MovieTheater.Business.Handlers.Showtime;
 

@@ -4,7 +4,6 @@ using MovieTheater.Business.Handlers.Movie;
 using MovieTheater.Business.ViewModels.Movie;
 using MovieTheater.Commands;
 using MovieTheater.Core;
-using MovieTheater.ViewModels;
 
 namespace MovieTheater.WebAPI.Controllers
 {

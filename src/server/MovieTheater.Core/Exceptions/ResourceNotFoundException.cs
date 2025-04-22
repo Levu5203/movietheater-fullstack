@@ -1,5 +1,3 @@
-using System;
-
 namespace MovieTheater.Core.Exceptions;
 
 public class ResourceNotFoundException(string message) : Exception(message)

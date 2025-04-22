@@ -1,4 +1,3 @@
-using System;
 using MovieTheater.Business.ViewModels.Movie;
 
 namespace MovieTheater.Business.Handlers.Movie;

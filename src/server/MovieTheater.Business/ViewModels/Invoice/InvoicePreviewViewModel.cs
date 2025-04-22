@@ -1,5 +1,3 @@
-using System;
-using MovieTheater.Business.ViewModels.Showtime;
 using MovieTheater.Business.ViewModels.Ticket;
 using MovieTheater.Models.Common;
 

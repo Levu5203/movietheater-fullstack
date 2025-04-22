@@ -1,6 +1,3 @@
-using System;
-using Microsoft.AspNetCore.Http;
-
 namespace MovieTheater.Business.ViewModels.Promotion;
 
 public class PromotionViewModel

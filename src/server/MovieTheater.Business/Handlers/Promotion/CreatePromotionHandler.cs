@@ -1,6 +1,4 @@
-using System;
 using MediatR;
-using Microsoft.AspNetCore.Hosting;
 using MovieTheater.Business.Services;
 using MovieTheater.Data.UnitOfWorks;
 using DomainPromotion = MovieTheater.Models.Common.Promotion;

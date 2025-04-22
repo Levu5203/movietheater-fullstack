@@ -1,10 +1,7 @@
-using System;
 using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.EntityFrameworkCore;
 using MovieTheater.Business.ViewModels.Invoice;
-using MovieTheater.Business.ViewModels.Ticket;
 using MovieTheater.Data.UnitOfWorks;
 using MovieTheater.Models.Common;
 
