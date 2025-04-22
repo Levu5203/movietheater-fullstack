@@ -4,9 +4,16 @@
       <div class="flex flex-wrap xl:flex-nowrap gap-5">
         <div class="w-full xl:w-2/3">
           <div
-            class="p-4 md:p-6 space-y-6 bg-[#1A1D23] rounded-2xl text-sm md:text-base"
+            class="p-4 md:p-6 space-y-6 bg-[#1A1D23] rounded-2xl text-sm md:text-base "
           >
-            <h4 class="font-bold">Movie information</h4>
+              <div class="flex items-center gap-10">
+                <div class="w-1/2">
+                  <h4 class="font-bold">Movie information</h4>
+                </div>
+                <div>
+                  <p class="text-amber-300">Time: {{countdownDisplay}}</p>
+                </div>
+              </div>
             <div>
               <p>Movie</p>
               <p class="font-semibold">{{ invoiceById.movieName }}</p>

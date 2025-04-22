@@ -15,12 +15,15 @@ import { ModalService } from '../../../services/modal.service';
 })
 export class BookingComponent implements OnInit {
   // private modalService!: ModalService,
-  public showtimeId: string = '';
+  public showTimeId: string = '';
   public invoice: InvoiceViewModel;
   public invoiceById!: InvoiceViewModel;
   public isSuccess = false;
   public isSeatAlready = false;
-
+  public countdown: number = 180;
+  public countdownDisplay: string = '03:00';
+  private countdownInterval: any;
+  private countdownEndTime!: number;
   public successMessage = '';
   constructor(
     private router: Router,
@@ -33,11 +36,12 @@ export class BookingComponent implements OnInit {
   }
   ngOnInit(): void {
     console.log('Invoice loaded:', this.invoice);
+    this.startCountdown();
   }
-  goBackToSeatShowtime(showtimeId: string): void {
+  goBackToSeatShowtime(showTimeId: string): void {
     // Điều hướng về trang seatshowtime và truyền query parameter 'id'
     this.router.navigate(['/seatshowtime'], {
-      queryParams: { id: showtimeId }, // Truyền 'id' trong query parameters
+      queryParams: { id: showTimeId }, // Truyền 'id' trong query parameters
     });
   }
   // Hàm gọi API để lấy thông tin hóa đơn theo ID
@@ -58,7 +62,11 @@ export class BookingComponent implements OnInit {
     const token = localStorage.getItem('accessToken');
     if (!token) {
       this.modalService.open('login');
-      this.router.navigate(['/showtime']);
+      setTimeout(() => {
+        this.router.navigate(['/seatshowtime'], {
+          queryParams: { id: this.invoice.showTimeId }
+        });
+      }, 2000);
       return;
     }
     const headers = new HttpHeaders({
@@ -91,4 +99,40 @@ export class BookingComponent implements OnInit {
         },
       });
   }
+  ngOnDestroy(): void {
+    if (this.countdownInterval) {
+      clearInterval(this.countdownInterval);
+    }
+  }
+  startCountdown() {
+    const duration = 180 * 1000; // 3 phút
+    this.countdownEndTime = Date.now() + duration;
+
+    this.updateCountdownDisplay();
+    this.countdownInterval = setInterval(() => {
+      const timeLeft = this.countdownEndTime - Date.now();
+
+      if (timeLeft <= 0) {
+        clearInterval(this.countdownInterval);
+        this.countdownDisplay = '00:00';
+        this.router.navigate(['/showtime']);
+        return;
+      }
+
+      this.updateCountdownDisplay(timeLeft);
+    }, 1000);
+  }
+
+  updateCountdownDisplay(timeLeftMs?: number) {
+    const timeLeft = timeLeftMs ?? this.countdownEndTime - Date.now();
+    const totalSeconds = Math.floor(timeLeft / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    this.countdownDisplay = `${this.pad(minutes)}:${this.pad(seconds)}`;
+  }
+
+  pad(num: number): string {
+    return num < 10 ? '0' + num : num.toString();
+  }
+
 }
