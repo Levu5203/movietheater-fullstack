@@ -15,7 +15,7 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 
 ```
 cd existing_repo
-git remote add origin http://git.fa.edu.vn/hn25_cpl_net_02_g4/movie.git
+git remote add origin https://github.com/Levu5203/movietheater-fullstack/tree/dev
 git branch -M main
 git push -uf origin main
 ```
