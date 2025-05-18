@@ -17,4 +17,8 @@ public class TicketShowtimeMovie
 
     [ForeignKey(nameof(MovieId))]
     public Guid MovieId { get; set; }
+    
+    public required Guid SeatId {get; set;}
+    public required Guid RoomId {get; set;}
+
 }
